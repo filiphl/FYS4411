@@ -8,16 +8,17 @@ using namespace arma;
 class Solver
 {
 private:
-    double m_m;
-    double m_w;
-    int m_nParticles;
-    int m_nDimensions;
-    double m_alpha;
+    double m_m = 1;
+    double m_w = 1;
+    double m_alpha = 1;
 
 public:
+    int m_nParticles = 0;
+    int m_nDimensions = 0;
     Solver();
-    double localenergy(mat r);
-    double wavefunction(mat r);
+    double localenergy(mat);
+    double wavefunction(mat);
+    void addparticle();
 
 };
 
