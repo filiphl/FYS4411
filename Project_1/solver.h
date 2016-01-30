@@ -19,6 +19,7 @@ public:
     double localenergy(mat);
     double wavefunction(mat);
     void addparticle();
+    double Analytical(mat);
 
 };
 
