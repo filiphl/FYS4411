@@ -53,7 +53,7 @@ double Solver::localenergy(mat r){
     }
     kinetic *= -0.5*(hbar*hbar)/(m_m*dstep*dstep*psi);
     potential *= 0.5*m_m*m_w*m_w;
-   cout <<"Kinetic: " <<kinetic << "    Potetial: " << potential << endl;
+    cout <<"Kinetic: " <<kinetic << "    Potetial: " << potential << endl;
 
     return kinetic +potential;
 }
@@ -71,5 +71,51 @@ double Solver::wavefunction(mat r){
     }
     return psi;
 }
+
+
+mat Solver::metropolis_step(mat r){
+    int seed = 1;
+    std::default_random_engine generator(seed);
+    std::normal_distribution<double> distribution(1,0);
+    mat oldr = r;
+    mat newr = r;
+    double oldE;
+    double newE;
+    for (int p=0; p<m_nParticles; p++){
+        for (int d=0; d<m_nDimensions; d++){
+            newr(p,d) += distribution(generator); //Random number ND
+        }
+        cout << oldr << endl;
+        oldE = localenergy(oldr);
+        newE = localenergy(newr);
+        if (newE<oldE){
+            oldr = newr;}
+        else{
+            if (rand()%1 < wavefunction(newr)/wavefunction(oldr)){
+                oldr = newr;}
+            else { newr = oldr;}
+        }
+    }
+    return newr;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
