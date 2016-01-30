@@ -10,12 +10,13 @@ void Solver::addparticle(){
 
 double Solver::Analytical(mat r){
     double energy = 0;
+    double h2 = 1;
     for (int p=0; p<m_nParticles; p++){
         double r_single = 0;
-        for (int d=0; d<m_nParticles; d++){
+        for (int d=0; d<m_nDimensions; d++){
             r_single += r(p,d)*r(p,d);
         }
-        energy += h2*m_alpha*(-2*m_alpha*r_single**2 - m_nDimensions) + 0.5*m_m*m_w**2*r_single**2;
+        energy += h2*m_alpha*(-2*m_alpha*r_single + m_nDimensions) + 0.5*m_m*m_w*m_w*r_single;
     }
     return energy;
 }
@@ -25,7 +26,7 @@ double Solver::localenergy(mat r){
     double kinetic = 0;
     double potential = 0;
     double hbar = 1;
-    double dstep = 0.1;
+    double dstep = 0.0001;
     mat rplus = r;
     mat rminus = r;
     double psiplus;
@@ -51,7 +52,8 @@ double Solver::localenergy(mat r){
         potential += r_single;
     }
     kinetic *= -0.5*(hbar*hbar)/(m_m*dstep*dstep*psi);
-    potential *= 0.5*m_m*m_w*m_w/psi;
+    potential *= 0.5*m_m*m_w*m_w;
+   cout <<"Kinetic: " <<kinetic << "    Potetial: " << potential << endl;
 
     return kinetic +potential;
 }
