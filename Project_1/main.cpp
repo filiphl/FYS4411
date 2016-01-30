@@ -18,5 +18,14 @@ int main()
     double anal = s.Analytical(r);
     cout << "Numerical: "<< E <<endl;
     cout << "Analytical: "<< anal<<endl;
+
+    int nCycles = 15;
+    for (int i=0; i<nCycles; i++){
+        r = s.metropolis_step(r);
+
+        cout<<"Total saved   " << s.localenergy(r) <<endl;
+    }
+
+
 }
 

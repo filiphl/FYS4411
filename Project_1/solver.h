@@ -1,7 +1,8 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 #include <armadillo>
-
+#include <stdlib.h>
+#include "random.h"
 using namespace arma;
 
 
@@ -20,7 +21,7 @@ public:
     double wavefunction(mat);
     void addparticle();
     double Analytical(mat);
-
+    mat metropolis_step(mat);
 };
 
 #endif // SOLVER_H

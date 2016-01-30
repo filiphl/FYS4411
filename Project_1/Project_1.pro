@@ -4,8 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    solver.cpp
+    solver.cpp \
+    random.cpp
 
 HEADERS += \
-    solver.h
+    solver.h \
+    random.h
 

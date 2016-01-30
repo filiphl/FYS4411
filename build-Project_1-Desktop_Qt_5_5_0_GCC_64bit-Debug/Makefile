@@ -49,9 +49,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../Project_1/main.cpp \
-		../Project_1/solver.cpp 
+		../Project_1/solver.cpp \
+		../Project_1/random.cpp 
 OBJECTS       = main.o \
-		solver.o
+		solver.o \
+		random.o
 DIST          = /site/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/site/Qt/5.5/gcc_64/mkspecs/common/unix.conf \
 		/site/Qt/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -177,8 +179,10 @@ DIST          = /site/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/site/Qt/5.5/gcc_64/mkspecs/features/exceptions.prf \
 		/site/Qt/5.5/gcc_64/mkspecs/features/yacc.prf \
 		/site/Qt/5.5/gcc_64/mkspecs/features/lex.prf \
-		../Project_1/Project_1.pro solver.h ../Project_1/main.cpp \
-		../Project_1/solver.cpp
+		../Project_1/Project_1.pro solver.h \
+		random.h ../Project_1/main.cpp \
+		../Project_1/solver.cpp \
+		../Project_1/random.cpp
 QMAKE_TARGET  = Project_1
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Project_1
@@ -502,11 +506,16 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../Project_1/main.cpp ../Project_1/solver.h
+main.o: ../Project_1/main.cpp ../Project_1/solver.h \
+		../Project_1/random.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Project_1/main.cpp
 
-solver.o: ../Project_1/solver.cpp ../Project_1/solver.h
+solver.o: ../Project_1/solver.cpp ../Project_1/solver.h \
+		../Project_1/random.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o solver.o ../Project_1/solver.cpp
+
+random.o: ../Project_1/random.cpp ../Project_1/random.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o random.o ../Project_1/random.cpp
 
 ####### Install
 
