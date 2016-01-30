@@ -15,10 +15,9 @@ Solver::Solver()
                 r_single += r(p,d) * r(p,d);
             }
             g = exp(-m_alpha * r_single );
-            double psi = psi*g;
-        total += r_single;
+            psi = psi*g;
         }
-        return exp(-m_alpha * total )
+        return psi;
     }
 }
 
