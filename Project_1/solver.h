@@ -9,6 +9,7 @@ class Solver
 {
 private:
     double m_m;
+    double m_w;
     int m_nParticles;
     int m_nDimensions;
     double m_alpha;
@@ -16,7 +17,7 @@ private:
 public:
     Solver();
     double localenergy(mat r);
-    double wavefucntion(mat r);
+    double wavefunction(mat r);
 
 };
 
