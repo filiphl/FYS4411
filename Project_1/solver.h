@@ -16,6 +16,8 @@ private:
 public:
     int m_nParticles = 0;
     int m_nDimensions = 0;
+    double m_accepted = 0;
+    double m_dx = 1;
     Solver();
     double localenergy(mat);
     double wavefunction(mat);

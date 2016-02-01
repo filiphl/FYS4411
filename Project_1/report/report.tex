@@ -1,0 +1,245 @@
+\documentclass[english, a4paper]{article}
+
+\usepackage[T1]{fontenc}    % Riktig fontencoding
+\usepackage[utf8]{inputenc} % Riktig tegnsett
+\usepackage{babel}          % Ordelingsregler, osv
+\usepackage{graphicx}       % Inkludere bilder
+\usepackage{booktabs}       % Ordentlige tabeller
+\usepackage{url}            % Skrive url-er
+\usepackage{textcomp}       % Den greske bokstaven micro i text-mode
+\usepackage{units}          % Skrive enheter riktig
+\usepackage{float}          % Figurer dukker opp der du ber om
+\usepackage{lipsum}         % Blindtekst
+\usepackage{subcaption} 
+\usepackage{color}
+\usepackage{amsmath}  
+\usepackage{braket} 
+\usepackage{multicol}
+\usepackage{listings}    %Add source code
+\usepackage{amsfonts}
+\usepackage{setspace}
+\usepackage[cm]{fullpage}		% Smalere marger.
+\usepackage{verbatim} % kommentarfelt.
+\setlength{\columnseprule}{1pt}	%(width of separationline)
+\setlength{\columnsep}{1.0cm}	%(space from separation line)
+\newcommand\lr[1]{\left(#1\right)} 
+\newcommand\bk[1]{\langle#1\rangle} 
+\newcommand\uu[1]{\underline{\underline{#1}}} % Understreker dobbelt.
+\definecolor{qc}{rgb}{0,0.4,0}
+
+
+% JF i margen
+\makeatletter
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{-2cm}%
+{-\baselineskip}{0.5\baselineskip}{\bf\large}}
+\makeatother
+\newcommand{\jf}[1]{\subsubsection*{JF #1}\vspace*{-2\baselineskip}}
+
+% Skru av seksjonsnummerering (-1)
+\setcounter{secnumdepth}{3}
+
+\begin{document}
+\renewcommand{\figurename}{Figure}
+% Forside
+\begin{titlepage}
+\begin{center}
+
+\textsc{\Large FYS4411 - Computational quantum mechanics }\\[0.5cm]
+\textsc{\Large Spring 2016}\\[1.5cm]
+\rule{\linewidth}{0.5mm} \\[0.4cm]
+{ \huge \bfseries  Project 1}\\[0.10cm]
+\rule{\linewidth}{0.5mm} \\[1.5cm]
+\textsc{\Large temporary report}\\[1.5cm]
+
+
+% Av hvem?
+\begin{minipage}{\textwidth}
+\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Sean Bruce Sangolt Miller\\
+        {\footnotesize s.b.s.miller@fys.uio.no}
+    \end{center}
+\end{minipage}
+\quad
+\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Filip Henrik Lasren\\
+        {\footnotesize filiphenriklarsen@gmail.com}
+    \end{center}
+\end{minipage}
+\end{minipage}
+\vfill
+
+% Dato nederst
+\large{Date: \today}
+
+\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+ Some text that is abstact
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{gobble}% Remove page numbers (and reset to 1)
+\tableofcontents
+\newpage
+\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
+%\begin{multicols*}{2}
+
+
+\section{Introduction}
+
+
+\section{Theory and methods}
+
+
+
+\begin{equation}
+    E_L({\bf R})=\frac{1}{\Psi_T({\bf R})}H\Psi_T({\bf R}),
+    \label{eq:locale}
+ \end{equation}
+ 
+ \begin{equation}
+   E_L({\bf R})=\frac{1}{\Psi_T({\bf R})}\sum_i^N \left(
+	 \frac{-\hbar^2}{2m}
+	 { \bigtriangledown }_{i}^2 +
+	\frac{1}{2}m\omega_{ho}^2r_i^2\right)\Psi_T({\bf R}),
+    \label{eq:localeInsertH}
+ \end{equation}
+The potential term is trivial since this is a scalar. A more challenging problem is to find an expression for $\nabla^2_i\Psi_T({\bf R})$.
+With our wavefunction given as
+\begin{equation}
+ \Psi_T({\bf R}) = \prod_i e^{-\alpha r_i^2}	\label{wavefunction_a}
+\end{equation}
+we may start by taking the first derivatives 
+\begin{align}
+ \nabla_j \prod_i e^{-\alpha r_i^2} 
+ &= -2\alpha r_j e^{-\alpha r_j^2} \prod_{i \neq j} e^{-\alpha r_i^2} \\
+ &= -2\alpha r_j  \prod_i e^{-\alpha r_i^2}.
+\end{align}
+The second derivatives are then
+\begin{align}
+ \nabla_j^2 \prod_i e^{-\alpha r_i^2} 
+ &= \nabla_j \lr{-2\alpha r_j  \prod_i e^{-\alpha r_i^2}}\\
+ &= \lr{4\alpha^2 r_j^2 - 2\alpha}  \prod_i e^{-\alpha r_i^2}.
+\end{align}
+Inserting this into our local energy \eqref{eq:localeInsertH} we have
+\begin{align}
+ E_L({\bf R})=\frac{1}{\Psi_T({\bf R})}\sum_i^N \left(
+	 \frac{-\hbar^2}{2m}
+	 { \bigtriangledown }_{i}^2 +
+	\frac{1}{2}m\omega_{ho}^2r^2\right)\Psi_T({\bf R}),
+    \label{eq:localeInsertedDoubleDerivative}
+\end{align}
+
+
+
+
+
+
+
+
+
+
+\subsection{Preliminary derivations}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Results}
+
+
+\section{Conclusions}
+
+
+\section{Appendix}
+
+
+ %\end{multicols*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+\begin{comment}
+
+% deloppgave
+\begin{enumerate}
+\item[\bf a)]
+\item[\bf b)]
+\item[\bf c)]
+\item[\bf d)]
+\end{enumerate}
+
+%%%%%%%%
+% Tabell
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ | c | r | r | r | r | r |}
+    \hline
+    & & & & & \\*
+    \hline
+    & & & & & \\*
+    \hline
+  \end{tabular}
+  \caption{some caption}
+  \label{tab:Tabell1}
+\end{table}
+
+%%%%%%%%
+% Enkel figur
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width = 120mm]{/users/filiphl/Desktop/Studie/Emne/ObligX/filnavn.png}
+  \caption{some caption}\label{fig:fig1}
+  \end{center}
+\end{figure}
+
+%%%%%%%%
+% 2 figurer sbs
+\begin{minipage}[t]{0.48\linewidth}
+  \includegraphics[width=\textwidth]{fil}
+  \caption{}
+  \label{fig:minipage1}
+\end{minipage}
+\quad
+\begin{minipage}[t]{0.48\linewidth}
+\includegraphics[width=\textwidth]{fil}
+  \caption{}
+  \label{fig:minipage1}
+\end{minipage}
+\end{figure}
+
+%%%%%%%%
+% X antall kollonner
+\begin{multicols*}{X}
+\begin{spacing}{0.7} % verticale mellomrom
+%kan f.eks benytte align?
+\end{spacing}
+\end{multicols*}
+
+
+%%%%%%%%
+%Matrise
+\begin{equation*}
+    {\bf A} = \left(\begin{array}{cccccc}
+                           z &z &z &z &z &z \\
+                           z &z &z &z &z &z \\
+                           z &z &z &z &z &z \\
+                           z &z &z &z &z &z \\
+                           z &z &z &z &z &z \\
+                           z &z &z &z &z &z \\
+                      \end{array} \right)
+\end{equation*}
+%%%%%%%%
+

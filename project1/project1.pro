@@ -4,13 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    solver.cpp \
-    random.cpp
+    system.cpp \
+    solver.cpp
 
 HEADERS += \
-    solver.h \
-    random.h
-
-DISTFILES += \
-    readdate.py
+    system.h \
+    solver.h
 
