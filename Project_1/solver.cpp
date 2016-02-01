@@ -6,7 +6,7 @@ Solver::Solver(){
 }
 
 void Solver::addparticle(){
-    m_nParticles += 1;
+
 }
 
 
@@ -28,7 +28,7 @@ double Solver::localenergy(mat r){
     double kinetic = 0;
     double potential = 0;
     double hbar = 1;
-    double dstep = 0.0001;
+    double dstep = 0.00001;
     mat rplus = r;
     mat rminus = r;
     double psiplus;
@@ -36,10 +36,10 @@ double Solver::localenergy(mat r){
     double psi = wavefunction(r);
 
 
-    if (m_nDimensions==1 && m_nParticles==1) {
+    if (m_nDimensions==1 && m_nParticles==1&& false) {
         double rSquared = r(0,0)*r(0,0);
-        potential = 0.5*rSquared;
-        kinetic = -2*rSquared+1;
+        potential = 0.5*m_w*m_w*rSquared;
+        kinetic = -2*rSquared*m_alpha*m_alpha+m_alpha;
         //cout<< "r=" << r(0,0) << endl;
     } else {
 

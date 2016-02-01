@@ -11,7 +11,7 @@ class Solver
 private:
     double m_m = 1;
     double m_w = 1;
-    double m_alpha = 1;
+    double m_alpha = 0.5;
 
 public:
     int m_nParticles = 0;

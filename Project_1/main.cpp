@@ -40,7 +40,7 @@ int main()
         Prob = s.wavefunction(r)*s.wavefunction(r);
         localE = s.localenergy(r);
         expE += localE;
-
+        cout << localE<< endl;
         E_sum += E;
         E_sum2 += E*E;
         myfile << E <<endl;
@@ -49,10 +49,11 @@ int main()
     //system("python readdate.py");
     //cout << "average energy: " << E_sum/nCycles<<endl;
 
+    nCycles++;
     expE = expE/nCycles;
-    cout << expE <<endl;
+
     E = E_sum/nCycles;
-    double E2 = E_sum*E_sum/nCycles;
+    double E2 = E_sum2/nCycles;
     cout << "energy=" << E<< endl;
     cout << "variance=" << E2 - E*E  << endl; // <E^2> - <E>^2
     cout << "accepted=" << s.m_accepted/nCycles << endl;
