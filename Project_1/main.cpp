@@ -43,7 +43,7 @@ int main()
         cout << localE<< endl;
         E_sum += E;
         E_sum2 += E*E;
-        myfile << E <<endl;
+        //myfile << E <<endl;
     }
     myfile.close();
     //system("python readdate.py");

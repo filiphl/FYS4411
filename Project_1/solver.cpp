@@ -2,7 +2,7 @@
 using namespace arma;
 
 Solver::Solver(){
-    m_dx = 0.5;
+    m_dx = 1;
 }
 
 void Solver::addparticle(){
@@ -28,20 +28,13 @@ double Solver::localenergy(mat r){
     double kinetic = 0;
     double potential = 0;
     double hbar = 1;
-    double dstep = 0.00001;
+    double dstep = 0.0001;
     mat rplus = r;
     mat rminus = r;
     double psiplus;
     double psiminus;
     double psi = wavefunction(r);
 
-
-    if (m_nDimensions==1 && m_nParticles==1&& false) {
-        double rSquared = r(0,0)*r(0,0);
-        potential = 0.5*m_w*m_w*rSquared;
-        kinetic = -2*rSquared*m_alpha*m_alpha+m_alpha;
-        //cout<< "r=" << r(0,0) << endl;
-    } else {
 
     for (int p = 0; p<m_nParticles; p++){
         double r_single = 0;
@@ -65,8 +58,7 @@ double Solver::localenergy(mat r){
 
     kinetic *= -0.5*(hbar*hbar)/(m_m*dstep*dstep*psi);
     potential *= 0.5*m_m*m_w*m_w;
-    //cout <<"Kinetic: " <<kinetic << "    Potetial: " << potential << endl;
-    }
+
 
     return kinetic +potential;
 }
@@ -93,7 +85,7 @@ mat Solver::metropolis_step(mat r){
     double oldwavefunction = wavefunction(oldr);
     for (int p=0; p<m_nParticles; p++){
         for (int d=0; d<m_nDimensions; d++){
-            newr(p,d) += m_dx*Random::nextGaussian(0,1); //Random number ND
+            newr(p,d) += m_dx*Random::nextGaussian(0,0.2); //Random number ND
         }
 
         double newwavefunction = wavefunction(newr);
@@ -116,24 +108,4 @@ mat Solver::metropolis_step(mat r){
 
     return newr;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
