@@ -5,12 +5,16 @@ Solver::Solver(){
     m_dx = 1;
 }
 
-void Solver::addparticle(){
-
+Solver::Solver(int N, int D){
+    m_nParticles = N;
+    m_nDimensions = D;
+    r = zeros<mat>(N,D);
+    placeParticles(0.5);
 }
 
 
-double Solver::Analytical(mat r){
+
+double Solver::Analytical(){
     double energy = 0;
     double h2 = 1;
     for (int p=0; p<m_nParticles; p++){
@@ -24,7 +28,7 @@ double Solver::Analytical(mat r){
 }
 
 
-double Solver::localenergy(mat r){
+double Solver::localenergy(){
     double kinetic = 0;
     double potential = 0;
     double hbar = 1;
@@ -33,18 +37,24 @@ double Solver::localenergy(mat r){
     mat rminus = r;
     double psiplus;
     double psiminus;
-    double psi = wavefunction(r);
+    double psi = wavefunction();
 
 
     for (int p = 0; p<m_nParticles; p++){
         double r_single = 0;
         for (int d=0; d<m_nDimensions; d++){
-            rplus(p,d) += dstep;
+            r(p,d) += dstep;
+            psiplus = wavefunction();
+            r(p,d) -= 2*dstep;
+            psiminus = wavefunction();
+            r(p,d) += dstep;
+
+            /*rplus(p,d) += dstep;
             rminus(p,d) -= dstep;
 
             psiplus = wavefunction(rplus);
             psiminus = wavefunction(rminus);
-
+            */
             kinetic += (psiplus -2*psi + psiminus);
 
             r_single += r(p,d)*r(p,d);
@@ -63,7 +73,7 @@ double Solver::localenergy(mat r){
     return kinetic +potential;
 }
 
-double Solver::wavefunction(mat r){
+double Solver::wavefunction(){
     double psi = 1;
     for (int p=0; p<m_nParticles; p++){
         double r_single = 0;
@@ -71,41 +81,56 @@ double Solver::wavefunction(mat r){
         for (int d=0; d<m_nDimensions; d++){
             r_single += r(p,d)*r(p,d);
         }
-        g = exp(-m_alpha * r_single );
-        psi *= g;
+        //g = exp(-m_alpha * r_single );
+        //psi *= g;
+        g = -m_alpha * r_single;
+        psi += g;
     }
-    return psi;
+    return exp(psi);
+}
+
+double Solver::placeParticles(double a)
+{
+    for (int p=0; p<m_nParticles; p++){
+        for (int d=0; d<m_nDimensions; d++){
+            if (Random::nextDouble()>0.5){
+                r(p,d) += Random::nextDouble()*a;
+            }
+            else{
+                r(p,d) -= Random::nextDouble()*a;
+            }
+
+        }
+    }
 }
 
 
-mat Solver::metropolis_step(mat r){
-    mat oldr = r;
-    mat newr = r;
+void Solver::metropolis_step(){
 
-    double oldwavefunction = wavefunction(oldr);
-    for (int p=0; p<m_nParticles; p++){
+    int p = Random::nextInt(m_nParticles);
+    double oldwavefunction = wavefunction();
+
+    double* dx = new double[3];
+
+
+    for (int d=0; d<m_nDimensions; d++){
+        dx[d] = m_dx*Random::nextGaussian(0,0.2);
+        r(p,d) += dx[d];
+    }
+
+    double newwavefunction = wavefunction();
+    double prob = newwavefunction*newwavefunction/(oldwavefunction*oldwavefunction);
+    double mynt = Random::nextDouble(); // Uniform [0,1]
+
+    if (mynt < prob){
+        m_accepted++;
+    }
+    else{
         for (int d=0; d<m_nDimensions; d++){
-            newr(p,d) += m_dx*Random::nextGaussian(0,0.2); //Random number ND
-        }
-
-        double newwavefunction = wavefunction(newr);
-        double prob = newwavefunction*newwavefunction/(oldwavefunction*oldwavefunction);
-        double mynt = Random::nextDouble();             // Uniform [0,1]
-
-        if (mynt < prob){
-            for (int d=0; d<m_nDimensions; d++){
-                oldr(p,d) = newr(p,d);
-            }
-            oldwavefunction = newwavefunction;
-            m_accepted++;
-        }
-        else{
-            for (int d=0; d<m_nDimensions; d++){
-                newr(p,d) = oldr(p,d);
-            }
+            //newr(p,d) = oldr(p,d);
+            r(p,d) -= dx[d];
         }
     }
 
-    return newr;
 }
 

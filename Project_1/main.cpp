@@ -1,53 +1,45 @@
 #include <iostream>
 #include "solver.h"
 #include <iomanip>
+#include <time.h>
 
 using namespace std;
 
 int main()
 {
-    int N = 1;
+    double t0 = clock();
+    int N = 100;
     int D = 1;
-    mat r = zeros<mat>(N,D);
-    r(0,0) = 1;
-    //r(1,1) = 0;
-    cout << r;
-    Solver s;
-    s.m_nDimensions = D;
-    s.m_nParticles = N;
-    double E_sum = s.localenergy(r);
+    double E;
+
+    Solver s(N,D);
+
+    double E_sum = s.localenergy();
     double E_sum2 = E_sum*E_sum;
-    double anal = s.Analytical(r);
+    double anal = s.Analytical();
     cout << "Numerical: "<< E_sum <<endl;
     cout << "Analytical: "<< anal<<endl;
 
-    double E;
-    ofstream myfile;    // Write2file
-    myfile.open("energies.txt");
-    int nCycles = 2000;
-
-    double Prob;
     double localE;
     double expE = 0.0;
 
 
+    // Monte Carlo loop
+    int nCycles = 1000;
     for (int i=0; i<nCycles; i++){
-        r = s.metropolis_step(r);
-
-        E = s.localenergy(r);
-        //cout<<"Total saved   " << E <<endl;
-
-        Prob = s.wavefunction(r)*s.wavefunction(r);
-        localE = s.localenergy(r);
+        if (i%100 ==0) {
+            cout << "  step # "<< i << "\r";
+            fflush(stdout);
+        }
+        s.metropolis_step();
+        E = s.localenergy();
+        localE = s.localenergy();
         expE += localE;
-        cout << localE<< endl;
         E_sum += E;
         E_sum2 += E*E;
-        //myfile << E <<endl;
     }
-    myfile.close();
-    //system("python readdate.py");
-    //cout << "average energy: " << E_sum/nCycles<<endl;
+    cout << endl;
+
 
     nCycles++;
     expE = expE/nCycles;
@@ -58,7 +50,8 @@ int main()
     cout << "variance=" << E2 - E*E  << endl; // <E^2> - <E>^2
     cout << "accepted=" << s.m_accepted/nCycles << endl;
 
-
+    double t1 = clock();
+    cout << "Time used: "<< (t1-t0)/1e6 << " s"<<endl;
 
 }
 
