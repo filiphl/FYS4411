@@ -16,11 +16,15 @@ private:
     double m_alpha = 0.5;
     int NumberOfAtoms = 0;
     int NumberOfDimensions = 0;
+    double m_D = 0.5;
+    double m_dt = 0.05;
 
 public:
     Solver();
     Solver(int N, int D);
     mat r;
+    mat qForceOld;
+    mat qForceNew;
     int m_nParticles = 0;
     int m_nDimensions = 0;
     double m_accepted = 0;
@@ -30,6 +34,7 @@ public:
     double placeParticles(double a);
     double Analytical();
     void metropolis_step();
+    void qForce(mat &);
 };
 
 #endif // SOLVER_H

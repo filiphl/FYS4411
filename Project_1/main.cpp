@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     double t0 = clock();
-    int N = 100;
+    int N = 500;
     int D = 1;
     double E;
 

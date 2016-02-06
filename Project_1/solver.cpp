@@ -9,6 +9,8 @@ Solver::Solver(int N, int D){
     m_nParticles = N;
     m_nDimensions = D;
     r = zeros<mat>(N,D);
+    qForceOld = zeros<mat>(N, D);
+    qForceNew = zeros<mat>(N, D);
     placeParticles(0.5);
 }
 
@@ -111,7 +113,7 @@ void Solver::metropolis_step(){
     double oldwavefunction = wavefunction();
 
     double* dx = new double[3];
-
+    qForce(qForceOld);
 
     for (int d=0; d<m_nDimensions; d++){
         dx[d] = m_dx*Random::nextGaussian(0,0.2);
@@ -119,7 +121,18 @@ void Solver::metropolis_step(){
     }
 
     double newwavefunction = wavefunction();
-    double prob = newwavefunction*newwavefunction/(oldwavefunction*oldwavefunction);
+    qForce(qForceNew);
+
+    double GreensFunction = 0.0;
+    for (int p=0; p < m_nParticles; p++) {
+        for (int d=0; d< m_nDimensions; d++){
+            GreensFunction += 0.5*(qForceOld(p,d)+qForceNew(p,d))*
+                    (m_D*m_dt*0.5*(-qForceOld(p,d)+qForceNew(p,d))-r(p,d)+dx[d]);
+        }
+    }
+    GreensFunction = exp(GreensFunction);
+
+    double prob = GreensFunction*(newwavefunction*newwavefunction)/(oldwavefunction*oldwavefunction);
     double mynt = Random::nextDouble(); // Uniform [0,1]
 
     if (mynt < prob){
@@ -132,5 +145,20 @@ void Solver::metropolis_step(){
         }
     }
 
+}
+
+void Solver::qForce(mat &qForceX)
+{
+    for (int p=0; p<m_nParticles; p++){
+        for (int d=0; d<m_nDimensions; d++){
+            r(p,d) -= m_dx;
+            double waveFunctionOld = wavefunction();
+            r(p,d) += 2*m_dx;
+            double waveFunctionNew = wavefunction();
+            r(p,d) -= m_dx;
+            qForceX(p,d) = (waveFunctionNew - waveFunctionOld)/m_dx;    //factor 2 cancels with factor 2 in quantum force
+        }
+    }
+    qForceX /= wavefunction();
 }
 
