@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     double t0 = clock();
-    int N = 500;
+    int N = 3;
     int D = 1;
     double E;
 
@@ -52,6 +52,8 @@ int main()
 
     double t1 = clock();
     cout << "Time used: "<< (t1-t0)/1e6 << " s"<<endl;
+
+
 
 }
 

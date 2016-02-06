@@ -76,7 +76,7 @@ double Solver::localenergy(){
 }
 
 double Solver::wavefunction(){
-    double psi = 1;
+    double psi = 1;             // DETTE ER FEIL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     for (int p=0; p<m_nParticles; p++){
         double r_single = 0;
         double g = 0;
@@ -116,7 +116,7 @@ void Solver::metropolis_step(){
     qForce(qForceOld);
 
     for (int d=0; d<m_nDimensions; d++){
-        dx[d] = m_dx*Random::nextGaussian(0,0.2);
+        dx[d] = m_dx*Random::nextGaussian(0,sqrt(2*m_D*m_dt)) + m_D*qForceOld(p,d)*m_dt;
         r(p,d) += dx[d];
     }
 
