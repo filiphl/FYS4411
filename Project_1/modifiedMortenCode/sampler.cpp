@@ -31,6 +31,12 @@ void Sampler::sample(bool acceptedStep) {
      */
     double localEnergy = m_system->getHamiltonian()->
                          computeLocalEnergy(m_system->getParticles());
+
+    if (acceptedStep){
+        //cout << "Accepted" <<endl;
+        m_numberOfStepsSampled++;
+    }
+
     m_cumulativeEnergy  += localEnergy;
     m_stepNumber++;
 }
@@ -58,6 +64,7 @@ void Sampler::printOutputToTerminal() {
     cout << endl;
     cout << "  -- Reults -- " << endl;
     cout << " Energy : " << m_energy << endl;
+    cout << " Acceptance rate : " << m_acceptanceRate << endl;
     cout << endl;
 }
 
@@ -65,5 +72,6 @@ void Sampler::computeAverages() {
     /* Compute the averages of the sampled quantities. You need to think
      * thoroughly through what is written here currently; is this correct?
      */
-    m_energy = m_cumulativeEnergy / m_system->getNumberOfMetropolisSteps();
+    m_energy = m_cumulativeEnergy / (double)m_numberOfStepsSampled;
+    m_acceptanceRate = m_numberOfStepsSampled/(double)m_numberOfMetropolisSteps;
 }

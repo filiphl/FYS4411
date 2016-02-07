@@ -6,6 +6,9 @@
 #include "Hamiltonians/hamiltonian.h"
 #include "InitialStates/initialstate.h"
 #include "Math/random.h"
+#include <iostream>
+
+using namespace std;
 
 bool System::metropolisStep() {
     /* Perform the actual Metropolis step: Choose a particle at random and
@@ -55,7 +58,11 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
          * for a while. You may handle this using the fraction of steps which
          * are equilibration steps; m_equilibrationFraction.
          */
-        m_sampler->sample(acceptedStep);
+
+        if (i > m_equilibrationFraction * m_numberOfMetropolisSteps) {
+            m_sampler->sample(acceptedStep);
+        }
+
     }
     m_sampler->computeAverages();
     m_sampler->printOutputToTerminal();
