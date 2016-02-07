@@ -8,6 +8,10 @@
 using std::cout;
 using std::endl;
 
+
+
+
+
 RandomUniform::RandomUniform(System*    system,
                              int        numberOfDimensions,
                              int        numberOfParticles)  :
@@ -37,12 +41,9 @@ void RandomUniform::setupInitialState() {
              * to a uniform distribution here. However, later you will write
              * more sub-classes of the InitialState class in which the
              * particles are placed in other configurations.
-             *
-             * Note: For now, the particles are simply placed in positions
-             * according to their index in the particles list (this is
-             * obviously NOT a good idea).
              */
-            position.push_back(i);
+
+            position.push_back(m_boxSize*Random::nextDouble());
         }
         m_particles.push_back(new Particle());
         m_particles.at(i)->setNumberOfDimensions(m_numberOfDimensions);

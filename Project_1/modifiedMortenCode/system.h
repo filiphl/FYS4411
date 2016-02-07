@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <cmath>
+#include <iostream> //Added by us
 
 class System {
 public:
@@ -20,13 +22,18 @@ public:
     int getNumberOfDimensions()         { return m_numberOfDimensions; }
     int getNumberOfMetropolisSteps()    { return m_numberOfMetropolisSteps; }
     double getEquilibrationFraction()   { return m_equilibrationFraction; }
+
+    //Added by us.
     bool analytical = false;
+    double getStepLength() const        { return m_stepLength; }
+
 private:
     int                             m_numberOfParticles = 0;
     int                             m_numberOfDimensions = 0;
     int                             m_numberOfMetropolisSteps = 0;
     double                          m_equilibrationFraction = 0.0;
     double                          m_stepLength = 0.1;
+    double                          m_dt = 0.05;     // Added by us.
     class WaveFunction*             m_waveFunction = nullptr;
     class Hamiltonian*              m_hamiltonian = nullptr;
     class InitialState*             m_initialState = nullptr;

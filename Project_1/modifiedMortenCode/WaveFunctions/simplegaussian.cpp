@@ -4,7 +4,7 @@
 #include "wavefunction.h"
 #include "../system.h"
 #include "../particle.h"
-
+#include <iostream>
 
 
 
@@ -33,12 +33,11 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
     for (int i=0; i< m_system->getNumberOfParticles(); i++){
         double ri2 = 0;
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            double* particlei = particles[i]->getPosition()[i];
-            ri2 += particlei[j]*particlei[j];
+            ri2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
         }
         argument += -m_alpha * ri2;
     }
-    return exp(psi);
+    return exp(argument);
 }
 
 
@@ -52,30 +51,34 @@ double SimpleGaussian::computeDoubleDerivative(std::vector<class Particle*> part
      * This quantity is needed to compute the (local) energy (consider the
      * Schrödinger equation to see how the two are related).
      */
+
+    double ddr = 0;
+
     if (m_system->analytical){
-        double ddr = 0;
+
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-                double rj = particles[i][j]*particles[i][j];
+                double rj = particles[i]->getPosition()[j];
                 ddr += 2*m_alpha*(2*m_alpha*rj*rj);
+                std::cout << "if "<<std::endl;
             }
         }
     }
 
     else{
-        double ddr = 0;
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
                 double psi      =   evaluate( particles );
-                particles[i]->adjustPosition( m_system -> m_stepLength, j );
+                particles[i]->adjustPosition( m_system -> getStepLength(), j );
                 double psiPlus  =   evaluate( particles );
-                particles[i]->adjustPosition( -2* m_system -> m_stepLength, j );
+                particles[i]->adjustPosition( -2* m_system -> getStepLength(), j );
                 double psiMinus =   evaluate( particles );
-                particles[i]->adjustPosition( m_system -> m_stepLength, j );
+                particles[i]->adjustPosition( m_system -> getStepLength(), j );
                 ddr += psiPlus - 2*psi + psiMinus;
             }
         }
-        ddr = ddr/((m_system->m_stepLength)*(m_system->m_stepLength));
+        ddr = ddr/((m_system->getStepLength())*(m_system->getStepLength()));
+        std::cout << "else "<<std::endl;
     }
     return ddr;
 }

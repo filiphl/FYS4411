@@ -30,7 +30,7 @@ double HarmonicOscillator::computeLocalEnergy(std::vector<Particle*> particles) 
 
     // Compute potential energy
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
-        double* position = particles.at(i)->getPosition();  // vector
+        std::vector<double> position = particles.at(i)->getPosition();  // vector
         double r2 = 0;
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
             r2 += position[j]*position[j];

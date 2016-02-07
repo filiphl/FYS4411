@@ -14,7 +14,30 @@ bool System::metropolisStep() {
      * at this new position with the one at the old position).
      */
 
-    return false;
+    int p = Random::nextInt(m_numberOfParticles);
+    double oldWaveFunction = m_waveFunction->evaluate(m_particles);
+    double* dx = new double[3];
+
+    for (int i=0; i<m_numberOfDimensions; i++){
+        dx[i] = m_stepLength * Random::nextGaussian(0,sqrt(m_dt));  // sqrt(2*m_D*m_dt)?
+        m_particles[p]->adjustPosition(dx[i] , i);
+    }
+
+    double newWaveFunction = m_waveFunction->evaluate(m_particles);
+
+    double prob = newWaveFunction*newWaveFunction/(oldWaveFunction*oldWaveFunction);
+    double mynt = Random::nextDouble(); // Uniform [0,1]
+
+    if (mynt < prob){   // Accept
+        return true;
+    }
+
+    else{   // Reset the position.
+        for (int i=0; i<m_numberOfDimensions; i++){
+            m_particles[p]->adjustPosition(-dx[i], i);
+        }
+        return false;
+    }
 }
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps) {
@@ -67,5 +90,7 @@ void System::setWaveFunction(WaveFunction* waveFunction) {
 void System::setInitialState(InitialState* initialState) {
     m_initialState = initialState;
 }
+
+
 
 

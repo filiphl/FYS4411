@@ -20,14 +20,15 @@ int main() {
     double alpha            = 0.5;          // Variational parameter.
     double stepLength       = 0.1;          // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used
-    // for equilibration.
+                                            // for equilibration.
 
     System* system = new System();
-    system->setHamiltonian              (new HarmonicOscillator(system, omega));
+    system->setHamiltonian(new HarmonicOscillator(system, omega));
     system->setWaveFunction             (new SimpleGaussian(system, alpha));
     system->setInitialState             (new RandomUniform(system, numberOfDimensions, numberOfParticles));
     system->setEquilibrationFraction    (equilibration);
     system->setStepLength               (stepLength);
     system->runMetropolisSteps          (numberOfSteps);
+
     return 0;
 }

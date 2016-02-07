@@ -3,7 +3,6 @@
 
 class SimpleGaussian : public WaveFunction {
 private:
-    char* name = "SimpleGaussian";
     double m_alpha;
 public:
     SimpleGaussian(class System* system, double alpha);
@@ -14,5 +13,4 @@ public:
     double getAlpha() const{ return m_alpha; }
     void setAlpha(double alpha){ m_alpha = alpha; }
 
-    char *getName() const{ return name; }
 };

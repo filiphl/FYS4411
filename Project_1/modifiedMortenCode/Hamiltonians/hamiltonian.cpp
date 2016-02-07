@@ -1,10 +1,10 @@
 #include "hamiltonian.h"
 #include "../system.h"
+#include "../WaveFunctions/wavefunction.h"
 #include <iostream>
 Hamiltonian::Hamiltonian(System* system) {
     m_system = system;
     m_waveFunction = system->getWaveFunction();
-    std::cout<<m_waveFunction->getName()<<std::endl;
 }
 
 void Hamiltonian::computeKineticEnergy(std::vector<Particle*> particles)
