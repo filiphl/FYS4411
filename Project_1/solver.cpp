@@ -144,7 +144,6 @@ void Solver::metropolis_step(){
             r(p,d) -= dx[d];
         }
     }
-
 }
 
 void Solver::qForce(mat &qForceX)

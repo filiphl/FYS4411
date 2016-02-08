@@ -4,6 +4,7 @@
 class SimpleGaussian : public WaveFunction {
 private:
     double m_alpha;
+    double m_derivativeStepLength = 0.0001;
 public:
     SimpleGaussian(class System* system, double alpha);
     double evaluate(std::vector<class Particle*> particles);

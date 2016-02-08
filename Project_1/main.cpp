@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     double t0 = clock();
-    int N = 3;
+    int N = 1;
     int D = 1;
     double E;
 
@@ -25,7 +25,7 @@ int main()
 
 
     // Monte Carlo loop
-    int nCycles = 1000;
+    int nCycles = 10000;
     for (int i=0; i<nCycles; i++){
         if (i%100 ==0) {
             cout << "  step # "<< i << "\r";

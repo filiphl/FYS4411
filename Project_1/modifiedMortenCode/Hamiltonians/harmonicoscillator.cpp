@@ -4,9 +4,12 @@
 #include "../system.h"
 #include "../particle.h"
 #include "../WaveFunctions/wavefunction.h"
+#include <iomanip>
 
 using std::cout;
 using std::endl;
+using namespace std;
+
 
 HarmonicOscillator::HarmonicOscillator(System* system, double omega) :
         Hamiltonian(system) {
@@ -38,6 +41,12 @@ double HarmonicOscillator::computeLocalEnergy(std::vector<Particle*> particles) 
         potentialEnergy += 0.5*m_omega*m_omega*r2;
     }
 
+    kineticEnergy = computeKineticEnergy(particles);
+    /*
+    cout << "kinetic: " << setw(10) << setprecision(3) << kineticEnergy;
+    cout <<"   potential: " <<  setw(10) << setprecision(3) << potentialEnergy;
+    cout <<"   total: " << setw(10) << setprecision(3) << kineticEnergy + potentialEnergy << endl;
+    */
     return kineticEnergy + potentialEnergy;
 }
 

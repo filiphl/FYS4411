@@ -5,7 +5,7 @@
 #include "../system.h"
 #include "../particle.h"
 #include <iostream>
-
+using namespace std;
 
 
 
@@ -35,7 +35,7 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
             ri2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
         }
-        argument += -m_alpha * ri2;
+        argument -= m_alpha * ri2;
     }
     return exp(argument);
 }
@@ -53,32 +53,30 @@ double SimpleGaussian::computeDoubleDerivative(std::vector<class Particle*> part
      */
 
     double ddr = 0;
-
+    /*
     if (m_system->analytical){
 
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
                 double rj = particles[i]->getPosition()[j];
                 ddr += 2*m_alpha*(2*m_alpha*rj*rj);
-                std::cout << "if "<<std::endl;
             }
         }
     }
+    */
 
-    else{
-        for (int i=0; i<m_system->getNumberOfParticles(); i++){
-            for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-                double psi      =   evaluate( particles );
-                particles[i]->adjustPosition( m_system -> getStepLength(), j );
-                double psiPlus  =   evaluate( particles );
-                particles[i]->adjustPosition( -2* m_system -> getStepLength(), j );
-                double psiMinus =   evaluate( particles );
-                particles[i]->adjustPosition( m_system -> getStepLength(), j );
-                ddr += psiPlus - 2*psi + psiMinus;
-            }
+    for (int i=0; i<m_system->getNumberOfParticles(); i++){
+        for (int j=0; j<m_system->getNumberOfDimensions(); j++){
+            double psi      =   evaluate( particles );
+            particles[i]->adjustPosition( m_derivativeStepLength, j );
+            double psiPlus  =   evaluate( particles );
+            particles[i]->adjustPosition( -2 * m_derivativeStepLength, j );
+            double psiMinus =   evaluate( particles );
+            particles[i]->adjustPosition( m_derivativeStepLength, j );
+            ddr += psiPlus - 2*psi + psiMinus;
         }
-        ddr = ddr/((m_system->getStepLength())*(m_system->getStepLength()));
-        std::cout << "else "<<std::endl;
     }
+    ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
+
     return ddr;
 }

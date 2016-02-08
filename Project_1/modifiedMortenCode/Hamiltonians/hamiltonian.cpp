@@ -4,17 +4,19 @@
 #include <iostream>
 Hamiltonian::Hamiltonian(System* system) {
     m_system = system;
-    m_waveFunction = system->getWaveFunction();
 }
 
-void Hamiltonian::computeKineticEnergy(std::vector<Particle*> particles)
+double Hamiltonian::computeKineticEnergy(std::vector<Particle*> particles)
 {
-    double kinetickEnergy = 0;
+    double psi = m_system->getWaveFunction()->evaluate(particles);
+    double kineticEnergy = 0;
     for (int i=0; i< m_system->getNumberOfParticles(); i++){
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            double ddr = m_waveFunction->computeDoubleDerivative(particles);
-
+            double ddr = m_system->getWaveFunction()->computeDoubleDerivative(particles);
+            kineticEnergy += ddr;
         }
     }
+    kineticEnergy *= -0.5 / psi;
+    return kineticEnergy;
 }
 

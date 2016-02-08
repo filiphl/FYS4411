@@ -30,14 +30,14 @@ void Sampler::sample(bool acceptedStep) {
      * Note that there are (way) more than the single one here currently.
      */
     double localEnergy = m_system->getHamiltonian()->
-                         computeLocalEnergy(m_system->getParticles());
+            computeLocalEnergy(m_system->getParticles());
 
     if (acceptedStep){
         //cout << "Accepted" <<endl;
         m_numberOfStepsSampled++;
-    }
-
-    m_cumulativeEnergy  += localEnergy;
+        m_cumulativeEnergy  += localEnergy; // Moved from down here
+    }                                       //          |
+                                            //          V
     m_stepNumber++;
 }
 
@@ -72,6 +72,6 @@ void Sampler::computeAverages() {
     /* Compute the averages of the sampled quantities. You need to think
      * thoroughly through what is written here currently; is this correct?
      */
-    m_energy = m_cumulativeEnergy / (double)m_numberOfStepsSampled;
+    m_energy = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
     m_acceptanceRate = m_numberOfStepsSampled/(double)m_numberOfMetropolisSteps;
 }
