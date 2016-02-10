@@ -8,6 +8,7 @@ public:
     void printOutputToTerminal();
     void computeAverages();
     double getEnergy()          { return m_energy; }
+    double computeAnalyticalEnergy();                     // Added by us
 
 private:
     int     m_numberOfMetropolisSteps = 0;
@@ -16,5 +17,6 @@ private:
     double  m_acceptanceRate;
     double  m_energy = 0;
     double  m_cumulativeEnergy = 0;
+    double  m_analyticalEnergy = 0;
     class System* m_system = nullptr;
 };

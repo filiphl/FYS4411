@@ -1,8 +1,15 @@
 #pragma once
 #include <vector>
 #include <cmath>
-#include <iostream> //Added by us
-
+#include <cassert>
+#include "sampler.h"
+#include "particle.h"
+#include "WaveFunctions/wavefunction.h"
+#include "Hamiltonians/hamiltonian.h"
+#include "InitialStates/initialstate.h"
+#include "Math/random.h"
+#include <iostream>
+#include <iomanip>
 class System {
 public:
     bool metropolisStep             ();

@@ -1,12 +1,5 @@
 #include "system.h"
-#include <cassert>
-#include "sampler.h"
-#include "particle.h"
-#include "WaveFunctions/wavefunction.h"
-#include "Hamiltonians/hamiltonian.h"
-#include "InitialStates/initialstate.h"
-#include "Math/random.h"
-#include <iostream>
+
 
 using namespace std;
 
@@ -17,28 +10,24 @@ bool System::metropolisStep() {
      * at this new position with the one at the old position).
      */
 
-    int p = Random::nextInt(m_numberOfParticles);
+    int p = Random::nextInt(m_numberOfParticles);                   // Random particle
+    int d = Random::nextInt(m_numberOfDimensions);                  // Random dimension
     double oldWaveFunction = m_waveFunction->evaluate(m_particles);
-    double* dx = new double[3];
 
-    for (int i=0; i<m_numberOfDimensions; i++){
-        dx[i] = m_stepLength * Random::nextGaussian(0,sqrt(m_dt));  // sqrt(2*m_D*m_dt)?
-        m_particles[p]->adjustPosition(dx[i] , i);
-    }
 
+    double dx = m_stepLength * Random::nextGaussian(0,sqrt(m_dt));  // sqrt(2*m_D*m_dt), but m_D=0.5.
+    m_particles[p]->adjustPosition(dx , d);                         // Propose move
     double newWaveFunction = m_waveFunction->evaluate(m_particles);
 
-    double prob = newWaveFunction*newWaveFunction/(oldWaveFunction*oldWaveFunction);
-    double mynt = Random::nextDouble(); // Uniform [0,1]
+    double prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);
+    double mynt = Random::nextDouble();                             // Uniform [0,1]
 
-    if (mynt < prob){   // Accept
+    if (mynt < prob){   // Accept. Keep new position.
         return true;
     }
 
-    else{   // Reset the position.
-        for (int i=0; i<m_numberOfDimensions; i++){
-            m_particles[p]->adjustPosition(-dx[i], i);
-        }
+    else{               // Reject. Reset the position.
+        m_particles[p]->adjustPosition(-dx, d);
         return false;
     }
 }
@@ -49,9 +38,14 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
 
-    for (int i=0; i < numberOfMetropolisSteps; i++) {
-        bool acceptedStep = metropolisStep();
+    for (int i=0; i < m_numberOfMetropolisSteps; i++) {
 
+        if (i%100){     // Added by us.
+            cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
+            fflush(stdout);
+        }
+
+        bool acceptedStep = metropolisStep();
         /* Here you should sample the energy (and maybe other things using
          * the m_sampler instance of the Sampler class. Make sure, though,
          * to only begin sampling after you have let the system equilibrate
@@ -65,6 +59,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     }
     m_sampler->computeAverages();
+    m_sampler->computeAnalyticalEnergy();
     m_sampler->printOutputToTerminal();
 }
 

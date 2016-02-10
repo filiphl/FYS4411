@@ -35,9 +35,9 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
             ri2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
         }
-        argument -= m_alpha * ri2;
+        argument -= ri2;
     }
-    return exp(argument);
+    return exp(m_alpha * argument);
 }
 
 
@@ -68,11 +68,11 @@ double SimpleGaussian::computeDoubleDerivative(std::vector<class Particle*> part
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
             double psi      =   evaluate( particles );
-            particles[i]->adjustPosition( m_derivativeStepLength, j );
+            particles[i]->adjustPosition( m_derivativeStepLength, j );      // +
             double psiPlus  =   evaluate( particles );
-            particles[i]->adjustPosition( -2 * m_derivativeStepLength, j );
+            particles[i]->adjustPosition( -2 * m_derivativeStepLength, j ); // -
             double psiMinus =   evaluate( particles );
-            particles[i]->adjustPosition( m_derivativeStepLength, j );
+            particles[i]->adjustPosition( m_derivativeStepLength, j );      // reset
             ddr += psiPlus - 2*psi + psiMinus;
         }
     }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 #include <vector>
 #include "sampler.h"
@@ -7,8 +8,7 @@
 #include "Hamiltonians/hamiltonian.h"
 #include "WaveFunctions/wavefunction.h"
 
-using std::cout;
-using std::endl;
+using namespace std;
 
 
 Sampler::Sampler(System* system) {
@@ -33,11 +33,10 @@ void Sampler::sample(bool acceptedStep) {
             computeLocalEnergy(m_system->getParticles());
 
     if (acceptedStep){
-        //cout << "Accepted" <<endl;
         m_numberOfStepsSampled++;
         m_cumulativeEnergy  += localEnergy; // Moved from down here
     }                                       //          |
-                                            //          V
+    //          V
     m_stepNumber++;
 }
 
@@ -62,9 +61,11 @@ void Sampler::printOutputToTerminal() {
         cout << " Parameter " << i+1 << " : " << pa.at(i) << endl;
     }
     cout << endl;
-    cout << "  -- Reults -- " << endl;
-    cout << " Energy : " << m_energy << endl;
-    cout << " Acceptance rate : " << m_acceptanceRate << endl;
+    cout << "  ----- Reults ----- \n" << endl;
+    cout << setw(25) << left << "Numerical energy" << left << setw(25) << "Analytical energy" << endl;
+    cout << setw(25) << left << m_energy           << left << setw(25) << m_analyticalEnergy  << endl<<endl;
+    //cout << " Energy : " << m_energy << endl;
+    cout << "Acceptance rate : " << m_acceptanceRate << endl;
     cout << endl;
 }
 
@@ -73,5 +74,26 @@ void Sampler::computeAverages() {
      * thoroughly through what is written here currently; is this correct?
      */
     m_energy = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
+    //m_energy   = m_cumulativeEnergy / (double)m_numberOfMetropolisSteps;
     m_acceptanceRate = m_numberOfStepsSampled/(double)m_numberOfMetropolisSteps;
 }
+
+double Sampler::computeAnalyticalEnergy()
+{
+    m_analyticalEnergy = m_system->getHamiltonian()->computeAnalyticalEnergy(m_system->getParticles());
+}
+
+    /*
+double Solver::Analytical(){
+    double energy = 0;
+    double h2 = 1;
+    for (int p=0; p<m_nParticles; p++){
+        double r_single = 0;
+        for (int d=0; d<m_nDimensions; d++){
+            r_single += r(p,d)*r(p,d);
+        }
+        energy += h2*m_alpha*(-2*m_alpha*r_single + m_nDimensions) + 0.5*m_m*m_w*m_w*r_single;
+    }
+    return energy;
+    */
+

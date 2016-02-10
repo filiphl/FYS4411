@@ -12,9 +12,9 @@
 using namespace std;
 
 int main() {
-    int numberOfDimensions  = 1;
-    int numberOfParticles   = 2;
-    int numberOfSteps       = (int) 1e6;
+    int numberOfDimensions  = 5;
+    int numberOfParticles   = 3;
+    int numberOfSteps       = (int) 1e4;
     double omega            = 1.0;          // Oscillator frequency.
     double alpha            = 0.5;          // Variational parameter.
     double stepLength       = 1;          // Metropolis step length.
@@ -27,7 +27,7 @@ int main() {
     system->setInitialState             (new RandomUniform(system, numberOfDimensions, numberOfParticles));
     system->setEquilibrationFraction    (equilibration);
     system->setStepLength               (stepLength);
-    //system->analytical = true;
+    system->analytical = true;
     system->runMetropolisSteps          (numberOfSteps);
 
     return 0;
