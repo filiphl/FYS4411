@@ -10,7 +10,7 @@ void Particle::setPosition(const std::vector<double> &position) {
 }
 
 void Particle::adjustPosition(double change, int dimension) {
-    m_position.at(dimension) += change;
+    m_position[dimension] += change;
 }
 
 void Particle::setNumberOfDimensions(int numberOfDimensions) {

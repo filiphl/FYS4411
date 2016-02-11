@@ -12,7 +12,7 @@
 using namespace std;
 
 int main() {
-    int numberOfDimensions  = 5;
+    int numberOfDimensions  = 3;
     int numberOfParticles   = 3;
     int numberOfSteps       = (int) 1e4;
     double omega            = 1.0;          // Oscillator frequency.

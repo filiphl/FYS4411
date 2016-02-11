@@ -46,7 +46,7 @@ void RandomUniform::setupInitialState() {
             position.push_back(m_boxSize*Random::nextDouble());
         }
         m_particles.push_back(new Particle());
-        m_particles.at(i)->setNumberOfDimensions(m_numberOfDimensions);
-        m_particles.at(i)->setPosition(position);
+        m_particles[i]->setNumberOfDimensions(m_numberOfDimensions);
+        m_particles[i]->setPosition(position);
     }
 }

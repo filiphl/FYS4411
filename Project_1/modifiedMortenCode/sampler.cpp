@@ -29,10 +29,12 @@ void Sampler::sample(bool acceptedStep) {
     /* Here you should sample all the interesting things you want to measure.
      * Note that there are (way) more than the single one here currently.
      */
-    double localEnergy = m_system->getHamiltonian()->
-            computeLocalEnergy(m_system->getParticles());
+
 
     if (acceptedStep){
+        double localEnergy = m_system->getHamiltonian()->
+                computeLocalEnergy(m_system->getParticles());
+
         m_numberOfStepsSampled++;
         m_cumulativeEnergy  += localEnergy; // Moved from down here
     }                                       //          |
@@ -58,7 +60,7 @@ void Sampler::printOutputToTerminal() {
     cout << "  -- Wave function parameters -- " << endl;
     cout << " Number of parameters : " << p << endl;
     for (int i=0; i < p; i++) {
-        cout << " Parameter " << i+1 << " : " << pa.at(i) << endl;
+        cout << " Parameter " << i+1 << " : " << pa[i] << endl;
     }
     cout << endl;
     cout << "  ----- Reults ----- \n" << endl;
