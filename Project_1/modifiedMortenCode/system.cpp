@@ -15,12 +15,12 @@ bool System::metropolisStep() {
     double oldWaveFunction = m_waveFunction->evaluate(m_particles);
     double qForceOld = qForce(p,d);
 
-    double dx = m_stepLength * Random::nextGaussian(0, m_dt) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
+    double dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
     m_particles[p]->adjustPosition(dx , d);                         // Propose move
     double newWaveFunction = m_waveFunction->evaluate(m_particles);
     double qForceNew = qForce(p,d);
 
-    double greensFunction = -0.5*(qForceOld+qForceNew)*dx;           // Only term spesial for i,j = p,d
+    double greensFunction = -0.5*(qForceOld+qForceNew)*dx;           // Only term special for i,j = p,d
     /*
      for (int i=0; i < m_numberOfParticles; i++) {
         for (int j=0; j< m_numberOfDimensions; j++){
