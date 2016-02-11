@@ -126,6 +126,7 @@ void Solver::metropolis_step(){
     double GreensFunction = 0.0;
     for (int p=0; p < m_nParticles; p++) {
         for (int d=0; d< m_nDimensions; d++){
+
             GreensFunction += 0.5*(qForceOld(p,d)+qForceNew(p,d))*
                     (m_D*m_dt*0.5*(-qForceOld(p,d)+qForceNew(p,d))-r(p,d)+dx[d]);
         }

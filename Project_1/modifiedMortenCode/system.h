@@ -32,15 +32,17 @@ public:
 
     //Added by us.
     bool analytical = false;
+    double qForce                   (std::vector<Particle *> particles);
     double getStepLength() const        { return m_stepLength; }
 
 private:
+    double                          m_D = 0.5;  //h2/2m. Added by us.
     int                             m_numberOfParticles = 0;
     int                             m_numberOfDimensions = 0;
     int                             m_numberOfMetropolisSteps = 0;
     double                          m_equilibrationFraction = 0.0;
-    double                          m_stepLength = 0.1;
-    double                          m_dt = 0.001;     // Added by us.
+    double                          m_stepLength = 1;
+    double                          m_dt = 0.05;     // Added by us.
     class WaveFunction*             m_waveFunction = nullptr;
     class Hamiltonian*              m_hamiltonian = nullptr;
     class InitialState*             m_initialState = nullptr;

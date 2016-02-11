@@ -13,13 +13,24 @@ bool System::metropolisStep() {
     int p = Random::nextInt(m_numberOfParticles);                   // Random particle
     int d = Random::nextInt(m_numberOfDimensions);                  // Random dimension
     double oldWaveFunction = m_waveFunction->evaluate(m_particles);
+    double qForceOld = qForce(m_particles);
 
-
-    double dx = m_stepLength * Random::nextGaussian(0,sqrt(m_dt));  // sqrt(2*m_D*m_dt), but m_D=0.5.
+    double dx = m_stepLength * Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
     m_particles[p]->adjustPosition(dx , d);                         // Propose move
     double newWaveFunction = m_waveFunction->evaluate(m_particles);
+    double qForceNew = qForce(m_particles);
 
-    double prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);
+    double greensFunction = 0.0;
+    for (int i=0; i < m_numberOfParticles; i++) {
+        for (int j=0; j< m_numberOfDimensions; j++){
+
+            greensFunction += 0.5*(qForceOld+qForceNew)*
+                    (m_D*m_dt*0.5*(-qForceOld+qForceNew)-m_particles[i]->getPosition()[j] + dx);
+        }
+    }
+    greensFunction = exp(greensFunction);
+
+    double prob = greensFunction * newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);
     double mynt = Random::nextDouble();                             // Uniform [0,1]
 
     if (mynt < prob){   // Accept. Keep new position.
@@ -62,6 +73,26 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_sampler->computeAnalyticalEnergy();
     m_sampler->printOutputToTerminal();
 }
+
+
+double System::qForce(std::vector<class Particle*> particles){
+    double force = 0;
+    for (int i=0; i<m_numberOfParticles; i++){
+        for (int j=0; j<m_numberOfDimensions; j++){
+            particles[i]->adjustPosition(-m_stepLength, j);
+            double waveFunctionOld = m_waveFunction->evaluate(particles);
+            particles[i]->adjustPosition(2*m_stepLength, j);
+            double waveFunctionNew = m_waveFunction->evaluate(particles);
+            particles[i]->adjustPosition(-m_stepLength, j);
+            force += (waveFunctionNew - waveFunctionOld) /
+                    (m_stepLength * m_waveFunction->evaluate(particles));
+        }
+    }
+    return force;
+}
+
+
+
 
 void System::setNumberOfParticles(int numberOfParticles) {
     m_numberOfParticles = numberOfParticles;

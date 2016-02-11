@@ -8,8 +8,8 @@ using namespace std;
 int main()
 {
     double t0 = clock();
-    int N = 1;
-    int D = 1;
+    int N = 3;
+    int D = 3;
     double E;
 
     Solver s(N,D);
