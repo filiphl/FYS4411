@@ -12,12 +12,12 @@
 using namespace std;
 
 int main() {
-    int numberOfDimensions  = 3;
+    int numberOfDimensions  = 10;
     int numberOfParticles   = 3;
     int numberOfSteps       = (int) 1e4;
     double omega            = 1.0;          // Oscillator frequency.
     double alpha            = 0.5;          // Variational parameter.
-    double stepLength       = 1;          // Metropolis step length.
+    double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used
                                             // for equilibration.
 

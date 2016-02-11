@@ -31,11 +31,11 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
 
     double argument = 0;
     for (int i=0; i< m_system->getNumberOfParticles(); i++){
-        double ri2 = 0;
+        //double ri2 = 0;
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            ri2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
+            argument -= particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
         }
-        argument -= ri2;
+        //argument -= ri2;
     }
     return exp(m_alpha * argument);
 }

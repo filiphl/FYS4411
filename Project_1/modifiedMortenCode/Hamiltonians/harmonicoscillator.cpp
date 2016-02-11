@@ -33,14 +33,13 @@ double HarmonicOscillator::computeLocalEnergy(std::vector<Particle*> particles) 
     double kineticEnergy   = 0;
 
     // Compute potential energy
+    double r2 = 0;
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
-        double r2 = 0;
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
             r2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
-        }
-        potentialEnergy += 0.5*m_omega*m_omega*r2;
+        }     
     }
-
+    potentialEnergy = 0.5*m_omega*m_omega*r2;
     kineticEnergy = computeKineticEnergy(particles);
 
     /*

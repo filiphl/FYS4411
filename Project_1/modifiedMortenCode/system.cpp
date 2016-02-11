@@ -13,21 +13,27 @@ bool System::metropolisStep() {
     int p = Random::nextInt(m_numberOfParticles);                   // Random particle
     int d = Random::nextInt(m_numberOfDimensions);                  // Random dimension
     double oldWaveFunction = m_waveFunction->evaluate(m_particles);
-    double qForceOld = qForce(m_particles);
+    double qForceOld = qForce(p,d);
 
-    double dx = m_stepLength * Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
+    double dx = m_stepLength * Random::nextGaussian(0, m_dt) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
     m_particles[p]->adjustPosition(dx , d);                         // Propose move
     double newWaveFunction = m_waveFunction->evaluate(m_particles);
-    double qForceNew = qForce(m_particles);
+    double qForceNew = qForce(p,d);
 
-    double greensFunction = 0.0;
-    for (int i=0; i < m_numberOfParticles; i++) {
+    double greensFunction = -0.5*(qForceOld+qForceNew)*dx;           // Only term spesial for i,j = p,d
+    /*
+     for (int i=0; i < m_numberOfParticles; i++) {
         for (int j=0; j< m_numberOfDimensions; j++){
 
-            greensFunction += 0.5*(qForceOld+qForceNew)*
-                    (m_D*m_dt*0.5*(-qForceOld+qForceNew)-m_particles[i]->getPosition()[j] + dx);
+            m_particles[p]->adjustPosition(-dx , d);
+            qForceOld = qForce(i, j);
+            m_particles[p]->adjustPosition(dx , d);
+            qForceNew = qForce(i, j);
+
+            greensFunction += 0.5*(qForceOld+qForceNew) * m_D*m_dt*0.5*(qForceNew-qForceOld);
         }
     }
+    */
     greensFunction = exp(greensFunction);
 
     double prob = greensFunction * newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);
@@ -75,19 +81,18 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 }
 
 
-double System::qForce(std::vector<class Particle*> particles){
-    double force = 0;
-    for (int i=0; i<m_numberOfParticles; i++){
-        for (int j=0; j<m_numberOfDimensions; j++){
-            particles[i]->adjustPosition(-m_stepLength, j);
-            double waveFunctionOld = m_waveFunction->evaluate(particles);
-            particles[i]->adjustPosition(2*m_stepLength, j);
-            double waveFunctionNew = m_waveFunction->evaluate(particles);
-            particles[i]->adjustPosition(-m_stepLength, j);
-            force += (waveFunctionNew - waveFunctionOld) /
-                    (m_stepLength * m_waveFunction->evaluate(particles));
-        }
-    }
+double System::qForce(int i, int j){
+    /*
+    m_particles[i]->adjustPosition(-m_stepLength, j);               // -
+    double waveFunctionOld = m_waveFunction->evaluate(m_particles);
+    m_particles[i]->adjustPosition(2*m_stepLength, j);              // +
+    double waveFunctionNew = m_waveFunction->evaluate(m_particles);
+    m_particles[i]->adjustPosition(-m_stepLength, j);               // reset
+    double force = (waveFunctionNew - waveFunctionOld) /
+            (m_stepLength * m_waveFunction->evaluate(m_particles));
+    */
+
+    double force = -2*m_waveFunction->getParameters()[0]*m_particles[i]->getPosition()[j];
     return force;
 }
 

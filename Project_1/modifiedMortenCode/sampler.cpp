@@ -36,9 +36,9 @@ void Sampler::sample(bool acceptedStep) {
                 computeLocalEnergy(m_system->getParticles());
 
         m_numberOfStepsSampled++;
-        m_cumulativeEnergy  += localEnergy; // Moved from down here
-    }                                       //          |
-    //          V
+        m_cumulativeEnergy  += localEnergy;
+        m_energySquared     += localEnergy*localEnergy;
+    }
     m_stepNumber++;
 }
 
@@ -66,8 +66,8 @@ void Sampler::printOutputToTerminal() {
     cout << "  ----- Reults ----- \n" << endl;
     cout << setw(25) << left << "Numerical energy" << left << setw(25) << "Analytical energy" << endl;
     cout << setw(25) << left << m_energy           << left << setw(25) << m_analyticalEnergy  << endl<<endl;
-    //cout << " Energy : " << m_energy << endl;
-    cout << "Acceptance rate : " << m_acceptanceRate << endl;
+    cout << "Variance in ergy measurements : " << m_variance << endl;
+    cout << "Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
     cout << endl;
 }
 
@@ -75,9 +75,10 @@ void Sampler::computeAverages() {
     /* Compute the averages of the sampled quantities. You need to think
      * thoroughly through what is written here currently; is this correct?
      */
-    m_energy = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
-    //m_energy   = m_cumulativeEnergy / (double)m_numberOfMetropolisSteps;
-    m_acceptanceRate = m_numberOfStepsSampled/(double)m_numberOfMetropolisSteps;
+    m_energy         = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
+    m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
+    m_variance       = m_energySquared - m_energy*m_energy;
+    m_acceptanceRate = m_numberOfStepsSampled/((double)m_numberOfMetropolisSteps*(1-m_system->getEquilibrationFraction()));
 }
 
 double Sampler::computeAnalyticalEnergy()
@@ -85,7 +86,27 @@ double Sampler::computeAnalyticalEnergy()
     m_analyticalEnergy = m_system->getHamiltonian()->computeAnalyticalEnergy(m_system->getParticles());
 }
 
-    /*
+double Sampler::getEnergySquared() const
+{
+    return m_energySquared;
+}
+
+void Sampler::setEnergySquared(double energySquared)
+{
+    m_energySquared = energySquared;
+}
+
+double Sampler::getVariance() const
+{
+    return m_variance;
+}
+
+void Sampler::setVariance(double variance)
+{
+    m_variance = variance;
+}
+
+/*
 double Solver::Analytical(){
     double energy = 0;
     double h2 = 1;

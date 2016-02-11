@@ -31,8 +31,9 @@ public:
     double getEquilibrationFraction()   { return m_equilibrationFraction; }
 
     //Added by us.
-    bool analytical = false;
-    double qForce                   (std::vector<Particle *> particles);
+    bool analytical         = false;
+    bool importanceSampling = true;
+    double qForce                   (int i, int j);
     double getStepLength() const        { return m_stepLength; }
 
 private:
