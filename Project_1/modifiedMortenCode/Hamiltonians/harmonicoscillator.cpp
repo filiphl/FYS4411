@@ -61,7 +61,6 @@ double HarmonicOscillator::computeAnalyticalEnergy(std::vector<Particle *> parti
             r2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
         }
         analyticalEnergy += alpha*(-2*alpha*r2 + m_system->getNumberOfDimensions()) + 0.5*m_omega*m_omega*r2;
-
     }
     return analyticalEnergy;
 }

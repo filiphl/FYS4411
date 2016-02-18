@@ -96,6 +96,16 @@ double System::qForce(int i, int j){
     return force;
 }
 
+void System::openFile()
+{
+    m_outfile.open(m_filename, ios::out);
+}
+
+void System::closeFile()
+{
+    m_outfile.close();
+}
+
 
 
 

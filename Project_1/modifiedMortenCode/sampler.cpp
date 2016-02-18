@@ -32,13 +32,18 @@ void Sampler::sample(bool acceptedStep) {
 
 
     if (acceptedStep){
-        double localEnergy = m_system->getHamiltonian()->
+        m_localEnergy = m_system->getHamiltonian()->
                 computeLocalEnergy(m_system->getParticles());
 
         m_numberOfStepsSampled++;
-        m_cumulativeEnergy  += localEnergy;
-        m_energySquared     += localEnergy*localEnergy;
+        m_cumulativeEnergy  += m_localEnergy;
+        m_energySquared     += m_localEnergy*m_localEnergy;
     }
+
+    if (m_system->storeLocalEnergy){
+        m_system->m_outfile << setw(20) << setprecision(13) << m_localEnergy << endl;
+    }
+
     m_stepNumber++;
 }
 
