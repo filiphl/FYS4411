@@ -13,14 +13,14 @@ bool System::metropolisStep() {
     int p = Random::nextInt(m_numberOfParticles);                   // Random particle
     int d = Random::nextInt(m_numberOfDimensions);                  // Random dimension
     double oldWaveFunction = m_waveFunction->evaluate(m_particles);
-    double qForceOld = qForce(p,d);
+    //double qForceOld = qForce(p,d);
 
-    double dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
+    double dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt));// + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
     m_particles[p]->adjustPosition(dx , d);                         // Propose move
     double newWaveFunction = m_waveFunction->evaluate(m_particles);
-    double qForceNew = qForce(p,d);
+    //double qForceNew = qForce(p,d);
 
-    double greensFunction = -0.5*(qForceOld+qForceNew)*dx;           // Only term special for i,j = p,d
+    //double greensFunction = -0.5*(qForceOld+qForceNew)*dx;           // Only term special for i,j = p,d
     /*
      for (int i=0; i < m_numberOfParticles; i++) {
         for (int j=0; j< m_numberOfDimensions; j++){
@@ -34,9 +34,9 @@ bool System::metropolisStep() {
         }
     }
     */
-    greensFunction = exp(greensFunction);
+    //greensFunction = exp(greensFunction);
 
-    double prob = greensFunction * newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);
+    double prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);//greensFunction *
     double mynt = Random::nextDouble();                             // Uniform [0,1]
 
     if (mynt < prob){   // Accept. Keep new position.

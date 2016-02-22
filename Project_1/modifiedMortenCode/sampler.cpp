@@ -81,8 +81,8 @@ void Sampler::computeAverages() {
      * thoroughly through what is written here currently; is this correct?
      */
     m_energy         = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
-    m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
     m_variance       = m_energySquared - m_energy*m_energy;
+    m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
     m_acceptanceRate = m_numberOfStepsSampled/((double)m_numberOfMetropolisSteps*(1-m_system->getEquilibrationFraction()));
 }
 

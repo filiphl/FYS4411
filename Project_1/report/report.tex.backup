@@ -30,10 +30,12 @@
 
 % JF i margen
 \makeatletter
-\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{-2cm}%
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0pt}%
 {-\baselineskip}{0.5\baselineskip}{\bf\large}}
 \makeatother
 \newcommand{\jf}[1]{\subsubsection*{JF #1}\vspace*{-2\baselineskip}}
+
+\newcommand{\bm}[1]{\mathbf{#1}}
 
 % Skru av seksjonsnummerering (-1)
 \setcounter{secnumdepth}{3}
@@ -47,7 +49,7 @@
 \textsc{\Large FYS4411 - Computational quantum mechanics }\\[0.5cm]
 \textsc{\Large Spring 2016}\\[1.5cm]
 \rule{\linewidth}{0.5mm} \\[0.4cm]
-{ \huge \bfseries  Project 1}\\[0.10cm]
+{ \huge \bfseries  Project 1;\\ Variational Monte Carlo Studies of Bosonic systems}\\[0.10cm]
 \rule{\linewidth}{0.5mm} \\[1.5cm]
 \textsc{\Large temporary report}\\[1.5cm]
 
@@ -94,59 +96,135 @@
 
 
 \section{Theory and methods}
+\subsection{Preliminary derivations}
 
-
+\subsubsection{Simplified problem}
+The local energy is defined as:
 
 \begin{equation}
     E_L({\bf R})=\frac{1}{\Psi_T({\bf R})}H\Psi_T({\bf R}),
     \label{eq:locale}
- \end{equation}
- 
- \begin{equation}
-   E_L({\bf R})=\frac{1}{\Psi_T({\bf R})}\sum_i^N \left(
-	 \frac{-\hbar^2}{2m}
-	 { \bigtriangledown }_{i}^2 +
-	\frac{1}{2}m\omega_{ho}^2r^2\right)\Psi_T({\bf R}),
-    \label{eq:localeInsertH}
- \end{equation}
-The potential term is trivial since this is a scalar. A more challenging problem is to find an expression for $\nabla^2_i\Psi_T({\bf R})$.
-With our wavefunction given as
+\end{equation}
+
+As a first approximation, it is assumed there is no interaction term in the Hamiltonian, which means the hard sphere bosons have no physical size (the hard-core diameter is zero). It is also assumed that no magnetic field is applied to the bosonic gas, leaving a perfectly spherically symmetrical harmonic trap. Inserting this new Hamiltonian into the local energy gives:
+
+\begin{equation}
+  E_L({\bf R})=\frac{1}{\Psi_T({\bf R})}\sum_i^N \left(
+  \frac{-\hbar^2}{2m}
+  \nabla_{i}^2 +
+  \frac{1}{2}m\omega_{ho}^2r_i^2\right)\Psi_T({\bf R})
+  \label{eq:localeInsertH}
+\end{equation}
+
+The potential term is trivial since this is a scalar, i.e. the denominator will cancel the wavefunction. A more challenging problem is to find an expression for $\nabla^2_i\Psi_T({\bf R})$. The trial wavefunction shown in equation (...), with the aforementioned approximations, is:
+
 \begin{equation}
  \Psi_T({\bf R}) = \prod_i e^{-\alpha r_i^2}	\label{wavefunction_a}
 \end{equation}
-we may start by taking the first derivatives 
+
+where $\alpha$ is the variational parameter for VCM. The first derivative is:
+
 \begin{align}
- \nabla_j \prod_i e^{-\alpha r_i^2} = -2\alpha r_j e^{-\alpha r_j^2} \prod_{i \neq j} e^{-\alpha r_i^2} = -2\alpha r_j  \prod_i e^{-\alpha r_i^2}.
+ \nabla_j\prod_i e^{-\alpha r_i^2} 
+ &= -2\alpha \bm{r}_j e^{-\alpha r_j^2} \prod_{i \neq j} e^{-\alpha r_i^2}\\
+ &= -2\alpha \bm{r}_j  \prod_i e^{-\alpha r_i^2}.
+ \label{E_L_first_derivative}
 \end{align}
-The second derivatives are then
+
+The second derivative then follows:
+
 \begin{align}
- \nabla_j^2 \prod_i e^{-\alpha r_i^2} = \nabla_j \lr{-2\alpha r_j  \prod_i e^{-\alpha r_i^2}}
+ \nabla_j^2 \prod_i e^{-\alpha r_i^2} 
+ &= \nabla_j \lr{-2\alpha \bm{r}_j  \prod_i e^{-\alpha r_i^2}}\\
+ &= \lr{4\alpha^2 r_j^2 - 2d\alpha}  \prod_i e^{-\alpha r_i^2}.
 \end{align}
 
+where $d$ is the number of dimensions. Inserting this into back into the local energy (equation \eqref{eq:localeInsertH}), the final expression can be derived:
+
+\begin{align*}
+ E_L({\bf R}) &= \frac{1}{\Psi_T({\bf R})}\sum_i^N \lr{
+	 \frac{-\hbar^2}{2m}
+	 \nabla_{i}^2 +
+	\frac{1}{2}m\omega_{ho}^2r^2}\Psi_T({\bf R})\\
+    &= \sum_{i=1}^N\left[\frac{-\hbar^2}{2m}\lr{4\alpha^2 r_i^2 - 2d\alpha} + \frac{1}{2}m\omega_{ho}^2r_i^2\right]
+\end{align*}
 
 
 
+The drift force (quantum force), still with the approximations above, is defined by:
+
+\begin{equation}
+	F = \frac{2\nabla\Psi_T}{\Psi_T}
+\end{equation}
+
+The gradient here is defined as
+
+\begin{equation*}
+	\nabla \equiv \lr{\nabla_1,\nabla_2,\ldots,\nabla_N}
+\end{equation*}
+
+i.e. a vector of dimension $Nd$. The gradient with respect to a single particle's position is already given in equation \ref{E_L_first_derivative}, so it's not too hard to see the following is the necessary factor in the drift force:
+
+\begin{align*}
+	F &= \frac{-4\alpha}{\Psi_T}\lr{\bm{r}_1,\bm{r}_2,\ldots,\bm{r}_N}\Psi_T\\
+	&= -4\alpha\lr{\bm{r}_1,\bm{r}_2,\ldots,\bm{r}_N}
+\end{align*}
 
 
+\subsubsection{Full problem}
 
+The full problem\footnote{The "full problem" means not making any assumptions on the particle interactions or the potential.} is a bit more tedious to derive. The first step is to rewrite the trial wavefunction to the following form:
 
+\begin{equation}
+	\Psi_T(\bm{R}) = \prod_{i} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}
+\end{equation}
 
+where, in order for this to fit with the previous wavefunction, $u(r_{ij}) \equiv \ln(f(r_{ij}))$ and $\phi(\bm{r}_i) \equiv g(\alpha,\beta,\bm{r}_i)$. The gradient with respect to the $k$-th coordinate set is:
 
-\subsection{Preliminary derivations}
+\begin{align}
+	\nabla_k\Psi_T &= \nabla_k\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\\
+	&= \nabla_k\phi_k\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\nabla_k\left(\sum_{i''<j''}u_{i''j''} \right)\right]\\
+	&= \nabla_k\phi_k\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\left(\sum_{i''<j''}\nabla_ku_{i''j''} \right)\right]
+\end{align}
 
-
-
-
-
-
-
-
-
-
-
+The function $u_{ij}$ is symmetric under permutation of $i$ and $j$, as one can see from the definitions of itself and $f(r_{ij})$. This means that in the last sum above, one can always s
 
 \section{Results}
 
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ | c | r | r | r | r | r |}
+    \hline
+    N &D &Analytical &Numerical &Variance &Time \\*
+    \hline
+    1& 1& 0  \\*
+    \hline
+    1& 2& 0  \\*
+    \hline
+    1& 3& 0.88 \\*
+    \hline
+    10& 1&  \\*
+    \hline
+    10& 2& 10 &10 &7.4e-13 &1.35 \\*
+    \hline
+    10 &3 &15 &15 &3.7e-13 &1.41 \\*
+    \hline
+    100& 1&  \\*
+    \hline
+    100& 2&  \\*
+    \hline
+    100& 3& 200  \\*
+    \hline
+    500& 1&  \\*
+    \hline
+    500& 2&  \\*
+    \hline
+    500& 3&  \\*
+    \hline
+  \end{tabular}
+  \caption{some caption}
+  \label{tab:Tabell1}
+\end{table}
 
 \section{Conclusions}
 
