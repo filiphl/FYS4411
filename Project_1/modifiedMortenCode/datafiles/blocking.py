@@ -15,28 +15,28 @@ numberOfSamples = len(energy)
 def standardDeviation(entry):
 	e1  = sum(entry)/float(len(entry))
 	e2  = sum(entry*entry)/len(entry)
-	var = e2 - e1**2
+	var = abs(e2 - e1**2)
 	return sqrt(var) 
 
+def mean(entry):
+	return sum(entry)/len(entry)
 
+averages = []
 std = []
-sample = []
-for blockSize in xrange(1,100):
-	sample.append([])
-	blockSum = 0
-	counter = 0
-	for e in energy:
-		if counter == blockSize:
-			sample[blockSize-1].append(float(blockSum)/blockSize)
-			blockSum = 0
-			counter  = 0
-		blockSum += e
-		counter += 1
+for numberOfBlocks in range(1,4000):
+	print numberOfBlocks
+	averages.append([])
+	blockSize = numberOfSamples/numberOfBlocks		#intentional integer division
+	for block in range(0,numberOfBlocks):
+		lowerBound = block*blockSize
+		upperBound = lowerBound + blockSize
+		averages[numberOfBlocks-1].append(mean(asarray(energy[lowerBound:upperBound])))
+	std.append(standardDeviation(asarray(averages[numberOfBlocks-1])))
 
-for i in xrange(len(sample)):
-	std.append(standardDeviation(asarray(sample[i])))
+#for i in xrange(len(sample)):
+#	std.append(standardDeviation(asarray(sample[i])))
 
-plt.plot(range(1,100), std)
+plt.plot(range(1,4000), std)
 plt.show()
 
 

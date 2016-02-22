@@ -8,12 +8,13 @@
 #include "InitialStates/initialstate.h"
 #include "InitialStates/randomuniform.h"
 #include "Math/random.h"
+#include "time.h"
 
 using namespace std;
 
 int main() {
-    int numberOfParticles   = 5;           // This is the number of particles. P.A.R.T.I.C.L.E.S.
-    int numberOfDimensions  = 2;
+    int numberOfParticles   = 10;           // This is the number of particles. P.A.R.T.I.C.L.E.S.
+    int numberOfDimensions  = 1;
     int numberOfSteps       = (int) 1e4;
     double omega            = 1.0;          // Oscillator frequency.
     double alpha            = 0.5;          // Variational parameter.
@@ -29,7 +30,10 @@ int main() {
     system->setStepLength               (stepLength);
     system->analytical = true;
     system->openFile();
+    double t0 = clock();
     system->runMetropolisSteps          (numberOfSteps);
+    double t1 = clock()-t0;
+    cout << t1*1e-6 << endl;
     system->closeFile();
     return 0;
 }
