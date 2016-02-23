@@ -163,7 +163,7 @@ The gradient here is defined as
 	\nabla \equiv \lr{\nabla_1,\nabla_2,\ldots,\nabla_N}
 \end{equation*}
 
-i.e. a vector of dimension $Nd$. The gradient with respect to a single particle's position is already given in equation \ref{E_L_first_derivative}, so it's not too hard to see the following is the necessary factor in the drift force:
+i.e. a vector of dimension $Nd$. The gradient with respect to a single particle's position is already given in equation \ref{E_L_first_derivative}, so it's not too hard to realise:
 
 \begin{align*}
 	F &= \frac{-4\alpha}{\Psi_T}\lr{\bm{r}_1,\bm{r}_2,\ldots,\bm{r}_N}\Psi_T\\
@@ -173,13 +173,13 @@ i.e. a vector of dimension $Nd$. The gradient with respect to a single particle'
 
 \subsubsection{Full problem}
 
-The full problem\footnote{The "full problem" means not making any assumptions on the particle interactions or the potential.} is a bit more tedious to derive. The first step is to rewrite the trial wavefunction to the following form:
+The full local energy\footnote{The "full local energy" means not making any assumptions on the particle interactions or the potential.} is a bit more tedious to derive. The first step is to rewrite the trial wavefunction to the following form:
 
 \begin{equation}
 	\Psi_T(\bm{R}) = \prod_{i} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}
 \end{equation}
 
-where, in order for this to fit with the previous wavefunction, $u(r_{ij}) \equiv \ln(f(r_{ij}))$ and $\phi(\bm{r}_i) \equiv g(\alpha,\beta,\bm{r}_i)$. The gradient with respect to the $k$-th coordinate set is:
+where, in order for this to fit with the previous wavefunction, $u(r_{ij}) \equiv \ln[f(r_{ij})]$ and $\phi(\bm{r}_i) \equiv g(\alpha,\beta,\bm{r}_i)$. The gradient with respect to the $k$-th coordinate set is:
 
 \begin{align}
 	\nabla_k\Psi_T &= \nabla_k\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\\
@@ -187,7 +187,81 @@ where, in order for this to fit with the previous wavefunction, $u(r_{ij}) \equi
 	&= \nabla_k\phi_k\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\left(\sum_{i''<j''}\nabla_ku_{i''j''} \right)\right]
 \end{align}
 
-The function $u_{ij}$ is symmetric under permutation of $i$ and $j$, as one can see from the definitions of itself and $f(r_{ij})$. This means that in the last sum above, one can always s
+The function $u_{ij}$ is symmetric under permutation $i \leftrightarrow j$, as one can see from the definitions of $u_{ij}$ and $f(r_{ij})$. Therefore, the last sum above can have a different indexing: All terms without an index $k$, will give zero when taking the derivative $\nabla_k$, so only $i=k$ or $j=k$ remains (remember $i \neq j$). Due to the symmetry of $u_{ij}$, one can simply always say $i=k$ and let $j$ be the summation index:
+
+\begin{equation}
+	\nabla_k\Psi_T = \nabla_k\phi_k\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]
+	\label{eq:grad}
+\end{equation}
+
+The second derivative now becomes (where $\nabla_k$ only acts on the first parenthesis to its right):
+
+\begin{align*}
+	\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + (\nabla_k\phi_k) \left[\prod_{i\neq k}\phi(\bm{r}_i)\nabla_ke^{\sum_{i'<j'}u(r_{i'j'})}\right]\\
+	&\:\:\:\:\:\: + \left[\nabla_k\left(\prod_i \left(\phi(\bm{r}_i)\right)e^{\sum_{i'<j'}u(r_{i'j'})}\right)\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
+	&\:\:\:\:\:\: + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\left(\sum_{j''\neq k}\nabla_k^2u_{kj''} \right)\right]
+\end{align*}
+
+While a bit of a nuisance to read, the expression above simply the product rule for $\nabla_k(\nabla_k\Psi_T)$. Written in terms of $\Psi_T$, the above can be a bit simplified\footnote{For the more mathematically concerned nitpicker, the product symbol only runs over the functions $\phi(\bm{r}_i))$, not the following exponential. This is easy to realise by recalling how $\Psi_T$ was defined, and is important to know when inserting $\Psi_T$ as done now.}:
+
+\begin{align*}
+	\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\frac{\Psi_T}{\phi(\bm{r}_k)} + (\nabla_k\phi_k) \left[\prod_{i\neq k}\phi(\bm{r}_i)\nabla_ke^{\sum_{i'<j'}u(r_{i'j'})}\right]\\
+	&\:\:\:\:\:\: + \left[\left(\nabla_k\Psi_T\right)\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
+	&\:\:\:\:\:\: + \left[\Psi_T\left(\sum_{j''\neq k}\nabla_k^2u_{kj''} \right)\right]
+\end{align*}
+
+The second term above is equal to the second term in equation \ref{eq:grad}, divided by $\phi(\bm{r}_k)$. Furthermore, the gradient $\nabla_k\Psi_T$ is already calculated above, and in terms of $\Psi_T$ is:
+
+\begin{equation}
+	\nabla_k\Psi_T = \frac{\Psi_T}{\phi(\bm{r}_k)}\nabla_k\phi_k + \Psi_T\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)
+\end{equation}
+
+Inserting all this back into the second derivative yields:
+
+\begin{align*}
+	\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\frac{\Psi_T}{\phi(\bm{r}_k)} + (\nabla_k\phi_k) \left[\frac{\Psi_T}{\phi(\bm{r}_k)}\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
+	&\:\:\:\:\:\: + \left[\frac{\Psi_T}{\phi(\bm{r}_k)}\nabla_k\phi_k + \Psi_T\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\\
+	&\:\:\:\:\:\: + \left[\Psi_T\left(\sum_{j''\neq k}\nabla_k^2u_{kj''} \right)\right]
+\end{align*}
+
+Giving:
+
+\begin{align*}
+	\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\frac{1}{\phi(\bm{r}_k)} + (\nabla_k\phi_k) \left[\frac{1}{\phi(\bm{r}_k)}\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
+	&\:\:\:\:\:\: + \left[\frac{1}{\phi(\bm{r}_k)}\nabla_k\phi_k + \left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\\
+	&\:\:\:\:\:\: + \sum_{j''\neq k}\nabla_k^2u_{kj''}
+\end{align*}
+
+Which can be rewritten to:
+
+\begin{align}
+	\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= \frac{\nabla_k^2\phi_k}{\phi(\bm{r}_k)} + \frac{2\nabla_k\phi_k}{\phi(\bm{r}_k)}\left(\sum_{i\neq k}\nabla_ku_{ki} \right) + \left(\sum_{j\neq k}\nabla_ku_{kj} \right)^2 + \sum_{l\neq k}\nabla_k^2u_{kl}
+\end{align}
+
+The gradients $\nabla_k u_{ki}$ can be rewritten using partial differentiation (where $r_{k,i}$ is coordinate $i$ of $\bm{r}_k$):
+
+\begin{align*}
+	\nabla_k u_{ki} &= \left(\frac{\partial}{\partial r_{k,1}}, \frac{\partial}{\partial r_{k,2}}, \ldots\right)u_{ki}\\
+	&= \frac{\partial u_{ki}}{\partial r_{ki}}\left(\frac{\partial r_{ki}}{\partial r_{k,1}}, \frac{\partial r_{ki}}{\partial r_{k,2}}, \ldots\right)\\
+	&= \frac{\partial u_{ki}}{\partial r_{ki}}\left( \frac{\partial}{\partial r_{k,1}}\left(\sqrt{\left[(r_{k,1}-r_{i,1})\hat{e}_1 + \ldots\right]^2}\right), \ldots \right)\\
+	&= \frac{\partial u_{ki}}{\partial r_{ki}}\left(\frac{r_{k,1} - r_{i,1}}{r_{ki}}, \ldots \right)\\
+	&= \frac{\partial u_{ki}}{\partial r_{ki}}\frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\\
+	&= \frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}' \:\:,\:\:  u_{ki}'\equiv \frac{\partial u_{ki}}{\partial r_{ki}}
+\end{align*}
+
+While the second derivative of $u_{ki}$ is:
+
+\begin{align*}
+	\nabla_k^2 u_{ki} &= \nabla_k(\nabla_ku_{ki})\\
+	&= u_{ki}'\nabla_k\left(\frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\right) + \frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\nabla_k u_{ki}'\\
+	&= u_{ki}' \left(\frac{d}{r_{ki}} - \right)
+\end{align*}
+
+Which finally gives:
+
+\begin{align}
+\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= \frac{\nabla_k^2\phi_k}{\phi(\bm{r}_k)} + \frac{2\nabla_k\phi_k}{\phi(\bm{r}_k)}\left(\sum_{i\neq k} \frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}' \right) + \sum_{i,j\neq k}\frac{(\bm{r}_k - \bm{r}_i)(\bm{r}_k - \bm{r}_j)}{r_{ki}r_[kj]}u_{ki}'u_{kj}' + \sum_{l\neq k}\nabla_k^2u_{kl}
+\end{align}
 
 \section{Results}
 
