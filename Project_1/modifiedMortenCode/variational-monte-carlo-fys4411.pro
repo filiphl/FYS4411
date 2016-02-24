@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     Math/random.cpp \
     sampler.cpp \
     WaveFunctions/simplegaussian.cpp \
-    WaveFunctions/interactinsimplegaussian.cpp
+    WaveFunctions/interactinsimplegaussian.cpp \
+    Hamiltonians/interactingharmonicoscillator.cpp
 
 HEADERS += \
     system.h \
@@ -27,5 +28,6 @@ HEADERS += \
     Math/random.h \
     sampler.h \
     WaveFunctions/simplegaussian.h \
-    WaveFunctions/interactinsimplegaussian.h
+    WaveFunctions/interactinsimplegaussian.h \
+    Hamiltonians/interactingharmonicoscillator.h
 

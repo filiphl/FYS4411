@@ -55,6 +55,7 @@ bool System::metropolisStep() {
         double oldWaveFunction = m_waveFunction->evaluate(m_particles);
         dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt));         // sqrt(2*m_D*m_dt), but m_D=0.5.
         m_particles[p]->adjustPosition(dx , d);                          // Propose move
+        //cout << "position: "<< m_particles[p]->getPosition()[d]<< endl;
         double newWaveFunction = m_waveFunction->evaluate(m_particles);
 
         prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);

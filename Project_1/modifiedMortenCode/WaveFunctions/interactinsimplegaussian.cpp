@@ -1,53 +1,73 @@
 #include "interactinsimplegaussian.h"
 
 
-InteractinSimpleGaussian::InteractinSimpleGaussian(System *system, double alpha, double beta, double gamma) :
+InteractinSimpleGaussian::InteractinSimpleGaussian(System *system, double alpha, double beta) :
     WaveFunction(system)
 {
     assert(alpha >= 0);
-    m_numberOfParameters = 3;
-    m_parameters.reserve(3);
+    m_numberOfParameters = 2;
+    cout << m_numberOfParameters<<endl;
+    m_parameters.reserve(2);
     m_parameters.push_back(alpha);
     m_parameters.push_back(beta);
-    m_parameters.push_back(gamma);
     setalpha(alpha);
     setBeta(beta);
-    setGamma(gamma);
 }
 
 double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)
 {
     double argument = 0;
     for (int i=0; i< m_system->getNumberOfParticles(); i++){
-        for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            if (j<2){
-                argument -= particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
+        for (int k=0; k<m_system->getNumberOfDimensions(); k++){
+            if (k<2){
+                argument -= particles[i]->getPosition()[k] * particles[i]->getPosition()[k];
             }
             else{
-                argument -= m_beta*particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
+                argument -= m_beta2*particles[i]->getPosition()[k] * particles[i]->getPosition()[k];
             }
         }
     }
-    g = exp(m_alpha * argument);
+    double g = exp(m_alpha * argument);
 
     double f = 1;
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
         for (int j=i+1; j<m_system->getNumberOfParticles(); j++){
             for (int k=0; k<m_system->getNumberOfDimensions(); k++){
-                dr2 = (particles[j]-particles[i]) * (particles[j]-particles[i]);
+                dr2 = (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) *
+                      (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) ;
             }
             absdr = sqrt(dr2);
             if (absdr <= m_a){ return 0; }
-            else{ f *= 1-a/absdr; }
+            else{ f *= 1-m_a/absdr; }
         }
     }
-
     return g*f;
 }
 
-void InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *> particles)
+double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *> particles)
 {
+    double ddr = 0;
 
+    if (m_system->getAnalyticalDoublederivative()){
+        cout << "We have not yet implemented the analytical solution to the double derivative, though we should."<< endl;
+        exit(1);
+    }
+
+    else {
+        for (int i=0; i<m_system->getNumberOfParticles(); i++){
+            for (int j=0; j<m_system->getNumberOfDimensions(); j++){
+                double psi      =   evaluate( particles );
+                particles[i]->adjustPosition( m_derivativeStepLength, j );      // +
+                double psiPlus  =   evaluate( particles );
+                particles[i]->adjustPosition( -2 * m_derivativeStepLength, j ); // -
+                double psiMinus =   evaluate( particles );
+                particles[i]->adjustPosition( m_derivativeStepLength, j );      // reset
+                ddr += psiPlus - 2*psi + psiMinus;
+            }
+        }
+        ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
+    }
+    return ddr;
 }
 
 
@@ -75,20 +95,10 @@ void InteractinSimpleGaussian::setalpha(double alpha)
 
 double InteractinSimpleGaussian::beta() const
 {
-    return m_beta;
+    return m_beta2;
 }
 
 void InteractinSimpleGaussian::setBeta(double beta)
 {
-    m_beta = beta;
-}
-
-double InteractinSimpleGaussian::gamma() const
-{
-    return m_gamma;
-}
-
-void InteractinSimpleGaussian::setGamma(double gamma)
-{
-    m_gamma = gamma;
+    m_beta2 = beta*beta;
 }
