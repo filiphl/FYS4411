@@ -60,5 +60,6 @@ public:
     ofstream m_outfile;
 
 
+    void setAnalytical(bool value);
 };
 

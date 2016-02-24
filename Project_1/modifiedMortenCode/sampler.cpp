@@ -71,7 +71,7 @@ void Sampler::printOutputToTerminal() {
     cout << "  ----- Reults ----- \n" << endl;
     cout << setw(25) << left << "Numerical energy" << left << setw(25) << "Analytical energy" << endl;
     cout << setw(25) << left << m_energy           << left << setw(25) << m_analyticalEnergy  << endl<<endl;
-    cout << "Variance in ergy measurements : " << m_variance << endl;
+    cout << "Variance in energy measurements : " << m_variance << endl;
     cout << "Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
     cout << endl;
 }
@@ -81,8 +81,8 @@ void Sampler::computeAverages() {
      * thoroughly through what is written here currently; is this correct?
      */
     m_energy         = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
-    m_variance       = m_energySquared - m_energy*m_energy;
     m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
+    m_variance       = m_energySquared - m_energy*m_energy;
     m_acceptanceRate = m_numberOfStepsSampled/((double)m_numberOfMetropolisSteps*(1-m_system->getEquilibrationFraction()));
 }
 

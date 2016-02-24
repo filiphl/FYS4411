@@ -53,30 +53,33 @@ double SimpleGaussian::computeDoubleDerivative(std::vector<class Particle*> part
      */
 
     double ddr = 0;
-    /*
+
     if (m_system->analytical){
 
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
+            double r2 = 0;
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
                 double rj = particles[i]->getPosition()[j];
-                ddr += 2*m_alpha*(2*m_alpha*rj*rj);
+                r2 += rj*rj;
+            }
+            ddr += 2*m_alpha*(2*m_alpha*r2 - m_system->getNumberOfDimensions());
+        }
+
+    }
+
+    else {
+        for (int i=0; i<m_system->getNumberOfParticles(); i++){
+            for (int j=0; j<m_system->getNumberOfDimensions(); j++){
+                double psi      =   evaluate( particles );
+                particles[i]->adjustPosition( m_derivativeStepLength, j );      // +
+                double psiPlus  =   evaluate( particles );
+                particles[i]->adjustPosition( -2 * m_derivativeStepLength, j ); // -
+                double psiMinus =   evaluate( particles );
+                particles[i]->adjustPosition( m_derivativeStepLength, j );      // reset
+                ddr += psiPlus - 2*psi + psiMinus;
             }
         }
+        ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
     }
-    */
-
-    for (int i=0; i<m_system->getNumberOfParticles(); i++){
-        for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            double psi      =   evaluate( particles );
-            particles[i]->adjustPosition( m_derivativeStepLength, j );      // +
-            double psiPlus  =   evaluate( particles );
-            particles[i]->adjustPosition( -2 * m_derivativeStepLength, j ); // -
-            double psiMinus =   evaluate( particles );
-            particles[i]->adjustPosition( m_derivativeStepLength, j );      // reset
-            ddr += psiPlus - 2*psi + psiMinus;
-        }
-    }
-    ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
-
     return ddr;
 }

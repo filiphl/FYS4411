@@ -4,6 +4,7 @@
 
 class WaveFunction {
 public:
+    WaveFunction(){};
     WaveFunction(class System* system);
     int     getNumberOfParameters() { return m_numberOfParameters; }
     std::vector<double> getParameters() { return m_parameters; }
