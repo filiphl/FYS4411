@@ -40,7 +40,7 @@ void Sampler::sample(bool acceptedStep) {
         m_energySquared     += m_localEnergy*m_localEnergy;
     }
 
-    if (m_system->storeLocalEnergy){
+    if (m_system->getStoreLocalEnergy()){
         m_system->m_outfile << setw(20) << setprecision(13) << m_localEnergy << endl;
     }
 

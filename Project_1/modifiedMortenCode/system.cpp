@@ -3,6 +3,32 @@
 
 using namespace std;
 
+void System::setImportanceSampling(bool value)
+{
+    m_importanceSampling = value;
+}
+
+void System::setStoreLocalEnergy(bool value)
+{
+    m_storeLocalEnergy = value;
+    openFile();
+}
+
+bool System::getAnalyticalDoublederivative() const
+{
+    return m_analyticalDoublederivative;
+}
+
+bool System::getImportanceSampling() const
+{
+    return m_importanceSampling;
+}
+
+bool System::getStoreLocalEnergy() const
+{
+    return m_storeLocalEnergy;
+}
+
 bool System::metropolisStep() {
     /* Perform the actual Metropolis step: Choose a particle at random and
      * change it's position by a random amount, and check if the step is
@@ -12,42 +38,41 @@ bool System::metropolisStep() {
 
     int p = Random::nextInt(m_numberOfParticles);                   // Random particle
     int d = Random::nextInt(m_numberOfDimensions);                  // Random dimension
-    double oldWaveFunction = m_waveFunction->evaluate(m_particles);
-    double qForceOld = qForce(p,d);
 
-    double dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
-    m_particles[p]->adjustPosition(dx , d);                         // Propose move
-    double newWaveFunction = m_waveFunction->evaluate(m_particles);
-    double qForceNew = qForce(p,d);
+    if (m_importanceSampling){
+        double oldWaveFunction = m_waveFunction->evaluate(m_particles);
+        double qForceOld = qForce(p,d);
+        dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
+        m_particles[p]->adjustPosition(dx , d);                                        // Propose move
+        double newWaveFunction = m_waveFunction->evaluate(m_particles);
+        double qForceNew = qForce(p,d);
+        double greensFunction = exp(-0.5*(qForceOld+qForceNew)*dx);           // Only term special for i,j = p,d
 
-    double greensFunction = -0.5*(qForceOld+qForceNew)*dx;           // Only term special for i,j = p,d
-    /*
-     for (int i=0; i < m_numberOfParticles; i++) {
-        for (int j=0; j< m_numberOfDimensions; j++){
-
-            m_particles[p]->adjustPosition(-dx , d);
-            qForceOld = qForce(i, j);
-            m_particles[p]->adjustPosition(dx , d);
-            qForceNew = qForce(i, j);
-
-            greensFunction += 0.5*(qForceOld+qForceNew) * m_D*m_dt*0.5*(qForceNew-qForceOld);
-        }
-    }
-    */
-    greensFunction = exp(greensFunction);
-
-    double prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction) * greensFunction;
-    double mynt = Random::nextDouble();                             // Uniform [0,1]
-
-    if (mynt < prob){   // Accept. Keep new position.
-        return true;
+        prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction) * greensFunction;
     }
 
-    else{               // Reject. Reset the position.
+    else{
+        double oldWaveFunction = m_waveFunction->evaluate(m_particles);
+        dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt));         // sqrt(2*m_D*m_dt), but m_D=0.5.
+        m_particles[p]->adjustPosition(dx , d);                          // Propose move
+        double newWaveFunction = m_waveFunction->evaluate(m_particles);
+
+        prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);
+    }
+
+
+    double mynt = Random::nextDouble();         // Uniform [0,1]
+
+    if (mynt < prob){ return true; }            // Accept. Keep new position.
+
+    else{                                       // Reject. Reset the position.
         m_particles[p]->adjustPosition(-dx, d);
         return false;
     }
 }
+
+
+
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_particles                 = m_initialState->getParticles();
@@ -78,6 +103,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
     m_sampler->printOutputToTerminal();
+    if (m_storeLocalEnergy){ closeFile(); }
 }
 
 
@@ -98,6 +124,9 @@ double System::qForce(int i, int j){
 
 void System::openFile()
 {
+    char cmd[50];
+    sprintf(cmd, "rm %s", m_filename);
+    system(cmd);
     m_outfile.open(m_filename, ios::out);
 }
 
@@ -139,9 +168,9 @@ void System::setInitialState(InitialState* initialState) {
     m_initialState = initialState;
 }
 
-void System::setAnalytical(bool value)
+void System::setAnalyticalDoubleDerivative(bool value)
 {
-    analytical = value;
+    m_analyticalDoublederivative = value;
 }
 
 

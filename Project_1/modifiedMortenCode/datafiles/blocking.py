@@ -1,6 +1,10 @@
 from numpy import *
 from matplotlib import pyplot as plt
 
+
+N = 200;
+m = 50
+
 infile = open('localenergies.txt', 'r')
 
 energy = []
@@ -16,14 +20,14 @@ def standardDeviation(entry):
 	e1  = sum(entry)/float(len(entry))
 	e2  = sum(entry*entry)/len(entry)
 	var = abs(e2 - e1**2)
-	return sqrt(var) 
+	return sqrt(var)
 
 def mean(entry):
 	return sum(entry)/len(entry)
 
 averages = []
 std = []
-for numberOfBlocks in range(1,4000):
+for numberOfBlocks in range(1,N):
 	print numberOfBlocks
 	averages.append([])
 	blockSize = numberOfSamples/numberOfBlocks		#intentional integer division
@@ -36,10 +40,7 @@ for numberOfBlocks in range(1,4000):
 #for i in xrange(len(sample)):
 #	std.append(standardDeviation(asarray(sample[i])))
 
-plt.plot(range(1,4000), std)
+plt.plot(range(1,N), std)
+plt.xlabel('Number of blocks')
+plt.ylabel('standard deviation')
 plt.show()
-
-
-
-
-

@@ -13,7 +13,7 @@
 using namespace std;
 
 int main() {
-    int numberOfParticles   = 500;           // This is the number of particles. P.A.R.T.I.C.L.E.S.
+    int numberOfParticles   = 10;           // This is the number of particles. P.A.R.T.I.C.L.E.S.
     int numberOfDimensions  = 3;
     int numberOfSteps       = (int) 1e4;
     double omega            = 1.0;          // Oscillator frequency.
@@ -24,16 +24,16 @@ int main() {
 
     System* system = new System();
     system->setHamiltonian(new HarmonicOscillator(system, omega));
-    system->setWaveFunction             (new SimpleGaussian(system, alpha));
-    system->setInitialState             (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    system->setEquilibrationFraction    (equilibration);
-    system->setStepLength               (stepLength);
-    system->analytical = true;
-    system->openFile();
+    system->setWaveFunction                 (new SimpleGaussian(system, alpha));
+    system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
+    system->setEquilibrationFraction        (equilibration);
+    system->setStepLength                   (stepLength);
+    system->setAnalyticalDoubleDerivative   (true);
+    system->setStoreLocalEnergy             (false);
+    system->setImportanceSampling           (true);
     double t0 = clock();
-    system->runMetropolisSteps          (numberOfSteps);
+    system->runMetropolisSteps              (numberOfSteps);
     double t1 = clock()-t0;
     cout << t1*1e-6 << endl;
-    system->closeFile();
     return 0;
 }

@@ -29,6 +29,14 @@ private:
     class Sampler*                  m_sampler = nullptr;
     std::vector<class Particle*>    m_particles = std::vector<class Particle*>();
 
+    bool m_analyticalDoublederivative = false;
+    bool m_importanceSampling         = false;
+    bool m_storeLocalEnergy           = false;
+
+    double prob                       = 0;
+    double mynt                       = 0;
+    double dx                         = 0;
+
 public:
     bool metropolisStep             ();
     void runMetropolisSteps         (int numberOfMetropolisSteps);
@@ -49,9 +57,6 @@ public:
     double getEquilibrationFraction()   { return m_equilibrationFraction; }
 
     //Added by us.
-    bool analytical         = false;
-    bool importanceSampling = true;
-    bool storeLocalEnergy   = true;
     double qForce(int i, int j);
     double getStepLength() const        { return m_stepLength; }
     void openFile();
@@ -60,6 +65,11 @@ public:
     ofstream m_outfile;
 
 
-    void setAnalytical(bool value);
+    void setAnalyticalDoubleDerivative  (bool value);
+    void setImportanceSampling          (bool value);
+    void setStoreLocalEnergy            (bool value);
+    bool getAnalyticalDoublederivative() const;
+    bool getImportanceSampling() const;
+    bool getStoreLocalEnergy() const;
 };
 
