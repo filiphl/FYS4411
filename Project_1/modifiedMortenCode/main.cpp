@@ -15,15 +15,15 @@
 using namespace std;
 
 int main() {
-    int numberOfParticles   = 5;           // This is the number of particles. P.A.R.T.I.C.L.E.S.
+    int numberOfParticles   = 5;            // This is the number of particles. P.A.R.T.I.C.L.E.S.
     int numberOfDimensions  = 3;
-    int numberOfSteps       = (int) 1e2;
+    int numberOfSteps       = (int) 1e3;
     double omegaHO          = 1.0;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 0.5;          // Variational parameter.
-    double beta             = 1;      // Variational parameter.
+    double beta             = 1;            // Variational parameter.
     double gamma            = 2.82843;
-    double stepLength       = 1;          // Metropolis step length.
+    double stepLength       = 1;            // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
 
 

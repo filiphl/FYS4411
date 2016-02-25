@@ -202,7 +202,7 @@ The second derivative now becomes (where $\nabla_k$ only acts on the first paren
 	&\:\:\:\:\:\: + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\left(\sum_{j''\neq k}\nabla_k^2u_{kj''} \right)\right]
 \end{align*}
 
-While a bit of a nuisance to read, the expression above simply the product rule for $\nabla_k(\nabla_k\Psi_T)$. Written in terms of $\Psi_T$, the above can be a bit simplified\footnote{For the more mathematically concerned nitpicker, the product symbol only runs over the functions $\phi(\bm{r}_i))$, not the following exponential. This is easy to realise by recalling how $\Psi_T$ was defined, and is important to know when inserting $\Psi_T$ as done now.}:
+While a bit of a nuisance to read, the expression above is simply the product rule for $\nabla_k(\nabla_k\Psi_T)$. Written in terms of $\Psi_T$, the above can be a bit simplified\footnote{For the more mathematically concerned nitpicker, the product symbol only runs over the functions $\phi(\bm{r}_i))$, not the following exponential. This is easy to realise by recalling how $\Psi_T$ was defined, and is important to know when inserting $\Psi_T$ as done now.}:
 
 \begin{align*}
 	\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\frac{\Psi_T}{\phi(\bm{r}_k)} + (\nabla_k\phi_k) \left[\prod_{i\neq k}\phi(\bm{r}_i)\nabla_ke^{\sum_{i'<j'}u(r_{i'j'})}\right]\\
@@ -254,14 +254,38 @@ While the second derivative of $u_{ki}$ is:
 \begin{align*}
 	\nabla_k^2 u_{ki} &= \nabla_k(\nabla_ku_{ki})\\
 	&= u_{ki}'\nabla_k\left(\frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\right) + \frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\nabla_k u_{ki}'\\
-	&= u_{ki}' \left(\frac{d}{r_{ki}} - \right)
+	&= u_{ki}' \left(\frac{d}{r_{ki}} - \frac{r_{k,1}-r_{i,1}}{r_{ki}^3} - \frac{r_{k,2}-r_{i,2}}{r_{ki}^3} - \ldots\right) + \frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\cdot\frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}''\\
+	&= \frac{u_{ki}'}{r_{ki}} \left(d - \frac{r_{k,1}-r_{i,1}}{r_{ki}^2} - \frac{r_{k,2}-r_{i,2}}{r_{ki}^2} - \ldots\right) + u_{ki}\\
+	&= \frac{u_{ki}'}{r_{ki}} \left(d - 1\right) + u_{ki}
 \end{align*}
 
-Which finally gives:
+where $d$, as earlier, is the number of dimensions present, which in our world is usually $d=3$. Finally, this gives:
 
 \begin{align}
-\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= \frac{\nabla_k^2\phi_k}{\phi(\bm{r}_k)} + \frac{2\nabla_k\phi_k}{\phi(\bm{r}_k)}\left(\sum_{i\neq k} \frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}' \right) + \sum_{i,j\neq k}\frac{(\bm{r}_k - \bm{r}_i)(\bm{r}_k - \bm{r}_j)}{r_{ki}r_[kj]}u_{ki}'u_{kj}' + \sum_{l\neq k}\nabla_k^2u_{kl}
+\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= \frac{\nabla_k^2\phi_k}{\phi(\bm{r}_k)} + \frac{2\nabla_k\phi_k}{\phi(\bm{r}_k)}\left(\sum_{i\neq k} \frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}' \right) + \sum_{i,j\neq k}\frac{(\bm{r}_k - \bm{r}_i)(\bm{r}_k - \bm{r}_j)}{r_{ki}r_{kj}}u_{ki}'u_{kj}' + \sum_{l\neq k} u_{ki} + \frac{u_{ki}'}{r_{ki}} \left(d - 1\right)
+\label{eq:full_second_derivative}
 \end{align}
+
+As the exact forms of $\phi_k$ and $u_{ki}$ are known, this can be written to a more recognisable, and calculable, expression. However, this expression will be quite long, so only the necessary variables will be derived. Inserting them into equation \ref{eq:full_second_derivative} is trivial. The $u_{ki}$ derivatives are:
+
+\begin{equation}
+	\frac{\partial u_{ki}}{\partial r_{ki}} = \frac{\partial}{\partial r_{ki}}\left(\ln\left[1-\frac{a}{r_{ki}}\right]\right) = \frac{a}{r_{ij}^2 - ar_{ij}}
+\end{equation}
+\begin{equation}
+	\frac{\partial^2 u_{ki}}{\partial r_{ki}^2} = \frac{\partial}{\partial r_{ki}} u_{ki}' = -a\frac{2r_{ki} - a}{r_{ki}^2 - ar_{ki}}
+\end{equation}
+
+and the $\phi_k$ derivatives are:
+
+\begin{equation}
+	\nabla_k\phi_k = \nabla_k e^{-\alpha(x_k^2 + y_k^2 + \beta z_k^2)} = -2\alpha(x_k,y_k,\beta z_k)\phi_k
+\end{equation}
+
+\begin{equation}
+\nabla_k^2\phi_k = \nabla_k (\nabla_k\phi_k) = \left[-2\alpha(2+\beta) + 4\alpha^2(x_k^2 + y_k^2 + \beta^2 z_k^2)\right]\phi_k
+\end{equation}
+
+
 
 \section{Results}
 
