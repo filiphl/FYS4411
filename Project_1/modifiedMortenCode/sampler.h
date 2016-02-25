@@ -4,6 +4,7 @@ class Sampler {
 private:
     int     m_numberOfMetropolisSteps = 0;
     int     m_numberOfStepsSampled    = 0;
+    int     m_accepted                = 0;
     int     m_stepNumber              = 0;
     double  m_acceptanceRate          = 0;
     double  m_localEnergy             = 0;

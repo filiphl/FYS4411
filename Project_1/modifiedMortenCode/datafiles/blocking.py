@@ -2,8 +2,7 @@ from numpy import *
 from matplotlib import pyplot as plt
 
 
-N = 200;
-m = 50
+N = 4000;
 
 infile = open('localenergies.txt', 'r')
 

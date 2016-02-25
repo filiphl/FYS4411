@@ -55,13 +55,14 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
     }
 
     else {
+        const double psi = evaluate( particles );
+
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-                double psi      =   evaluate( particles );
                 particles[i]->adjustPosition( m_derivativeStepLength, j );      // +
-                double psiPlus  =   evaluate( particles );
+                const double psiPlus  =   evaluate( particles );
                 particles[i]->adjustPosition( -2 * m_derivativeStepLength, j ); // -
-                double psiMinus =   evaluate( particles );
+                const double psiMinus =   evaluate( particles );
                 particles[i]->adjustPosition( m_derivativeStepLength, j );      // reset
                 ddr += psiPlus - 2*psi + psiMinus;
             }

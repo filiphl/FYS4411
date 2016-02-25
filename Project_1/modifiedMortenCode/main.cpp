@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "system.h"
 #include "particle.h"
 #include "WaveFunctions/wavefunction.h"
@@ -29,17 +30,19 @@ int main() {
 
 
     System* system = new System();
-    system->setHamiltonian                  (new InteractingHarmonicOscillator(system, omegaHO, omegaZ, gamma));//(new HarmonicOscillator(system, omegaHO));
-    system->setWaveFunction                 (new InteractinSimpleGaussian(system, alpha, beta));//(new SimpleGaussian(system, alpha));
+    //system->setHamiltonian                  (new InteractingHarmonicOscillator(system, omegaHO, omegaZ, gamma));//(new HarmonicOscillator(system, omegaHO));
+    //system->setWaveFunction                 (new InteractinSimpleGaussian(system, alpha, beta));//(new SimpleGaussian(system, alpha));
+    system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
+    system->setWaveFunction                 (new SimpleGaussian(system, alpha));
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalDoubleDerivative   (false);
-    system->setStoreLocalEnergy             (false);
+    system->setStoreLocalEnergy             (true);
     system->setImportanceSampling           (false);
     double t0 = clock();
     system->runMetropolisSteps              (numberOfSteps);
     double t1 = clock()-t0;
-    cout << t1*1e-6 << endl;
+    cout << setprecision(8) << t1*1e-6 << endl;
     return 0;
 }

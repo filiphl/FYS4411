@@ -31,16 +31,19 @@ void Sampler::sample(bool acceptedStep) {
      */
 
 
-    if (acceptedStep){
-        m_localEnergy = m_system->getHamiltonian()->
-                computeLocalEnergy(m_system->getParticles());
 
-        m_numberOfStepsSampled++;
-        m_cumulativeEnergy  += m_localEnergy;
-        m_energySquared     += m_localEnergy*m_localEnergy;
+    if (acceptedStep) {
+        m_accepted++;
     }
+    m_localEnergy = m_system->getHamiltonian()->
+            computeLocalEnergy(m_system->getParticles());
 
-    if (m_system->getStoreLocalEnergy()){
+    m_numberOfStepsSampled++;
+    m_cumulativeEnergy  += m_localEnergy;
+    m_energySquared     += m_localEnergy*m_localEnergy;
+
+
+    if (m_system->m_outfile.is_open()){
         m_system->m_outfile << setw(20) << setprecision(13) << m_localEnergy << endl;
     }
 
@@ -83,7 +86,7 @@ void Sampler::computeAverages() {
     m_energy         = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
     m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
     m_variance       = m_energySquared - m_energy*m_energy;
-    m_acceptanceRate = m_numberOfStepsSampled/((double)m_numberOfMetropolisSteps*(1-m_system->getEquilibrationFraction()));
+    m_acceptanceRate = m_accepted/((double) m_numberOfStepsSampled);
 }
 
 double Sampler::computeAnalyticalEnergy()

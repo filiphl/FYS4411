@@ -42,7 +42,7 @@ bool System::metropolisStep() {
     if (m_importanceSampling){
         double oldWaveFunction = m_waveFunction->evaluate(m_particles);
         double qForceOld = qForce(p,d);
-        dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
+        dx = Random::nextGaussian(0, sqrt(m_stepLength)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
         m_particles[p]->adjustPosition(dx , d);                                        // Propose move
         double newWaveFunction = m_waveFunction->evaluate(m_particles);
         double qForceNew = qForce(p,d);
@@ -53,7 +53,7 @@ bool System::metropolisStep() {
 
     else{
         double oldWaveFunction = m_waveFunction->evaluate(m_particles);
-        dx = m_stepLength * Random::nextGaussian(0, sqrt(m_dt));         // sqrt(2*m_D*m_dt), but m_D=0.5.
+        dx = m_stepLength * (Random::nextDouble()*2-1);
         m_particles[p]->adjustPosition(dx , d);                          // Propose move
         //cout << "position: "<< m_particles[p]->getPosition()[d]<< endl;
         double newWaveFunction = m_waveFunction->evaluate(m_particles);
