@@ -46,3 +46,5 @@ int main() {
     cout << setprecision(8) << t1*1e-6 << endl;
     return 0;
 }
+
+
