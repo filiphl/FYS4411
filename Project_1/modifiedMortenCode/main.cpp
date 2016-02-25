@@ -15,13 +15,13 @@
 using namespace std;
 
 int main() {
-    int numberOfParticles   = 5;            // This is the number of particles. P.A.R.T.I.C.L.E.S.
+    int numberOfParticles   = 10;            // This is the number of particles. P.A.R.T.I.C.L.E.S.
     int numberOfDimensions  = 3;
-    int numberOfSteps       = (int) 1e3;
+    int numberOfSteps       = (int) 1e4;
     double omegaHO          = 1.0;          // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 0.5;          // Variational parameter.
-    double beta             = 1;            // Variational parameter.
+    double alpha            = 0.7;          // Variational parameter.
+    double beta             = 2.82843;            // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1;            // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
@@ -35,7 +35,7 @@ int main() {
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalDoubleDerivative   (false);
-    system->setStoreLocalEnergy             (true);
+    system->setStoreLocalEnergy             (false);
     system->setImportanceSampling           (false);
     double t0 = clock();
     system->runMetropolisSteps              (numberOfSteps);

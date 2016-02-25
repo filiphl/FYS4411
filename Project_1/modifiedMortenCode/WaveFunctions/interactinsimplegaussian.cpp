@@ -23,18 +23,19 @@ double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)
                 argument -= particles[i]->getPosition()[k] * particles[i]->getPosition()[k];
             }
             else{
-                argument -= m_beta2*particles[i]->getPosition()[k] * particles[i]->getPosition()[k];
+                argument -= m_beta*particles[i]->getPosition()[k] * particles[i]->getPosition()[k];
             }
         }
     }
     double g = exp(m_alpha * argument);
 
-    double f = 1;
+    double   f = 1;
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
         for (int j=i+1; j<m_system->getNumberOfParticles(); j++){
+            double dr2 = 0;
             for (int k=0; k<m_system->getNumberOfDimensions(); k++){
-                dr2 = (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) *
-                      (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) ;
+                dr2 += (particles[i]->getPosition()[k] - particles[j]->getPosition()[k]) *
+                       (particles[i]->getPosition()[k] - particles[j]->getPosition()[k]) ;
             }
             absdr = sqrt(dr2);
             if (absdr <= m_a){ return 0; }
@@ -95,10 +96,10 @@ void InteractinSimpleGaussian::setalpha(double alpha)
 
 double InteractinSimpleGaussian::beta() const
 {
-    return m_beta2;
+    return m_beta;
 }
 
 void InteractinSimpleGaussian::setBeta(double beta)
 {
-    m_beta2 = beta*beta;
+    m_beta = beta;
 }

@@ -48,9 +48,10 @@ double InteractingHarmonicOscillator::computeLocalEnergy(std::vector<Particle *>
     double dr2 = 0;
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
         for (int j=i+1; j<m_system->getNumberOfParticles(); j++){
+            dr2=0;
             for (int k=0; k<m_system->getNumberOfDimensions(); k++){
-                dr2 = (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) *
-                      (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) ;
+                dr2 += (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) *
+                       (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) ;
             }
             double absdr = sqrt(dr2);
             if (absdr < m_a){
@@ -60,7 +61,6 @@ double InteractingHarmonicOscillator::computeLocalEnergy(std::vector<Particle *>
     }
 
     kineticEnergy = computeKineticEnergy(particles);
-    cout << "potential = "<< potentialEnergy<< "    kinetic = "<< kineticEnergy<< endl;
     /*
     cout << setw(10) << " kinetic: "   << setw(10) << setprecision(3) << left << kineticEnergy;
     cout << setw(12) << " potential: " << setw(10) << setprecision(3) << left << potentialEnergy;
