@@ -18,7 +18,7 @@ using namespace std;
 int main() {
     int numberOfParticles   = 10;            // This is the number of particles. P.A.R.T.I.C.L.E.S.
     int numberOfDimensions  = 3;
-    int numberOfSteps       = (int) 1.5e4;
+    int numberOfSteps       = (int) 1.0e3;
     double omegaHO          = 1.0;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 0.5;          // Variational parameter.

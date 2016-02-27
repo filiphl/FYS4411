@@ -61,11 +61,11 @@ double InteractingHarmonicOscillator::computeLocalEnergy(std::vector<Particle *>
     }
 
     kineticEnergy = computeKineticEnergy(particles);
-    /*
+
     cout << setw(10) << " kinetic: "   << setw(10) << setprecision(3) << left << kineticEnergy;
     cout << setw(12) << " potential: " << setw(10) << setprecision(3) << left << potentialEnergy;
     cout << setw(8) <<  " total: "     << setw(10) << setprecision(3) << left << kineticEnergy + potentialEnergy << endl;
-    */
+
 
     return kineticEnergy + potentialEnergy;
 }

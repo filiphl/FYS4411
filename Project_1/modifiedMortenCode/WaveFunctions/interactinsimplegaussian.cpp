@@ -72,18 +72,19 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
             // Term 2
             for (int i=0; i<m_system->getNumberOfParticles(); i++){
                 if (i!=k){
+                    double temp2 = 0;
                     Particle* particleI = m_system->getParticles()[i];
 
                     for (int d=0; d<m_system->getNumberOfDimensions(); d++){
                         if (d<2){
-                            term2 += particleK->getPosition()[d] * ( particleI->getPosition()[d] - particleK->getPosition()[d] );
+                            temp2 += particleK->getPosition()[d] * ( particleI->getPosition()[d] - particleK->getPosition()[d] );
                         }
                         else{
-                            term2 += particleK->getPosition()[d] * ( particleI->getPosition()[d] - particleK->getPosition()[d] ) * m_beta;
+                            temp2 += particleK->getPosition()[d] * ( particleI->getPosition()[d] - particleK->getPosition()[d] ) * m_beta;
                         }
                     }
-                    term2 *= uOverR(particleI, particleK);
-
+                    temp2 *= uOverR(particleI, particleK);
+                    term2 += temp2;
 
                     // Remember to devide by r_ki and multiply by u'
 
@@ -91,15 +92,18 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
                     for (int j=0; j<m_system->getNumberOfParticles(); j++){
                         if (j!=k){
                             Particle* particleJ = m_system->getParticles()[j];
-
+                            double temp3 = 0;
                             for (int d=0; d<m_system->getNumberOfDimensions(); d++){
-                                term3 += (particleK->getPosition()[d]-particleI->getPosition()[d]) *
+                                temp3 += (particleK->getPosition()[d]-particleI->getPosition()[d]) *
                                          (particleK->getPosition()[d]-particleJ->getPosition()[d]);
                             }
-                            term3 *= uOverR(particleK, particleJ);
+                            temp3 *= uOverR(particleK, particleJ);
+                            temp3 *= uOverR(particleI, particleK);
+                            term3 += temp3;
                         }
                     }
-                    term3 *= uOverR(particleI, particleK);
+
+
 
                     // Term4
 
@@ -118,11 +122,13 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
             term1 -= 2*m_alpha*(2+m_beta);
             term2 *= -4*m_alpha;
             ddr += term1 + term2 + term3 + term4 + term5;
+
             cout << "  term1 " << setw(10) << setprecision(4) << left <<term1;
             cout << "  term2 " << setw(10) << setprecision(4) << left <<term2;
             cout << "  term3 " << setw(10) << setprecision(4) << left <<term3;
             cout << "  term4 " << setw(10) << setprecision(4) << left <<term4;
             cout << "  term5 " << setw(10) << setprecision(4) << left <<term5 << endl;
+
         }
         return ddr;
     }
@@ -153,7 +159,7 @@ double InteractinSimpleGaussian::uOverR(Particle* particle1, Particle* particle2
     double u = 0;
     for (int i=0; i<m_system->getNumberOfDimensions(); i++){
         r += (particle1->getPosition()[i] - particle2->getPosition()[i]) *
-             (particle1->getPosition()[i] - particle2->getPosition()[i]);
+                (particle1->getPosition()[i] - particle2->getPosition()[i]);
     }
     r = sqrt(r);
     u = m_a / ( r*r - m_a*r );
@@ -169,7 +175,7 @@ double InteractinSimpleGaussian::u2OverR2(Particle *particle1, Particle *particl
     double u = 0;
     for (int i=0; i<m_system->getNumberOfDimensions(); i++){
         r += (particle1->getPosition()[i] - particle2->getPosition()[i]) *
-             (particle1->getPosition()[i] - particle2->getPosition()[i]);
+                (particle1->getPosition()[i] - particle2->getPosition()[i]);
     }
     r = sqrt(r);
     return -m_a*(2*r-m_a)/(r*r-m_a*r);
