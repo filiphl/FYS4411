@@ -14,7 +14,7 @@ double Hamiltonian::computeKineticEnergy(std::vector<Particle*> particles)
 
     //cout << "psi = "<<psi<< "   ddr = "<< ddr<<endl;
     if (!(m_system->getAnalyticalDoublederivative())){
-        kineticEnergy /= psi;
+        // kineticEnergy /= psi;
     }
     return kineticEnergy;
 }
