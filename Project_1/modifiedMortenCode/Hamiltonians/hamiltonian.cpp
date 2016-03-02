@@ -12,9 +12,8 @@ double Hamiltonian::computeKineticEnergy(std::vector<Particle*> particles)
     double ddr = m_system->getWaveFunction()->computeDoubleDerivative(particles);
     double kineticEnergy = -0.5 * ddr;
 
-    //cout << "psi = "<<psi<< "   ddr = "<< ddr<<endl;
     if (!(m_system->getAnalyticalDoublederivative())){
-        // kineticEnergy /= psi;
+         kineticEnergy /= psi;
     }
     return kineticEnergy;
 }

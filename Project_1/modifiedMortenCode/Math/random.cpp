@@ -1,6 +1,6 @@
 #include "random.h"
 #include <cmath>
-
+#include <time.h>
 long     Random::iy = 0;
 long     Random::iv[NTAB];
 long     Random::seed = -1;

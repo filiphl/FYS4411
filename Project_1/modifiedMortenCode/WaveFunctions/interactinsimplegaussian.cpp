@@ -38,7 +38,9 @@ double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)
                         (particles[i]->getPosition()[k] - particles[j]->getPosition()[k]) ;
             }
             absdr = sqrt(dr2);
-            if (absdr <= m_a){ return 0; }
+            if (absdr <= m_a){
+                cout << "Noe muntert da"<<endl;
+                return 0; }
             else{ f *= 1-m_a/absdr; }
         }
     }
@@ -50,7 +52,8 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
     double ddr = 0;
 
     if (m_system->getAnalyticalDoublederivative()){
-
+        cout << "Computing analyicaly"<< endl;
+        double maxValueOfTerm4 = 0;
         for (int k=0; k< m_system->getNumberOfParticles(); k++){
             double term1 = 0;
             double term2 = 0;
@@ -95,28 +98,18 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
                             double temp3 = 0;
                             for (int d=0; d<m_system->getNumberOfDimensions(); d++){
                                 temp3 += (particleK->getPosition()[d]-particleI->getPosition()[d]) *
-                                         (particleK->getPosition()[d]-particleJ->getPosition()[d]);
+                                        (particleK->getPosition()[d]-particleJ->getPosition()[d]);
                             }
                             temp3 *= uOverR(particleK, particleJ);
                             temp3 *= uOverR(particleI, particleK);
                             term3 += temp3;
-                            if (temp3 >1){
-                                cout << "i: "<<i<< "    j: "<< j<<"     k: "<<k<<"    temp3: "<<temp3<<endl;
-
-                            }
-                            cout << interdistance(particleI, particleK)<<endl;
                         }
                     }
 
-
-
                     // Term4
-
                     term4 += 2*uOverR(particleI, particleK);         // (d-1)
 
-
                     // Term5
-
                     term5 += u2OverR2(particleI, particleK);
                 }
             }
@@ -128,18 +121,19 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
             term2 *= -4*m_alpha;
             ddr   += term1 + term2 + term3 + term4 + term5;
 
-            cout << "  term1 " << setw(10) << setprecision(4) << left <<term1;
-            cout << "  term2 " << setw(10) << setprecision(4) << left <<term2;
-            cout << "  term3 " << setw(10) << setprecision(4) << left <<term3;
-            cout << "  term4 " << setw(10) << setprecision(4) << left <<term4;
-            cout << "  term5 " << setw(10) << setprecision(4) << left <<term5;
-            cout << "  k " << setw(10) << setprecision(1) << left <<k << endl;
+            //cout << "  term1 " << setw(10) << setprecision(4) << left <<term1;
+            //cout << "  term2 " << setw(10) << setprecision(4) << left <<term2;
+            //cout << "  term3 " << setw(10) << setprecision(4) << left <<term3;
+            //cout << "  term4 " << setw(10) << setprecision(4) << left <<term4;
+            //cout << "  term5 " << setw(10) << setprecision(4) << left <<term5;
+            //cout << "  k " << setw(10) << setprecision(1) << left <<k << endl;
 
         }
         return ddr;
     }
 
     else {
+        cout << "Computing numericaly"<<endl;
         const double psi = evaluate( particles );
 
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
@@ -165,7 +159,7 @@ double InteractinSimpleGaussian::uOverR(Particle* particle1, Particle* particle2
     double u = 0;
     for (int d=0; d<m_system->getNumberOfDimensions(); d++){
         r += (particle1->getPosition()[d] - particle2->getPosition()[d]) *
-             (particle1->getPosition()[d] - particle2->getPosition()[d]);
+                (particle1->getPosition()[d] - particle2->getPosition()[d]);
     }
     r = sqrt(r);
     u = m_a / ( r*r - m_a*r );
@@ -178,7 +172,7 @@ double InteractinSimpleGaussian::interdistance(Particle* particle1, Particle* pa
     double r = 0;
     for (int d=0; d<m_system->getNumberOfDimensions(); d++){
         r += (particle1->getPosition()[d] - particle2->getPosition()[d]) *
-             (particle1->getPosition()[d] - particle2->getPosition()[d]);
+                (particle1->getPosition()[d] - particle2->getPosition()[d]);
     }
     r = sqrt(r);
     return r;
@@ -195,7 +189,8 @@ double InteractinSimpleGaussian::u2OverR2(Particle *particle1, Particle *particl
                 (particle1->getPosition()[i] - particle2->getPosition()[i]);
     }
     r = sqrt(r);
-    return -m_a*(2*r-m_a)/(r*r-m_a*r);
+    double denominator = (r*r-m_a*r);
+    return -m_a*(2*r-m_a)/(denominator*denominator);
 }
 
 
