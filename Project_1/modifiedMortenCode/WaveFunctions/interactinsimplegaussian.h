@@ -28,6 +28,7 @@ public:
     void setBeta(double beta);
     double uOverR(Particle *particle1, Particle *particle2);
     double u2OverR2(Particle* Particle1, Particle* particle2);
+    double interdistance(Particle *particle1, Particle *particle2);
 };
 
 #endif // INTERACTINSIMPLEGAUSSIAN_H

@@ -77,10 +77,10 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
 
                     for (int d=0; d<m_system->getNumberOfDimensions(); d++){
                         if (d<2){
-                            temp2 += particleK->getPosition()[d] * ( particleI->getPosition()[d] - particleK->getPosition()[d] );
+                            temp2 += particleK->getPosition()[d] * ( particleK->getPosition()[d] - particleI->getPosition()[d] );
                         }
                         else{
-                            temp2 += particleK->getPosition()[d] * ( particleI->getPosition()[d] - particleK->getPosition()[d] ) * m_beta;
+                            temp2 += particleK->getPosition()[d] * ( particleK->getPosition()[d] - particleI->getPosition()[d] ) * m_beta;
                         }
                     }
                     temp2 *= uOverR(particleI, particleK);
@@ -100,6 +100,11 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
                             temp3 *= uOverR(particleK, particleJ);
                             temp3 *= uOverR(particleI, particleK);
                             term3 += temp3;
+                            if (temp3 >1){
+                                cout << "i: "<<i<< "    j: "<< j<<"     k: "<<k<<"    temp3: "<<temp3<<endl;
+
+                            }
+                            cout << interdistance(particleI, particleK)<<endl;
                         }
                     }
 
@@ -121,13 +126,14 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
             term1 *= 4*m_alpha2;
             term1 -= 2*m_alpha*(2+m_beta);
             term2 *= -4*m_alpha;
-            ddr += term1 + term2 + term3 + term4 + term5;
+            ddr   += term1 + term2 + term3 + term4 + term5;
 
             cout << "  term1 " << setw(10) << setprecision(4) << left <<term1;
             cout << "  term2 " << setw(10) << setprecision(4) << left <<term2;
             cout << "  term3 " << setw(10) << setprecision(4) << left <<term3;
             cout << "  term4 " << setw(10) << setprecision(4) << left <<term4;
-            cout << "  term5 " << setw(10) << setprecision(4) << left <<term5 << endl;
+            cout << "  term5 " << setw(10) << setprecision(4) << left <<term5;
+            cout << "  k " << setw(10) << setprecision(1) << left <<k << endl;
 
         }
         return ddr;
@@ -157,14 +163,25 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
 double InteractinSimpleGaussian::uOverR(Particle* particle1, Particle* particle2){
     double r = 0;
     double u = 0;
-    for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-        r += (particle1->getPosition()[i] - particle2->getPosition()[i]) *
-                (particle1->getPosition()[i] - particle2->getPosition()[i]);
+    for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+        r += (particle1->getPosition()[d] - particle2->getPosition()[d]) *
+             (particle1->getPosition()[d] - particle2->getPosition()[d]);
     }
     r = sqrt(r);
     u = m_a / ( r*r - m_a*r );
 
     return u/r;
+}
+
+
+double InteractinSimpleGaussian::interdistance(Particle* particle1, Particle* particle2){
+    double r = 0;
+    for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+        r += (particle1->getPosition()[d] - particle2->getPosition()[d]) *
+             (particle1->getPosition()[d] - particle2->getPosition()[d]);
+    }
+    r = sqrt(r);
+    return r;
 }
 
 
