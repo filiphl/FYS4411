@@ -11,6 +11,17 @@
 using namespace std;
 
 
+
+double Sampler::getLocalAlphaDeriv() const
+{
+    return m_localAlphaDeriv;
+}
+
+void Sampler::setStepNumber(int stepNumber)
+{
+    m_stepNumber = stepNumber;
+}
+
 Sampler::Sampler(System* system) {
     m_system = system;
     m_stepNumber = 0;
@@ -23,7 +34,10 @@ void Sampler::setNumberOfMetropolisSteps(int steps) {
 void Sampler::sample(bool acceptedStep) {
     // Make sure the sampling variable(s) are initialized at the first step.
     if (m_stepNumber == 0) {
-        m_cumulativeEnergy = 0;
+        m_cumulativeEnergy          = 0;
+        m_cumulativePsiDeriv        = 0;
+        m_cumulativePsiLocalProd    = 0;
+        m_accepted                  = 0;
     }
 
     /* Here you should sample all the interesting things you want to measure.
@@ -37,6 +51,12 @@ void Sampler::sample(bool acceptedStep) {
     }
     m_localEnergy = m_system->getHamiltonian()->
             computeLocalEnergy(m_system->getParticles());
+
+    if (m_system->OptimizingParameters()){
+        m_psiDerivative = m_system->getWaveFunction()->sumOfArguments;
+        m_cumulativePsiDeriv += m_psiDerivative;
+        m_cumulativePsiLocalProd += m_localEnergy*m_psiDerivative;
+    }
 
     m_numberOfStepsSampled++;
     m_cumulativeEnergy  += m_localEnergy;
@@ -68,7 +88,7 @@ void Sampler::printOutputToTerminal() {
     cout << "  -- Wave function parameters -- " << endl;
     cout << " Number of parameters : " << p << endl;
     for (int i=0; i < p; i++) {
-        cout << " Parameter " << i+1 << " : " << pa[i] << endl;
+        cout << " Parameter " << i+1 << " : " << setw(7) << setprecision(5) << pa[i] << endl;
     }
     cout << endl;
     cout << "  ----- Reults ----- \n" << endl;
@@ -76,6 +96,7 @@ void Sampler::printOutputToTerminal() {
     cout << setw(25) << setprecision(5) << left << m_energy           << left << setw(25) << m_analyticalEnergy  << endl<<endl;
     cout << "Variance in energy measurements : " << m_variance << endl;
     cout << "Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
+
     cout << endl;
 }
 
@@ -87,11 +108,34 @@ void Sampler::computeAverages() {
     m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
     m_variance       = m_energySquared - m_energy*m_energy;
     m_acceptanceRate = m_accepted/((double) m_numberOfStepsSampled);
+
+    if (m_system->OptimizingParameters()){
+        m_localAlphaDeriv = 2*(m_cumulativePsiLocalProd - m_cumulativePsiDeriv*m_energy)/(double)m_numberOfStepsSampled;
+    }
+
 }
 
 double Sampler::computeAnalyticalEnergy()
 {
     m_analyticalEnergy = m_system->getHamiltonian()->computeAnalyticalEnergy(m_system->getParticles());
+}
+
+void Sampler::reset()
+{
+    m_numberOfStepsSampled    = 0;
+    m_accepted                = 0;
+    m_stepNumber              = 0;
+    m_acceptanceRate          = 0;
+    m_localEnergy             = 0;
+    m_psiDerivative           = 0;
+    m_energy                  = 0;
+    m_energySquared           = 0;
+    m_variance                = 0;
+    m_cumulativeEnergy        = 0;
+    m_cumulativePsiDeriv      = 0;
+    m_cumulativePsiLocalProd  = 0;
+    m_analyticalEnergy        = 0;
+    m_localAlphaDeriv         = 0;
 }
 
 double Sampler::getEnergySquared() const

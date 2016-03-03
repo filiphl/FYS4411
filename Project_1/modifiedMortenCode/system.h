@@ -32,6 +32,7 @@ private:
     bool m_analyticalDoublederivative = false;
     bool m_importanceSampling         = false;
     bool m_storeLocalEnergy           = false;
+    bool m_optimizingParameters       = false;
 
     double prob                       = 0;
     double mynt                       = 0;
@@ -71,5 +72,7 @@ public:
     bool getAnalyticalDoublederivative() const;
     bool getImportanceSampling() const;
     bool getStoreLocalEnergy() const;
+    bool OptimizingParameters() const;
+    void OptimizingParameters(bool optimizingParameters);
 };
 

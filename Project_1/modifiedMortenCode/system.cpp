@@ -29,6 +29,16 @@ bool System::getStoreLocalEnergy() const
     return m_storeLocalEnergy;
 }
 
+bool System::OptimizingParameters() const
+{
+    return m_optimizingParameters;
+}
+
+void System::OptimizingParameters(bool optimizingParameters)
+{
+    m_optimizingParameters = optimizingParameters;
+}
+
 bool System::metropolisStep() {
     /* Perform the actual Metropolis step: Choose a particle at random and
      * change it's position by a random amount, and check if the step is

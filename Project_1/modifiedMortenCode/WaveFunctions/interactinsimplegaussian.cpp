@@ -1,6 +1,7 @@
 #include "interactinsimplegaussian.h"
 
 
+
 InteractinSimpleGaussian::InteractinSimpleGaussian(System *system, double alpha, double beta) :
     WaveFunction(system)
 {
@@ -10,7 +11,8 @@ InteractinSimpleGaussian::InteractinSimpleGaussian(System *system, double alpha,
     m_parameters.reserve(2);
     m_parameters.push_back(alpha);
     m_parameters.push_back(beta);
-    setalpha(alpha);
+    setAlpha(alpha);
+    setAlpha2(alpha*alpha);
     setBeta(beta);
 }
 
@@ -27,6 +29,7 @@ double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)
             }
         }
     }
+    sumOfArguments = argument;
     double g = exp(m_alpha * argument);
 
     double   f = 1;
@@ -47,12 +50,14 @@ double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)
     return g*f;
 }
 
+
+
+
 double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *> particles)
 {
     double ddr = 0;
 
     if (m_system->getAnalyticalDoublederivative()){
-        cout << "Computing analyicaly"<< endl;
         double maxValueOfTerm4 = 0;
         for (int k=0; k< m_system->getNumberOfParticles(); k++){
             double term1 = 0;
@@ -133,7 +138,6 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
     }
 
     else {
-        cout << "Computing numericaly"<<endl;
         const double psi = evaluate( particles );
 
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
@@ -149,6 +153,23 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
         ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
     }
     return ddr;
+}
+
+
+// This entire function is done in computeDoublederivative, and can be removed when optimizing.
+double InteractinSimpleGaussian::computeDerivativeOfAlpha(){
+    double sum = 0;
+    for (Particle* particle : m_system->getParticles()){
+        for (int i=0; i< m_system->getNumberOfDimensions(); i++){
+            if (i<2){
+                sum -= particle->getPosition()[i]*particle->getPosition()[i];
+            }
+            else{
+                sum -= particle->getPosition()[i]*particle->getPosition()[i]*m_beta;
+            }
+        }
+    }
+    return sum;
 }
 
 
@@ -168,18 +189,6 @@ double InteractinSimpleGaussian::uOverR(Particle* particle1, Particle* particle2
 }
 
 
-double InteractinSimpleGaussian::interdistance(Particle* particle1, Particle* particle2){
-    double r = 0;
-    for (int d=0; d<m_system->getNumberOfDimensions(); d++){
-        r += (particle1->getPosition()[d] - particle2->getPosition()[d]) *
-                (particle1->getPosition()[d] - particle2->getPosition()[d]);
-    }
-    r = sqrt(r);
-    return r;
-}
-
-
-
 double InteractinSimpleGaussian::u2OverR2(Particle *particle1, Particle *particle2)
 {
     double r = 0;
@@ -194,6 +203,18 @@ double InteractinSimpleGaussian::u2OverR2(Particle *particle1, Particle *particl
 }
 
 
+double InteractinSimpleGaussian::interdistance(Particle* particle1, Particle* particle2){
+    double r = 0;
+    for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+        r += (particle1->getPosition()[d] - particle2->getPosition()[d]) *
+                (particle1->getPosition()[d] - particle2->getPosition()[d]);
+    }
+    r = sqrt(r);
+    return r;
+}
+
+
+
 
 
 
@@ -202,16 +223,6 @@ double InteractinSimpleGaussian::u2OverR2(Particle *particle1, Particle *particl
 //  Get / Set
 
 
-double InteractinSimpleGaussian::alpha() const
-{
-    return m_alpha;
-}
-
-void InteractinSimpleGaussian::setalpha(double alpha)
-{
-    m_alpha = alpha;
-    m_alpha2 = alpha*alpha;
-}
 
 double InteractinSimpleGaussian::beta() const
 {
