@@ -11,7 +11,7 @@ void System::setImportanceSampling(bool value)
 void System::setStoreLocalEnergy(bool value)
 {
     m_storeLocalEnergy = value;
-    openFile();
+    openEnergyFile();
 }
 
 bool System::getAnalyticalDoublederivative() const
@@ -37,6 +37,17 @@ bool System::OptimizingParameters() const
 void System::OptimizingParameters(bool optimizingParameters)
 {
     m_optimizingParameters = optimizingParameters;
+}
+
+bool System::getStorePositions() const
+{
+    return m_storePositions;
+}
+
+void System::setStorePositions(bool storePositions)
+{
+    m_storePositions = storePositions;
+    openPositionFile();
 }
 
 bool System::metropolisStep() {
@@ -114,7 +125,8 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
     m_sampler->printOutputToTerminal();
-    if (m_storeLocalEnergy){ closeFile(); }
+    if (m_storeLocalEnergy){ closeEnergyFile(); }
+    if (m_storePositions){ closePositionFile(); }
 }
 
 
@@ -133,17 +145,35 @@ double System::qForce(int i, int j){
     return force;
 }
 
-void System::openFile()
+
+
+void System::openEnergyFile()
 {
     char cmd[50];
-    sprintf(cmd, "rm %s", m_filename);
+    sprintf(cmd, "rm %s", m_energyFileName);
     system(cmd);
-    m_outfile.open(m_filename, ios::out);
+    m_energyFile.open(m_energyFileName, ios::out);
 }
 
-void System::closeFile()
+
+void System::openPositionFile()
 {
-    m_outfile.close();
+    char cmd[50];
+    sprintf(cmd, "rm %s", m_positionFileName);
+    system(cmd);
+    m_positionFile.open(m_positionFileName, ios::out);
+}
+
+
+void System::closeEnergyFile()
+{
+    m_energyFile.close();
+}
+
+
+void System::closePositionFile()
+{
+    m_positionFile.close();
 }
 
 

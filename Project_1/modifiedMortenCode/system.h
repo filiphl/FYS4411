@@ -32,6 +32,7 @@ private:
     bool m_analyticalDoublederivative = false;
     bool m_importanceSampling         = false;
     bool m_storeLocalEnergy           = false;
+    bool m_storePositions             = false;
     bool m_optimizingParameters       = false;
 
     double prob                       = 0;
@@ -60,10 +61,14 @@ public:
     //Added by us.
     double qForce(int i, int j);
     double getStepLength() const        { return m_stepLength; }
-    void openFile();
-    void closeFile();
-    const char* m_filename = "datafiles/localenergies.txt";
-    ofstream m_outfile;
+    void openEnergyFile();
+    void openPositionFile();
+    void closeEnergyFile();
+    void closePositionFile();
+    const char* m_energyFileName   = "datafiles/localenergies.txt";
+    const char* m_positionFileName = "datafiles/positions.txt";
+    ofstream m_energyFile;
+    ofstream m_positionFile;
 
 
     void setAnalyticalDoubleDerivative  (bool value);
@@ -74,5 +79,7 @@ public:
     bool getStoreLocalEnergy() const;
     bool OptimizingParameters() const;
     void OptimizingParameters(bool optimizingParameters);
+    bool getStorePositions() const;
+    void setStorePositions(bool storePositions);
 };
 

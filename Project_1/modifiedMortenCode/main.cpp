@@ -40,17 +40,18 @@ int main() {
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalDoubleDerivative   (true);
-    system->setStoreLocalEnergy             (false);
     system->setImportanceSampling           (false);
+    system->setStoreLocalEnergy             (false);
+    system->setStorePositions               (true);
 
     Optimizer* myOptimizer = new Optimizer(system);
-    myOptimizer->optimizeParameters();
+    //myOptimizer->optimizeParameters();
 
 
     double t0 = clock();
-    //system->runMetropolisSteps              (numberOfSteps);
+    system->runMetropolisSteps              (numberOfSteps);
     double t1 = clock()-t0;
-    //cout << setprecision(8) << t1*1e-6 << endl;
+    cout << setprecision(8) << t1*1e-6 << endl;
     return 0;
 }
 

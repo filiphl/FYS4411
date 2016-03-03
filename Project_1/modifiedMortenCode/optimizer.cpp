@@ -29,7 +29,7 @@ void Optimizer::optimizeParameters()
             m_derivative = m_derivativeOld;
             m_steplength /= 2.;
             m_alpha = m_alphaOld;
-            nSteps = (int)nSteps*2;
+            //nSteps = (int)nSteps*2;
             if (m_steplength < 1e-6) {
                 cout << "alpha " << m_alpha << endl;
                 cout << "Derivative step length: " << m_steplength << endl;

@@ -63,12 +63,21 @@ void Sampler::sample(bool acceptedStep) {
     m_energySquared     += m_localEnergy*m_localEnergy;
 
 
-    if (m_system->m_outfile.is_open()){
-        m_system->m_outfile << setw(20) << setprecision(13) << m_localEnergy << endl;
+    if (m_system->m_energyFile.is_open()){
+        m_system->m_energyFile << setw(20) << setprecision(13) << m_localEnergy << endl;
+    }
+
+    if (m_system->m_positionFile.is_open()){
+        for (int i=0; i<m_system->getNumberOfParticles(); i++){
+            m_system->m_positionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getPosition()[0];
+            m_system->m_positionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getPosition()[1];
+            m_system->m_positionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getPosition()[2] << endl;
+        }
     }
 
     m_stepNumber++;
 }
+
 
 void Sampler::printOutputToTerminal() {
     int     np = m_system->getNumberOfParticles();
