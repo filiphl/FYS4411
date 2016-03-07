@@ -285,7 +285,45 @@ and the $\phi_k$ derivatives are:
 \nabla_k^2\phi_k = \nabla_k (\nabla_k\phi_k) = \left[-2\alpha(2+\beta) + 4\alpha^2(x_k^2 + y_k^2 + \beta^2 z_k^2)\right]\phi_k
 \end{equation}
 
+\subsection{The method of steepest descent}
+In order to find the value for $\alpha$ that minimizes $\langle E_L\rangle$, the method of steepest descent (SD) is applied. The SD method, in algorithm form, is:
 
+\begin{equation}
+	x_{n+1} = x_n - \gamma_n\nabla f
+\end{equation}
+
+where $x$ is the variable with which one wishes to find the minimum of $f$. In application to the current problem, $f = \langle E_L\rangle$. However, since $\langle E_L\rangle$ is an expensive quantity to find numerically, and its derivative ($\bar{E}_\alpha \equiv \frac{d\langle E_L\rangle}{d\alpha}$) even more so, an analytical expression is desirable. This can be found as follows:
+
+\begin{align}
+	\begin{split}
+		\bar{E}_\alpha &= \frac{d}{d\alpha}\int dx P(x) E_L\\
+		&= \frac{d}{d\alpha}\int dx \frac{|\psi|^2}{\int dx'|\psi|^2}\frac{1}{\psi}H\psi\\
+		&= \frac{d}{d\alpha}\int dx \frac{\psi^*H\psi}{\int dx'|\psi|^2}
+	\end{split}
+\end{align}
+
+Since the Hamiltonian is hermitian, one has $\int dx\psi^* H \psi = \int dx H\psi^*\psi$, giving:
+
+\begin{align}
+	\begin{split}
+		&= \frac{d}{d\alpha}\int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\\
+		&= \left[ \int dx\frac{H\left(\psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\right)\psi\right)}{\int dx'|\psi|^2} \right] - \left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx'\left( \psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\psi\right) \right) \right]
+	\end{split}
+\end{align}
+
+Again one may use the hermiticity of the Hamiltonian to get $\int dx H \psi^*\left(\frac{d\psi}{d\alpha}\right) = \int dx H \left(\frac{d\psi^*}{d\alpha}\right)\psi$. So:
+
+\begin{align}
+	\begin{split}
+		&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} \right] - 2\left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx' \psi^*\frac{d\psi}{d\alpha} \right]\\
+		&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} - \int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\int dx' \frac{1}{\int dx'|\psi|^2}\psi^*\frac{d\psi}{d\alpha} \right]\\
+		&= 2\left[ \int dx\frac{\psi^*\left(\frac{E_L}{\psi}\frac{d\psi}{d\alpha}\right) \psi}{\int dx'|\psi|^2} - \int dx \frac{\psi^* E_L\psi}{\int dx'|\psi|^2}\int dx' \frac{\psi^*\left(\frac{1}{\psi}\frac{d\psi}{d\alpha}\right)\psi}{\int dx'|\psi|^2} \right]\\
+		&= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
+	\end{split}
+\end{align}
+
+where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. This is a much better expression to use since one only need one Monte Carlo cycle to find $\bar{E}_\alpha$. Therefore, one Monte Carlo cycle will give one value for $\bar{E}_L$.\\
+Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. This means ... (explain about higher accuracy and divisions by 2)
 
 \section{Results}
 
