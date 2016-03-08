@@ -370,8 +370,38 @@ system->setAnalyticalLaplacian (true);
 \noindent in \texttt{main.cpp}. The tests using analytical calculation of the laplacian resulted as shown in table(blah2).
 
 \subsubsection{Importance sampling}
+The standard Metropolis algorithm accepts approximatly half of the proposed moves. 
+When a move is rejected we end up sampling the same state several times.
+A possible imporovement is to propose   ``better'' moves. Combining the Fokker-Planck and Langevin equations one can propose new moves as (SHOW THIS?)
+\begin{equation}
+ x_{new} = x_{old}+DF(x_{old})\Delta t +\xi\sqrt{\Delta t},	\label{importanceSamplingMove}
+\end{equation}
+where $x$ is the position, 
+$D$ is a diffusion coeffisient, 
+$F$ is a drift velocity biasing our new move toward more probable states, 
+$\Delta t$ is a time step length whose significance will be addressed later, 
+and $\xi$ is a normal distributed random number with mean value of 0 and standard deviation of $\sqrt{2D\Delta t}$. 
+The force term is derived from the Fokker-Planck equation 
+\begin{equation}
+ \frac{\partial P}{\partial t} = D\frac{\partial }{\partial x}\left(\frac{\partial }{\partial x} -F\right)P(x,t),
+\end{equation}
+where $P(x,t)$ is a time-dependent probability density in one dimension. However, a stationary probability density will occure only when the left hand side is zero.
+This leave us with
+\begin{equation}
+ \frac{\partial^2 P}{\partial {x^2}} = P\frac{\partial}{\partial {x}}F + F\frac{\partial}{\partial {x}}P.
+\end{equation}
+Since we are seeking a stationary state, it can be shown that this leads to
+\begin{equation}
+ F = \frac{1}{P} \frac{\partial P}{\partial x}.
+\end{equation}
+In a quantum mechanical interpretation the probability distribution is simply the wavefunctions, so our drift force can be expressed as
+\begin{equation}
+ F = 2\frac{1}{\Psi_T}\nabla\Psi_T,
+\end{equation}
+which is known as the quantum force.
+
+By utilizing th
 Replacing the standard metropolis sampling with importance sampling, we allow a so called quantum force to affect the probability of accepting a move.
-This force works as a drift toward the most probable state. 
 This should effectively, as the name suggests, allow us to sample more important areas and thereby not discard as many moves.
 In the same fashion as the toggle for use of analytical calculation of the laplacian, one can choose to use importance sampling by setting 
 \\*

@@ -63,7 +63,7 @@ bool System::metropolisStep() {
     if (m_importanceSampling){
         double oldWaveFunction = m_waveFunction->evaluate(m_particles);
         double qForceOld = qForce(p,d);
-        dx = Random::nextGaussian(0, sqrt(m_stepLength)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
+        dx = Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt;  // sqrt(2*m_D*m_dt), but m_D=0.5.
         m_particles[p]->adjustPosition(dx , d);                                        // Propose move
         double newWaveFunction = m_waveFunction->evaluate(m_particles);
         double qForceNew = qForce(p,d);
@@ -131,20 +131,18 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
 
 double System::qForce(int i, int j){
-    /*
-    m_particles[i]->adjustPosition(-m_stepLength, j);               // -
+/*
+    m_particles[i]->adjustPosition(-m_derivativeStep, j);               // -
     double waveFunctionOld = m_waveFunction->evaluate(m_particles);
-    m_particles[i]->adjustPosition(2*m_stepLength, j);              // +
+    m_particles[i]->adjustPosition(2*m_derivativeStep, j);              // +
     double waveFunctionNew = m_waveFunction->evaluate(m_particles);
-    m_particles[i]->adjustPosition(-m_stepLength, j);               // reset
+    m_particles[i]->adjustPosition(-m_derivativeStep, j);               // reset
     double force = (waveFunctionNew - waveFunctionOld) /
-            (m_stepLength * m_waveFunction->evaluate(m_particles));
-    */
-
+            (m_derivativeStep * m_waveFunction->evaluate(m_particles)); // Factors of 2 cancel.
+*/
     double force = -2*m_waveFunction->getParameters()[0]*m_particles[i]->getPosition()[j];
     return force;
 }
-
 
 
 void System::openEnergyFile()

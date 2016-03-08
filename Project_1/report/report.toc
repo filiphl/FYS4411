@@ -9,5 +9,5 @@
 \contentsline {subsection}{\numberline {3.1}Benchmarks}{5}
 \contentsline {subsubsection}{\numberline {3.1.1}Standard Metropolis sampling}{5}
 \contentsline {subsubsection}{\numberline {3.1.2}Importance sampling}{5}
-\contentsline {section}{\numberline {4}Conclusions}{6}
-\contentsline {section}{\numberline {5}Appendix}{6}
+\contentsline {section}{\numberline {4}Conclusions}{7}
+\contentsline {section}{\numberline {5}Appendix}{7}

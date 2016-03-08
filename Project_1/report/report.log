@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  8 MAR 2016 13:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  8 MAR 2016 20:23
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -913,8 +913,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 367--369
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 373--378
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 403--408
 
  []
 
@@ -923,14 +923,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 373--378
 
 (./_minted-report/B7420475FC8A1A5FD010DDF9F9ACD8DC34A91AE9283CA91453BD2DF8B0127
 8AC.pygtex)
-Underfull \hbox (badness 10000) in paragraph at lines 381--383
+Underfull \hbox (badness 10000) in paragraph at lines 411--413
 
  []
 
-[5]
+[6]
 runsystem(rm "report.pyg")...executed.
 
- [6] (./report.aux)
+ [7] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -939,10 +939,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 8802 strings out of 493085
- 134827 string characters out of 6136917
+ 8803 strings out of 493085
+ 134851 string characters out of 6136917
  353837 words of memory out of 5000000
- 12078 multiletter control sequences out of 15000+600000
+ 12079 multiletter control sequences out of 15000+600000
  21973 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,18n,40p,815b,399s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -973,10 +973,10 @@ rm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/sha
 re/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1
 /public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sft
 t0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on report.pdf (8 pages, 404556 bytes).
+Output written on report.pdf (9 pages, 409734 bytes).
 PDF statistics:
- 157 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
+ 160 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
