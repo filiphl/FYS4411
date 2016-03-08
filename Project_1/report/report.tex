@@ -390,7 +390,7 @@ This leave us with
 \begin{equation}
  \frac{\partial^2 P}{\partial {x^2}} = P\frac{\partial}{\partial {x}}F + F\frac{\partial}{\partial {x}}P.
 \end{equation}
-Since we are seeking a stationary state, it can be shown that this leads to
+Since we are seeking a stationary state, it can be shown that this leads $F$ beeing on the form
 \begin{equation}
  F = \frac{1}{P} \frac{\partial P}{\partial x}.
 \end{equation}
@@ -400,10 +400,13 @@ In a quantum mechanical interpretation the probability distribution is simply th
 \end{equation}
 which is known as the quantum force.
 
-By utilizing th
-Replacing the standard metropolis sampling with importance sampling, we allow a so called quantum force to affect the probability of accepting a move.
-This should effectively, as the name suggests, allow us to sample more important areas and thereby not discard as many moves.
-In the same fashion as the toggle for use of analytical calculation of the laplacian, one can choose to use importance sampling by setting 
+By utilizing \eqref{importanceSamplingMove} when proposeing new moves they will be to areas where the wavefunction is large, i.e. there is a large probability. 
+
+
+PUT IN EQUATIONS DERIVING GREENS FUNCTION? AT LEAST THE GREENSFUCNTION.
+
+
+In the same fashion as the toggle for use of analytical calculation of the laplacian, a user may choose to apply importance sampling by setting 
 \\*
 
 \begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
