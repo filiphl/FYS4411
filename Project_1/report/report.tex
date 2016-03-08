@@ -13,6 +13,7 @@
 \usepackage{subcaption} 
 \usepackage{color}
 \usepackage{amsmath}  
+\usepackage{minted}
 \usepackage{braket} 
 \usepackage{multicol}
 \usepackage{listings}    %Add source code
@@ -26,7 +27,7 @@
 \newcommand\bk[1]{\langle#1\rangle} 
 \newcommand\uu[1]{\underline{\underline{#1}}} % Understreker dobbelt.
 \definecolor{qc}{rgb}{0,0.4,0}
-
+\definecolor{LightBlue}{rgb}{0.8, 0.8, 0.9}
 
 % JF i margen
 \makeatletter
@@ -285,6 +286,9 @@ and the $\phi_k$ derivatives are:
 \nabla_k^2\phi_k = \nabla_k (\nabla_k\phi_k) = \left[-2\alpha(2+\beta) + 4\alpha^2(x_k^2 + y_k^2 + \beta^2 z_k^2)\right]\phi_k
 \end{equation}
 
+
+
+
 \subsection{The method of steepest descent}
 In order to find the value for $\alpha$ that minimizes $\langle E_L\rangle$, the method of steepest descent (SD) is applied. The SD method, in algorithm form, is:
 
@@ -325,40 +329,174 @@ Again one may use the hermiticity of the Hamiltonian to get $\int dx H \psi^*\le
 where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. This is a much better expression to use since one only need one Monte Carlo cycle to find $\bar{E}_\alpha$. Therefore, one Monte Carlo cycle will give one value for $\bar{E}_L$.\\
 Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. This means ... (explain about higher accuracy and divisions by 2)
 
+
+
+
+
+
+
+
+
+
 \section{Results}
+
+
+\subsection{Benchmarks}
+As in most computational work, we need to make certain our program produce reliable values. 
+A very useful way to do this is to compare our numerical results with a known analytical solution to the problem. 
+Since we do know the analytical solution to the spherical harmonic oscillator, these may be used as benchmarks that we hope to reproduce.
+We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy}. 
+
+\subsubsection{Standard Metropolis sampling}
+Tests were done with several choices of number of particles, and number of dimensions.
+The outputs were the expectation value of the energy, the standard deviation of this value and the time elapsed.
+
+At first we chose to calculate the laplacian in the kinetic term numerically. 
+The results are shown in table(blah).
+As can be seen the analytical results are well reproduce. 
+The standard deviation is not zero, but this is due to numerical error in the calculation of the kinetic energy.
+This error increases with the number of particles and number of dimensions. 
+%We know this because the potetial energy is trivial and equal the analytical expression by definition.
+
+Once convinced the local energies were reproduced correctly, we implemented an analytical calculation of the laplacian as well.
+A user may choose to use this option by setting 
+\\*
+
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+system->setAnalyticalLaplacian (true);
+\end{minted}
+\\*
+
+\noindent in \texttt{main.cpp}. The tests using analytical calculation of the laplacian resulted as shown in table(blah2).
+
+\subsubsection{Importance sampling}
+Replacing the standard metropolis sampling with importance sampling, we allow a so called quantum force to affect the probability of accepting a move.
+This force works as a drift toward the most probable state. 
+This should effectively, as the name suggests, allow us to sample more important areas and thereby not discard as many moves.
+In the same fashion as the toggle for use of analytical calculation of the laplacian, one can choose to use importance sampling by setting 
+\\*
+
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+system->setImportanceSampling (true);
+\end{minted}
+\\*
+
+\noindent in \texttt{main.cpp}. Results using importance sampling are shown in table(blah3).
+
 
 \begin{table}[H]
   \centering
+  \caption{Numerically calculated laplacian.}
+  \begin{tabular}{ | c | c | c | c | c | c |}
+    \hline
+    N &D &Analytical &Numerical &Variance &Time [s] \\*
+    \hline
+    1& 1& 0.5 & 0.5 &3.6e-16 &0.109 \\*
+    \hline
+    1& 2& 1& 1&  2.6e-15& 0.120 \\*
+    \hline
+    1& 3& 1.5& 1.5& 1.6e-14& 0.135 \\*
+    \hline
+    10& 1& 5& 5& 1.3e-13& 0.498 \\*
+    \hline
+    10& 2& 10 &10 &1.7e-13 &0.706 \\*
+    \hline
+    10 &3 &15 &15 &4.3e-13 &1.07 \\*
+    \hline
+    100& 1& 50& 50& 1.1e-10& 8.55  \\*
+    \hline
+    100& 2& 100& 100& 2.4e-09& 20.9 \\*
+    \hline
+    100& 3& 150 &150 &6.8e-09& 39.5  \\*
+    \hline
+    500& 1& 250& 250& 3.4e-08& 118  \\*
+    \hline
+    500& 2& 500& 500& 3.9e-07& 400  \\*
+    \hline
+    500& 3& 750 &750 &3.0e-06 &834   \\*
+    \hline
+  \end{tabular}
+  \label{tab:Tabell1}
+\end{table}
+
+
+\begin{table}[H]
+  \centering
+  \caption{Analytically calculated laplacian.}
+  \begin{tabular}{ | c | c | c | c | c | c |}
+    \hline
+    N &D &Analytical &Numerical &Variance &Time [s] \\*
+    \hline
+    1& 1& 0.5 & 0.5 &0 &0.09 \\*
+    \hline
+    1& 2& 1& 1&  0& 0.10\\*
+    \hline
+    1& 3& 1.5& 1.5& 0& 0.13 \\*
+    \hline
+    10& 1& 5& 5& 0& 0.33 \\*
+    \hline
+    10& 2& 10 &10 &0 &0.37 \\*
+    \hline
+    10 &3 &15 &15 &0 &0.38 \\*
+    \hline
+    100& 1& 50& 50& 0& 2.92  \\*
+    \hline
+    100& 2& 100& 100& 0& 2.90 \\*
+    \hline
+    100& 3& 150 &150 &0& 2.95  \\*
+    \hline
+    500& 1& 250& 250& 0& 14.2  \\*
+    \hline
+    500& 2& 500& 500& 0&14.5   \\*
+    \hline
+    500& 3& 750 &750 &0 &15.2   \\*
+    \hline
+  \end{tabular}
+  \label{tab:Tabell1}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+\begin{table}[H]
+  \centering
+  \caption{some caption}
   \begin{tabular}{ | c | r | r | r | r | r |}
     \hline
     N &D &Analytical &Numerical &Variance &Time \\*
     \hline
-    1& 1& 0  \\*
+    1& 1&   \\*
     \hline
-    1& 2& 0  \\*
+    1& 2&   \\*
     \hline
-    1& 3& 0.88 \\*
+    1& 3&  \\*
     \hline
     10& 1&  \\*
     \hline
-    10& 2& 10 &10 &7.4e-13 &1.35 \\*
+    10& 2&\\*
     \hline
-    10 &3 &15 &15 &3.7e-13 &1.41 \\*
+    10 &3&  \\*
     \hline
     100& 1&  \\*
     \hline
     100& 2&  \\*
     \hline
-    100& 3& 150 &150 &8.5e-9 &119.38  \\*
+    100& 3&  \\*
     \hline
     500& 1&  \\*
     \hline
     500& 2&  \\*
     \hline
-    500& 3& 250 &250 &4.1e-8 &316.19   \\*
+    500& 3&   \\*
     \hline
   \end{tabular}
-  \caption{some caption}
+  
   \label{tab:Tabell1}
 \end{table}
 
