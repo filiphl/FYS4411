@@ -2,7 +2,7 @@ from numpy import *
 from matplotlib import pyplot as plt
 
 
-N = 4000;
+N = 400;
 
 infile = open('localenergies.txt', 'r')
 
@@ -18,7 +18,9 @@ numberOfSamples = len(energy)
 def standardDeviation(entry):
 	e1  = sum(entry)/float(len(entry))
 	e2  = sum(entry*entry)/len(entry)
-	var = abs(e2 - e1**2)
+	var = e2 - e1**2
+	if var < 0:
+		print "Somtn wrong"
 	return sqrt(var)
 
 def mean(entry):
@@ -39,7 +41,7 @@ for numberOfBlocks in range(1,N):
 #for i in xrange(len(sample)):
 #	std.append(standardDeviation(asarray(sample[i])))
 
-plt.plot(range(1,N), std)
+plt.plot(range(1,N), std, linewidth=3, color="#1A474A")
 plt.xlabel('Number of blocks')
 plt.ylabel('standard deviation')
 plt.show()

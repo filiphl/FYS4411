@@ -29,8 +29,8 @@ void Optimizer::optimizeParameters()
             m_derivative = m_derivativeOld;
             m_steplength /= 2.;
             m_alpha = m_alphaOld;
-            //nSteps = (int)nSteps*2;
-            if (m_steplength < 1e-6) {
+            nSteps = (int)nSteps*1.1;
+            if (m_steplength < 1e-7) {
                 cout << "alpha " << m_alpha << endl;
                 cout << "Derivative step length: " << m_steplength << endl;
                 cout << "Alpha derivative: " << m_derivative << endl;
@@ -48,9 +48,6 @@ double Optimizer::absoluteValue(double value)
 {
     return sqrt(value*value);
 }
-
-
-
 
 double Optimizer::getAlpha() const
 {

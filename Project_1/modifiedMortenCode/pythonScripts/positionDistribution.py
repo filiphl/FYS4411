@@ -1,7 +1,7 @@
 from numpy import *
 from matplotlib import pyplot as plt
 
-infile = open("../dataFiles/positions.txt")
+infile = open("../datafiles/positions.txt")
 
 positions = []
 for line in infile:
@@ -21,7 +21,7 @@ print "min: ", minimum
 
 N = 100
 grid = linspace(-4,4,N)
-cells = zeros(N,N,N)
+cells = zeros([N,N,N])
 
 for pos in positions:
     x = 0; y=0; z=0;

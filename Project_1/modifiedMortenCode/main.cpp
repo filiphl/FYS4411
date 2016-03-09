@@ -22,10 +22,10 @@ int main() {
 
     int numberOfParticles   = 10;            // This is the number of particles. P.A.R.T.I.C.L.E.S.
     int numberOfDimensions  = 3;
-    int numberOfSteps       = (int) 1e4;
+    int numberOfSteps       = (int) 1e6;
     double omegaHO          = 1.0;          // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 0.5;          // Variational parameter.
+    double alpha            = 0.4973395;          // Variational parameter.
     double beta             = 2.82843;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.5;            // Metropolis step length.
@@ -41,10 +41,10 @@ int main() {
     system->setStepLength                   (stepLength);
     system->setAnalyticalDoubleDerivative   (true);
     system->setImportanceSampling           (true);
-    system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (false);
+    system->setStoreLocalEnergy             (true);
+    system->setStorePositions               (true);
 
-    Optimizer* myOptimizer = new Optimizer(system);
+    //Optimizer* myOptimizer = new Optimizer(system);
     //myOptimizer->optimizeParameters();
 
 
