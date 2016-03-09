@@ -4,10 +4,13 @@
 \contentsline {subsection}{\numberline {2.1}Preliminary derivations}{1}
 \contentsline {subsubsection}{\numberline {2.1.1}Simplified problem}{1}
 \contentsline {subsubsection}{\numberline {2.1.2}Full problem}{2}
-\contentsline {subsection}{\numberline {2.2}The method of steepest descent}{4}
-\contentsline {section}{\numberline {3}Results}{5}
-\contentsline {subsection}{\numberline {3.1}Benchmarks}{5}
-\contentsline {subsubsection}{\numberline {3.1.1}Standard Metropolis sampling}{5}
-\contentsline {subsubsection}{\numberline {3.1.2}Importance sampling}{5}
-\contentsline {section}{\numberline {4}Conclusions}{7}
-\contentsline {section}{\numberline {5}Appendix}{7}
+\contentsline {subsection}{\numberline {2.2}Metropolis algorithm}{4}
+\contentsline {subsubsection}{\numberline {2.2.1}Brute sampling Metropolis sampling}{5}
+\contentsline {subsubsection}{\numberline {2.2.2}Importance sampling}{5}
+\contentsline {subsection}{\numberline {2.3}Optimizing parameters}{5}
+\contentsline {subsection}{\numberline {2.4}Blocking method}{6}
+\contentsline {subsection}{\numberline {2.5}Program structure}{6}
+\contentsline {section}{\numberline {3}Results}{7}
+\contentsline {subsection}{\numberline {3.1}Benchmarks}{7}
+\contentsline {section}{\numberline {4}Conclusions}{8}
+\contentsline {section}{\numberline {5}Appendix}{8}

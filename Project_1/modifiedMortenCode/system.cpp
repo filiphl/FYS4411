@@ -14,9 +14,9 @@ void System::setStoreLocalEnergy(bool value)
     openEnergyFile();
 }
 
-bool System::getAnalyticalDoublederivative() const
+bool System::getAnalyticalLaplacian() const
 {
-    return m_analyticalDoublederivative;
+    return m_AnalyticalLaplacian;
 }
 
 bool System::getImportanceSampling() const
@@ -207,9 +207,9 @@ void System::setInitialState(InitialState* initialState) {
     m_initialState = initialState;
 }
 
-void System::setAnalyticalDoubleDerivative(bool value)
+void System::setAnalyticalLaplacian(bool value)
 {
-    m_analyticalDoublederivative = value;
+    m_AnalyticalLaplacian = value;
 }
 
 

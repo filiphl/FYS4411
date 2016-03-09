@@ -14,7 +14,7 @@
 \usepackage{color}
 \usepackage{amsmath}  
 \usepackage{minted}
-\usepackage{braket} 
+%\usepackage{braket} 
 \usepackage{multicol}
 \usepackage{listings}    %Add source code
 \usepackage{amsfonts}
@@ -97,6 +97,9 @@
 
 
 \section{Theory and methods}
+
+A brief on VMC
+
 \subsection{Preliminary derivations}
 
 \subsubsection{Simplified problem}
@@ -286,74 +289,136 @@ and the $\phi_k$ derivatives are:
 \nabla_k^2\phi_k = \nabla_k (\nabla_k\phi_k) = \left[-2\alpha(2+\beta) + 4\alpha^2(x_k^2 + y_k^2 + \beta^2 z_k^2)\right]\phi_k
 \end{equation}
 
+\subsection{Metropolis algorithm}
+
+The basic principle behind the Metropolis algorithm is given through the relation:
+
+\begin{equation}
+	W = TA
+\end{equation}
+
+where $T$ is the transition matrix for a system\footnote{That is, the probability of a change from one system state to another.}, and $A$ is the acceptance matrix\footnote{The  probability of accepting the proposed transition.}.
+
+\subsubsection{Brute sampling Metropolis sampling}
+In brute force Metropolis sampling, it is assumes (apporximated) that $T_{i\rightarrow j}= T_{j\rightarrow i}$. Inserted above, this gives: 
+
+\begin{equation}
+\frac{A(j\rightarrow i)}{A(i\rightarrow j)} = \frac{w_i}{w_j}
+\end{equation}
 
 
 
-\subsection{The method of steepest descent}
+\subsubsection{Importance sampling}
+The standard Metropolis algorithm accepts approximately half of the proposed moves. 
+When a move is rejected we end up sampling the same state several times.
+A possible improvement is to propose   ``better'' moves. From the Langevin equations one can propose new moves as
+\begin{equation}
+	x_{new} = x_{old}+DF(x_{old})\Delta t +\xi\sqrt{\Delta t},	\label{importanceSamplingMove}
+\end{equation}
+where $x$ is the position, 
+$D$ is a diffusion coefficient, 
+$F$ is a drift velocity biasing our new move toward more probable states, 
+$\Delta t$ is a time step length whose significance will be addressed later, 
+and $\xi$ is a normal distributed random number with mean value of 0 and standard deviation of $\sqrt{2D\Delta t}$. 
+The force term is derived from the Fokker-Planck equation 
+\begin{equation}
+	\frac{\partial P}{\partial t} = D\frac{\partial }{\partial x}\left(\frac{\partial }{\partial x} -F\right)P(x,t),
+\end{equation}
+where $P(x,t)$ is a time-dependent probability density in one dimension. However, a stationary probability density will occur only when the left hand side is zero.
+This leave us with
+\begin{equation}
+	\frac{\partial^2 P}{\partial {x^2}} = P\frac{\partial}{\partial {x}}F + F\frac{\partial}{\partial {x}}P.
+\end{equation}
+Since we are seeking a stationary state, it can be shown that this leads $F$ being on the form
+\begin{equation}
+	F = \frac{1}{P} \frac{\partial P}{\partial x}.
+\end{equation}
+In a quantum mechanical interpretation the probability distribution is given by the wavefunctions, so our drift force can be expressed as
+
+\begin{align}
+	\begin{split}
+	F &= \frac{1}{|\Psi_T|^2}\nabla|\Psi_T|^2\\
+	&= 2\frac{1}{\Psi_T}\nabla\Psi_T,
+	\end{split}
+\end{align}
+
+which is known as the quantum force.
+
+By utilizing \eqref{importanceSamplingMove} when proposing new moves they will be to areas where the wavefunction is large, i.e. there is a large probability. 
+
+
+PUT IN EQUATIONS DERIVING GREENS FUNCTION? AT LEAST THE GREENSFUNCTION. VERY WELL:
+
+
+
+
+In the same fashion as the toggle for use of analytical calculation of the Laplacian, a user may choose to apply importance sampling by setting 
+\\*
+
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+	system->setImportanceSampling (true);
+\end{minted}
+\\*
+
+
+\subsection{Optimizing parameters}
 In order to find the value for $\alpha$ that minimizes $\langle E_L\rangle$, the method of steepest descent (SD) is applied. The SD method, in algorithm form, is:
 
 \begin{equation}
-	x_{n+1} = x_n - \gamma_n\nabla f
+x_{n+1} = x_n - \gamma_n\nabla f
 \end{equation}
 
 where $x$ is the variable with which one wishes to find the minimum of $f$. In application to the current problem, $f = \langle E_L\rangle$. However, since $\langle E_L\rangle$ is an expensive quantity to find numerically, and its derivative ($\bar{E}_\alpha \equiv \frac{d\langle E_L\rangle}{d\alpha}$) even more so, an analytical expression is desirable. This can be found as follows:
 
 \begin{align}
-	\begin{split}
-		\bar{E}_\alpha &= \frac{d}{d\alpha}\int dx P(x) E_L\\
-		&= \frac{d}{d\alpha}\int dx \frac{|\psi|^2}{\int dx'|\psi|^2}\frac{1}{\psi}H\psi\\
-		&= \frac{d}{d\alpha}\int dx \frac{\psi^*H\psi}{\int dx'|\psi|^2}
-	\end{split}
+\begin{split}
+\bar{E}_\alpha &= \frac{d}{d\alpha}\int dx P(x) E_L\\
+&= \frac{d}{d\alpha}\int dx \frac{|\psi|^2}{\int dx'|\psi|^2}\frac{1}{\psi}H\psi\\
+&= \frac{d}{d\alpha}\int dx \frac{\psi^*H\psi}{\int dx'|\psi|^2}
+\end{split}
 \end{align}
 
 Since the Hamiltonian is hermitian, one has $\int dx\psi^* H \psi = \int dx H\psi^*\psi$, giving:
 
 \begin{align}
-	\begin{split}
-		&= \frac{d}{d\alpha}\int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\\
-		&= \left[ \int dx\frac{H\left(\psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\right)\psi\right)}{\int dx'|\psi|^2} \right] - \left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx'\left( \psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\psi\right) \right) \right]
-	\end{split}
+\begin{split}
+&= \frac{d}{d\alpha}\int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\\
+&= \left[ \int dx\frac{H\left(\psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\right)\psi\right)}{\int dx'|\psi|^2} \right] - \left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx'\left( \psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\psi\right) \right) \right]
+\end{split}
 \end{align}
 
 Again one may use the hermiticity of the Hamiltonian to get $\int dx H \psi^*\left(\frac{d\psi}{d\alpha}\right) = \int dx H \left(\frac{d\psi^*}{d\alpha}\right)\psi$. So:
 
 \begin{align}
-	\begin{split}
-		&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} \right] - 2\left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx' \psi^*\frac{d\psi}{d\alpha} \right]\\
-		&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} - \int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\int dx' \frac{1}{\int dx'|\psi|^2}\psi^*\frac{d\psi}{d\alpha} \right]\\
-		&= 2\left[ \int dx\frac{\psi^*\left(\frac{E_L}{\psi}\frac{d\psi}{d\alpha}\right) \psi}{\int dx'|\psi|^2} - \int dx \frac{\psi^* E_L\psi}{\int dx'|\psi|^2}\int dx' \frac{\psi^*\left(\frac{1}{\psi}\frac{d\psi}{d\alpha}\right)\psi}{\int dx'|\psi|^2} \right]\\
-		&= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
-	\end{split}
+\begin{split}
+&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} \right] - 2\left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx' \psi^*\frac{d\psi}{d\alpha} \right]\\
+&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} - \int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\int dx' \frac{1}{\int dx'|\psi|^2}\psi^*\frac{d\psi}{d\alpha} \right]\\
+&= 2\left[ \int dx\frac{\psi^*\left(\frac{E_L}{\psi}\frac{d\psi}{d\alpha}\right) \psi}{\int dx'|\psi|^2} - \int dx \frac{\psi^* E_L\psi}{\int dx'|\psi|^2}\int dx' \frac{\psi^*\left(\frac{1}{\psi}\frac{d\psi}{d\alpha}\right)\psi}{\int dx'|\psi|^2} \right]\\
+&= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
+\end{split}
 \end{align}
 
 where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. This is a much better expression to use since one only need one Monte Carlo cycle to find $\bar{E}_\alpha$. Therefore, one Monte Carlo cycle will give one value for $\bar{E}_L$.\\
 Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. This means ... (explain about higher accuracy and divisions by 2)
 
+\subsection{Blocking method}
 
+After having run a Monte Carlo simulation, the variation in estimated local energies will be much too low. This is because one assumes all data to be completely uncorrelated. However, each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, however, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.\\
+A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ is grouped in blocks, each of which will give an average of average local energies. Afterwards, one can calculate the variance of these averages of averages. If then the standard deviation is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, one wants to find the lowest number of blocks where the curve approaches a plateau. Then one can calculate $\tau$ and find the correlation time.
 
+\begin{equation}
+	\sigma=\sqrt{\frac{1+2\tau/\Delta t}{n}\left(\langle \mathbf{M}^2\rangle-\langle \mathbf{M}\rangle^2\right)}
+\end{equation}
 
+\subsection{Program structure}
 
-
-
-
-
-
-\section{Results}
-
-
-\subsection{Benchmarks}
-As in most computational work, we need to make certain our program produce reliable values. 
-A very useful way to do this is to compare our numerical results with a known analytical solution to the problem. 
-Since we do know the analytical solution to the spherical harmonic oscillator, these may be used as benchmarks that we hope to reproduce.
-We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy}. 
-
-\subsubsection{Standard Metropolis sampling}
+From Standard Met. Sampl.
 Tests were done with several choices of number of particles, and number of dimensions.
 The outputs were the expectation value of the energy, the standard deviation of this value and the time elapsed.
 
-At first we chose to calculate the laplacian in the kinetic term numerically. 
+At first we chose to calculate the Laplacian in the kinetic term numerically. 
 The results are shown in table(blah).
-As can be seen the analytical results are well reproduce. 
+As can be seen the analytical results are well reproduced. 
 The standard deviation is not zero, but this is due to numerical error in the calculation of the kinetic energy.
 This error increases with the number of particles and number of dimensions. 
 %We know this because the potetial energy is trivial and equal the analytical expression by definition.
@@ -369,50 +434,15 @@ system->setAnalyticalLaplacian (true);
 
 \noindent in \texttt{main.cpp}. The tests using analytical calculation of the laplacian resulted as shown in table(blah2).
 
-\subsubsection{Importance sampling}
-The standard Metropolis algorithm accepts approximatly half of the proposed moves. 
-When a move is rejected we end up sampling the same state several times.
-A possible imporovement is to propose   ``better'' moves. Combining the Fokker-Planck and Langevin equations one can propose new moves as (SHOW THIS?)
-\begin{equation}
- x_{new} = x_{old}+DF(x_{old})\Delta t +\xi\sqrt{\Delta t},	\label{importanceSamplingMove}
-\end{equation}
-where $x$ is the position, 
-$D$ is a diffusion coeffisient, 
-$F$ is a drift velocity biasing our new move toward more probable states, 
-$\Delta t$ is a time step length whose significance will be addressed later, 
-and $\xi$ is a normal distributed random number with mean value of 0 and standard deviation of $\sqrt{2D\Delta t}$. 
-The force term is derived from the Fokker-Planck equation 
-\begin{equation}
- \frac{\partial P}{\partial t} = D\frac{\partial }{\partial x}\left(\frac{\partial }{\partial x} -F\right)P(x,t),
-\end{equation}
-where $P(x,t)$ is a time-dependent probability density in one dimension. However, a stationary probability density will occure only when the left hand side is zero.
-This leave us with
-\begin{equation}
- \frac{\partial^2 P}{\partial {x^2}} = P\frac{\partial}{\partial {x}}F + F\frac{\partial}{\partial {x}}P.
-\end{equation}
-Since we are seeking a stationary state, it can be shown that this leads $F$ beeing on the form
-\begin{equation}
- F = \frac{1}{P} \frac{\partial P}{\partial x}.
-\end{equation}
-In a quantum mechanical interpretation the probability distribution is simply the wavefunctions, so our drift force can be expressed as
-\begin{equation}
- F = 2\frac{1}{\Psi_T}\nabla\Psi_T,
-\end{equation}
-which is known as the quantum force.
-
-By utilizing \eqref{importanceSamplingMove} when proposeing new moves they will be to areas where the wavefunction is large, i.e. there is a large probability. 
+\section{Results}
 
 
-PUT IN EQUATIONS DERIVING GREENS FUNCTION? AT LEAST THE GREENSFUCNTION.
+\subsection{Benchmarks}
+As in most computational work, we need to make certain our program produce reliable values. 
+A very useful way to do this is to compare our numerical results with a known analytical solution to the problem. 
+Since we do know the analytical solution to the spherical harmonic oscillator, these may be used as benchmarks that we hope to reproduce.
+We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy}. 
 
-
-In the same fashion as the toggle for use of analytical calculation of the laplacian, a user may choose to apply importance sampling by setting 
-\\*
-
-\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
-system->setImportanceSampling (true);
-\end{minted}
-\\*
 
 \noindent in \texttt{main.cpp}. Results using importance sampling are shown in table(blah3).
 

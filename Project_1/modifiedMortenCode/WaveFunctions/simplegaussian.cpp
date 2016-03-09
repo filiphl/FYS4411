@@ -57,7 +57,7 @@ double SimpleGaussian::computeDoubleDerivative(std::vector<class Particle*> part
 
     double ddr = 0;
 
-    if (m_system->getAnalyticalDoublederivative()){
+    if (m_system->getAnalyticalLaplacian()){
 
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             double r2 = 0;

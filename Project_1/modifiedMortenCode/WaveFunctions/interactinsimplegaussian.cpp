@@ -57,7 +57,7 @@ double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *>
 {
     double ddr = 0;
 
-    if (m_system->getAnalyticalDoublederivative()){
+    if (m_system->getAnalyticalLaplacian()){
         double maxValueOfTerm4 = 0;
         for (int k=0; k< m_system->getNumberOfParticles(); k++){
             double term1 = 0;

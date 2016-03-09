@@ -30,7 +30,7 @@ private:
     class Sampler*                  m_sampler = nullptr;
     std::vector<class Particle*>    m_particles = std::vector<class Particle*>();
 
-    bool m_analyticalDoublederivative = false;
+    bool m_AnalyticalLaplacian = false;
     bool m_importanceSampling         = false;
     bool m_storeLocalEnergy           = false;
     bool m_storePositions             = false;
@@ -72,10 +72,10 @@ public:
     ofstream m_positionFile;
 
 
-    void setAnalyticalDoubleDerivative  (bool value);
+    void setAnalyticalLaplacian  (bool value);
     void setImportanceSampling          (bool value);
     void setStoreLocalEnergy            (bool value);
-    bool getAnalyticalDoublederivative() const;
+    bool getAnalyticalLaplacian() const;
     bool getImportanceSampling() const;
     bool getStoreLocalEnergy() const;
     bool OptimizingParameters() const;
