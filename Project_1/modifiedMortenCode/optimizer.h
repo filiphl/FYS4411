@@ -7,7 +7,7 @@ class Optimizer
 {
 private:
     double m_steplength     = 0.1;
-    double m_epsilon        = 1e-4;
+    double m_epsilon        = 0;
     double m_alpha          = 0.4;
     double m_alphaOld       = 0.4;
     double m_derivative     = 0;

@@ -49,9 +49,6 @@ double Optimizer::absoluteValue(double value)
     return sqrt(value*value);
 }
 
-
-
-
 double Optimizer::getAlpha() const
 {
     return m_alpha;
