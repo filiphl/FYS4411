@@ -7,7 +7,6 @@ InteractinSimpleGaussian::InteractinSimpleGaussian(System *system, double alpha,
 {
     assert(alpha >= 0);
     m_numberOfParameters = 2;
-    cout << m_numberOfParameters<<endl;
     m_parameters.reserve(2);
     m_parameters.push_back(alpha);
     m_parameters.push_back(beta);

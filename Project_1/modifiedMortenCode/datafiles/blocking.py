@@ -36,7 +36,7 @@ for numberOfBlocks in range(1,N):
 		lowerBound = block*blockSize
 		upperBound = lowerBound + blockSize
 		averages[numberOfBlocks-1].append(mean(asarray(energy[lowerBound:upperBound])))
-	std.append(standardDeviation(asarray(averages[numberOfBlocks-1])))
+	std.append(standardDeviation(asarray(averages[numberOfBlocks-1])**2)/numberOfBlocks)
 
 #for i in xrange(len(sample)):
 #	std.append(standardDeviation(asarray(sample[i])))
