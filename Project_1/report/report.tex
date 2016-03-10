@@ -266,7 +266,7 @@ While the second derivative of $u_{ki}$ is:
 where $d$, as earlier, is the number of dimensions present, which in our world is usually $d=3$. Finally, this gives:
 
 \begin{align}
-\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= \frac{\nabla_k^2\phi_k}{\phi(\bm{r}_k)} + \frac{2\nabla_k\phi_k}{\phi(\bm{r}_k)}\left(\sum_{i\neq k} \frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}' \right) + \sum_{i,j\neq k}\frac{(\bm{r}_k - \bm{r}_i)(\bm{r}_k - \bm{r}_j)}{r_{ki}r_{kj}}u_{ki}'u_{kj}' + \sum_{l\neq k} u_{ki} + \frac{u_{ki}'}{r_{ki}} \left(d - 1\right)
+\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= \frac{\nabla_k^2\phi_k}{\phi(\bm{r}_k)} + \frac{2\nabla_k\phi_k}{\phi(\bm{r}_k)}\left(\sum_{i\neq k} \frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}' \right) + \sum_{i,j\neq k}\frac{(\bm{r}_k - \bm{r}_i)(\bm{r}_k - \bm{r}_j)}{r_{ki}r_{kj}}u_{ki}'u_{kj}' + \sum_{i\neq k} u_{ki}'' + \frac{u_{ki}'}{r_{ki}} \left(d - 1\right)
 \label{eq:full_second_derivative}
 \end{align}
 
@@ -276,7 +276,7 @@ As the exact forms of $\phi_k$ and $u_{ki}$ are known, this can be written to a 
 	\frac{\partial u_{ki}}{\partial r_{ki}} = \frac{\partial}{\partial r_{ki}}\left(\ln\left[1-\frac{a}{r_{ki}}\right]\right) = \frac{a}{r_{ij}^2 - ar_{ij}}
 \end{equation}
 \begin{equation}
-	\frac{\partial^2 u_{ki}}{\partial r_{ki}^2} = \frac{\partial}{\partial r_{ki}} u_{ki}' = -a\frac{2r_{ki} - a}{r_{ki}^2 - ar_{ki}}
+	\frac{\partial^2 u_{ki}}{\partial r_{ki}^2} = \frac{\partial}{\partial r_{ki}} u_{ki}' = -a\frac{2r_{ki} - a}{(r_{ki}^2 - ar_{ki})^2}
 \end{equation}
 
 and the $\phi_k$ derivatives are:
@@ -290,45 +290,46 @@ and the $\phi_k$ derivatives are:
 \end{equation}
 
 \subsection{Metropolis algorithm}
+The basic principle behind the Metropolis algorithm is to make an assumption on the transition probability for a system to move from setting to another, as
+an exact, or even approximate, expression is lacking.
 
-The basic principle behind the Metropolis algorithm is given through the relation:
-
-\begin{equation}
-	W = TA
-\end{equation}
-
-where $T$ is the transition matrix for a system\footnote{That is, the probability of a change from one system state to another.}, and $A$ is the acceptance matrix\footnote{The  probability of accepting the proposed transition.}.
-
-\subsubsection{Brute sampling Metropolis sampling}
-In brute force Metropolis sampling, it is assumes (apporximated) that $T_{i\rightarrow j}= T_{j\rightarrow i}$. Inserted above, this gives: 
-
-\begin{equation}
-\frac{A(j\rightarrow i)}{A(i\rightarrow j)} = \frac{w_i}{w_j}
-\end{equation}
+If the probability distribution for a state $i$ is given by $w_i$, then from Markov chain theory the time derivative is:
 
 \begin{align}
  \frac{\partial w_i(t)}{\partial t} = \sum_j W(j\rightarrow i)w_j(t) - W(i\rightarrow j)w_i(t)
 \end{align}
 
-At the most likely state $\frac{\partial w_i(t)}{\partial t} = 0$.
+where $W_{i\rightarrow j}$ is the probability of moving from a state $i$ to another state $j$, i.e the rate of change in $w_i$ is given by the probability for a state $j$ to go to $i$ minus the
+probability of state $i$ going to $j$, summed over all $j$.
+The most likely state will fulfil $\frac{\partial w_i(t)}{\partial t} = 0$, giving:
 
 \begin{align}
-  W(j\rightarrow i)w_j(t) =  W(i\rightarrow j)w_i(t)
+\begin{split}
+  W(j\rightarrow i)w_j(t) &=  W(i\rightarrow j)w_i(t)\\
+ \Rightarrow\:\:\:\frac{  W(j\rightarrow i)}{  W(i\rightarrow j)} &= \frac{w_i}{w_j}
+\end{split}
 \end{align}
 
-\begin{align}
- \frac{  W(j\rightarrow i)}{  W(i\rightarrow j)} = \frac{w_i}{w_j}
-\end{align}
+Since the transition probability $W$ is unknown, we approximate it by guessing its form:
 
 \begin{align}
  W(j\rightarrow i) &= T(j\rightarrow i) A(j\rightarrow i)
 \end{align}
-Set stuff to one and stuff. 
 
+where $T$ is the transition moving probability, while $A$ is the probability of accepting such a move. Furthermore, in brute force Metropolis, one guesses $T_{i\rightarrow j} = T_{j\rightarrow i}$.
+Therefore:
+
+\begin{equation}
+ \frac{A_{j\rightarrow i}}{A_{i\rightarrow j}} = \frac{w_i}{w_j}
+\end{equation}
+
+Since the probability densities are known, it is known whether or not this ratio is larger than one. If it's larger than one, then the acceptance probability from $j$ to $i$ is the biggest, i.e we are more likely to accept the move than not.
+Therefore, we simply say the move is accepted. However, if the probability ratio is smaller than one, then we are more likely to move from the new state to the one the system is currently in.
+To check whether or not we should accept the move, we may compare it to, say, a ``coin toss''; if it's bigger, the move is accepted.
 
 \subsubsection{Importance sampling}
-The standard Metropolis algorithm accepts approximately half of the proposed moves. 
-When a move is rejected we end up sampling the same state several times.
+The standard Metropolis algorithm with brute force sampling accepts approximately half of the proposed moves. 
+When a move is rejected we end up sampling the same state several times. This seems like an aweful waste of CPU time.
 A possible improvement is to propose   ``better'' moves. From the Langevin equations one can propose new moves as
 \begin{equation}
 	x_{new} = x_{old}+DF(x_{old})\Delta t +\xi\sqrt{\Delta t},	\label{importanceSamplingMove}
@@ -362,14 +363,20 @@ In a quantum mechanical interpretation the probability distribution is given by 
 
 which is known as the quantum force.
 
-By utilizing \eqref{importanceSamplingMove} when proposing new moves they will be to areas where the wavefunction is large, i.e. there is a large probability. 
+By utilizing equation \eqref{importanceSamplingMove} when proposing new moves, they will be to areas where the wavefunction is large, i.e. there is a large probability.\\
+The Fokker-Planck equation has a solution in the form of the Green's function:
 
+\begin{equation}
+ G(y,x,\Delta t) = \frac{1}{(4\pi D\Delta t)^{3N/2}}\exp\left\{-\frac{(y-x-D\Delta tF(x))^2}{4D\Delta t}\right\}
+\end{equation}
 
-PUT IN EQUATIONS DERIVING GREENS FUNCTION? AT LEAST THE GREENSFUNCTION. VERY WELL:
+giving the transition probability matrix $T$ stated earlier. Therefore, the ratio test to be compared with the acceptance probability ratio is now:
 
+\begin{equation}
+ q(y,x) = \frac{G(x,y,\Delta t)}{G(y,x,\Delta t)}\frac{|\Psi_T(y)|^2}{|\Psi_T(y)|^2}
+\end{equation}
 
-
-
+with $q(y,x)$ being the ratio (or ``coin toss'') for accepting the move from setting $x$ to $y$.
 In the same fashion as the toggle for use of analytical calculation of the Laplacian, a user may choose to apply importance sampling by setting 
 \\*
 
@@ -380,7 +387,9 @@ In the same fashion as the toggle for use of analytical calculation of the Lapla
 
 
 \subsection{Optimizing parameters}
-In order to find the value for $\alpha$ that minimizes $\langle E_L\rangle$, the method of steepest descent (SD) is applied. The SD method, in algorithm form, is:
+The trial wavefunction discussed earlier is not exact for the interacting case. While the Jastrow factor includes a SOME NOTES ON JASTROW FACTOR, the variable $\alpha$ will have to be found.
+Obviously, in the VMC approach, the minimal energy is sought. Therefore, minimizing $\langle E_L\rangle$ with respect to the variational parameter ($\alpha$) is the goal.
+There are several ways to minimize a value with respect to some parameter, and here we will use the method of steepest descent (SD). The SD method, in algorithm form, is:
 
 \begin{equation}
 x_{n+1} = x_n - \gamma_n\nabla f
@@ -415,9 +424,10 @@ Again one may use the hermiticity of the Hamiltonian to get $\int dx H \psi^*\le
 &= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
 \end{split}
 \end{align}
-
-where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. This is a much better expression to use since one only need one Monte Carlo cycle to find $\bar{E}_\alpha$. Therefore, one Monte Carlo cycle will give one value for $\bar{E}_L$.\\
-Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. This means ... (explain about higher accuracy and divisions by 2)
+where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. In the non-interacting, simple harmonic oscillator potential, it is analytically shown $\alpha = \frac{1}{2}$, and due to the Jastrow factor, one would assume it doesn't differ too much.
+The equation above is a much better expression to use since one only need one Monte Carlo cycle to find $\bar{E}_\alpha$. Therefore, only one Monte Carlo cycle\footnote{As opposed to several needed to numerical derivation.} will give one value for $\bar{E}_L$.\\
+Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. Therefore, if the gradient at $x_{n+1}$ is greater than that at $x_n$, we go back to $x_n$ and halve the steplength $\gamma_n$, to calculate another $x_{n+1}$.
+This is repeated until either the gradiant becomes sufficiently small (around order $10^{-6}$) or if the steplength becomes too small to continue (order $10^{-6}$ as well).
 
 \subsection{Blocking method}
 

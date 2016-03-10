@@ -5,10 +5,9 @@
 \contentsline {subsubsection}{\numberline {2.1.1}Simplified problem}{1}
 \contentsline {subsubsection}{\numberline {2.1.2}Full problem}{2}
 \contentsline {subsection}{\numberline {2.2}Metropolis algorithm}{4}
-\contentsline {subsubsection}{\numberline {2.2.1}Brute sampling Metropolis sampling}{5}
-\contentsline {subsubsection}{\numberline {2.2.2}Importance sampling}{5}
+\contentsline {subsubsection}{\numberline {2.2.1}Importance sampling}{5}
 \contentsline {subsection}{\numberline {2.3}Optimizing parameters}{6}
-\contentsline {subsection}{\numberline {2.4}Blocking method}{6}
+\contentsline {subsection}{\numberline {2.4}Blocking method}{7}
 \contentsline {subsection}{\numberline {2.5}Program structure}{7}
 \contentsline {section}{\numberline {3}Results}{7}
 \contentsline {subsection}{\numberline {3.1}Benchmarks}{7}
