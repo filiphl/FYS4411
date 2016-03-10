@@ -306,24 +306,6 @@ In brute force Metropolis sampling, it is assumes (apporximated) that $T_{i\righ
 \frac{A(j\rightarrow i)}{A(i\rightarrow j)} = \frac{w_i}{w_j}
 \end{equation}
 
-\begin{align}
- \frac{\partial w_i(t)}{\partial t} = \sum_j W(j\rightarrow i)w_j(t) - W(i\rightarrow j)w_i(t)
-\end{align}
-
-At the most likely state $\frac{\partial w_i(t)}{\partial t} = 0$.
-
-\begin{align}
-  W(j\rightarrow i)w_j(t) =  W(i\rightarrow j)w_i(t)
-\end{align}
-
-\begin{align}
- \frac{  W(j\rightarrow i)}{  W(i\rightarrow j)} = \frac{w_i}{w_j}
-\end{align}
-
-\begin{align}
- W(j\rightarrow i) &= T(j\rightarrow i) A(j\rightarrow i)
-\end{align}
-Set stuff to one and stuff. 
 
 
 \subsubsection{Importance sampling}
@@ -535,6 +517,27 @@ We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy
   \end{tabular}
   \label{tab:Tabell1}
 \end{table}
+
+
+\begin{align}
+ \frac{\partial w_i(t)}{\partial t} = \sum_j W(j\rightarrow i)w_j(t) - W(i\rightarrow j)w_i(t)
+\end{align}
+
+At the most likely state $\frac{\partial w_i(t)}{\partial t} = 0$.
+
+\begin{align}
+  W(j\rightarrow i)w_j(t) =  W(i\rightarrow j)w_i(t)
+\end{align}
+
+\begin{align}
+ \frac{  W(j\rightarrow i)}{  W(i\rightarrow j)} = \frac{w_i}{w_j}
+\end{align}
+
+
+
+
+
+
 
 
 \begin{table}[H]

@@ -20,26 +20,26 @@ int main() {
 
 
 
-    int numberOfParticles   = 10;            // This is the number of particles. P.A.R.T.I.C.L.E.S.
+    int numberOfParticles   = 500;            // This is the number of particles. P.A.R.T.I.C.L.E.S.
     int numberOfDimensions  = 3;
-    int numberOfSteps       = (int) 1e6+1;
+    int numberOfSteps       = (int) 1e4;
     double omegaHO          = 1.0;          // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 0.4973395;          // Variational parameter.
+    double alpha            = 0.5;//0.4973395;          // Variational parameter.
     double beta             = 2.82843;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 2;            // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
 
     System* system = new System();
-    system->setHamiltonian                  (new InteractingHarmonicOscillator(system, omegaHO, omegaZ, gamma));//(new HarmonicOscillator(system, omegaHO));
-    system->setWaveFunction                 (new InteractinSimpleGaussian(system, alpha, beta));//(new SimpleGaussian(system, alpha));
-    //system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
-    //system->setWaveFunction                 (new SimpleGaussian(system, alpha));
+    //system->setHamiltonian                  (new InteractingHarmonicOscillator(system, omegaHO, omegaZ, gamma));//(new HarmonicOscillator(system, omegaHO));
+    //system->setWaveFunction                 (new InteractinSimpleGaussian(system, alpha, beta));//(new SimpleGaussian(system, alpha));
+    system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
+    system->setWaveFunction                 (new SimpleGaussian(system, alpha));
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
-    system->setAnalyticalLaplacian          (true);
+    system->setAnalyticalLaplacian          (false);
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
