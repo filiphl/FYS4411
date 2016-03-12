@@ -1,7 +1,7 @@
 from numpy import *
 import matplotlib.pyplot as plt
 
-infile = open("localenergies.txt",'r')
+infile = open("localenergies2.txt",'r')
 local_energies = []
 
 for line in infile:
@@ -39,7 +39,8 @@ for numberOfBlocks in M:
 
 	print numberOfBlocks
 
-print var_blocking[0]*M[0]
+print var_blocking[0]
+
 
 
 plt.plot(n_vec, var_blocking,'-o')

@@ -424,10 +424,10 @@ Again one may use the hermiticity of the Hamiltonian to get $\int dx H \psi^*\le
 &= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
 \end{split}
 \end{align}
-
 where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. In the non-interacting, simple harmonic oscillator potential, it is analytically shown $\alpha = \frac{1}{2}$, and due to the Jastrow factor, one would assume it doesn't differ too much.
 The equation above is a much better expression to use since one only need one Monte Carlo cycle to find $\bar{E}_\alpha$. Therefore, only one Monte Carlo cycle\footnote{As opposed to several needed to numerical derivation.} will give one value for $\bar{E}_L$.\\
-Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. Therefore we will 
+Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. Therefore, if the gradient at $x_{n+1}$ is greater than that at $x_n$, we go back to $x_n$ and halve the steplength $\gamma_n$, to calculate another $x_{n+1}$.
+This is repeated until either the gradiant becomes sufficiently small (around order $10^{-6}$) or if the steplength becomes too small to continue (order $10^{-6}$ as well).
 
 \subsection{Blocking method}
 
@@ -478,6 +478,7 @@ We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy
 \begin{table}[H]
   \centering
   \caption{Numerically calculated laplacian.}
+  \label{simpleHOnumerical}
   \begin{tabular}{ | c | c | c | c | c | c |}
     \hline
     N &D &Analytical &Numerical &Variance &Time [s] \\*
@@ -512,6 +513,7 @@ We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy
 
 
 \begin{table}[H]
+  \label{simpleHOanalytical}
   \centering
   \caption{Analytically calculated laplacian.}
   \begin{tabular}{ | c | c | c | c | c | c |}
@@ -582,6 +584,32 @@ We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy
   
   \label{tab:Tabell1}
 \end{table}
+
+
+\subsection{Onebody density}
+After a few Monte Carlo interations, the system will knverge to a steady state.
+From the steady state, the probability density does not change with time. 
+By sampling the position of all particles at all timesteps after this stady state is 
+reached, one can easily make a histogram of what ranges of radial distances are the most probable.
+This is what we call the onebody density. SOMETHING ABOUT OUR WAVEFUNCTION BEING A PRODUCT OF UNDEPENDENT WAVEFUNCTIONS.
+
+For the case of 10 particles in the eliptical trap, $\alpha = $ blah and $\beta = 2.82843$, the one body density was found to be as shown in figure blah4.
+
+A three dimensional illustration of the density distribution in space is show in figure blah5,
+and a two dimensional projection is shown in figure blah6 and blah7.
+\begin{figure}
+\begin{minipage}[t]{0.48\linewidth}
+  \includegraphics[width=\textwidth]{../modifiedMortenCode/figures/interactingDistribution3.png}
+  \caption{}
+  \label{fig:minipage1}
+\end{minipage}
+\quad
+\begin{minipage}[t]{0.48\linewidth}
+\includegraphics[width=\textwidth]{../modifiedMortenCode/figures/interactingDistributionXZ.png}
+  \caption{}
+  \label{fig:minipage1}
+\end{minipage}
+\end{figure}
 
 \section{Conclusions}
 

@@ -22,8 +22,8 @@ private:
     int                             m_numberOfMetropolisSteps = 0;
     double                          m_equilibrationFraction = 0.0;
     double                          m_stepLength = 1;
-    double                          m_dt = 0.01;     // Added by us.
-    double                          m_derivativeStep = 1e-4;
+    double                          m_dt = 0.005;     // Added by us.
+    double                          m_derivativeStep = 1e-6;
     class WaveFunction*             m_waveFunction = nullptr;
     class Hamiltonian*              m_hamiltonian = nullptr;
     class InitialState*             m_initialState = nullptr;

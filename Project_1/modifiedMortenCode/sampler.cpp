@@ -107,6 +107,8 @@ void Sampler::printOutputToTerminal() {
     cout << "Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
 
     cout << endl;
+
+    //cout << np<<"& " << nd <<"& "<< m_analyticalEnergy<<"& " << m_energy<<"& " << m_variance<<"& ";
 }
 
 void Sampler::computeAverages() {
@@ -115,7 +117,7 @@ void Sampler::computeAverages() {
      */
     m_energy         = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
     m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
-    m_variance       = m_energySquared - m_energy*m_energy;
+    m_variance       = (m_energySquared - m_energy*m_energy)/m_numberOfStepsSampled;
     m_acceptanceRate = m_accepted/((double) m_numberOfStepsSampled);
 
     if (m_system->OptimizingParameters()){

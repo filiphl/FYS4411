@@ -2,7 +2,7 @@ from numpy import *
 from matplotlib import pyplot as plt
 
 
-N = 2500;
+N = 5000;
 
 infile = open('localenergies.txt', 'r')
 
@@ -27,7 +27,7 @@ def mean(entry):
 	return sum(entry)/len(entry)
 
 
-blockSizes = range(1,3000,10)
+blockSizes = range(1,N,1)
 std = zeros(len(blockSizes))
 
 index = 0
@@ -50,7 +50,7 @@ for blockSize in blockSizes:
 	index += 1
 
 
-plt.plot(blockSizes, std, linewidth=3, color="#1A474A")
+plt.plot(blockSizes, std, linewidth=1, color="#1A474A")
 plt.xlabel('Block size')
 plt.ylabel('Standard deviation')
 plt.grid("on")

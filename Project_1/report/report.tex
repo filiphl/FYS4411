@@ -13,6 +13,8 @@
 \usepackage{subcaption} 
 \usepackage{color}
 \usepackage{amsmath}  
+\usepackage{hyperref}
+\usepackage{pagecolor}
 %\usepackage{minted}
 %\usepackage{braket} 
 \usepackage{multicol}
@@ -28,7 +30,12 @@
 \newcommand\uu[1]{\underline{\underline{#1}}} % Understreker dobbelt.
 \definecolor{qc}{rgb}{0,0.4,0}
 \definecolor{LightBlue}{rgb}{0.8, 0.8, 0.9}
-
+\hypersetup{
+	colorlinks,
+	linkcolor={red!20!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
 % JF i margen
 \makeatletter
 \renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0pt}%
@@ -42,6 +49,7 @@
 \setcounter{secnumdepth}{3}
 
 \begin{document}
+\pagecolor{black!50!}
 \renewcommand{\figurename}{Figure}
 % Forside
 \begin{titlepage}
@@ -140,18 +148,20 @@ The second derivative then follows:
 \begin{align}
  \nabla_j^2 \prod_i e^{-\alpha r_i^2} 
  &= \nabla_j \lr{-2\alpha \bm{r}_j  \prod_i e^{-\alpha r_i^2}}\\
- &= \lr{4\alpha^2 r_j^2 - 2d\alpha}  \prod_i e^{-\alpha r_i^2}.
+ &= \lr{4\alpha^2 r_j^2 - 2d\alpha}  \prod_i e^{-\alpha r_i^2}.	\label{simpleLaplacian}
 \end{align}
 
 where $d$ is the number of dimensions. Inserting this into back into the local energy (equation \eqref{eq:localeInsertH}), the final expression can be derived:
 
-\begin{align*}
+\begin{align}
+\begin{split}
  E_L({\bf R}) &= \frac{1}{\Psi_T({\bf R})}\sum_i^N \lr{
 	 \frac{-\hbar^2}{2m}
 	 \nabla_{i}^2 +
 	\frac{1}{2}m\omega_{ho}^2r^2}\Psi_T({\bf R})\\
-    &= \sum_{i=1}^N\left[\frac{-\hbar^2}{2m}\lr{4\alpha^2 r_i^2 - 2d\alpha} + \frac{1}{2}m\omega_{ho}^2r_i^2\right]
-\end{align*}
+    &= \sum_{i=1}^N\left[\frac{-\hbar^2}{2m}\lr{4\alpha^2 r_i^2 - 2d\alpha} + \frac{1}{2}m\omega_{ho}^2r_i^2\right] \label{SimpleLocalEnergies}
+\end{split}
+\end{align}
 
 
 
@@ -327,7 +337,7 @@ Since the probability densities are known, it is known whether or not this ratio
 Therefore, we simply say the move is accepted. However, if the probability ratio is smaller than one, then we are more likely to move from the new state to the one the system is currently in.
 To check whether or not we should accept the move, we may compare it to, say, a ``coin toss''; if it's bigger, the move is accepted.
 
-\subsubsection{Importance sampling}
+\subsubsection{Importance sampling} \label{importanceSampling}
 The standard Metropolis algorithm with brute force sampling accepts approximately half of the proposed moves. 
 When a move is rejected we end up sampling the same state several times. This seems like an aweful waste of CPU time.
 A possible improvement is to propose   ``better'' moves. From the Langevin equations one can propose new moves as
@@ -431,7 +441,12 @@ This is repeated until either the gradiant becomes sufficiently small (around or
 
 \subsection{Blocking method}
 
-After having run a Monte Carlo simulation, the variation in estimated local energies will be much too low. This is because one assumes all data to be completely uncorrelated. However, each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, however, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.\\
+After having run a Monte Carlo simulation, the variation in estimated local energies are calculated as
+\begin{equation}
+\sigma = \sqrt{\frac{1}{n}\lr{\langle E_L^2 \rangle - \langle E_L \rangle^2}}. \label{uncorelatedVariance}
+\end{equation} 
+However, these values will be much too low.
+This is because one assumes all data to be completely uncorrelated. Each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, though, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is basically uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.\\
 A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ is grouped in blocks, each of which will give an average of average local energies. Afterwards, one can calculate the variance of these averages of averages. If then the standard deviation is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, one wants to find the lowest number of blocks where the curve approaches a plateau. Then one can calculate $\tau$ and find the correlation time.
 
 \begin{equation}
@@ -468,11 +483,10 @@ A user may choose to use this option by setting
 \subsection{Benchmarks}
 As in most computational work, we need to make certain our program produce reliable values. 
 A very useful way to do this is to compare our numerical results with a known analytical solution to the problem. 
+\subsubsection{Harmonic Oscillator without the Jastrow factor}
 Since we do know the analytical solution to the spherical harmonic oscillator, these may be used as benchmarks that we hope to reproduce.
-We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy}. 
+We have already derived the analytical expression in \eqref{SimpleLocalEnergies}. 
 
-
-\noindent in \texttt{main.cpp}. Results using importance sampling are shown in table(blah3).
 
 
 \begin{table}[H]
@@ -482,29 +496,29 @@ We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy
     \hline
     N &D &Analytical &Numerical &Variance &Time [s] \\*
     \hline
-    1& 1& 0.5 & 0.5 &-2.1e-15 &0.04 \\*
+    1& 1& 0.5& 0.5& 3.1e-20& 0.14\\*
     \hline
-    1& 2& 1& 1&-1.3e-14  &0.05 \\*
+    1& 2& 1& 1& 9.4e-19& 0.153\\*
     \hline
-    1& 3& 1.5& 1.5&-3.6e-14 &0.06 \\*
+    1& 3& 1.5& 1.5& 2.1e-18& 0.115\\*
     \hline
-    10& 1& 5& 5& 1.4e-14 &0.22  \\*
+    10& 1& 5& 5& 3.6e-18& 0.346\\*
     \hline
-    10& 2& 10 &10 &2.1e-13 &0.24 \\*
+    10& 2& 10& 10& 3.2e-17& 0.378\\*
     \hline
-    10 &3 &15 &15 &1.1e-12 &0.26 \\*
+    10& 3& 15& 15& 3.2e-16& 0.414\\*
     \hline
-    100& 1& 50& 50& 7.2e-11 &2.51   \\*
+    100& 1& 50& 50& 6.0e-15& 3.41\\*
     \hline
-    100& 2& 100& 100&1.3e-09 &3.63  \\*
+    100& 2& 100& 100& 1.2e-13& 4.69\\*
     \hline
-    100& 3& 150 &150 &8.0e-09 & 4.51 \\*
+    100& 3& 150& 150& 8.5e-13& 6.02\\*
     \hline
-    500& 1& 250& 250&4.6e-08 &19.5  \\*
+    500& 1& 250& 250& 9.5e-12& 29.4\\*
     \hline
-    500& 2& 500& 500& 5.0e-07 &45.0   \\*
+    500& 2& 500& 500& 7.6e-11& 55.8\\*
     \hline
-    500& 3& 750 &750 & 2.6e-06 & 63.8  \\*
+    500& 3& 750& 750& 2.3e-10& 88.5 \\*
     \hline
   \end{tabular}
   \label{tab:Tabell1}
@@ -512,76 +526,122 @@ We have already derived an analytical expression in \eqref{SimplifiedLocalEnergy
 
 
 \begin{table}[H]
+  
   \centering
   \caption{Analytically calculated laplacian.}
   \begin{tabular}{ | c | c | c | c | c | c |}
     \hline
     N &D &Analytical &Numerical &Variance &Time [s] \\*
     \hline
-    1& 1& 0.5 & 0.5 &0 &0.05 \\*
+    1& 1& 0.5& 0.5& 0& 0.119\\*
     \hline
-    1& 2& 1& 1&  0& 0.04\\*
+    1& 2& 1& 1& 0& 0.142\\*
     \hline
-    1& 3& 1.5& 1.5& 0& 0.08 \\*
+    1& 3& 1.5& 1.5& 0& 0.079\\*
     \hline
-    10& 1& 5& 5& 0& 0.19 \\*
+    10& 1& 5& 5& 0& 0.333\\*
     \hline
-    10& 2& 10 &10 &0 &0.20 \\*
+    10& 2& 10& 10& 0& 0.354\\*
     \hline
-    10 &3 &15 &15 &0 &0.23 \\*
+    10& 3& 15& 15& 0& 0.326\\*
     \hline
-    100& 1& 50& 50& 0& 1.95  \\*
+    100& 1& 50& 50& 0& 2.92\\*
     \hline
-    100& 2& 100& 100& 0& 2.01 \\*
+    100& 2& 100& 100& 0& 2.93\\*
     \hline
-    100& 3& 150 &150 &0& 2.13  \\*
+    100& 3& 150& 150& 0& 2.89\\*
     \hline
-    500& 1& 250& 250& 0& 9.85  \\*
+    500& 1& 250& 250& 0& 14.6\\*
     \hline
-    500& 2& 500& 500& 0&10.0   \\*
+    500& 2& 500& 500& 0& 15.1\\*
     \hline
-    500& 3& 750 &750 &0 &10.1   \\*
+    500& 3& 750& 750& 0& 15.3\\*
     \hline
   \end{tabular}
-  \label{tab:Tabell1}
+  \label{tab:Tabell2}
 \end{table}
 
+The results in table \ref{tab:Tabell1} and \ref{tab:Tabell2} are from simulations using $\alpha=0.5$, an acceptance rate $\approx 0.5$ and  $10^4$ metroplolis steps.
+In these testes we had the exact wavefunction and would expect no error at all. Yet, table \ref{tab:Tabell1} show that for large numbers of particles and dimensions, we might get minor errors. though these are very small compared to the energy. The reason we get these variations though, is the fact that we approximate the laplacian of the wavefunction numerically. The error in this approximation goes as $h^2$, where $h$ is the steplength in the evaluation (1e-04 in this case). 
+Also the variance will depend on the number of metropolis steps as shown in equation \eqref{uncorelatedVariance}.
+ 
+As can be seen in table \ref{tab:Tabell2}, the variance in the local energies are zero when we compute the laplacian of the wavefunction analytically.
+This is because we do not do any approximations.  
+By comparing two tables one can clearly see another advantages of computing the laplacian analytically. 
+The time spent is much less. The reason is that when computing numerically, one has to evaluate the wavefunction 4 times, which is one of the most time consuming parts of the program. The analytically computed laplacian, equation \eqref{simpleLaplacian}, use only parameters already known. 
+
+
+\paragraph{Importance sampling} as explained in section \ref{importanceSampling}, may be used to increase the efficiency of the sampling. Running the same tests using this technique produced table \ref{tab:Tabell3}.
 
 \begin{table}[H]
   \centering
-  \caption{some caption}
+  \caption{Imporance sampling and numerically computed laplacian}
   \begin{tabular}{ | c | r | r | r | r | r |}
     \hline
     N &D &Analytical &Numerical &Variance &Time \\*
     \hline
-    1& 1&   \\*
+    1& 1& 0.5& 0.5& 3.4e-20& 0.10\\*
     \hline
-    1& 2&   \\*
+    1& 2& 1& 1& 4.9e-19& 0.09\\*
     \hline
-    1& 3&  \\*
+    1& 3& 1.5& 1.5& 1.8e-18& 0.10\\*
     \hline
-    10& 1&  \\*
+    10& 1& 5& 5& 1.1e-17& 0.36\\*
     \hline
-    10& 2&\\*
+    10& 2& 10& 10& 2.8e-17& 0.37\\*
     \hline
-    10 &3&  \\*
+    10& 3& 15& 15& 3.6e-16& 0.41\\*
     \hline
-    100& 1&  \\*
+    100& 1& 50& 50& 7.0e-15& 3.62\\*
     \hline
-    100& 2&  \\*
+    100& 2& 100& 100& 1.2e-13& 4.56\\*
     \hline
-    100& 3&  \\*
+    100& 3& 150& 150& 4.2e-13& 5.88\\*
     \hline
-    500& 1&  \\*
+    500& 1& 250& 250& 1.8e-12& 29.0\\*
     \hline
-    500& 2&  \\*
+    500& 2& 500& 500& 7.4e-11& 56.0\\*
     \hline
-    500& 3&   \\*
+    500& 3& 750& 750& 3.6e-10& 89.9\\*
     \hline
   \end{tabular}
   
-  \label{tab:Tabell1}
+  \label{tab:Tabell3}
 \end{table}
+
+In this case we did not see any significant differences in the results produced using importance sampling and not. However the acceptance rate when using it is about 0.999, in contrast to 0.5 when not using it. The acceptance rate is however dependent on the steplength $\Delta t$ as in equation \eqref{importanceSamplingMove}.
+
+\subsubsection{Parameter optimization}
+The harmonic oscillator may also be used to test if the parameter optimization function. Since, we know that for the simple harmonic oscillator without interactions, the parameter $\alpha=0.5$ should ideally be produced. Running this test on the optimizer actually produced the value $\alpha=0.5000000028$, which we can be very pleased with. 
+
+\subsubsection{Conclutions}
+These benchmarks indicate that the program works as it should without the Jastrow factor, and from here we may add the complexity of the full interacting system.
+
+
+\subsection{Onebody density}
+After a few Monte Carlo interations, the system will knverge to a steady state.
+From the steady state, the probability density does not change with time. 
+By sampling the position of all particles at all timesteps after this stady state is 
+reached, one can easily make a histogram of what ranges of radial distances are the most probable.
+This is what we call the onebody density. SOMETHING ABOUT OUR WAVEFUNCTION BEING A PRODUCT OF UNDEPENDENT WAVEFUNCTIONS.
+
+For the case of 10 particles in the eliptical trap, $\alpha = $ blah and $\beta = 2.82843$, the one body density was found to be as shown in figure blah4.
+
+A three dimensional illustration of the density distribution in space is show in figure blah5,
+and a two dimensional projection is shown in figure blah6 and blah7.
+\begin{figure}[H]
+\begin{minipage}[t]{0.48\linewidth}
+  \includegraphics[width=\textwidth]{../modifiedMortenCode/figures/interactingDistribution3.png}
+  \caption{}
+  \label{fig:minipage1}
+\end{minipage}
+\quad
+\begin{minipage}[t]{0.48\linewidth}
+\includegraphics[width=\textwidth]{../modifiedMortenCode/figures/interactingDistributionXZ.png}
+  \caption{}
+  \label{fig:minipage1}
+\end{minipage}
+\end{figure}
 
 \section{Conclusions}
 
