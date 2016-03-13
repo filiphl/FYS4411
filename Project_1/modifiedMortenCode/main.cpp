@@ -28,7 +28,7 @@ int main() {
             int numberOfSteps       = (int) 1e6;
             double omegaHO          = 1.0;          // Oscillator frequency.
             double omegaZ           = 1.0;
-            double alpha            = 0.5;//0.4973395;          // Variational parameter.
+            double alpha            = 0.498783;          // Variational parameter.
             double beta             = 2.82843;      // Variational parameter.
             double gamma            = 2.82843;
             double stepLength       = 1.98;            // Metropolis step length.
@@ -43,7 +43,7 @@ int main() {
             system->setEquilibrationFraction        (equilibration);
             system->setStepLength                   (stepLength);
             system->setAnalyticalLaplacian          (true);
-            system->setImportanceSampling           (true);
+            system->setImportanceSampling           (false);
             system->setStoreLocalEnergy             (true);
             system->setStorePositions               (false);
 

@@ -45,7 +45,7 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
 
 
 
-double SimpleGaussian::computeDoubleDerivative(std::vector<class Particle*> particles) {
+double SimpleGaussian::computeLaplacian(std::vector<class Particle*> particles) {
     /* All wave functions need to implement this function, so you need to
      * find the double derivative analytically. Note that by double derivative,
      * we actually mean the sum of the Laplacians with respect to the

@@ -18,7 +18,7 @@ private:
 public:
     InteractinSimpleGaussian        (System* system, double alpha, double beta);
     double evaluate                 (std::vector<class Particle*> particles);
-    double computeDoubleDerivative  (std::vector<Particle *> particles);
+    double computeLaplacian  (std::vector<Particle *> particles);
     double computeDerivativeOfAlpha (); // devided by psi
 
 

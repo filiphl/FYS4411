@@ -15,15 +15,15 @@ protected:
 public:
     WaveFunction(){};
     WaveFunction(class System* system);
-    int getNumberOfParameters()         { return m_numberOfParameters; }
-    std::vector<double> getParameters() { return m_parameters; }
-    virtual double evaluate(std::vector<class Particle*> particles)                = 0;
-    virtual double computeDoubleDerivative(std::vector<class Particle*> particles) = 0;
+    virtual double evaluate(std::vector<class Particle*> particles)         = 0;
+    virtual double computeLaplacian(std::vector<class Particle*> particles) = 0;
     double sumOfArguments = 0;
 
     double getAlpha() const;
     void setAlpha(double alpha);
     double getAlpha2() const;
     void setAlpha2(double alpha2);
+    int getNumberOfParameters()         { return m_numberOfParameters; }
+    std::vector<double> getParameters() { return m_parameters; }
 };
 

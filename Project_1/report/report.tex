@@ -15,14 +15,15 @@
 \usepackage{amsmath}  
 \usepackage{hyperref}
 \usepackage{pagecolor}
-%\usepackage{minted}
-%\usepackage{braket} 
+\usepackage{minted}
+\usepackage{braket} 
 \usepackage{multicol}
 \usepackage{listings}    %Add source code
 \usepackage{amsfonts}
 \usepackage{setspace}
 \usepackage[cm]{fullpage}		% Smalere marger.
 \usepackage{verbatim} % kommentarfelt.
+\usepackage{tabularx}
 \setlength{\columnseprule}{1pt}	%(width of separationline)
 \setlength{\columnsep}{1.0cm}	%(space from separation line)
 \newcommand\lr[1]{\left(#1\right)} 
@@ -32,7 +33,7 @@
 \definecolor{LightBlue}{rgb}{0.8, 0.8, 0.9}
 \hypersetup{
 	colorlinks,
-	linkcolor={red!20!black},
+	linkcolor={red!30!black},
 	citecolor={blue!50!black},
 	urlcolor={blue!80!black}
 }
@@ -455,27 +456,54 @@ A method of dealing with this is the blocking technique. The set of $\langle E_L
 
 \subsection{Program structure}
 
-From Standard Met. Sampl.
-Tests were done with several choices of number of particles, and number of dimensions.
-The outputs were the expectation value of the energy, the standard deviation of this value and the time elapsed.
+The program discussed is object oriented and written in C++. It is made up of several classes, each managing its own set of tasks. 
+Below is an overview of the most central classes; their name and functionality.
+\renewcommand{\arraystretch}{1.8}
+\begin{table}[H]
+	\centering
+	\begin{tabularx}{\textwidth}{ p{2.5cm}  p{14.5cm} }
+		\hline
+		\texttt{System}& The cornerstone of the structure. Every other class communicates with this class in some way. \newline
+		Stores the chosen \texttt{Hamiltonian}, \texttt{Wavefunction} and  a vector \texttt{m\_atoms} which holds all the atoms. 
+		Holds all global parameter such as number of particles, dimensions and metropolis steps. \newline
+		Actually does the Metropolis iterations.\\*
+		\hline
+		\texttt{Sampler}& Stores the local energies, computes their average and variance at the end of the simulations.
+		Prints results to screen and writes to file.\\*		
+		\hline
+		\texttt{Particle}& Objects of this class holds a vector for its position.\\*
+		\hline
+		\texttt{Hamiltonian}& Contains a function to compute kinetic energy and constitutes that all specific types of
+		hamiltonians (subclasses) must have a function \texttt{computeLocalEnergy}.\\*  
+		\hline
+		\texttt{Wavefunction}& Constitutes that all specific wavefunctions (subclasses) must have the functions \texttt{evaluate} and
+		\texttt{computeLaplacian}.\\*
+		\hline
+		\texttt{InitialState}& Adds \texttt{Particle} objects to the \texttt{m\_atoms} vector in \texttt{System} and give them positions.
+		A subclass can for instance distribute particles uniformly in space.\\*
+		\hline
+		\texttt{Optimizer}& Optimizes variational parameters. Used when including the Jastrow factor in the wavefunction.\\*
+		\hline
+	\end{tabularx}
+\end{table}
+In \texttt{main.cpp} a user can set parameters of the system, such as number of particles, dimensions, Metropolis steps, alpha, beta, etc.
+Which subclass of \texttt{Hamiltonian}, \texttt{Wavefunction} and \texttt{InitialState} must be chosen here as well. \newpage \noindent An example may look like \\*[5mm]
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+System* system = new System();
+system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
+system->setWaveFunction                 (new SimpleGaussian(system, alpha));
+system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
+\end{minted}
+\\*[5mm]
+Also, one may choose to use an analytical computation of the laplacian of the wavefunction, use importance sampling, store local energies and store positions by setting the desired option to \texttt{true}.\\*[5mm]
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+system->setAnalyticalLaplacian          (false);
+system->setImportanceSampling           (false);
+system->setStoreLocalEnergy             (false);
+system->setStorePositions               (false);
+\end{minted}
+\\*[5mm]
 
-At first we chose to calculate the Laplacian in the kinetic term numerically. 
-The results are shown in table(blah).
-As can be seen the analytical results are well reproduced. 
-The standard deviation is not zero, but this is due to numerical error in the calculation of the kinetic energy.
-This error increases with the number of particles and number of dimensions. 
-%We know this because the potetial energy is trivial and equal the analytical expression by definition.
-
-Once convinced the local energies were reproduced correctly, we implemented an analytical calculation of the laplacian as well.
-A user may choose to use this option by setting 
-\\*
-
-%\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
-%system->setAnalyticalLaplacian (true);
-%\end{minted}
-%\\*
-
-\noindent in \texttt{main.cpp}. The tests using analytical calculation of the laplacian resulted as shown in table(blah2).
 
 \section{Results}
 
@@ -576,7 +604,7 @@ The time spent is much less. The reason is that when computing numerically, one 
 \begin{table}[H]
   \centering
   \caption{Imporance sampling and numerically computed laplacian}
-  \begin{tabular}{ | c | r | r | r | r | r |}
+  \begin{tabular}{ | c | c | c | c | c | c |}
     \hline
     N &D &Analytical &Numerical &Variance &Time \\*
     \hline

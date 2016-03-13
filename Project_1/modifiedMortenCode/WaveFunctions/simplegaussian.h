@@ -8,7 +8,7 @@ private:
 public:
     SimpleGaussian(class System* system, double alpha);
     double evaluate(std::vector<class Particle*> particles);
-    double computeDoubleDerivative(std::vector<class Particle*> particles);
+    double computeLaplacian(std::vector<class Particle*> particles);
 
 
     //double getAlpha() const{ return m_alpha; }

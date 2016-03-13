@@ -52,7 +52,7 @@ double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)
 
 
 
-double InteractinSimpleGaussian::computeDoubleDerivative(std::vector<Particle *> particles)
+double InteractinSimpleGaussian::computeLaplacian(std::vector<Particle *> particles)
 {
     double ddr = 0;
 
