@@ -25,13 +25,13 @@ int main() {
 //        for (int numberOfDimensions : nD){
             int numberOfParticles   = 10;
             int numberOfDimensions  = 3;
-            int numberOfSteps       = (int) 1e6;
+            int numberOfSteps       = (int) 1e3;
             double omegaHO          = 1.0;          // Oscillator frequency.
             double omegaZ           = 1.0;
             double alpha            = 0.498783;          // Variational parameter.
             double beta             = 2.82843;      // Variational parameter.
             double gamma            = 2.82843;
-            double stepLength       = 1.98;            // Metropolis step length.
+            double stepLength       = 1.7;            // Metropolis step length.
             double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
 
             System* system = new System();
@@ -44,8 +44,8 @@ int main() {
             system->setStepLength                   (stepLength);
             system->setAnalyticalLaplacian          (true);
             system->setImportanceSampling           (false);
-            system->setStoreLocalEnergy             (true);
-            system->setStorePositions               (false);
+            system->setStoreLocalEnergy             (false);
+            system->setStorePositions               (true);
 
             //Optimizer* myOptimizer = new Optimizer(system);
             //myOptimizer->optimizeParameters();

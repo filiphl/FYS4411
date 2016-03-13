@@ -1,4 +1,7 @@
-
+"""
+In order to run this program one must have MayaVI installed.
+I run it as python raddist.py -toolkit wx
+"""
 import sys, os, numpy as np
 
 from math import sqrt
@@ -6,120 +9,52 @@ from mayavi import mlab
 import matplotlib.pyplot as plt
 #from pylab import *
 
-def loadArmaCube(path):
-    """reading a armadillo binary cube representing a 3D histogram"""
 
-    with open(path, 'rb') as binFile:
-        binFile.readline()
-        n, m, l = [int(n_i) for n_i in binFile.readline().strip().split()]
+def loadCube(positions,N=200, l=-3, u=3):
 
-        data = np.fromfile(binFile, dtype=np.float64)
+    bc=np.linspace(l, u, N);
+    cube = np.zeros([N,N,N])
 
-    print ("Loaded %d data points" % data.shape),
+    for pos in positions:
+        posc=[0,0,0]
+        for d in xrange(3):
+            for i in xrange(N):
+                if not posc[d]:
+                    if pos[d] < bc[i]:
+                        posc[d] = i
+        cube[posc[0],posc[1],posc[2]] += 1
 
-    data.resize(n, m, l)
+    print "Done filling cube"
+    return cube
 
-    print "reshaped to a %s array. " % str(data.shape)
 
-    return data
+def radialDistribution(positions, N=100):
 
-def loadArmaMat(path):
-    with open(path, 'rb') as binFile:
-        binFile.readline()
-        n, m = [int(n_i) for n_i in binFile.readline().strip().split()]
+    u = positions.max()
+    print len(positions)
+    r = np.zeros(len(positions))
 
-        data = np.fromfile(binFile, dtype=np.float64)
+    for i in xrange(len(positions)):
+        r2 = 0.0
+        for j in xrange(3):
+            r2 += positions[i][j]*positions[i][j]
+        r[i] = sqrt(r2);
 
-    print ("Loaded %d data points" % data.shape),
-
-    data.resize(n, m)
-
-    print "reshaped to a %s array. " % str(data.shape)
-
-    return data
-
-def makeRadialHist1(data):
-    n, m, l = data.shape
-    #print data
-    #f = lambda i, n: (i*2.0/(n-1) - 1)**2
-    #f = np.vectorize(f)
-
-    #D_i = f(xrange(0, n), n)
-    #D_j = f(xrange(0, m), m)
-    #D_k = f(xrange(0, l), l)
-    nBins = 100
-    radii = np.zeros((l,n));
-    print l,m,n
-    hist = np.zeros(nBins)
-    for i in xrange(l):
-    	#if(i%100 == 0):
-    		#print i
-    	for j in xrange(n):
-    		for k in xrange(m):
-    			radii[i,j] += data[j,k,i]**2;
-    radii = np.sqrt(radii)
-
-    a = np.histogram(radii,1000)
-    print a
-    b = a[1][-1]
-    a = a[0]
-
-    t = np.linspace(0,b,1000)
-    plt.hist(radii,1000)
+    print "Done filling vec"
+    Weights = np.ones_like(r)/float(len(r))
+    n, bins, patches = plt.hist(r, bins=N,normed=1, weights=Weights, color="#006867")
+    #plt.hold("on")
+    #plt.plot(bins[:-1], n, '--', color="#680000", linewidth=3)
+    plt.xlabel("Radial distance")
+    plt.ylabel("Probability")
+    plt.grid("on")
+    plt.show()
     plt.figure()
-    plt.plot(t, a)
-    plt.xlabel('radial distance')
-    plt.ylabel('non-normalized distribution')
+    plt.plot(bins[:-1], n, '--', color="#680000", linewidth=3)
+    plt.grid("on")
+    plt.xlabel("Radial distance")
+    plt.ylabel("Probability")
     plt.show()
-
-def make1dHist(data):
-    t = np.linspace(-5,5,200)
-    plt.plot(t, data)
-    plt.xlabel('x-position')
-    plt.ylabel('non-normalized density')
-    plt.show()
-
-def make2dHist(data):
-
-    plt.imshow(data, extent=[-5,5,-5,5])
-    plt.xlabel('x-axis')
-    plt.ylabel('y-axis')
-    plt.colorbar()
-    plt.show()
-
-
-
-def makeRadialHist2(data):
-    n, m = data.shape
-    # nBins = 100
-    # radii = np.zeros(n*m);
-    # print l,m,n
-    # hist = np.zeros(nBins)
-    # print sum(sum(np.isnan(data)))
-    a = np.histogram(data,100,normed=True)
-    b = a[1][-1]
-    c = a[1][0]
-    a = a[0]
-    t = np.linspace(c,b,100)
-    plt.plot(t, a)
-    plt.xlabel('x-position')
-    plt.ylabel('non-normalized density')
-    #plt.show()
-
-def loadArmaVec(path):
-    with open(path, 'rb') as binFile:
-        binFile.readline()
-        n, m = [int(n_i) for n_i in binFile.readline().strip().split()]
-
-        data = np.fromfile(binFile, dtype=np.float64)
-
-    print ("Loaded %d data points" % data.shape),
-
-    data.resize(n, m)
-
-    print "reshaped to a %s array. " % str(data.shape)
-
-    return data
 
 
 
@@ -174,24 +109,29 @@ def make3dHist(data):
     mlab.show()
 
 
+def make1dHist(data):
+    Weights = np.ones_like(data)/float(len(data))
+    plt.hist(data, bins=np.linspace(0,0.4,33), weights=Weights)
+    plt.show()
+
 
 if __name__ == "__main__":
-    path1 = "../datafiles/positions.txt"
-    positions = np.loadtxt(path1)
+    path1 = "../datafiles/positionsHOe5.txt"
+    path2 = "../datafiles/positionsIe7.txt"
+    path3 = "../datafiles/positionsIe6.txt"
+    path4 = "../datafiles/positionsHOe6.txt"
+    path5 = "../datafiles/positionsIe3.txt"
+    positions = np.loadtxt(path2)
     print "Done loading file"
-    N = 200
-    bc=np.linspace(-2.5, 2.5, N);
-    data = np.zeros([N,N,N])
 
-    for pos in positions:
-        posc=[0,0,0]
-        for d in xrange(3):
-            for i in xrange(N):
-                if not posc[d]:
-                    if pos[d] < bc[i]:
-                        posc[d] = i
-        data[posc[0],posc[1],posc[2]] += 1
-    print "Done filling matrix"
+
+    #make1dHist(data)
+    data = loadCube(positions)
+    make3dHist(data);
+
+    radialDistribution(positions, 100)
+
+
     #make2dHist(loadArmaCube(path2), 0)
     #makeRadialHist1(loadArmaCube(path2))
     #makeRadialHist2(loadArmaMat(path6))
@@ -204,8 +144,8 @@ if __name__ == "__main__":
     # data = loadArmaMat(path4)
     # make2dHist(data);
     # data = loadArmaCube(path5)
-    make3dHist(data);
+
     #plt.xlabel('Distance [a.u]')
     #plt.ylabel('Probability')
     #plt.legend(['with correlations', 'without correlations, alpha=10', 'without correlations, alpha=7.81', 'with correlations, alpha=10, beta=0.104'])
-    #plt.show()
+    plt.show()
