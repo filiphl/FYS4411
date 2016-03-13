@@ -61,7 +61,7 @@
 \rule{\linewidth}{0.5mm} \\[0.4cm]
 { \huge \bfseries  Project 1;\\ Variational Monte Carlo Studies of Bosonic systems}\\[0.10cm]
 \rule{\linewidth}{0.5mm} \\[1.5cm]
-\textsc{\Large temporary report}\\[1.5cm]
+\textsc{\Large report}\\[1.5cm]
 
 
 % Av hvem?
@@ -103,11 +103,19 @@
 
 
 \section{Introduction}
-
+It goes without saying that quantum mechanics has had a tremendous success in describing the our world at the microscopic level. Unfortunately, Schr\"odinger's equation becomes unsolvable for the n-body problem, simply due to the complexity of real world systems.
 
 \section{Theory and methods}
 
-A brief on VMC
+The variational Monte Carlo method uses the variational principle from quantum mechanics in order to find the ground state of some system. As is commonly known, the ground state energy will \emph{always} be abide by the inequality:
+
+\begin{equation}
+	E_{0} \leq \frac{\langle \Psi|H|\Psi\rangle}{\langle\Psi|\Psi\rangle}
+\end{equation}
+
+where $\Psi$ is any wave function. The variational part consists of finding the minimal of $E_0$ with respect to some wavefunction parameter(s).\\
+Monte Carlo simulation can be used to find the lowest energy setting\footnote{By setting, we will mean the distribution of particles for the system.} for a given wavefunction and Hamiltonian. However, as is usually the case for more realistic mathematical models of real systems, both $\Psi$ and $H$ are either approximated or simply guessed. It will be assumed that each boson behaves as particle in a harmonic oscillator (HO) potential, and that they cannot overlap (presenting a "hard-core" potential). A better approximation takes into account the possibility of an external magnetic field, influencing on of the degrees of freedom in the HO potential, and will also be considered.\\ 
+Since bosons do not abide by the Pauli exclusion principle, we will use a symmetric wavefunction\footnote{I.e. invariant under interchange of two particles.}. It is reasonable that the particles will, for the most part, not behave too differently from a non-interacting system. Therefore, $\Psi$ can be approximated as the product of $N$ single-particle wavefunctions, each a solution to the HO Schr\"odinger equation. The boson will nonetheless have an interaction, which can be simulated by a Jastrow factor. This interaction will give correlations between the single-particle wavefunctions.
 
 \subsection{Preliminary derivations}
 
@@ -300,6 +308,17 @@ and the $\phi_k$ derivatives are:
 \nabla_k^2\phi_k = \nabla_k (\nabla_k\phi_k) = \left[-2\alpha(2+\beta) + 4\alpha^2(x_k^2 + y_k^2 + \beta^2 z_k^2)\right]\phi_k
 \end{equation}
 
+The Hamiltonian may be rewritten in the full problem by using unit-less variables $r' = r/a_{ho}$ and fix energy in units of $[\hbar\omega_{ho}]$. This means one changes Hamiltonian: $H\:\rightarrow\: H'$:
+
+\begin{align}
+	\begin{split}
+	H_f' &= \sum_{i=1}^{N}-\frac{\hbar^2}{2m} \frac{1}{\hbar\omega_{ho}}a_{ho}^2\nabla_i'^2 + \frac{1}{2}\frac{m}{\hbar\omega_{ho}}\frac{1}{a_{ho}^2}\left[ \omega_{ho}^2(x'^2+y'^2) + \omega_z^2z'^2 \right] + A\\
+	&= \sum_{i=1}^{N}-\frac{1}{2}\nabla_i'^2 + \frac{1}{2}\left[ x'^2+y'^2 + \gamma^2z'^2 \right] + A
+	\end{split}
+\end{align}
+
+where we have used $a_{ho} \equiv \sqrt{\frac{\hbar}{m\omega_{ho}}}$, $\gamma \equiv \frac{\omega_z}{\omega_{ho}} = \sqrt{\frac{a_{ho}}{a_z}}$, and $A = \sum_{i<j} V_{int}(|\bm{r}_i-\bm{r}_j|)$ does not change under the change of variables. The marked coordinates are not given in terms of $1/a_{ho}$, defined by $a/a_{ho} = 0.0043$.
+
 \subsection{Metropolis algorithm}
 The basic principle behind the Metropolis algorithm is to make an assumption on the transition probability for a system to move from setting to another, as
 an exact, or even approximate, expression is lacking.
@@ -444,15 +463,16 @@ This is repeated until either the gradiant becomes sufficiently small (around or
 
 After having run a Monte Carlo simulation, the variation in estimated local energies are calculated as
 \begin{equation}
-\sigma = \sqrt{\frac{1}{n}\lr{\langle E_L^2 \rangle - \langle E_L \rangle^2}}. \label{uncorelatedVariance}
+	\sigma = \sqrt{\frac{1}{n}\lr{\langle E_L^2 \rangle - \langle E_L \rangle^2}}. \label{uncorelatedVariance}
 \end{equation} 
 However, these values will be much too low.
 This is because one assumes all data to be completely uncorrelated. Each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, though, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is basically uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.\\
-A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ is grouped in blocks, each of which will give an average of average local energies. Afterwards, one can calculate the variance of these averages of averages. If then the standard deviation is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, one wants to find the lowest number of blocks where the curve approaches a plateau. Then one can calculate $\tau$ and find the correlation time.
+A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ measurements is grouped into blocks, each of which will give an average of average local energies. Afterwards, one can calculate the variance of these averages of averages. If then the standard deviation (equation above) is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, one can find the lowest number of blocks where the curve approaches a plateau. Then one can calculate $\tau$ and find the correlation time. The true standard deviation is then:
 
 \begin{equation}
 	\sigma=\sqrt{\frac{1+2\tau/\Delta t}{n}\left(\langle \mathbf{M}^2\rangle-\langle \mathbf{M}\rangle^2\right)}
 \end{equation}
+
 
 \subsection{Program structure}
 
@@ -487,7 +507,7 @@ Below is an overview of the most central classes; their name and functionality.
 	\end{tabularx}
 \end{table}
 In \texttt{main.cpp} a user can set parameters of the system, such as number of particles, dimensions, Metropolis steps, alpha, beta, etc.
-Which subclass of \texttt{Hamiltonian}, \texttt{Wavefunction} and \texttt{InitialState} must be chosen here as well. \newpage \noindent An example may look like \\*[5mm]
+Which subclass of \texttt{Hamiltonian}, \texttt{Wavefunction} and \texttt{InitialState} must be chosen here as well. An example may look like \\*[5mm]
 \begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
 System* system = new System();
 system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
@@ -639,21 +659,58 @@ The time spent is much less. The reason is that when computing numerically, one 
 
 In this case we did not see any significant differences in the results produced using importance sampling and not. However the acceptance rate when using it is about 0.999, in contrast to 0.5 when not using it. The acceptance rate is however dependent on the steplength $\Delta t$ as in equation \eqref{importanceSamplingMove}.
 
+\subsubsection{Blocking}
+Applying blocking to the simple problem with an analytical Laplacian will simply give zero for all block sizes. For the numerical Laplacian, there is a small variance due to the errors presented by the numerical derivation. In figure \ref{fig:blocking_simple} below, one can see the standard deviation with increasing block sizes. In figure (a), it is approximately zero, and does not seem to diverge much. Likewise, in figure (b), the quantity does seem to diverge and is of much higher order, but for 100 particles, the analytically found energy, shown in table \ref{tab:Tabell2}, is 150; much higher than the values along the y-axis shown here. Additionally, the x-axis shows block sizes of order $10^4-10^5$, while we expect the correlation time to be about order $10^3$, so the divergence has next to no effect. The case of 500 particles displays the same tendencies. There are no benchmarks to show for the interacting case, as there is no analytical expectation with which to compare. However, since the advanced case will employ an analytical Laplacian, numerical errors due to estimations\footnote{That is, numerical derivatives and such.} will not be of concern.
+
+\begin{figure}[H]
+	\centering
+	\subcaptionbox{10 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=10_D=3_alpha=05_steps=1e6_num.png}}
+	\subcaptionbox{100 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=100_D=3_alpha=05_steps=1e6_num.png}}
+	\caption{Blocking applied to the simplified problem, with a numerically calculated Laplacian.}
+	\label{fig:blocking_simple}
+\end{figure}
+
 \subsubsection{Parameter optimization}
 The harmonic oscillator may also be used to test if the parameter optimization function. Since, we know that for the simple harmonic oscillator without interactions, the parameter $\alpha=0.5$ should ideally be produced. Running this test on the optimizer actually produced the value $\alpha=0.5000000028$, which we can be very pleased with. 
 
-\subsubsection{Conclutions}
+\subsubsection{Conclusions}
 These benchmarks indicate that the program works as it should without the Jastrow factor, and from here we may add the complexity of the full interacting system.
 
+\subsection{Blocking for full problem}
+In figure \ref{fig:blocking_full} below are the blocking runs for 10, 50 and 100 particles. From the graphs, one can see the block size corresponding to the correct correlation time is about $500\times\Delta t$, $2000\times\Delta t$ and $----\times\Delta t$. Therefore, the standard deviation of each case is:
 
-\subsection{Onebody density}
-After a few Monte Carlo interations, the system will knverge to a steady state.
+\begin{table}[H]
+	\centering
+	\caption{Standard deviations in full problem.}
+	\begin{tabular}{ | c | c |}
+		\hline
+		N & Standard deviation ($\sigma$) \\*
+		\hline
+		10 & 0.01442\\
+		50 & 0.02883\\
+		100 & \\
+		\hline
+	\end{tabular}
+	\label{tab:Tabell4}
+\end{table}
+
+\begin{figure}[H]
+	\centering
+	\subcaptionbox{10 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png}}
+	\subcaptionbox{50 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png}}
+	\subcaptionbox{100 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png}}
+	\caption{Blocking applied to the full problem, with a analytically calculated Laplacian.}
+	\label{fig:blocking_full}
+\end{figure}
+
+\subsection{One-body density}
+After a few Monte Carlo iterations, the system will converge to a steady state.
 From the steady state, the probability density does not change with time. 
-By sampling the position of all particles at all timesteps after this stady state is 
+By sampling the position of all particles at all time steps after this stady state is 
 reached, one can easily make a histogram of what ranges of radial distances are the most probable.
-This is what we call the onebody density. SOMETHING ABOUT OUR WAVEFUNCTION BEING A PRODUCT OF UNDEPENDENT WAVEFUNCTIONS.
+This is what we call the one-body density. SOMETHING ABOUT OUR WAVEFUNCTION BEING A PRODUCT OF INDEPENDENT WAVEFUNCTIONS.
 
-For the case of 10 particles in the eliptical trap, $\alpha = $ blah and $\beta = 2.82843$, the one body density was found to be as shown in figure blah4.
+For the case of 10 particles in the elliptical trap, $\alpha = $ blah and $\beta = 2.82843$, the one body density was found to be as shown in figure blah4.
 
 A three dimensional illustration of the density distribution in space is show in figure blah5,
 and a two dimensional projection is shown in figure blah6 and blah7.
