@@ -6,7 +6,7 @@ import sys, os, numpy as np
 
 from math import sqrt
 from mayavi import mlab
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 #from pylab import *
 
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     path3 = "../datafiles/positionsIe6.txt"
     path4 = "../datafiles/positionsHOe6.txt"
     path5 = "../datafiles/positionsIe3.txt"
-    positions = np.loadtxt(path2)
+    positions = np.loadtxt(path5)
     print "Done loading file"
 
 

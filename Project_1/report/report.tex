@@ -508,22 +508,22 @@ Below is an overview of the most central classes; their name and functionality.
 \end{table}
 In \texttt{main.cpp} a user can set parameters of the system, such as number of particles, dimensions, Metropolis steps, alpha, beta, etc.
 Which subclass of \texttt{Hamiltonian}, \texttt{Wavefunction} and \texttt{InitialState} must be chosen here as well. An example may look like \\*[5mm]
-\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+%\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
 System* system = new System();
 system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
 system->setWaveFunction                 (new SimpleGaussian(system, alpha));
 system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-\end{minted}
+%\end{minted}
 \\*[5mm]
 Also, one may choose to use an analytical computation of the laplacian of the wavefunction, use importance sampling, store local energies and store positions by setting the desired option to \texttt{true}.\\*[5mm]
-\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+%\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
 system->setAnalyticalLaplacian          (false);
 system->setImportanceSampling           (false);
 system->setStoreLocalEnergy             (false);
 system->setStorePositions               (false);
-\end{minted}
+%\end{minted}
 \\*[5mm]
-
+\write18{}
 
 \section{Results}
 
@@ -708,18 +708,21 @@ After a few Monte Carlo iterations, the system will converge to a steady state.
 From the steady state, the probability density does not change with time. 
 By sampling the position of all particles at all time steps after this stady state is 
 reached, one can easily make a histogram of what ranges of radial distances are the most probable.
-This is what we call the one-body density. SOMETHING ABOUT OUR WAVEFUNCTION BEING A PRODUCT OF INDEPENDENT WAVEFUNCTIONS.
+This is what we call the one-body density. 
 
 For the case of 10 particles in the elliptical trap, $\alpha = 0.498783$ and $\beta = \gamma = 2.82843$, the one body density was found to be as shown in figure \ref{fig:onebodyDensityInteracting}.
+A three dimensional illustration of the density distribution in space is show in figure \ref{fig:spatialDistribution}. 
+Figure \ref{fig:onebodyDensityInteractinghist} and \ref{fig:onebodyDensityInteracting} are obviously the same, it might just be easier to read off of figure \ref{fig:onebodyDensityInteracting}. These figures show that the probability distribution looks much like a normal distribution with mean value at $r\approx5$. Thus, this will be the most probable radial distance to find a particle. Notice also that the probability of beeing at the origin is zero. We belive this is due to the hard-shell approximation we have used. Claiming that no two particles can be closer than a distance $a$\footnote{At closer ranges the wavefunction will be evaluated to zero, and thus the Metropolis algorithm will never accept such a move.}. Having all particles pulled toward the origin, the spatial points closest to the origin will be filled. Thus, as the rest of the particles struggle to loose energy, they can only occupy positions at greater radial distance. In a spherical shell at a great range, there will be many more particles than in a short ranged shell. As the number of particles filling the shell is finite, we will however exhaust the number of particles, and the probability density drops. 
 
-A three dimensional illustration of the density distribution in space is show in figure blah5,
-and a two dimensional projection is shown in figure blah6 and blah7.
+Figure \ref{fig:spatialDistribution} and \ref{fig:spatialDistribution2} show the spatial distribution. Notice a slice ($1/8$) has been cut out of the spheres in order to reveal the gradual change in density. These figures show that the highest density is closest to the center/origin, and also the geometry of the potential. 
+
+
 
 \begin{figure}[H]
 	\begin{minipage}[t]{0.48\linewidth}
 		\includegraphics[width=\textwidth]{../modifiedMortenCode/figures/radialdistributionIe6.eps}
 		\caption{Radial distribution of the bosons.}
-		\label{fig:minipage1}
+		\label{fig:onebodyDensityInteractinghist}
 	\end{minipage}
 	\quad
 	\begin{minipage}[t]{0.48\linewidth}
@@ -732,14 +735,14 @@ and a two dimensional projection is shown in figure blah6 and blah7.
 \begin{figure}[H]
 \begin{minipage}[t]{0.48\linewidth}
   \includegraphics[width=\textwidth]{../modifiedMortenCode/figures/interactingDistribution3.png}
-  \caption{}
-  \label{fig:minipage1}
+  \caption{Spatial distribution, with a slice cut out.}
+  \label{fig:spatialDistribution}
 \end{minipage}
 \quad
 \begin{minipage}[t]{0.48\linewidth}
 \includegraphics[width=\textwidth]{../modifiedMortenCode/figures/interactingDistributionXZ.png}
-  \caption{}
-  \label{fig:minipage1}
+  \caption{Spatial distribution, with a slice cut out. Y-direction is orthogonal to the paper plane.}
+  \label{fig:spatialDistribution2}
 \end{minipage}
 \end{figure}
 
