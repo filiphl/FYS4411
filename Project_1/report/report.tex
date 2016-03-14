@@ -15,7 +15,7 @@
 \usepackage{amsmath}  
 \usepackage{hyperref}
 \usepackage{pagecolor}
-\usepackage{minted}
+%\usepackage{minted}
 \usepackage{braket} 
 \usepackage{multicol}
 \usepackage{listings}    %Add source code
@@ -103,7 +103,23 @@
 
 
 \section{Introduction}
-It goes without saying that quantum mechanics has had a tremendous success in describing the our world at the microscopic level. Unfortunately, Schr\"odinger's equation becomes unsolvable for the n-body problem, simply due to the complexity of real world systems.
+While quantum mechanics is solvable for small systems (one- and two-body systems), it becomes unwieldy for complex physical systems, one of which is the boson gas. Alkali gases in magnetic traps behave precisely how one predicted Bose-Einstein condensates to behave, and brought about a new area of physics\footnote{For a long time, the Bose-Einstein condensate was believed to be a purely theoretical model, with no physical realisation. It was first produced in 1995 by Carl Wieman and Eric Cornell at UCB, using Rubidium gas.} and contributed greatly to condensed matter physics.\\
+The Gross-Pitaevskii equation (a modification of the Scro\"odinger equation) assumes boson-boson interaction in a dilute system. A requirement for it to hold true is that the inter-atomic distance is greater than the atomic interaction length, so only two-body collisions matter. Specifically, it holds when the inter-atomic distance is greater than the scattering length. This assumption has had tremendous success.\\
+However, the introduction of a Feshbach resonance allows another interaction to take place. This means the atoms now interact, and one can no longer solve the system analytically. 
+%Basically, the atoms have been pressed together by the application of a magnetic field. 
+Therefore, many-body methods will have to be used to find, for example, the ground state energy. 
+To achieve this, the variational Monte Carlo method (VMC) will be used.\\
+First, we apply VMC to the spherical harmonic oscillator potential and assume the bosons are without size. 
+This means the system consists of non-interacting, trapped bosons and is perfectly solvable analytically, and will allow us to check the program with known benchmarks. 
+Since consequent samples from VMC will be closely correlated, a method known as "blocking" will be used for statistical analyses. 
+The variational parameter\footnote{Since the harmonic oscillator wavefunction will be used, we expect $\alpha = \frac{1}{2}$ in the spherical harmonic oscillator potential.} $\alpha$ will be optimized by minimizing the local energy using the steepest descent method. 
+Once the program is in agreement with the benchmarks, we will apply the magnetic field by instead implementing an elliptical potential. 
+Additionally, the 2-body collisions will be implemented by use of a "hard-sphere" potential, and the inter-atomic interactions will be approximated by a two-body correlation part in the harmonic oscillator wavefunction, which is known as the "Jastrow factor". 
+Then, having made sure the optimization of the variational parameter work, we will optimize $\alpha$ for the full interacting case.\\
+Below, we first provide the theory needed for the VMC method: a brief on the VMC method, followed by proof of the necessary equations to be used in the program by a short explanation of the blocking and steepest descent methods. 
+Then an explanation on the structure of the program will be given. 
+The results section will provide the benchmarks used to confirm the validity of the program, followed by an application to the full, interacting system, including a statistical and physical analyses of the results. 
+Lastly, we will discuss the significance of the results and the quality of the analyses.
 
 \section{Theory and methods}
 
@@ -205,9 +221,11 @@ The full local energy\footnote{The "full local energy" means not making any assu
 where, in order for this to fit with the previous wavefunction, $u(r_{ij}) \equiv \ln[f(r_{ij})]$ and $\phi(\bm{r}_i) \equiv g(\alpha,\beta,\bm{r}_i)$. The gradient with respect to the $k$-th coordinate set is:
 
 \begin{align}
+	\begin{split}
 	\nabla_k\Psi_T &= \nabla_k\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\\
 	&= \nabla_k\phi_k\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\nabla_k\left(\sum_{i''<j''}u_{i''j''} \right)\right]\\
 	&= \nabla_k\phi_k\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\left(\sum_{i''<j''}\nabla_ku_{i''j''} \right)\right]
+	\end{split}
 \end{align}
 
 The function $u_{ij}$ is symmetric under permutation $i \leftrightarrow j$, as one can see from the definitions of $u_{ij}$ and $f(r_{ij})$. Therefore, the last sum above can have a different indexing: All terms without an index $k$, will give zero when taking the derivative $\nabla_k$, so only $i=k$ or $j=k$ remains (remember $i \neq j$). Due to the symmetry of $u_{ij}$, one can simply always say $i=k$ and let $j$ be the summation index:
@@ -219,19 +237,23 @@ The function $u_{ij}$ is symmetric under permutation $i \leftrightarrow j$, as o
 
 The second derivative now becomes (where $\nabla_k$ only acts on the first parenthesis to its right):
 
-\begin{align*}
+\begin{align}
+	\begin{split}
 	\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\left[\prod_{i\neq k} \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\right] + (\nabla_k\phi_k) \left[\prod_{i\neq k}\phi(\bm{r}_i)\nabla_ke^{\sum_{i'<j'}u(r_{i'j'})}\right]\\
 	&\:\:\:\:\:\: + \left[\nabla_k\left(\prod_i \left(\phi(\bm{r}_i)\right)e^{\sum_{i'<j'}u(r_{i'j'})}\right)\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
 	&\:\:\:\:\:\: + \left[\prod_i \phi(\bm{r}_i)e^{\sum_{i'<j'}u(r_{i'j'})}\left(\sum_{j''\neq k}\nabla_k^2u_{kj''} \right)\right]
-\end{align*}
+	\end{split}
+\end{align}
 
 While a bit of a nuisance to read, the expression above is simply the product rule for $\nabla_k(\nabla_k\Psi_T)$. Written in terms of $\Psi_T$, the above can be a bit simplified\footnote{For the more mathematically concerned nitpicker, the product symbol only runs over the functions $\phi(\bm{r}_i))$, not the following exponential. This is easy to realise by recalling how $\Psi_T$ was defined, and is important to know when inserting $\Psi_T$ as done now.}:
 
-\begin{align*}
+\begin{align}
+	\begin{split}
 	\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\frac{\Psi_T}{\phi(\bm{r}_k)} + (\nabla_k\phi_k) \left[\prod_{i\neq k}\phi(\bm{r}_i)\nabla_ke^{\sum_{i'<j'}u(r_{i'j'})}\right]\\
 	&\:\:\:\:\:\: + \left[\left(\nabla_k\Psi_T\right)\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
 	&\:\:\:\:\:\: + \left[\Psi_T\left(\sum_{j''\neq k}\nabla_k^2u_{kj''} \right)\right]
-\end{align*}
+	\end{split}
+\end{align}
 
 The second term above is equal to the second term in equation \ref{eq:grad}, divided by $\phi(\bm{r}_k)$. Furthermore, the gradient $\nabla_k\Psi_T$ is already calculated above, and in terms of $\Psi_T$ is:
 
@@ -241,19 +263,23 @@ The second term above is equal to the second term in equation \ref{eq:grad}, div
 
 Inserting all this back into the second derivative yields:
 
-\begin{align*}
+\begin{align}
+	\begin{split}
 	\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\frac{\Psi_T}{\phi(\bm{r}_k)} + (\nabla_k\phi_k) \left[\frac{\Psi_T}{\phi(\bm{r}_k)}\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
 	&\:\:\:\:\:\: + \left[\frac{\Psi_T}{\phi(\bm{r}_k)}\nabla_k\phi_k + \Psi_T\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\\
 	&\:\:\:\:\:\: + \left[\Psi_T\left(\sum_{j''\neq k}\nabla_k^2u_{kj''} \right)\right]
-\end{align*}
+	\end{split}
+\end{align}
 
 Giving:
 
-\begin{align*}
+\begin{align}
+	\begin{split}
 	\frac{1}{\Psi_T}\nabla_k^2\Psi_T &= (\nabla_k^2\phi_k)\frac{1}{\phi(\bm{r}_k)} + (\nabla_k\phi_k) \left[\frac{1}{\phi(\bm{r}_k)}\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\\
 	&\:\:\:\:\:\: + \left[\frac{1}{\phi(\bm{r}_k)}\nabla_k\phi_k + \left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\right]\left(\sum_{j''\neq k}\nabla_ku_{kj''} \right)\\
 	&\:\:\:\:\:\: + \sum_{j''\neq k}\nabla_k^2u_{kj''}
-\end{align*}
+	\end{split}
+\end{align}
 
 Which can be rewritten to:
 
@@ -263,24 +289,28 @@ Which can be rewritten to:
 
 The gradients $\nabla_k u_{ki}$ can be rewritten using partial differentiation (where $r_{k,i}$ is coordinate $i$ of $\bm{r}_k$):
 
-\begin{align*}
+\begin{align}
+	\begin{split}
 	\nabla_k u_{ki} &= \left(\frac{\partial}{\partial r_{k,1}}, \frac{\partial}{\partial r_{k,2}}, \ldots\right)u_{ki}\\
 	&= \frac{\partial u_{ki}}{\partial r_{ki}}\left(\frac{\partial r_{ki}}{\partial r_{k,1}}, \frac{\partial r_{ki}}{\partial r_{k,2}}, \ldots\right)\\
 	&= \frac{\partial u_{ki}}{\partial r_{ki}}\left( \frac{\partial}{\partial r_{k,1}}\left(\sqrt{\left[(r_{k,1}-r_{i,1})\hat{e}_1 + \ldots\right]^2}\right), \ldots \right)\\
 	&= \frac{\partial u_{ki}}{\partial r_{ki}}\left(\frac{r_{k,1} - r_{i,1}}{r_{ki}}, \ldots \right)\\
 	&= \frac{\partial u_{ki}}{\partial r_{ki}}\frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\\
 	&= \frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}' \:\:,\:\:  u_{ki}'\equiv \frac{\partial u_{ki}}{\partial r_{ki}}
-\end{align*}
+	\end{split}
+\end{align}
 
 While the second derivative of $u_{ki}$ is:
 
-\begin{align*}
+\begin{align}
+	\begin{split}
 	\nabla_k^2 u_{ki} &= \nabla_k(\nabla_ku_{ki})\\
 	&= u_{ki}'\nabla_k\left(\frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\right) + \frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\nabla_k u_{ki}'\\
 	&= u_{ki}' \left(\frac{d}{r_{ki}} - \frac{r_{k,1}-r_{i,1}}{r_{ki}^3} - \frac{r_{k,2}-r_{i,2}}{r_{ki}^3} - \ldots\right) + \frac{\bm{r}_k - \bm{r}_i}{r_{ki}}\cdot\frac{\bm{r}_k - \bm{r}_i}{r_{ki}} u_{ki}''\\
 	&= \frac{u_{ki}'}{r_{ki}} \left(d - \frac{r_{k,1}-r_{i,1}}{r_{ki}^2} - \frac{r_{k,2}-r_{i,2}}{r_{ki}^2} - \ldots\right) + u_{ki}\\
 	&= \frac{u_{ki}'}{r_{ki}} \left(d - 1\right) + u_{ki}
-\end{align*}
+	\end{split}
+\end{align}
 
 where $d$, as earlier, is the number of dimensions present, which in our world is usually $d=3$. Finally, this gives:
 
@@ -292,7 +322,7 @@ where $d$, as earlier, is the number of dimensions present, which in our world i
 As the exact forms of $\phi_k$ and $u_{ki}$ are known, this can be written to a more recognisable, and calculable, expression. However, this expression will be quite long, so only the necessary variables will be derived. Inserting them into equation \ref{eq:full_second_derivative} is trivial. The $u_{ki}$ derivatives are:
 
 \begin{equation}
-	\frac{\partial u_{ki}}{\partial r_{ki}} = \frac{\partial}{\partial r_{ki}}\left(\ln\left[1-\frac{a}{r_{ki}}\right]\right) = \frac{a}{r_{ij}^2 - ar_{ij}}
+	\frac{\partial u_{ki}}{\partial r_{ki}} = \frac{\partial}{\partial r_{ki}}\left(\ln\left[1-\frac{a}{r_{ki}}\right]\right) = \frac{a}{r_{ki}^2 - ar_{ki}}
 \end{equation}
 \begin{equation}
 	\frac{\partial^2 u_{ki}}{\partial r_{ki}^2} = \frac{\partial}{\partial r_{ki}} u_{ki}' = -a\frac{2r_{ki} - a}{(r_{ki}^2 - ar_{ki})^2}
@@ -365,7 +395,7 @@ A possible improvement is to propose   ``better'' moves. From the Langevin equat
 	x_{new} = x_{old}+DF(x_{old})\Delta t +\xi\sqrt{\Delta t},	\label{importanceSamplingMove}
 \end{equation}
 where $x$ is the position, 
-$D$ is a diffusion coefficient, 
+$D$ is a diffusion coefficient ($D=\frac{\hbar}{2m}$ for the Schr\"odinger equation), 
 $F$ is a drift velocity biasing our new move toward more probable states, 
 $\Delta t$ is a time step length whose significance will be addressed later, 
 and $\xi$ is a normal distributed random number with mean value of 0 and standard deviation of $\sqrt{2D\Delta t}$. 
@@ -509,21 +539,21 @@ Below is an overview of the most central classes; their name and functionality.
 In \texttt{main.cpp} a user can set parameters of the system, such as number of particles, dimensions, Metropolis steps, alpha, beta, etc.
 Which subclass of \texttt{Hamiltonian}, \texttt{Wavefunction} and \texttt{InitialState} must be chosen here as well. An example may look like \\*[5mm]
 %\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
-System* system = new System();
-system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
-system->setWaveFunction                 (new SimpleGaussian(system, alpha));
-system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
+%System* system = new System();
+%system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
+%system->setWaveFunction                 (new SimpleGaussian(system, alpha));
+%system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 %\end{minted}
 \\*[5mm]
 Also, one may choose to use an analytical computation of the laplacian of the wavefunction, use importance sampling, store local energies and store positions by setting the desired option to \texttt{true}.\\*[5mm]
 %\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
-system->setAnalyticalLaplacian          (false);
-system->setImportanceSampling           (false);
-system->setStoreLocalEnergy             (false);
-system->setStorePositions               (false);
+%system->setAnalyticalLaplacian          (false);
+%system->setImportanceSampling           (false);
+%system->setStoreLocalEnergy             (false);
+%system->setStorePositions               (false);
 %\end{minted}
 \\*[5mm]
-\write18{}
+
 
 \section{Results}
 
@@ -677,18 +707,19 @@ The harmonic oscillator may also be used to test if the parameter optimization f
 These benchmarks indicate that the program works as it should without the Jastrow factor, and from here we may add the complexity of the full interacting system.
 
 \subsection{Blocking for full problem}
-In figure \ref{fig:blocking_full} below are the blocking runs for 10, 50 and 100 particles. From the graphs, one can see the block size corresponding to the correct correlation time is about $500\times\Delta t$, $2000\times\Delta t$ and $----\times\Delta t$. Therefore, the standard deviation of each case is:
+In figure \ref{fig:blocking_full} below are the results for the blocking runs for 10, 50, and 100 particles. From the graphs, one can see the block size corresponding to the correct correlation time is about $500\times\Delta t$, $2000\times\Delta t$ and $----\times\Delta t$. Therefore, the standard deviation of each case is as given in table \ref{tab:Tabell4}. The standard deviation is very low, especially for the two latter cases as they have very high energies.
+As can be seen, the particle energies are higher for each case, when compared to the non-interacting case (15, 75 and 150, respectively).
 
 \begin{table}[H]
 	\centering
 	\caption{Standard deviations in full problem.}
-	\begin{tabular}{ | c | c |}
+	\begin{tabular}{ | c | c | c |}
 		\hline
-		N & Standard deviation ($\sigma$) \\*
+		N & Expected energy & Standard deviation ($\sigma$)\\*
 		\hline
-		10 & 0.01442\\
-		50 & 0.02883\\
-		100 & \\
+		10 & 24.398 & 0.01442\\
+		50 & 127.29 & 0.02883\\
+		100 & - & -\\
 		\hline
 	\end{tabular}
 	\label{tab:Tabell4}
@@ -712,7 +743,8 @@ This is what we call the one-body density.
 
 For the case of 10 particles in the elliptical trap, $\alpha = 0.498783$ and $\beta = \gamma = 2.82843$, the one body density was found to be as shown in figure \ref{fig:onebodyDensityInteracting}.
 A three dimensional illustration of the density distribution in space is show in figure \ref{fig:spatialDistribution}. 
-Figure \ref{fig:onebodyDensityInteractinghist} and \ref{fig:onebodyDensityInteracting} are obviously the same, it might just be easier to read off of figure \ref{fig:onebodyDensityInteracting}. These figures show that the probability distribution looks much like a normal distribution with mean value at $r\approx5$. Thus, this will be the most probable radial distance to find a particle. Notice also that the probability of beeing at the origin is zero. We belive this is due to the hard-shell approximation we have used. Claiming that no two particles can be closer than a distance $a$\footnote{At closer ranges the wavefunction will be evaluated to zero, and thus the Metropolis algorithm will never accept such a move.}. Having all particles pulled toward the origin, the spatial points closest to the origin will be filled. Thus, as the rest of the particles struggle to loose energy, they can only occupy positions at greater radial distance. In a spherical shell at a great range, there will be many more particles than in a short ranged shell. As the number of particles filling the shell is finite, we will however exhaust the number of particles, and the probability density drops. 
+Figure \ref{fig:onebodyDensityInteractinghist} and \ref{fig:onebodyDensityInteracting} are obviously the same, it might just be easier to read off of figure \ref{fig:onebodyDensityInteracting}. These figures show that the probability distribution looks much like a normal distribution with mean value at $r\approx0.8$. Thus, this will be the most probable radial distance in which to find a particle. Notice also that the probability of being at the origin is zero.
+The expectation value seems to have a shifted to about $r\sim 0.8-0.9$, as opposed to the noninteracting case.
 
 Figure \ref{fig:spatialDistribution} and \ref{fig:spatialDistribution2} show the spatial distribution. Notice a slice ($1/8$) has been cut out of the spheres in order to reveal the gradual change in density. These figures show that the highest density is closest to the center/origin, and also the geometry of the potential. 
 
@@ -747,6 +779,15 @@ Figure \ref{fig:spatialDistribution} and \ref{fig:spatialDistribution2} show the
 \end{figure}
 
 \section{Conclusions}
+In the simple, non-interacting harmonic oscillator potential, the program reproduced precisely the analytical expectations.
+We noticed that increasing the number of Metropolis steps decreased the variance in the energies. 
+Also, when increasing the number of particles or dimensions the variance increases. 
+The time consumption decreased greatly when computing the Laplacian of the wavefunction analytically as opposed to numerically. 
+The use of importance sampling boosted the acceptance rate to 0.999 as opposed to 0.5 for the standard Metropolis sampling.
+When expanding the program to include the full interacting system, we saw that the energies increased beyond that in the non-interacting case.
+
+
+Further development on the program can include implementation of fermionic systems.
 
 
 \section{Appendix}
