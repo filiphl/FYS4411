@@ -61,8 +61,11 @@
 \rule{\linewidth}{0.5mm} \\[0.4cm]
 { \huge \bfseries  Project 1;\\ Variational Monte Carlo Studies of Bosonic systems}\\[0.10cm]
 \rule{\linewidth}{0.5mm} \\[1.5cm]
-\textsc{\Large report}\\[1.5cm]
 
+{\Large Github repository:} \\*[0.4cm]
+\url{https://github.com/filiphl/FYS4411.git}
+
+\vspace{13.5cm}
 
 % Av hvem?
 \begin{minipage}{\textwidth}
@@ -90,7 +93,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
- Some text that is abstact
+	In this project we set up a program to simulate a system of bosons in an elliptic trap. The major part of this process is to make sure it reproduces several benchmarks. 
 \end{abstract}
 
 
@@ -688,7 +691,6 @@ The time spent is much less. The reason is that when computing numerically, one 
 \end{table}
 
 In this case we did not see any significant differences in the results produced using importance sampling and not. However the acceptance rate when using it is about 0.999, in contrast to 0.5 when not using it. The acceptance rate is however dependent on the steplength $\Delta t$ as in equation \eqref{importanceSamplingMove}.
-
 \subsubsection{Blocking}
 Applying blocking to the simple problem with an analytical Laplacian will simply give zero for all block sizes. For the numerical Laplacian, there is a small variance due to the errors presented by the numerical derivation. In figure \ref{fig:blocking_simple} below, one can see the standard deviation with increasing block sizes. In figure (a), it is approximately zero, and does not seem to diverge much. Likewise, in figure (b), the quantity does seem to diverge and is of much higher order, but for 100 particles, the analytically found energy, shown in table \ref{tab:Tabell2}, is 150; much higher than the values along the y-axis shown here. Additionally, the x-axis shows block sizes of order $10^4-10^5$, while we expect the correlation time to be about order $10^3$, so the divergence has next to no effect. The case of 500 particles displays the same tendencies. There are no benchmarks to show for the interacting case, as there is no analytical expectation with which to compare. However, since the advanced case will employ an analytical Laplacian, numerical errors due to estimations\footnote{That is, numerical derivatives and such.} will not be of concern.
 
@@ -703,11 +705,23 @@ Applying blocking to the simple problem with an analytical Laplacian will simply
 \subsubsection{Parameter optimization}
 The harmonic oscillator may also be used to test if the parameter optimization function. Since, we know that for the simple harmonic oscillator without interactions, the parameter $\alpha=0.5$ should ideally be produced. Running this test on the optimizer actually produced the value $\alpha=0.5000000028$, which we can be very pleased with. 
 
+\subsection{Onebody density}
+Computing the onebody density of the non-interacting harmonic oscillator produced the radial probability distribution in figure \ref{fig:radialProbabilityDistributionHO}.
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{../modifiedMortenCode/figures/radialdistributionHOe6curve}
+		\caption{Onebody density of the non-interacting harmonic oscillator.}\label{fig:radialProbabilityDistributionHO}
+	\end{center}
+\end{figure}
+
+We see that the expectation value of the radial distance is 1, as it should be.
+
+
 \subsubsection{Conclusions}
 These benchmarks indicate that the program works as it should without the Jastrow factor, and from here we may add the complexity of the full interacting system.
 
-\subsection{Blocking for full problem}
-In figure \ref{fig:blocking_full} below are the results for the blocking runs for 10, 50, and 100 particles. From the graphs, one can see the block size corresponding to the correct correlation time is about $500\times\Delta t$, $2000\times\Delta t$ and $----\times\Delta t$. Therefore, the standard deviation of each case is as given in table \ref{tab:Tabell4}. The standard deviation is very low, especially for the two latter cases as they have very high energies.
+\subsection{Energies for the full problem}
+In figures \ref{fig:blocking_full}-\ref{fig:blocking_full3} below are the results for the blocking runs for 10, 50, and 100 particles of the full problem, with an analytically calculated Laplacian. From the graphs, one can see the block size corresponding to the correct correlation time is about $500\times\Delta t$, $2000\times\Delta t$ and $4000\times\Delta t$. Therefore, the standard deviation of each case is as given in table \ref{tab:Tabell4}. The standard deviation is very low, especially for the two latter cases as they have very high energies.
 As can be seen, the particle energies are higher for each case, when compared to the non-interacting case (15, 75 and 150, respectively).
 
 \begin{table}[H]
@@ -715,11 +729,11 @@ As can be seen, the particle energies are higher for each case, when compared to
 	\caption{Standard deviations in full problem.}
 	\begin{tabular}{ | c | c | c |}
 		\hline
-		N & Expected energy & Standard deviation ($\sigma$)\\*
+		N & Expected energy & Variance ($\sigma$)\\*
 		\hline
-		10 & 24.398 & 0.01442\\
-		50 & 127.29 & 0.02883\\
-		100 & - & 0.09805\\
+		10 & 24.398 & 2.73e-09\\%0.01442\\
+		50 & 127.29 & 2.08e-07\\%0.02883\\
+		100 & 266.39 & 1.20e-06\\%0.09805\\
 		\hline
 	\end{tabular}
 	\label{tab:Tabell4}
@@ -727,11 +741,23 @@ As can be seen, the particle energies are higher for each case, when compared to
 
 \begin{figure}[H]
 	\centering
-	\subcaptionbox{10 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png}}
-	\subcaptionbox{50 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png}}
-	\subcaptionbox{100 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=100_D=3_alpha=0498783_steps=1e6_full_1.jpg}}
-	\caption{Blocking applied to the full problem, with an analytically calculated Laplacian.}
+	\includegraphics[width=0.7\linewidth]{../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png}
+	\caption{10 particles.}
 	\label{fig:blocking_full}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png}
+	\caption{50 particles.}
+	\label{fig:blocking_full2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../modifiedMortenCode/figures/N=100_D=3_alpha=0498783_steps=1e6_full_1.jpg}
+	\caption{100 particles.}
+	\label{fig:blocking_full3}
 \end{figure}
 
 \subsection{One-body density}
@@ -743,6 +769,7 @@ This is what we call the one-body density.
 
 For the case of 10 particles in the elliptical trap, $\alpha = 0.498783$ and $\beta = \gamma = 2.82843$, the one body density was found to be as shown in figure \ref{fig:onebodyDensityInteracting}.
 A three dimensional illustration of the density distribution in space is show in figure \ref{fig:spatialDistribution}. 
+
 Figure \ref{fig:onebodyDensityInteractinghist} and \ref{fig:onebodyDensityInteracting} are obviously the same, it might just be easier to read off of figure \ref{fig:onebodyDensityInteracting}. These figures show that the probability distribution looks much like a normal distribution with mean value at $r\approx0.8$. Thus, this will be the most probable radial distance in which to find a particle. Notice also that the probability of being at the origin is zero.
 The expectation value seems to have a shifted to about $r\sim 0.8-0.9$, as opposed to the noninteracting case.
 

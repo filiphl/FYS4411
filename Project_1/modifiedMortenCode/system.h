@@ -67,7 +67,7 @@ public:
     void closeEnergyFile();
     void closePositionFile();
     const char* m_energyFileName   = "datafiles/localenergies.txt";
-    const char* m_positionFileName = "datafiles/positionsIe3.txt";
+    const char* m_positionFileName = "datafiles/positionsHOe7.txt";
     ofstream m_energyFile;
     ofstream m_positionFile;
 

@@ -121,13 +121,14 @@ if __name__ == "__main__":
     path3 = "../datafiles/positionsIe6.txt"
     path4 = "../datafiles/positionsHOe6.txt"
     path5 = "../datafiles/positionsIe3.txt"
-    positions = np.loadtxt(path5)
+    path6 = "../datafiles/positionsHOe7.txt"
+    positions = np.loadtxt(path6)
     print "Done loading file"
 
 
     #make1dHist(data)
-    data = loadCube(positions)
-    make3dHist(data);
+    #data = loadCube(positions)
+    #make3dHist(data);
 
     radialDistribution(positions, 100)
 
