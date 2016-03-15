@@ -15,7 +15,7 @@
 \usepackage{amsmath}  
 \usepackage{hyperref}
 \usepackage{pagecolor}
-%\usepackage{minted}
+\usepackage{minted}
 \usepackage{braket} 
 \usepackage{multicol}
 \usepackage{listings}    %Add source code
@@ -440,10 +440,10 @@ with $q(y,x)$ being the ratio (or ``coin toss'') for accepting the move from set
 In the same fashion as the toggle for use of analytical calculation of the Laplacian, a user may choose to apply importance sampling by setting 
 \\*
 
-%\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
-%	system->setImportanceSampling (true);
-%\end{minted}
-%\\*
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+	system->setImportanceSampling (true);
+\end{minted}
+\\*
 
 
 \subsection{Optimizing parameters}
@@ -538,20 +538,20 @@ Below is an overview of the most central classes; their name and functionality.
 \end{table}
 In \texttt{main.cpp} a user can set parameters of the system, such as number of particles, dimensions, Metropolis steps, alpha, beta, etc.
 Which subclass of \texttt{Hamiltonian}, \texttt{Wavefunction} and \texttt{InitialState} must be chosen here as well. An example may look like \\*[5mm]
-%\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
-%System* system = new System();
-%system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
-%system->setWaveFunction                 (new SimpleGaussian(system, alpha));
-%system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-%\end{minted}
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+System* system = new System();
+system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
+system->setWaveFunction                 (new SimpleGaussian(system, alpha));
+system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
+\end{minted}
 \\*[5mm]
 Also, one may choose to use an analytical computation of the laplacian of the wavefunction, use importance sampling, store local energies and store positions by setting the desired option to \texttt{true}.\\*[5mm]
-%\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
-%system->setAnalyticalLaplacian          (false);
-%system->setImportanceSampling           (false);
-%system->setStoreLocalEnergy             (false);
-%system->setStorePositions               (false);
-%\end{minted}
+\begin{minted}[bgcolor=LightBlue, fontsize=\footnotesize]{c++}
+system->setAnalyticalLaplacian          (false);
+system->setImportanceSampling           (false);
+system->setStoreLocalEnergy             (false);
+system->setStorePositions               (false);
+\end{minted}
 \\*[5mm]
 
 
@@ -719,7 +719,7 @@ As can be seen, the particle energies are higher for each case, when compared to
 		\hline
 		10 & 24.398 & 0.01442\\
 		50 & 127.29 & 0.02883\\
-		100 & - & -\\
+		100 & - & 0.09805\\
 		\hline
 	\end{tabular}
 	\label{tab:Tabell4}
@@ -729,8 +729,8 @@ As can be seen, the particle energies are higher for each case, when compared to
 	\centering
 	\subcaptionbox{10 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png}}
 	\subcaptionbox{50 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png}}
-	\subcaptionbox{100 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png}}
-	\caption{Blocking applied to the full problem, with a analytically calculated Laplacian.}
+	\subcaptionbox{100 particles.}{\includegraphics[scale=0.4]{../modifiedMortenCode/figures/N=100_D=3_alpha=0498783_steps=1e6_full_1.jpg}}
+	\caption{Blocking applied to the full problem, with an analytically calculated Laplacian.}
 	\label{fig:blocking_full}
 \end{figure}
 
@@ -789,8 +789,6 @@ When expanding the program to include the full interacting system, we saw that t
 
 Further development on the program can include implementation of fermionic systems.
 
-
-\section{Appendix}
 
 
  %\end{multicols*}
