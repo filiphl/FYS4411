@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  15 MAR 2016 20:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  15 MAR 2016 20:19
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1093,20 +1093,40 @@ Package pdftex.def Info: ../modifiedMortenCode/figures/N=100_D=3_alpha=05_steps
 (pdftex.def)             Requested size: 234.72879pt x 176.91382pt.
 
 [11]
-<../modifiedMortenCode/figures/radialdistributionHOe6curve.png, id=287, 586.832
-4pt x 442.2924pt>
-File: ../modifiedMortenCode/figures/radialdistributionHOe6curve.png Graphic fil
-e (type png)
+Package epstopdf Info: Source file: <../modifiedMortenCode/figures/radialdistri
+butionHOe8curve2.eps>
+(epstopdf)                    date: 2016-03-15 20:18:08
+(epstopdf)                    size: 29059 bytes
+(epstopdf)             Output file: <../modifiedMortenCode/figures/radialdistri
+butionHOe8curve2-eps-converted-to.pdf>
+(epstopdf)             Command: <epstopdf --outfile=../modifiedMortenCode/figur
+es/radialdistributionHOe8curve2-eps-converted-to.pdf ../modifiedMortenCode/figu
+res/radialdistributionHOe8curve2.eps>
+(epstopdf)             \includegraphics on input line 712.
+runsystem(epstopdf --outfile=../modifiedMortenCode/figures/radialdistributionHO
+e8curve2-eps-converted-to.pdf ../modifiedMortenCode/figures/radialdistributionH
+Oe8curve2.eps)...executed.
 
-<use ../modifiedMortenCode/figures/radialdistributionHOe6curve.png>
-Package pdftex.def Info: ../modifiedMortenCode/figures/radialdistributionHOe6cu
-rve.png used on input line 712.
-(pdftex.def)             Requested size: 358.50317pt x 270.20964pt.
+Package epstopdf Info: Result file: <../modifiedMortenCode/figures/radialdistri
+butionHOe8curve2-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-03-15 20:19:35
+(epstopdf)                    size: 17274 bytes.
+
+<../modifiedMortenCode/figures/radialdistributionHOe8curve2-eps-converted-to.pd
+f, id=287, 587.19376pt x 442.65375pt>
+File: ../modifiedMortenCode/figures/radialdistributionHOe8curve2-eps-converted-
+to.pdf Graphic file (type pdf)
+
+<use ../modifiedMortenCode/figures/radialdistributionHOe8curve2-eps-converted-t
+o.pdf>
+Package pdftex.def Info: ../modifiedMortenCode/figures/radialdistributionHOe8cu
+rve2-eps-converted-to.pdf used on input line 712.
+(pdftex.def)             Requested size: 358.50317pt x 270.25478pt.
  [12 <../modifiedMortenCode/figures/N=10_D=3_alpha=05_steps=1e6_num.png> <../mo
 difiedMortenCode/figures/N=100_D=3_alpha=05_steps=1e6_num.png> <../modifiedMort
-enCode/figures/radialdistributionHOe6curve.png>]
-<../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png, id=30
-0, 586.8324pt x 442.2924pt>
+enCode/figures/radialdistributionHOe8curve2-eps-converted-to.pdf>]
+<../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png, id=33
+1, 586.8324pt x 442.2924pt>
 File: ../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png G
 raphic file (type png)
 
@@ -1116,7 +1136,7 @@ teps=1e6_full.png used on input line 744.
 (pdftex.def)             Requested size: 358.50317pt x 270.20964pt.
 
 <../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png, id=
-301, 586.8324pt x 442.2924pt>
+332, 586.8324pt x 442.2924pt>
 File: ../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png
  Graphic file (type png)
 
@@ -1126,7 +1146,7 @@ teps=1e6_full_1.png used on input line 751.
 (pdftex.def)             Requested size: 358.50317pt x 270.20964pt.
 [13 <../modifiedMortenCode/figures/N=10_D=3_alpha=0498783_steps=1e6_full.png>]
 <../modifiedMortenCode/figures/N=100_D=3_alpha=0498783_steps=1e6_full_1.jpg, id
-=310, 815.045pt x 614.295pt>
+=342, 815.045pt x 614.295pt>
 File: ../modifiedMortenCode/figures/N=100_D=3_alpha=0498783_steps=1e6_full_1.jp
 g Graphic file (type jpg)
 
@@ -1138,7 +1158,7 @@ steps=1e6_full_1.jpg used on input line 758.
  [14 <../modifiedMortenCode/figures/N=50_D=3_alpha=0498783_steps=1e6_full_1.png
 > <../modifiedMortenCode/figures/N=100_D=3_alpha=0498783_steps=1e6_full_1.jpg>]
 
-<../modifiedMortenCode/figures/radialdistributionIe7.png, id=326, 586.8324pt x 
+<../modifiedMortenCode/figures/radialdistributionIe7.png, id=358, 586.8324pt x 
 442.2924pt>
 File: ../modifiedMortenCode/figures/radialdistributionIe7.png Graphic file (typ
 e png)
@@ -1161,7 +1181,7 @@ s/radialdistributionIe7curve.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <../modifiedMortenCode/figures/radialdistributionIe7curve-eps-converted-to.pdf,
- id=327, 587.19376pt x 442.65375pt>
+ id=359, 587.19376pt x 442.65375pt>
 File: ../modifiedMortenCode/figures/radialdistributionIe7curve-eps-converted-to
 .pdf Graphic file (type pdf)
 
@@ -1171,7 +1191,7 @@ Package pdftex.def Info: ../modifiedMortenCode/figures/radialdistributionIe7cur
 ve-eps-converted-to.pdf used on input line 788.
 (pdftex.def)             Requested size: 245.82962pt x 185.31891pt.
 
-<../modifiedMortenCode/figures/spatialDistributione8.png, id=328, 1861.95625pt 
+<../modifiedMortenCode/figures/spatialDistributione8.png, id=360, 1861.95625pt 
 x 1150.2975pt>
 File: ../modifiedMortenCode/figures/spatialDistributione8.png Graphic file (typ
 e png)
@@ -1180,7 +1200,7 @@ Package pdftex.def Info: ../modifiedMortenCode/figures/spatialDistributione8.pn
 g used on input line 796.
 (pdftex.def)             Requested size: 245.82962pt x 151.8608pt.
 
-<../modifiedMortenCode/figures/spatialDistributione8yz.png, id=329, 1861.95625p
+<../modifiedMortenCode/figures/spatialDistributione8yz.png, id=361, 1861.95625p
 t x 1150.2975pt>
 File: ../modifiedMortenCode/figures/spatialDistributione8yz.png Graphic file (t
 ype png)
@@ -1200,13 +1220,20 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 824.
  (./report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 824.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 824.
-Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 7A9806CCD31560828E18611FA80F46FA;1355.
+
+
+Package rerunfilecheck Warning: File `report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `report.out':
+(rerunfilecheck)             Before: 7A9806CCD31560828E18611FA80F46FA;1355
+(rerunfilecheck)             After:  7461D0903B778E7CF418C543E51DDCDA;1365.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 824.
  ) 
 Here is how much of TeX's memory you used:
- 12891 strings out of 493085
- 198551 string characters out of 6136917
+ 12893 strings out of 493085
+ 198662 string characters out of 6136917
  440159 words of memory out of 5000000
  16011 multiletter control sequences out of 15000+600000
  23425 words of font info for 58 fonts, out of 8000000 for 9000
@@ -1242,6 +1269,12 @@ pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
 , replaced by a fixed one
 
+pdfTeX warning (dest): name{subsection.3.4} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsubsection.3.2.1} has been referenced but does n
+ot exist, replaced by a fixed one
+
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fo
@@ -1273,10 +1306,10 @@ uper/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></
 usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/font
 s/type1/public/cm-super/sftt0800.pfb></usr/share/texmf/fonts/type1/public/cm-su
 per/sftt1000.pfb>
-Output written on report.pdf (17 pages, 2737965 bytes).
+Output written on report.pdf (17 pages, 2734262 bytes).
 PDF statistics:
- 498 PDF objects out of 1000 (max. 8388607)
- 399 compressed objects within 4 object streams
- 105 named destinations out of 1000 (max. 500000)
+ 531 PDF objects out of 1000 (max. 8388607)
+ 405 compressed objects within 5 object streams
+ 107 named destinations out of 1000 (max. 500000)
  211 words of extra memory for PDF output out of 10000 (max. 10000000)
 
