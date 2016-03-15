@@ -6,7 +6,7 @@ import sys, os, numpy as np
 
 from math import sqrt
 from mayavi import mlab
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 #from pylab import *
 
 
