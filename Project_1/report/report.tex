@@ -93,7 +93,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
-	In this project we set up a program to simulate a system of bosons in an elliptic trap. The major part of this process is to make sure it reproduces several benchmarks. 
+	In this project we set up a variational Monte Carlo analyses of a boson gas in a harmonic oscillator trap, in order to find the ground state energy and particle distribution. Firstly we check if the written program reproduces analytical results for a non-interacting system of sizeless bosons. Afterwards, we consider an elliptical potential with so-called "hard-core" bosons. Additionally, inter-bosonic interactions will be simulated by use of a Jastrow factor in the simple harmonic oscillator wavefunction. A steepest-descent variational parameter optimization will be used, and the "blocking" method will be used for statistical analyses of sampled data. Finally, a short review of produced results will be given.
 \end{abstract}
 
 
@@ -450,7 +450,7 @@ In the same fashion as the toggle for use of analytical calculation of the Lapla
 
 
 \subsection{Optimizing parameters}
-The trial wavefunction discussed earlier is not exact for the interacting case. While the Jastrow factor includes a SOME NOTES ON JASTROW FACTOR, the variable $\alpha$ will have to be found.
+The trial wavefunction discussed earlier is not exact for the interacting case. 
 Obviously, in the VMC approach, the minimal energy is sought. Therefore, minimizing $\langle E_L\rangle$ with respect to the variational parameter ($\alpha$) is the goal.
 There are several ways to minimize a value with respect to some parameter, and here we will use the method of steepest descent (SD). The SD method, in algorithm form, is:
 
