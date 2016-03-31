@@ -25,7 +25,7 @@ int main() {
 //        for (int numberOfDimensions : nD){
             int numberOfParticles   = 10;
             int numberOfDimensions  = 3;
-            int numberOfSteps       = (int) 1e7;
+            int numberOfSteps       = (int) 1e4;
             double omegaHO          = 1.0;          // Oscillator frequency.
             double omegaZ           = 1.0;
             double alpha            = 0.5;          // Variational parameter.
@@ -45,7 +45,7 @@ int main() {
             system->setAnalyticalLaplacian          (true);
             system->setImportanceSampling           (true);
             system->setStoreLocalEnergy             (false);
-            system->setStorePositions               (true);
+            system->setStorePositions               (false);
 
             //Optimizer* myOptimizer = new Optimizer(system);
             //myOptimizer->optimizeParameters();
