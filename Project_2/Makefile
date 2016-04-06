@@ -10,12 +10,12 @@ MAKEFILE      = Makefile
 
 ####### Compiler, tools and options
 
-CC            = gcc
-CXX           = g++
+CC            = /usr/lib64/openmpi/bin/mpicc
+CXX           = /usr/lib64/openmpi/bin/mpicxx
 DEFINES       = 
 CFLAGS        = -pipe -g -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -std=c++0x -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -I/site/Qt/5.5/gcc_64/mkspecs/linux-g++
+CXXFLAGS      = -pipe -DMPICH_IGNORE_CXX_SEEK -g -std=c++0x -Wall -W -fPIC $(DEFINES)
+INCPATH       = -I. -I/usr/include/openmpi-x86_64 -I/site/Qt/5.5/gcc_64/mkspecs/linux-g++
 QMAKE         = /site/Qt/5.5/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -33,8 +33,8 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = variational-monte-carlo-fys44111.0.0
-DISTDIR = /uio/hume/student-u25/sbmiller/FYS4411/FYS4411/Project_2/.tmp/variational-monte-carlo-fys44111.0.0
-LINK          = g++
+DISTDIR = /uio/hume/student-u63/filiphl/Desktop/FYS4411/Project_2/.tmp/variational-monte-carlo-fys44111.0.0
+LINK          = /usr/lib64/openmpi/bin/mpicxx
 LFLAGS        = -Wl,-rpath,/site/Qt/5.5/gcc_64
 LIBS          = $(SUBLIBS)  
 AR            = ar cqs
@@ -63,7 +63,9 @@ SOURCES       = main.cpp \
 		Hamiltonians/interactingharmonicoscillator.cpp \
 		optimizer.cpp \
 		WaveFunctions/heliumwavefunction.cpp \
-		Hamiltonians/heliumhamiltonian.cpp 
+		Hamiltonians/heliumhamiltonian.cpp \
+		WaveFunctions/twobodyquantumdot.cpp \
+		Hamiltonians/twobodyquantumdothamiltonian.cpp 
 OBJECTS       = main.o \
 		system.o \
 		hamiltonian.o \
@@ -79,7 +81,9 @@ OBJECTS       = main.o \
 		interactingharmonicoscillator.o \
 		optimizer.o \
 		heliumwavefunction.o \
-		heliumhamiltonian.o
+		heliumhamiltonian.o \
+		twobodyquantumdot.o \
+		twobodyquantumdothamiltonian.o
 DIST          = /site/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/site/Qt/5.5/gcc_64/mkspecs/common/unix.conf \
 		/site/Qt/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -219,7 +223,9 @@ DIST          = /site/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		Hamiltonians/interactingharmonicoscillator.h \
 		optimizer.h \
 		WaveFunctions/heliumwavefunction.h \
-		Hamiltonians/heliumhamiltonian.h main.cpp \
+		Hamiltonians/heliumhamiltonian.h \
+		WaveFunctions/twobodyquantumdot.h \
+		Hamiltonians/twobodyquantumdothamiltonian.h main.cpp \
 		system.cpp \
 		Hamiltonians/hamiltonian.cpp \
 		Hamiltonians/harmonicoscillator.cpp \
@@ -234,7 +240,9 @@ DIST          = /site/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		Hamiltonians/interactingharmonicoscillator.cpp \
 		optimizer.cpp \
 		WaveFunctions/heliumwavefunction.cpp \
-		Hamiltonians/heliumhamiltonian.cpp
+		Hamiltonians/heliumhamiltonian.cpp \
+		WaveFunctions/twobodyquantumdot.cpp \
+		Hamiltonians/twobodyquantumdothamiltonian.cpp
 QMAKE_TARGET  = variational-monte-carlo-fys4411
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = variational-monte-carlo-fys4411
@@ -558,7 +566,40 @@ compiler_clean:
 
 ####### Compile
 
-main.o: main.cpp system.h \
+main.o: main.cpp /usr/include/openmpi-x86_64/mpi.h \
+		/usr/include/openmpi-x86_64/mpi_portable_platform.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/mpicxx.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/constants.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/functions.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/datatype.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/exception.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/op.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/status.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/request.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/group.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/comm.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/win.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/file.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/errhandler.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intracomm.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/topology.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intercomm.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/info.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/datatype_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/functions_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/request_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/comm_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intracomm_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/topology_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intercomm_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/group_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/op_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/errhandler_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/status_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/info_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/win_inln.h \
+		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/file_inln.h \
+		system.h \
 		sampler.h \
 		particle.h \
 		WaveFunctions/wavefunction.h \
@@ -568,9 +609,11 @@ main.o: main.cpp system.h \
 		WaveFunctions/simplegaussian.h \
 		WaveFunctions/interactinsimplegaussian.h \
 		WaveFunctions/heliumwavefunction.h \
+		WaveFunctions/twobodyquantumdot.h \
 		Hamiltonians/harmonicoscillator.h \
 		Hamiltonians/interactingharmonicoscillator.h \
 		Hamiltonians/heliumhamiltonian.h \
+		Hamiltonians/twobodyquantumdothamiltonian.h \
 		InitialStates/randomuniform.h \
 		optimizer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -693,6 +736,26 @@ heliumhamiltonian.o: Hamiltonians/heliumhamiltonian.cpp Hamiltonians/heliumhamil
 		InitialStates/initialstate.h \
 		Math/random.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o heliumhamiltonian.o Hamiltonians/heliumhamiltonian.cpp
+
+twobodyquantumdot.o: WaveFunctions/twobodyquantumdot.cpp WaveFunctions/twobodyquantumdot.h \
+		WaveFunctions/wavefunction.h \
+		system.h \
+		sampler.h \
+		particle.h \
+		Hamiltonians/hamiltonian.h \
+		InitialStates/initialstate.h \
+		Math/random.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o twobodyquantumdot.o WaveFunctions/twobodyquantumdot.cpp
+
+twobodyquantumdothamiltonian.o: Hamiltonians/twobodyquantumdothamiltonian.cpp Hamiltonians/twobodyquantumdothamiltonian.h \
+		Hamiltonians/hamiltonian.h \
+		system.h \
+		sampler.h \
+		particle.h \
+		WaveFunctions/wavefunction.h \
+		InitialStates/initialstate.h \
+		Math/random.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o twobodyquantumdothamiltonian.o Hamiltonians/twobodyquantumdothamiltonian.cpp
 
 ####### Install
 

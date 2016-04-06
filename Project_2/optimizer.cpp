@@ -8,7 +8,7 @@ Optimizer::Optimizer(System *system)
 
 void Optimizer::optimizeParameters()
 {
-    int nSteps = 1e4;
+    int nSteps = 1e5;
     m_system->getWaveFunction()->setAlpha(m_alpha);
     m_system->OptimizingParameters(true);
     m_system->runMetropolisSteps(nSteps);

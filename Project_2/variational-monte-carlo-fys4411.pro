@@ -3,6 +3,7 @@ CONFIG  += console c++11
 CONFIG  -= app_bundle
 CONFIG  -= qt
 
+
 SOURCES += main.cpp \
     system.cpp \
     Hamiltonians/hamiltonian.cpp \
@@ -18,7 +19,9 @@ SOURCES += main.cpp \
     Hamiltonians/interactingharmonicoscillator.cpp \
     optimizer.cpp \
     WaveFunctions/heliumwavefunction.cpp \
-    Hamiltonians/heliumhamiltonian.cpp
+    Hamiltonians/heliumhamiltonian.cpp \
+    WaveFunctions/twobodyquantumdot.cpp \
+    Hamiltonians/twobodyquantumdothamiltonian.cpp
 
 HEADERS += \
     system.h \
@@ -35,5 +38,19 @@ HEADERS += \
     Hamiltonians/interactingharmonicoscillator.h \
     optimizer.h \
     WaveFunctions/heliumwavefunction.h \
-    Hamiltonians/heliumhamiltonian.h
+    Hamiltonians/heliumhamiltonian.h \
+    WaveFunctions/twobodyquantumdot.h \
+    Hamiltonians/twobodyquantumdothamiltonian.h
+
+INCLUDEPATH += /usr/include/openmpi-x86_64
+QMAKE_CXX = /usr/lib64/openmpi/bin/mpicxx #mpicxx
+QMAKE_CXX_RELEASE = $$QMAKE_CXX
+QMAKE_CXX_DEBUG = $$QMAKE_CXX
+QMAKE_LINK = $$QMAKE_CXX
+QMAKE_CC = /usr/lib64/openmpi/bin/mpicc #mpicc
+
+QMAKE_CFLAGS += $$system(mpicc --showme:compile)
+QMAKE_LFLAGS += $$system(mpicxx --showme:link)
+QMAKE_CXXFLAGS += $$system(mpicxx --showme:compile) -DMPICH_IGNORE_CXX_SEEK
+QMAKE_CXXFLAGS_RELEASE += $$system(mpicxx --showme:compile) -DMPICH_IGNORE_CXX_SEEK
 
