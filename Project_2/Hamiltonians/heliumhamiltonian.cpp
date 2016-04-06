@@ -25,7 +25,7 @@ double HeliumHamiltonian::computeLocalEnergy(std::vector<Particle *> particles)
     r2 = sqrt(r2);
     r12 = sqrt(r12);
 
-    return -0.5*m_system->getWaveFunction()->computeLaplacian(particles) - 2*(1/r1 + 1/r2); //+ 1/r12;
+    return computeKineticEnergy(particles) - 2*(1/r1 + 1/r2) + 1/r12;
 }
 
 double HeliumHamiltonian::computeAnalyticalEnergy(std::vector<Particle *> particles)

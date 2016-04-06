@@ -1,6 +1,6 @@
 #include "twobodyquantumdot.h"
 
-TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, double C) :
+TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, double C, double omega) :
     WaveFunction(system)
 {
     if (system->getNumberOfParticles() != 2){
@@ -17,31 +17,45 @@ TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, 
     setBeta(beta);
     setAlpha(alpha);
     m_C = C;
+    m_omega = omega;
 }
 
 double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
 {
-    double argument1 = 0;
-    for (int i=0; i<2; i++){    // Only two particles
-        for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            argument1 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
-
-        }
-    }
+    double r1 = 0;
+    double r2 = 0;
     double r12 = 0;
-    r12 = sqrt( (particles[0]->getPosition()[0] - particles[1]->getPosition()[0])*
-            (particles[0]->getPosition()[0] - particles[1]->getPosition()[0])+
-            (particles[0]->getPosition()[1] - particles[1]->getPosition()[1])*
-            (particles[0]->getPosition()[1] - particles[1]->getPosition()[1]) );
+    for (int i=0; i<m_system->getNumberOfDimensions(); i++){
+        r1 += particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
+        r2 += particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
+        r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
+                (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+    }
 
-    return m_C*exp(-m_alpha*argument1*0.5)*exp(m_a*r12/(1+m_beta*r12));
+    r12 = sqrt(r12);
+
+    return m_C*exp(-m_alpha*m_omega*(r1+r2)*0.5)*exp(m_a*r12/(1+m_beta*r12));
 }
 
 double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
 {
     double ddr = 0;
     if (m_system->getAnalyticalLaplacian()){
-        cout << "We have not yet implemented the analytically computed Laplacian." << endl;
+        //cout << "We have not yet implemented the analytically computed Laplacian." << endl;
+        double r1 = 0;
+        double r2 = 0;
+        double r12 = 0;
+        for (int i=0; i<m_system->getNumberOfDimensions(); i++){
+            r1 += particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
+            r2 += particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
+            r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
+                    (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+        }
+        r12 = sqrt(r12);
+
+        double Br12 = 1/((1+m_beta*r12)*(1+m_beta*r12));
+
+        return m_alpha2*m_omega*m_omega*(r1+r2) - (2*m_a*Br12)*(m_alpha*m_omega*r12 - m_a*r12 - 1/r12);
     }
 
     else {

@@ -1,0 +1,5 @@
+
+\begin{equation}
+	-\frac{-\alpha \omega^2}{2} (\vec{r_1}^2- \vec{r_2}^2) - \frac{-\alpha \omega a}{(1+\beta r_{12})^2}r_{12} - \frac{-a^2 r_{12}}{(1+\betar_{12})^2} - \frac{a}{r_{12}(1+\beta r_{12})^2} + \frac{1}{2}\omega(\vec{r_1}^2+ \vec{r_2}^2) + \frac{1}{r_{12}}
+\end{equation}
+

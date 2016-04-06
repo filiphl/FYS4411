@@ -16,13 +16,14 @@ double HeliumWaveFunction::evaluate(std::vector<Particle *> particles)
 
     // exp(-a(r1+r2))
     double argument = 0;
-    for (int i=0; i<2; i++){
-        double ri2 = 0;
-        for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            ri2 += particles[i]->getPosition()[j]*particles[i]->getPosition()[j];
-        }
-        argument += sqrt(ri2);
+    double r1 = 0;
+    double r2 = 0;
+    for (int j=0; j<m_system->getNumberOfDimensions(); j++){
+        r1 += particles[0]->getPosition()[j]*particles[0]->getPosition()[j];
+        r2 += particles[1]->getPosition()[j]*particles[1]->getPosition()[j];
     }
+    argument += sqrt(r1) + sqrt(r2);
+
     return exp(-m_alpha*argument);
 }
 
