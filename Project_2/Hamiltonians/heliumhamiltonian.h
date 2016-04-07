@@ -9,6 +9,7 @@ public:
     HeliumHamiltonian(System *system);
     double computeLocalEnergy(std::vector<Particle*> particles);
     double computeAnalyticalEnergy(std::vector<Particle*> particles);
+    double computeGradient(Particle* particle, int dimension);
 };
 
 #endif // HELIUMHAMILTONIAN_H

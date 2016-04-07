@@ -36,11 +36,12 @@ double TwoBodyQuantumDotHamiltonian::computeLocalEnergy(std::vector<Particle *> 
             (particles[0]->getPosition()[1] - particles[1]->getPosition()[1])*
             (particles[0]->getPosition()[1] - particles[1]->getPosition()[1]) );*/
 
-    return kinetic + 0.5*m_omega*m_omega*(r1+r2); //+ 1/r12;
+    return kinetic + 0.5*m_omega*m_omega*(r1+r2) + 1/r12;
 }
 
 double TwoBodyQuantumDotHamiltonian::computeAnalyticalEnergy(std::vector<Particle *> particles)
 {
 
 }
+
 

@@ -1,6 +1,6 @@
 #include "twobodyquantumdot.h"
 
-TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, double C, double omega) :
+TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, double C, double omega, double a) :
     WaveFunction(system)
 {
     if (system->getNumberOfParticles() != 2){
@@ -9,13 +9,17 @@ TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, 
         exit(0);
     }
     assert(alpha >= 0);
-    m_numberOfParameters = 2;
+    m_numberOfParameters = 5;
     m_parameters.reserve(2);
     m_parameters.push_back(alpha);
     m_parameters.push_back(beta);
+    m_parameters.push_back(C);
+    m_parameters.push_back(omega);
+    m_parameters.push_back(a);
     setAlpha(alpha);
     setBeta(beta);
     setAlpha(alpha);
+    m_a = a;
     m_C = C;
     m_omega = omega;
 }
@@ -26,10 +30,10 @@ double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
     double r2 = 0;
     double r12 = 0;
     for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-        r1 += particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
-        r2 += particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
+        r1  +=  particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
+        r2  +=  particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
         r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
-                (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+               (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
     }
 
     r12 = sqrt(r12);
@@ -45,18 +49,20 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
         double r2 = 0;
         double r12 = 0;
         for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-            r1 += particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
-            r2 += particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
+            r1  +=  particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
+            r2  +=  particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
             r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
-                    (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+                   (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
         }
         r12 = sqrt(r12);
 
-        double Br12 = 1/(1+m_beta*r12);
+        double Br12 = (1+m_beta*r12);
 
-        return -2*m_alpha*m_omega - (4*m_a*m_beta)/(Br12*Br12*Br12)
-                + m_alpha2*m_omega*m_omega*(r1+r2) + (2*m_a*m_a)/(Br12*Br12*Br12*Br12)
-                - (2*m_alpha*m_omega*m_a*r12)/(Br12*Br12);
+        return -2*m_alpha*m_omega
+               - (4*m_a*m_beta)/(Br12*Br12*Br12)
+               + m_alpha2*m_omega*m_omega*(r1+r2)
+               + (2*m_a*m_a)/(Br12*Br12*Br12*Br12)
+               - (2*m_alpha*m_omega*m_a*r12)/(Br12*Br12);
     }
 
     else {
@@ -74,6 +80,27 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
         }
         ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
     }
+}
+
+
+double TwoBodyQuantumDot::computeGradient(std::vector<Particle *> particles, int particle , int dimension)
+{
+    cout << "Something.." << (particle%2==0)<<endl;
+    double r1 = 0;
+    double r2 = 0;
+    double r12 = 0;
+    for (int i=0; i<m_system->getNumberOfDimensions(); i++){
+        r1  +=  particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
+        r2  +=  particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
+        r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
+               (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+    }
+    r12 = sqrt(r12);
+    double Br12 = (1+m_beta*r12)*(1+m_beta*r12);
+
+    return -m_alpha*m_omega*particles[particle]->getPosition()[dimension]
+            + (m_a*(1-2*(particle%2==0)*(particles[0]->getPosition()[dimension]-particles[1]->getPosition()[dimension])))
+            /(r12*Br12);
 }
 
 

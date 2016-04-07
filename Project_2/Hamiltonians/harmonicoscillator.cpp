@@ -66,3 +66,4 @@ double HarmonicOscillator::computeAnalyticalEnergy(std::vector<Particle *> parti
 }
 
 
+

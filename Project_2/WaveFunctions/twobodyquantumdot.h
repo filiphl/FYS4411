@@ -11,9 +11,10 @@ private:
     double m_derivativeStepLength = 0.00001;
     double m_omega    = 0;
 public:
-    TwoBodyQuantumDot(System *system, double alpha, double beta, double C, double omega);
+    TwoBodyQuantumDot(System *system, double alpha, double beta, double C, double omega, double a);
     double evaluate(std::vector<Particle *> particles);
     double computeLaplacian(std::vector<Particle *> particles);
+    double computeGradient(std::vector<Particle *> particles, int particle, int dimension);
     double computeDerivativeOfAlpha();
 };
 

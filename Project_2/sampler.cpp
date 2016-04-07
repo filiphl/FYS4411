@@ -100,9 +100,8 @@ void Sampler::printOutputToTerminal() {
         cout << " Parameter " << i+1 << " : " << setw(7) << setprecision(5) << pa[i] << endl;
     }
     cout << endl;
-    cout << "  ----- Reults ----- \n" << endl;
-    cout << setw(25) << left << "Numerical energy" << left << setw(25) << "Analytical energy" << endl;
-    cout << setw(25) << setprecision(5) << left << m_energy           << left << setw(25) << m_analyticalEnergy  << endl<<endl;
+    cout << "  ----- Reults -----" << endl;
+    cout << "Energy : "  << setw(25) << setprecision(5) << left << m_energy <<endl;
     cout << "Variance in energy measurements : " << m_variance << endl;
     cout << "Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
 

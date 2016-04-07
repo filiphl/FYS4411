@@ -171,6 +171,12 @@ double InteractinSimpleGaussian::computeDerivativeOfAlpha(){
     return sum;
 }
 
+double InteractinSimpleGaussian::computeGradient(Particle *particle, int dimension)
+{
+    cout << "Importance sampling has not been implemented for this system."<<endl;
+    exit(0);
+}
+
 
 
 

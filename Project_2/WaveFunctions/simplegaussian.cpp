@@ -85,3 +85,10 @@ double SimpleGaussian::computeLaplacian(std::vector<class Particle*> particles) 
     }
     return ddr;
 }
+
+double SimpleGaussian::computeGradient(std::vector<Particle *> particles, int particle, int dimension)
+{
+    return -2*m_parameters[0]*particles[particle]->getPosition()[dimension];
+}
+
+

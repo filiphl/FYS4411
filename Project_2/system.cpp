@@ -74,7 +74,8 @@ bool System::metropolisStep() {
 
     else{
         double oldWaveFunction = m_waveFunction->evaluate(m_particles);
-        dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));//m_stepLength * (Random::nextDouble()*2-1);
+        dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
+        //dx = m_stepLength * (Random::nextDouble()*2-1);
         m_particles[p]->adjustPosition(dx , d);                          // Propose move
         //cout << "position: "<< m_particles[p]->getPosition()[d]<< endl;
         double newWaveFunction = m_waveFunction->evaluate(m_particles);
@@ -140,7 +141,8 @@ double System::qForce(int i, int j){
     double force = (waveFunctionNew - waveFunctionOld) /
             (m_derivativeStep * m_waveFunction->evaluate(m_particles)); // Factors of 2 cancel.
 */
-    double force = -4*m_waveFunction->getParameters()[0]*m_particles[i]->getPosition()[j];
+    double force = 2*m_waveFunction->computeGradient(m_particles, i, j);
+
     return force;
 }
 

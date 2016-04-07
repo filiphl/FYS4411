@@ -33,3 +33,9 @@ double HeliumHamiltonian::computeAnalyticalEnergy(std::vector<Particle *> partic
 
 }
 
+double HeliumHamiltonian::computeGradient(Particle *particle, int dimension)
+{
+    cout << "Imortance sampling has not been implemented for this system."<<endl;
+
+}
+

@@ -9,6 +9,7 @@ public:
     HeliumWaveFunction(System *system, double alpha);
     double evaluate(std::vector<Particle *> particles);
     double computeLaplacian(std::vector<Particle *> particles);
+    double computeGradient(Particle *particle, int dimension);
 };
 
 #endif // HELIUMWAVEFUNCTION_H

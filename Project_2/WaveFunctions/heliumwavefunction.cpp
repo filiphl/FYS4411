@@ -59,4 +59,10 @@ double HeliumWaveFunction::computeLaplacian(std::vector<Particle *> particles){
     }
 }
 
+double HeliumWaveFunction::computeGradient(Particle *particle, int dimension)
+{
+    cout << "Importance sampling has not been implemented for this system."<<endl;
+    exit(0);
+}
+
 
