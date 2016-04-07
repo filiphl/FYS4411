@@ -82,5 +82,7 @@ public:
     void OptimizingParameters(bool optimizingParameters);
     bool getStorePositions() const;
     void setStorePositions(bool storePositions);
+    double getDerivativeStep() const;
+    void setDerivativeStep(double derivativeStep);
 };
 

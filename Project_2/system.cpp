@@ -50,6 +50,16 @@ void System::setStorePositions(bool storePositions)
     openPositionFile();
 }
 
+double System::getDerivativeStep() const
+{
+    return m_derivativeStep;
+}
+
+void System::setDerivativeStep(double derivativeStep)
+{
+    m_derivativeStep = derivativeStep;
+}
+
 bool System::metropolisStep() {
     /* Perform the actual Metropolis step: Choose a particle at random and
      * change it's position by a random amount, and check if the step is
@@ -105,7 +115,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
 
-        if (i%100){     // Added by us.
+       if (i%100){     // Added by us.
             cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
             fflush(stdout);
         }
@@ -132,15 +142,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
 
 double System::qForce(int i, int j){
-/*
-    m_particles[i]->adjustPosition(-m_derivativeStep, j);               // -
-    double waveFunctionOld = m_waveFunction->evaluate(m_particles);
-    m_particles[i]->adjustPosition(2*m_derivativeStep, j);              // +
-    double waveFunctionNew = m_waveFunction->evaluate(m_particles);
-    m_particles[i]->adjustPosition(-m_derivativeStep, j);               // reset
-    double force = (waveFunctionNew - waveFunctionOld) /
-            (m_derivativeStep * m_waveFunction->evaluate(m_particles)); // Factors of 2 cancel.
-*/
+
     double force = 2*m_waveFunction->computeGradient(m_particles, i, j);
 
     return force;

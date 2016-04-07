@@ -44,18 +44,18 @@ int main(int argc, char* argv[]) {
     double stepLength       = 1.3;            // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
     double C                = 1.0;
-    double a                = 1.0;
+    double a                = 0.0;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
     //system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
     //system->setWaveFunction                 (new SimpleGaussian(system, alpha));
-    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
     system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta, C, omegaHO, a));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
-    system->setAnalyticalLaplacian          (true);
-    system->setImportanceSampling           (true);
+    system->setAnalyticalLaplacian          (false);
+    system->setImportanceSampling           (false);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 

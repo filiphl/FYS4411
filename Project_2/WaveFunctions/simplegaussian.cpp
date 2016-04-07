@@ -18,6 +18,7 @@ SimpleGaussian::SimpleGaussian(System* system, double alpha) :
     m_parameters.reserve(1);
     m_parameters.push_back(alpha);
     setAlpha(alpha);
+    m_derivativeStepLength = system->getDerivativeStep();
 }
 
 double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
@@ -88,7 +89,20 @@ double SimpleGaussian::computeLaplacian(std::vector<class Particle*> particles) 
 
 double SimpleGaussian::computeGradient(std::vector<Particle *> particles, int particle, int dimension)
 {
-    return -2*m_parameters[0]*particles[particle]->getPosition()[dimension];
+    if (m_system->getAnalyticalLaplacian()){
+        return -2*m_parameters[0]*particles[particle]->getPosition()[dimension];
+    }
+    else
+    {
+        particles[particle]->adjustPosition(-m_derivativeStepLength, dimension);               // -
+        double waveFunctionOld = evaluate(particles);
+        particles[particle]->adjustPosition(2*m_derivativeStepLength, dimension);              // +
+        double waveFunctionNew = evaluate(particles);
+        particles[particle]->adjustPosition(-m_derivativeStepLength, dimension);               // reset
+        return (waveFunctionNew - waveFunctionOld) /
+                (2 * m_derivativeStepLength * evaluate(particles));
+    }
+
 }
 
 
