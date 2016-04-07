@@ -40,7 +40,7 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
 {
     double ddr = 0;
     if (m_system->getAnalyticalLaplacian()){
-        //cout << "We have not yet implemented the analytically computed Laplacian." << endl;
+        // return the laplacian/psi
         double r1 = 0;
         double r2 = 0;
         double r12 = 0;
