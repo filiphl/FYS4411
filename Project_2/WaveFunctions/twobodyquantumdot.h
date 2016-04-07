@@ -6,7 +6,7 @@
 class TwoBodyQuantumDot : public WaveFunction
 {
 private:
-    double m_a        = 1;
+    double m_a        = 0;
     double m_C        = 0;
     double m_derivativeStepLength = 0.00001;
     double m_omega    = 0;
