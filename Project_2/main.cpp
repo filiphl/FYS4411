@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 
 
     int numberOfParticles   = 2;
-    int numberOfDimensions  = 14;
+    int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
     double omegaHO          = .5;          // Oscillator frequency.
     double omegaZ           = 1.0;
@@ -48,9 +48,9 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    //system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
+    system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
     //system->setWaveFunction                 (new SimpleGaussian(system, alpha));
-    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta, C, omegaHO, a));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);

@@ -68,8 +68,8 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
     }
 
     else {
+        m_derivativeStepLength = 1e-5;
         const double psi = evaluate( particles );
-
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
                 particles[i]->adjustPosition( m_derivativeStepLength, j );      // +

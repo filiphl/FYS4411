@@ -115,11 +115,11 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
 
-       if (i%100){     // Added by us.
+       /*if (i%100){     // Added by us.
             cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
             fflush(stdout);
         }
-
+*/
         bool acceptedStep = metropolisStep();
         /* Here you should sample the energy (and maybe other things using
          * the m_sampler instance of the Sampler class. Make sure, though,
