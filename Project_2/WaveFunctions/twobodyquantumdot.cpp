@@ -22,7 +22,6 @@ TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, 
     m_a = a;
     m_C = C;
     m_omega = omega;
-    m_derivativeStepLength = system->getDerivativeStep();
 }
 
 double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
@@ -34,8 +33,9 @@ double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
         r1  +=  particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
         r2  +=  particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
         r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
-                (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+               (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
     }
+
 
     r12 = sqrt(r12);
     return m_C*exp(-m_alpha*m_omega*(r1+r2)*0.5)*exp(m_a*r12/(1+m_beta*r12));
@@ -53,17 +53,18 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
             r1  +=  particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
             r2  +=  particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
             r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
-                    (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+                   (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
         }
         r12 = sqrt(r12);
 
         double Br12 = (1+m_beta*r12);
 
-        return -2*m_alpha*m_omega
-                - (4*m_a*m_beta)/(Br12*Br12*Br12)
-                + m_alpha2*m_omega*m_omega*(r1+r2)
-                + (2*m_a*m_a)/(Br12*Br12*Br12*Br12)
-                - (2*m_alpha*m_omega*m_a*r12)/(Br12*Br12);
+        return - 4*m_alpha*m_omega
+               - (4*m_a*m_beta)/(Br12*Br12*Br12)
+               + 2*m_a/(Br12*Br12)
+               + m_alpha2*m_omega*m_omega*(r1+r2)
+               + (2*m_a*m_a)/(Br12*Br12*Br12*Br12)
+               - (2*m_alpha*m_omega*m_a*r12)/(Br12*Br12);
     }
 
     else {
@@ -80,47 +81,34 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
             }
         }
         ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
+        return ddr;
     }
 }
 
 
 double TwoBodyQuantumDot::computeGradient(std::vector<Particle *> particles, int particle , int dimension)
 {
-    if (m_system->getAnalyticalLaplacian()) {
-
-
-        double r1 = 0;
-        double r2 = 0;
-        double r12 = 0;
-        for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-            r1  +=  particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
-            r2  +=  particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
-            r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
-                    (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
-        }
-        r12 = sqrt(r12);
-        double Br12 = (1+m_beta*r12)*(1+m_beta*r12);
-
-        return -m_alpha*m_omega*particles[particle]->getPosition()[dimension]
-                + (m_a*(1-2*(particle%2==0)*(particles[0]->getPosition()[dimension]-particles[1]->getPosition()[dimension])))
-                /(r12*Br12);
+    double r1 = 0;
+    double r2 = 0;
+    double r12 = 0;
+    for (int i=0; i<m_system->getNumberOfDimensions(); i++){
+        r1  +=  particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
+        r2  +=  particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
+        r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
+               (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
     }
+    r12 = sqrt(r12);
+    double Br12 = (1+m_beta*r12)*(1+m_beta*r12);
 
-    else
-    {
-        particles[particle]->adjustPosition(-m_derivativeStepLength, dimension);               // -
-        double waveFunctionOld = evaluate(particles);
-        particles[particle]->adjustPosition(2*m_derivativeStepLength, dimension);              // +
-        double waveFunctionNew = evaluate(particles);
-        particles[particle]->adjustPosition(-m_derivativeStepLength, dimension);               // reset
-        return (waveFunctionNew - waveFunctionOld) /
-                (2 * m_derivativeStepLength * evaluate(particles));
-    }
+    return -m_alpha*m_omega*particles[particle]->getPosition()[dimension]
+            + (m_a*(1-2*(particle%2==0)*(particles[0]->getPosition()[dimension]-particles[1]->getPosition()[dimension])))
+            /(r12*Br12);
 }
 
 
 double TwoBodyQuantumDot::computeDerivativeOfAlpha(){
     double sum = 0;
+    cout << "YES"<<endl;
     for (Particle* particle : m_system->getParticles()){
         for (int i=0; i< m_system->getNumberOfDimensions(); i++){
             sum -= particle->getPosition()[i]*particle->getPosition()[i];
