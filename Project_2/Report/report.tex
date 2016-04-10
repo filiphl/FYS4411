@@ -1,0 +1,197 @@
+\documentclass[english, a4paper]{article}
+
+\usepackage[T1]{fontenc}    % Riktig fontencoding
+\usepackage[utf8]{inputenc} % Riktig tegnsett
+\usepackage{babel}          % Ordelingsregler, osv
+\usepackage{graphicx}       % Inkludere bilder
+\usepackage{booktabs}       % Ordentlige tabeller
+\usepackage{url}            % Skrive url-er
+\usepackage{textcomp}       % Den greske bokstaven micro i text-mode
+\usepackage{units}          % Skrive enheter riktig
+\usepackage{float}          % Figurer dukker opp der du ber om
+\usepackage{lipsum}         % Blindtekst
+\usepackage{subcaption} 
+\usepackage{color}
+\usepackage{amsmath}  
+\usepackage{hyperref}
+\usepackage{pagecolor}
+%\usepackage{minted}
+\usepackage{braket} 
+\usepackage{multicol}
+\usepackage{listings}    %Add source code
+\usepackage{amsfonts}
+\usepackage{setspace}
+\usepackage[cm]{fullpage}		% Smalere marger.
+\usepackage{verbatim} % kommentarfelt.
+\usepackage{tabularx}
+\usepackage{booktabs}
+\setlength{\columnseprule}{1pt}	%(width of separationline)
+\setlength{\columnsep}{1.0cm}	%(space from separation line)
+\newcommand\lr[1]{\left(#1\right)} 
+\newcommand\bk[1]{\langle#1\rangle} 
+\newcommand\uu[1]{\underline{\underline{#1}}} % Understreker dobbelt.
+\definecolor{qc}{rgb}{0,0.4,0}
+\definecolor{LightBlue}{rgb}{0.8, 0.8, 0.9}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!30!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+% JF i margen
+\makeatletter
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0pt}%
+{-\baselineskip}{0.5\baselineskip}{\bf\large}}
+\makeatother
+\newcommand{\jf}[1]{\subsubsection*{JF #1}\vspace*{-2\baselineskip}}
+
+\newcommand{\bm}[1]{\mathbf{#1}}
+
+% Skru av seksjonsnummerering (-1)
+\setcounter{secnumdepth}{3}
+
+\begin{document}
+%\pagecolor{black!50!}
+\renewcommand{\figurename}{Figure}
+% Forside
+\begin{titlepage}
+\begin{center}
+
+\textsc{\Large FYS4411 - Computational quantum mechanics }\\[0.5cm]
+\textsc{\Large Spring 2016}\\[1.5cm]
+\rule{\linewidth}{0.5mm} \\[0.4cm]
+{ \huge \bfseries  Project 2;\\ Variational Monte Carlo studies of electronic systems}\\[0.10cm]
+\rule{\linewidth}{0.5mm} \\[1.5cm]
+
+{\Large Github repository:} \\*[0.4cm]
+\url{https://github.com/filiphl/FYS4411.git}
+
+\vspace{13.5cm}
+
+% Av hvem?
+\begin{minipage}{\textwidth}
+\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Sean Bruce Sangolt Miller\\
+        {\footnotesize s.b.s.miller@fys.uio.no}
+    \end{center}
+\end{minipage}
+\quad
+\begin{minipage}{0.49\textwidth}
+    \begin{center} \large
+        Filip Henrik Larsen\\
+        {\footnotesize filiphenriklarsen@gmail.com}
+    \end{center}
+\end{minipage}
+\end{minipage}
+\vfill
+
+% Dato nederst
+\large{Date: \today}
+
+\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+	
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{gobble}% Remove page numbers (and reset to 1)
+\tableofcontents
+\newpage
+\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
+%\begin{multicols*}{2}
+
+
+\section{Introduction}
+
+
+\section{Theory and Methods}
+\subsection{Preliminary derivations}
+While performing VMC it is of course favourable to use analytical expressions, should they not demand a significant increase in CPU time. We will therefore need to calculate the local energy $E_L = \frac{1}{\Psi_T}H\Psi_T$ and the quantum force $F = \frac{2}{\Psi_T}\nabla\Psi_T$. The Hamiltonian $H$ used will be:
+
+\begin{equation}
+	H = H_0 + H_I = \sum_{i=1}^{N}\left(-\frac{1}{2}\nabla_i^2 + \frac{1}{2}\omega^2r_i^2\right) + \sum_{i<j}\frac{1}{r_{ij}}
+\end{equation}
+
+The Laplacian will be the most demanding quantity to calculate.
+
+\subsubsection{Singlet electron state}
+For the singlet electron state we will use the trial wavefunction:
+
+\begin{equation}
+	\Psi_T(\bm{r}_1,\bm{r}_2) = Ce^{-\frac{\alpha\omega}{2}(r_1^2+r_2^2)}e^{\frac{ar_{12}}{1+\beta r_{12}}}
+\end{equation}
+
+The Laplacian of which (for particle $i$) is:
+
+\begin{equation}
+	\nabla_i^2 \Psi_T = \nabla_i(\nabla_i\Psi_T)
+\end{equation}
+
+We will use the following change of coordinates when it greatly simplifies calculations.
+
+\begin{align}
+	\begin{split}
+	\frac{\partial}{\partial r_{i,j}} &= \frac{\partial r_{12}}{\partial r_{i,j}}\frac{\partial}{\partial r_{12}}\\
+	&= \frac{(-1)^i}{r_{12}}(x_1-x_2, y_1-y_2)\frac{\partial}{\partial r_{12}}\\
+	&= \frac{(-1)^i}{r_{12}}\bm{r}_{12}\frac{\partial}{\partial r_{12}}
+	\end{split}
+\end{align}
+
+Where $r_{i,j}$ is element $j$ of $r_i$.
+The gradient, which is also needed for the quantum force, is then:
+
+\begin{align}
+	\begin{split}
+	\nabla_i\Psi_T &= -\alpha\omega\bm{r}_i\Psi_T + \frac{(-1)^i}{r_{12}}\bm{r}_{12}\left[\frac{\partial}{\partial r_{12}}\left(\frac{ar_{12}}{1+\beta r_{12}}\right)\right]\Psi_T\\
+	&= \left[-\alpha\omega\bm{r}_i + \frac{(-1)^i}{r_{12}}\bm{r}_{12}\frac{a}{(1+\beta r_{12})^2}\right]\Psi_T
+	\end{split}
+	\label{eq:grad_singlet}
+\end{align} 
+
+which means the Laplacian is:
+
+\begin{equation}
+	\begin{split}
+	\nabla_i^2\Psi_T &= \left[\nabla_i[\ldots]\right]\Psi_T + [\ldots]\nabla_i\Psi_T\\
+	&= \left[\nabla_i[\ldots]\right]\Psi_T + [\ldots]^2\Psi_T
+	\end{split}
+\end{equation}
+
+where $[\ldots]$ is the last parenthesis in equation \ref{eq:grad_singlet}. The parenthesis in the first term above is:
+
+\begin{align}
+	\begin{split}
+	\nabla_i\left[-\alpha\omega\bm{r}_i + \frac{(-1)^i}{r_{12}}\bm{r}_{12}\frac{a}{(1+\beta r_{12})^2}\right] &= -2\alpha\omega + \frac{(-1)^i}{r_{12}}\left( \frac{(-1)^i2ar_{12}}{(1+\beta)^2} - \frac{(-1)^i2a\beta r_{12}}{(1+\beta r_{12})^3} - \frac{(-1)^ia}{r_{12}(1+\beta r_{12})^2}\right)\\
+	&= -2\alpha\omega - \frac{a}{(1+\beta r_{12})^2}\left( \frac{1}{r_{12}} - \frac{2}{r_{12}} + \frac{2\beta}{1+\beta r_{12}}\right)\\
+	&= -2\alpha\omega + \frac{a}{r_{12}(1+\beta r_{12})^2}- \frac{2a\beta}{(1+\beta r_{12})^3}
+	\end{split}
+\end{align}
+
+Which gives:
+
+\begin{equation}
+	\nabla_i^2\Psi_T = \left[-2\alpha\omega + \frac{a}{(1+\beta r_{12})^2} - \frac{2a\beta}{(1+\beta r_{12})^3} + \alpha^2\omega^2r_i^2 + \frac{a^2}{(1+\beta r_{12})^4} - \frac{2\alpha\omega a(-1)^i}{r_{12}(1+\beta r_{12})^2}\bm{r}_i\cdot\bm{r}_{12}\right] \Psi_T
+\end{equation}
+
+We therefore have:
+
+\begin{equation}
+	\sum_{i=1}^2\frac{1}{\Psi_T}\nabla_i^2\Psi_T = -4\alpha\omega + \frac{2a}{(1+\beta r_{12})^2} - \frac{4a\beta}{(1+\beta r_{12})^3} + \alpha^2\omega^2(r_1^2 + r_2^2) + \frac{2a^2}{(1+\beta r_{12})^4} - \frac{2\alpha\omega a}{(1+\beta r_{12})^2}r_{12}
+\end{equation}
+
+
+
+\subsection{}
+
+\section{Results}
+
+
+\section{Comments}
+
+
+\end{document}
