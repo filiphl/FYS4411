@@ -81,8 +81,8 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
             }
         }
         ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
+        return ddr;
     }
-    return ddr;
 }
 
 
