@@ -34,8 +34,8 @@ int main(int argc, char* argv[]) {
 
 
     int numberOfParticles   = 2;
-    int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e4;
+    int numberOfDimensions  = 3;
+    int numberOfSteps       = (int) 1e6;
     double omegaHO          = .5;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 0.95455;//1.843;          // Variational parameter.
@@ -44,11 +44,11 @@ int main(int argc, char* argv[]) {
     double stepLength       = 1.3;            // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
     double C                = 1.0;
-    double a                = 0.0;
+    double a                = 1.0;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
+    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     //system->setWaveFunction                 (new SimpleGaussian(system, alpha));
     //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta, C, omegaHO, a));
