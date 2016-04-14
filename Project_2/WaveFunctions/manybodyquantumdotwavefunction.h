@@ -2,7 +2,7 @@
 #define MANYBODYQUANTUMDOTWAVEFUNCTION_H
 #include "wavefunction.h"
 
-class ManyBodyQuantumDotWaveFunction : public WaveFunction
+class ManyBodyQuantumDotWaveFunction// : public WaveFunction
 {
 
 private:
@@ -10,11 +10,12 @@ private:
 
 public:
     ManyBodyQuantumDotWaveFunction(class System* system);
-    double evaluate(std::vector<class Particle*> particles);
+
+    double evaluate(std::vector<class Particle*> particles, int energyLevel);
     double computeLaplacian(std::vector<class Particle*> particles);
     double computeGradient(std::vector<class Particle*> particles, int particle, int dimension);
-    double computeSingleParticleWF(int nx, int ny, double x, double y);
-    double hermite(int energyLevel, double position);
+    double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
+
 };
 
 #endif // MANYBODYQUANTUMDOTWAVEFUNCTION_H

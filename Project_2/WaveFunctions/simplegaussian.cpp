@@ -22,7 +22,7 @@ SimpleGaussian::SimpleGaussian(System* system, double alpha) :
 
 double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
     /* You need to implement a Gaussian wave function here. The positions of
-     * the particles are accessible through the particle[i].getPosition()
+     * the particles are accessible through the particle[i].getOldPosition()
      * function.
      *
      * For the actual expression, use exp(-alpha * r^2), with alpha being the
@@ -35,7 +35,7 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
     for (int i=0; i< numberOfParticles; i++){
         //double ri2 = 0;
         for (int j=0; j<numberOfDimensions; j++){
-            argument -= particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
+            argument -= particles[i]->getOldPosition()[j] * particles[i]->getOldPosition()[j];
         }
         //argument -= ri2;
     }
@@ -51,10 +51,11 @@ double SimpleGaussian::computeLaplacian(std::vector<class Particle*> particles) 
     double ddr = 0;
 
     if (m_system->getAnalyticalLaplacian()){
+        cout << "ALPHA: "<<m_alpha<<endl;
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             double r2 = 0;
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-                double rj = particles[i]->getPosition()[j];
+                double rj = particles[i]->getOldPosition()[j];
                 r2 += rj*rj;
             }
             ddr += 2*m_alpha*(2*m_alpha*r2 - m_system->getNumberOfDimensions());
@@ -63,14 +64,15 @@ double SimpleGaussian::computeLaplacian(std::vector<class Particle*> particles) 
     }
 
     else {
+        m_derivativeStepLength = 1e-5;
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
                 double psi      =   evaluate( particles );
-                particles[i]->adjustPosition( m_derivativeStepLength, j );      // +
+                particles[i]->adjustOldPosition( m_derivativeStepLength, j );      // +
                 double psiPlus  =   evaluate( particles );
-                particles[i]->adjustPosition( -2 * m_derivativeStepLength, j ); // -
+                particles[i]->adjustOldPosition( -2 * m_derivativeStepLength, j ); // -
                 double psiMinus =   evaluate( particles );
-                particles[i]->adjustPosition( m_derivativeStepLength, j );      // reset
+                particles[i]->adjustOldPosition( m_derivativeStepLength, j );      // reset
                 ddr += psiPlus - 2*psi + psiMinus;
             }
         }
@@ -79,9 +81,21 @@ double SimpleGaussian::computeLaplacian(std::vector<class Particle*> particles) 
     return ddr;
 }
 
+
+
 double SimpleGaussian::computeGradient(std::vector<Particle *> particles, int particle, int dimension)
 {
-    return -2*m_parameters[0]*particles[particle]->getPosition()[dimension];
+    return -2*m_parameters[0]*particles[particle]->getOldPosition()[dimension];
+}
+
+
+
+double SimpleGaussian::computeRatio(std::vector<class Particle*> particles, int i, int j, double change)
+{
+    double oldPsi = evaluate(particles);
+    particles[i]->adjustOldPosition(change, j);
+    double newPsi = evaluate(particles);
+    return newPsi*newPsi/(oldPsi*oldPsi);
 }
 
 

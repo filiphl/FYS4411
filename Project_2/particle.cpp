@@ -4,13 +4,23 @@
 Particle::Particle() {
 }
 
-void Particle::setPosition(const std::vector<double> &position) {
+void Particle::setOldPosition(const std::vector<double> &position) {
     assert(position.size() == m_numberOfDimensions);
-    m_position = position;
+    m_oldPosition = position;
 }
 
-void Particle::adjustPosition(double change, int dimension) {
-    m_position[dimension] += change;
+void Particle::setNewPosition(const std::vector<double> &position)
+{
+    assert(position.size() == m_numberOfDimensions);
+    m_newPosition = position;
+}
+
+void Particle::adjustOldPosition(double change, int dimension) {
+    m_oldPosition[dimension] += change;
+}
+
+void Particle::adjustNewPosition(double change, int dimension) {
+    m_newPosition[dimension] += change;
 }
 
 void Particle::setNumberOfDimensions(int numberOfDimensions) {

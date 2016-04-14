@@ -61,45 +61,31 @@ void System::setDerivativeStep(double derivativeStep)
 }
 
 bool System::metropolisStep() {
-    /* Perform the actual Metropolis step: Choose a particle at random and
-     * change it's position by a random amount, and check if the step is
-     * accepted by the Metropolis test (compare the wave function evaluated
-     * at this new position with the one at the old position).
-     */
 
     int p = Random::nextInt(m_numberOfParticles);                   // Random particle
     int d = Random::nextInt(m_numberOfDimensions);                  // Random dimension
 
     if (m_importanceSampling){
-        double oldWaveFunction = m_waveFunction->evaluate(m_particles);
         double qForceOld = qForce(p,d);
-        dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt);  // sqrt(2*m_D*m_dt), but m_D=0.5.
-        m_particles[p]->adjustPosition(dx , d);                                        // Propose move
-        double newWaveFunction = m_waveFunction->evaluate(m_particles);
+        prob = m_waveFunction->computeRatio(m_particles, p,d,dx);
         double qForceNew = qForce(p,d);
         double greensFunction = exp(0.5*(qForceOld+qForceNew)*((m_D*m_dt/2)*(qForceNew-qForceOld) - dx));           // Only term special for i,j = p,d
 
-        prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction) * greensFunction;
+        prob *= greensFunction;
     }
 
     else{
-        double oldWaveFunction = m_waveFunction->evaluate(m_particles);
         dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
-        //dx = m_stepLength * (Random::nextDouble()*2-1);
-        m_particles[p]->adjustPosition(dx , d);                          // Propose move
-        //cout << "position: "<< m_particles[p]->getPosition()[d]<< endl;
-        double newWaveFunction = m_waveFunction->evaluate(m_particles);
-
-        prob = newWaveFunction*newWaveFunction / (oldWaveFunction*oldWaveFunction);
+        prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
     }
 
 
-    double mynt = Random::nextDouble();         // Uniform [0,1]
+    double mynt = Random::nextDouble();              // Uniform [0,1]
 
-    if (mynt < prob){ return true; }            // Accept. Keep new position.
+    if (mynt < prob){ return true; }                 // Accept.
 
-    else{                                       // Reject. Reset the position.
-        m_particles[p]->adjustPosition(-dx, d);
+    else {                                           // Reject.
+        m_particles[p]->adjustOldPosition(-dx, d);
         return false;
     }
 }
@@ -161,9 +147,9 @@ void System::openEnergyFile()
 void System::openPositionFile()
 {
     char cmd[50];
-    sprintf(cmd, "rm %s", m_positionFileName);
+    sprintf(cmd, "rm %s", m_oldPositionFileName);
     system(cmd);
-    m_positionFile.open(m_positionFileName, ios::out);
+    m_oldPositionFile.open(m_oldPositionFileName, ios::out);
 }
 
 
@@ -175,7 +161,7 @@ void System::closeEnergyFile()
 
 void System::closePositionFile()
 {
-    m_positionFile.close();
+    m_oldPositionFile.close();
 }
 
 

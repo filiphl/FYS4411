@@ -21,6 +21,7 @@ public:
     double computeLaplacian  (std::vector<Particle *> particles);
     double computeDerivativeOfAlpha (); // devided by psi
     double computeGradient(Particle *particle, int dimension);
+    double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
 
     // Get / Set
     double beta() const;

@@ -34,10 +34,10 @@ double InteractingHarmonicOscillator::computeLocalEnergy(std::vector<Particle *>
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
             if (j<2){
-                r2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j];
+                r2 += particles[i]->getOldPosition()[j] * particles[i]->getOldPosition()[j];
             }
             else{
-                r2 += particles[i]->getPosition()[j] * particles[i]->getPosition()[j] * m_gamma2;
+                r2 += particles[i]->getOldPosition()[j] * particles[i]->getOldPosition()[j] * m_gamma2;
             }
         }
     }
@@ -50,8 +50,8 @@ double InteractingHarmonicOscillator::computeLocalEnergy(std::vector<Particle *>
         for (int j=i+1; j<m_system->getNumberOfParticles(); j++){
             dr2=0;
             for (int k=0; k<m_system->getNumberOfDimensions(); k++){
-                dr2 += (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) *
-                       (particles[j]->getPosition()[k] - particles[i]->getPosition()[k]) ;
+                dr2 += (particles[j]->getOldPosition()[k] - particles[i]->getOldPosition()[k]) *
+                       (particles[j]->getOldPosition()[k] - particles[i]->getOldPosition()[k]) ;
             }
             double absdr = sqrt(dr2);
             if (absdr < m_a){

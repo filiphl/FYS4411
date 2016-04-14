@@ -67,11 +67,11 @@ void Sampler::sample(bool acceptedStep) {
         m_system->m_energyFile << setw(20) << setprecision(13) << m_localEnergy << endl;
     }
 
-    if (m_system->m_positionFile.is_open()){
+    if (m_system->m_oldPositionFile.is_open()){
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
-            m_system->m_positionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getPosition()[0];
-            m_system->m_positionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getPosition()[1];
-            m_system->m_positionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getPosition()[2] << endl;
+            m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[0];
+            m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[1];
+            m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[2] << endl;
         }
     }
 

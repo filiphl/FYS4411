@@ -20,6 +20,8 @@ public:
     virtual double evaluate(std::vector<class Particle*> particles)         = 0;
     virtual double computeLaplacian(std::vector<class Particle*> particles) = 0;
     virtual double computeGradient(std::vector<class Particle*> particles, int particle, int dimension) = 0;
+    virtual double computeRatio(std::vector<class Particle*> particles, int i, int j, double change)    = 0;
+
     double sumOfArguments = 0;
 
     double getAlpha() const;

@@ -10,6 +10,7 @@ public:
     double evaluate(std::vector<Particle *> particles);
     double computeLaplacian(std::vector<Particle *> particles);
     double computeGradient(Particle *particle, int dimension);
+    double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
 };
 
 #endif // HELIUMWAVEFUNCTION_H

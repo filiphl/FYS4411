@@ -15,10 +15,10 @@ double TwoBodyQuantumDotHamiltonian::computeLocalEnergy(std::vector<Particle *> 
     double r2 = 0;
     double r12 = 0;
     for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-        r1 += particles[0]->getPosition()[i]*particles[0]->getPosition()[i];
-        r2 += particles[1]->getPosition()[i]*particles[1]->getPosition()[i];
-        r12 += (particles[0]->getPosition()[i]-particles[1]->getPosition()[i])*
-                (particles[0]->getPosition()[i]-particles[1]->getPosition()[i]);
+        r1 += particles[0]->getOldPosition()[i]*particles[0]->getOldPosition()[i];
+        r2 += particles[1]->getOldPosition()[i]*particles[1]->getOldPosition()[i];
+        r12 += (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i])*
+                (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i]);
     }
     r12 = sqrt(r12);
 

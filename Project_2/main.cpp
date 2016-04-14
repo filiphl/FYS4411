@@ -35,12 +35,12 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 1;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
-    double omegaHO          = .5;          // Oscillator frequency.
+    double omegaHO          = 1.0     ;//.5;          // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 0.95455;//1.843;          // Variational parameter.
+    double alpha            = .5;    //0.95455;//1.843;          // Variational parameter.
     double beta             = 0.50905;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.3;            // Metropolis step length.
@@ -50,14 +50,14 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    system->setHamiltonian                  (new HarmonicOscillator(system, omegaHO));
     //system->setWaveFunction                 (new SimpleGaussian(system, alpha));
     //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
-    system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta, C, omegaHO, a));
+    system->setWaveFunction                 (new SimpleGaussian(system, alpha));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (true);
-    system->setImportanceSampling           (false);
+    system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
@@ -65,9 +65,8 @@ int main(int argc, char* argv[]) {
     //myOptimizer->optimizeParameters();
 
 
-    double t0 = clock();
     system->runMetropolisSteps              (numberOfSteps);
-    double t1 = clock()-t0;
+
 
 
     return 0;

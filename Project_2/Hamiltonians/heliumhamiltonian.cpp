@@ -16,10 +16,10 @@ double HeliumHamiltonian::computeLocalEnergy(std::vector<Particle *> particles)
     double r2 = 0;
     double r12 = 0;
     for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            r1 += particles[0]->getPosition()[j]*particles[0]->getPosition()[j];
-            r2 += particles[1]->getPosition()[j]*particles[1]->getPosition()[j];
-            r12 += (particles[0]->getPosition()[j] - particles[1]->getPosition()[j])*
-                   (particles[0]->getPosition()[j] - particles[1]->getPosition()[j]);
+            r1 += particles[0]->getOldPosition()[j]*particles[0]->getOldPosition()[j];
+            r2 += particles[1]->getOldPosition()[j]*particles[1]->getOldPosition()[j];
+            r12 += (particles[0]->getOldPosition()[j] - particles[1]->getOldPosition()[j])*
+                   (particles[0]->getOldPosition()[j] - particles[1]->getOldPosition()[j]);
     }
     r1 = sqrt(r1);
     r2 = sqrt(r2);
