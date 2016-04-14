@@ -50,9 +50,9 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
     //system->setWaveFunction                 (new SimpleGaussian(system, alpha));
     //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
     system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, beta, C, omegaHO, a));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);

@@ -21,7 +21,10 @@ SOURCES += main.cpp \
     WaveFunctions/heliumwavefunction.cpp \
     Hamiltonians/heliumhamiltonian.cpp \
     WaveFunctions/twobodyquantumdot.cpp \
-    Hamiltonians/twobodyquantumdothamiltonian.cpp
+    Hamiltonians/twobodyquantumdothamiltonian.cpp \
+    slater.cpp \
+    WaveFunctions/manybodyquantumdotwavefunction.cpp \
+    Hamiltonians/manybodyquantumdothamiltonian.cpp
 
 HEADERS += \
     system.h \
@@ -40,7 +43,10 @@ HEADERS += \
     WaveFunctions/heliumwavefunction.h \
     Hamiltonians/heliumhamiltonian.h \
     WaveFunctions/twobodyquantumdot.h \
-    Hamiltonians/twobodyquantumdothamiltonian.h
+    Hamiltonians/twobodyquantumdothamiltonian.h \
+    slater.h \
+    WaveFunctions/manybodyquantumdotwavefunction.h \
+    Hamiltonians/manybodyquantumdothamiltonian.h
 
 #INCLUDEPATH += /usr/include/openmpi-x86_64
 #QMAKE_CXX = /usr/bin/mpicxx #/usr/lib64/openmpi/bin/mpicxx #mpicxx

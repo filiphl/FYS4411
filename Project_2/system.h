@@ -11,6 +11,7 @@
 #include "Math/random.h"
 #include <iostream>
 #include <iomanip>
+#include "slater.h"
 
 using namespace std;
 
@@ -28,6 +29,7 @@ private:
     class Hamiltonian*              m_hamiltonian = nullptr;
     class InitialState*             m_initialState = nullptr;
     class Sampler*                  m_sampler = nullptr;
+    class Slater*                   m_slater  = nullptr;
     std::vector<class Particle*>    m_particles = std::vector<class Particle*>();
 
     bool m_AnalyticalLaplacian = false;
