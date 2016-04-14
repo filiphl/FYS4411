@@ -1,4 +1,5 @@
 #include "manybodyquantumdotwavefunction.h"
+#include "particle.h"
 
 ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system):
     WaveFunction(system)
@@ -6,19 +7,41 @@ ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system):
 
 }
 
-double ManyBodyQuantumDotWaveFunction::evaluate(std::vector<Particle *> particles, int nx, int ny)
+double ManyBodyQuantumDotWaveFunction::evaluate(std::vector<Particle *> particles)
 {
+
+}
+
+double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<Particle *> particles)
+{
+
+}
+
+double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> particles, int particle, int dimension)
+{
+
+}
+
+
+/*
+double ManyBodyQuantumDotWaveFunction::evaluate(std::vector<Particle *> particles)
+{
+
     int energyLevel = nx+ny;
     double phii = computeSingleParticleWF(nx,ny, particles[i]->getPosition()[0], particles[i]->getPosition()[1] );
+    return 0.0;
+
 }
 
 
 double ManyBodyQuantumDotWaveFunction::computeSingleParticleWF(int nx, int ny, double x, double y)
 {
+
     return A *
            hermite(nx, x)*(sqrt(m_omega)*x) *
            hermite(ny, y)*(sqrt(m_omega)*y) *
            exp(-m_omega*(x*x + y*y)*0.5);
+
 }
 
 
@@ -42,10 +65,9 @@ double ManyBodyQuantumDotWaveFunction::hermite(int energyLevel, double position)
        return 16*position*position*position*position - 48*position*position + 12;
    }
    else {
-       cout << "Too high energy level!"<<endl;
-       exit(0);
+       return 0;
    }
 }
 
-
+*/
 

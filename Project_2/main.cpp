@@ -36,8 +36,8 @@ int main(int argc, char* argv[]) {
 
 
     int numberOfParticles   = 2;
-    int numberOfDimensions  = 3;
-    int numberOfSteps       = (int) 1e6;
+    int numberOfDimensions  = 2;
+    int numberOfSteps       = (int) 1e4;
     double omegaHO          = .5;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 0.95455;//1.843;          // Variational parameter.
@@ -50,16 +50,16 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
+    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     //system->setWaveFunction                 (new SimpleGaussian(system, alpha));
     //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
-    system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, beta, C, omegaHO, a));
+    system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta, C, omegaHO, a));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
-    system->setAnalyticalLaplacian          (false);
+    system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (false);
     system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (true);
+    system->setStorePositions               (false);
 
     //Optimizer* myOptimizer = new Optimizer(system);
     //myOptimizer->optimizeParameters();

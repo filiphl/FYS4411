@@ -7,9 +7,6 @@ class ManyBodyQuantumDotHamiltonian
 public:
     ManyBodyQuantumDotHamiltonian();
 
-signals:
-
-public slots:
 };
 
 #endif // MANYBODYQUANTUMDOTHAMILTONIAN_H
