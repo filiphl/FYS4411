@@ -128,4 +128,9 @@ double TwoBodyQuantumDot::computeDerivativeOfAlpha(){
     return sum;
 }
 
+void TwoBodyQuantumDot::updateSlater(int i)
+{
+
+}
+
 

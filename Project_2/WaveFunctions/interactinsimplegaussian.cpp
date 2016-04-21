@@ -226,6 +226,11 @@ double InteractinSimpleGaussian::interdistance(Particle* particle1, Particle* pa
     return r;
 }
 
+void InteractinSimpleGaussian::updateSlater(int i)
+{
+
+}
+
 
 
 

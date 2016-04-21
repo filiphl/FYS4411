@@ -98,4 +98,9 @@ double SimpleGaussian::computeRatio(std::vector<class Particle*> particles, int 
     return newPsi*newPsi/(oldPsi*oldPsi);
 }
 
+void SimpleGaussian::updateSlater(int i)
+{
+
+}
+
 

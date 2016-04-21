@@ -87,10 +87,14 @@ bool System::metropolisStep() {
 
     double mynt = Random::nextDouble();              // Uniform [0,1]
 
-    if (mynt < prob){ return true; }                 // Accept.
+    if (mynt < prob){
+        m_particles[p]->setOldPosition(m_particles[p]->getNewPosition());
+        m_waveFunction->updateSlater(p);
+        return true; }                 // Accept.
 
     else {                                           // Reject.
-        m_particles[p]->adjustOldPosition(-dx, d);
+        //m_particles[p]->adjustOldPosition(-dx, d); //This is done for all other classes than manyBody... Should be fixed.
+        m_particles[p]->adjustNewPosition(-dx, d);
         return false;
     }
 }
@@ -111,12 +115,6 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
         }
 */
         bool acceptedStep = metropolisStep();
-        /* Here you should sample the energy (and maybe other things using
-         * the m_sampler instance of the Sampler class. Make sure, though,
-         * to only begin sampling after you have let the system equilibrate
-         * for a while. You may handle this using the fraction of steps which
-         * are equilibration steps; m_equilibrationFraction.
-         */
 
         if (i > m_equilibrationFraction * m_numberOfMetropolisSteps) {
             m_sampler->sample(acceptedStep);

@@ -29,6 +29,7 @@ public:
     double uOverR(Particle *particle1, Particle *particle2);
     double u2OverR2(Particle* Particle1, Particle* particle2);
     double interdistance(Particle *particle1, Particle *particle2);
+    void   updateSlater(int i);
 };
 
 #endif // INTERACTINSIMPLEGAUSSIAN_H
