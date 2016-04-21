@@ -1,6 +1,10 @@
 #include "wavefunction.h"
 #include <iostream>     // Added by us
 
+WaveFunction::WaveFunction(System* system) {
+    m_system = system;
+}
+
 double WaveFunction::getAlpha() const
 {
     return m_alpha;
@@ -44,9 +48,6 @@ void WaveFunction::setBeta(double beta)
     m_beta2 = beta*beta;
 }
 
-WaveFunction::WaveFunction(System* system) {
-    m_system = system;
-}
 
 
 
