@@ -86,5 +86,6 @@ public:
     void setStorePositions(bool storePositions);
     double getDerivativeStep() const;
     void setDerivativeStep(double derivativeStep);
+    void setParticles(const std::vector<Particle *> &particles);
 };
 

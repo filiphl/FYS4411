@@ -11,8 +11,10 @@ private:
     double m_omega = 0;
     mat    m_slaterUp;
     mat    m_slaterDown;
+    mat    m_slaterUpInverse;
+    mat    m_slaterDownInverse;
 public:
-    ManyBodyQuantumDotWaveFunction(class System* system);
+    ManyBodyQuantumDotWaveFunction(class System* system, double omega);
 
     double evaluate(std::vector<class Particle*> particles);
     double computeLaplacian(std::vector<class Particle*> particles);

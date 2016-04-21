@@ -60,6 +60,11 @@ void System::setDerivativeStep(double derivativeStep)
     m_derivativeStep = derivativeStep;
 }
 
+void System::setParticles(const std::vector<Particle *> &particles)
+{
+    m_particles = particles;
+}
+
 bool System::metropolisStep() {
 
     int p = Random::nextInt(m_numberOfParticles);                   // Random particle
@@ -94,7 +99,6 @@ bool System::metropolisStep() {
 
 
 void System::runMetropolisSteps(int numberOfMetropolisSteps) {
-    m_particles                 = m_initialState->getParticles();
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);

@@ -1,8 +1,9 @@
 #include "manybodyquantumdotwavefunction.h"
 
-ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system) :
+ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, double omega) :
     WaveFunction(system)
 {
+    m_omega = omega;
     setupSlater();
 }
 
@@ -27,7 +28,6 @@ double ManyBodyQuantumDotWaveFunction::evaluate(std::vector<class Particle*> par
 
 double ManyBodyQuantumDotWaveFunction::computeSingleParticleWF(int nx, int ny, double x, double y)
 {
-    cout << "in SingleParticleWf"<<endl;
     return hermite(nx, x)*(sqrt(m_omega)*x) *
            hermite(ny, y)*(sqrt(m_omega)*y) *
            exp(-m_omega*(x*x + y*y)*0.5);
@@ -39,7 +39,6 @@ double ManyBodyQuantumDotWaveFunction::computeSingleParticleWF(int nx, int ny, d
 double ManyBodyQuantumDotWaveFunction::hermite(int energyLevel, double position)
 {
    if (energyLevel == 0){
-       cout << "in hermite"<<endl;
        return 1;
    }
    else if (energyLevel == 1) {
@@ -60,13 +59,13 @@ double ManyBodyQuantumDotWaveFunction::hermite(int energyLevel, double position)
    }
 }
 
+
 void ManyBodyQuantumDotWaveFunction::setupSlater()
 {
-    int npHalf = m_system->getNumberOfParticles()/2;
+    int npHalf =  m_system->getNumberOfParticles()/2;
 
     m_slaterUp   = zeros<mat>(npHalf, npHalf);
-    cout <<"slaterup: "<< m_slaterUp<<endl;
-    m_slaterDown = zeros(npHalf, npHalf);
+    m_slaterDown = zeros<mat>(npHalf, npHalf);
 
     mat quantumNumbers = zeros<mat>(10,2);
     quantumNumbers(0 ,0) = 0;  quantumNumbers(0, 1) = 0;
@@ -80,20 +79,25 @@ void ManyBodyQuantumDotWaveFunction::setupSlater()
     quantumNumbers(8 ,0) = 1;  quantumNumbers(8, 1) = 2;
     quantumNumbers(9 ,0) = 0;  quantumNumbers(9, 1) = 3;
 
-
-    cout << "npHalf = "<<npHalf<< endl;
     for (int i=0; i<npHalf; i++){
-        cout << "i = "<< i <<endl;
         for (int j=0; j<npHalf; j++){
-            cout << "j = "<< j <<endl;
-            cout << m_system->getParticles()[i]->getOldPosition()[0]<<endl;
-            m_slaterUp(i,j) = computeSingleParticleWF(i,j,m_system->getParticles()[i]->getOldPosition()[0], m_system->getParticles()[i]->getOldPosition()[1]);
-            cout << "TEST3"<<endl;
+            int nx = quantumNumbers(j,0);
+            int ny = quantumNumbers(j,1);
+            //cout << "nx=" << nx << "  ny=" << ny <<endl;
+            m_slaterUp(i,j) = computeSingleParticleWF(nx,ny,m_system->getParticles()[i]->getOldPosition()[0], m_system->getParticles()[i]->getOldPosition()[1]);
+            m_slaterDown(i,j) = computeSingleParticleWF(nx,ny,m_system->getParticles()[i+npHalf]->getOldPosition()[0], m_system->getParticles()[i+npHalf]->getOldPosition()[1]);
         }
     }
 
-    cout << m_slaterUp << endl;
 
+
+
+    m_slaterUpInverse   = m_slaterUp.i();
+    m_slaterDownInverse = m_slaterDown.i();
+    cout << "Initial slater up:\n"         << m_slaterUp << endl;
+    cout << "Initial slater up inverse:\n" << m_slaterUpInverse << endl;
+    cout << "Initial slater down:\n"         << m_slaterDown << endl;
+    cout << "Initial slater down inverse:\n" << m_slaterDownInverse << endl;
 
 }
 
