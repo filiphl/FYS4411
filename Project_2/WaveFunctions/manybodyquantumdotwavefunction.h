@@ -12,12 +12,14 @@ private:
     double m_a = 0;
     double m_alpha = 0;
     double m_beta = 0;
+    double m_R = 0;
     int    m_npHalf = 0;
     mat    m_slaterUp;
     mat    m_slaterDown;
     mat    m_slaterUpInverse;
     mat    m_slaterDownInverse;
     mat    m_quantumNumbers;
+
 public:
     ManyBodyQuantumDotWaveFunction(class System* system, double omega, double a, double alpha, double beta);
 
@@ -29,9 +31,8 @@ public:
     double hermite(int energyLevel, double position);
 
 
-
     void setupSlater();
-    void updateSlater(int k);
+    void updateSlater(int i);
 };
 
 #endif // MANYBODYQUANTUMDOTWAVEFUNCTION_H

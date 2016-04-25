@@ -73,6 +73,11 @@ double HeliumWaveFunction::computeRatio(std::vector<Particle *> particles, int i
     return newPsi*newPsi/(oldPsi*oldPsi);
 }
 
+std::vector<double> HeliumWaveFunction::getParameters()
+{
+
+}
+
 void HeliumWaveFunction::updateSlater(int i)
 {
 

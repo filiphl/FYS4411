@@ -185,6 +185,11 @@ double InteractinSimpleGaussian::computeRatio(std::vector<Particle *> particles,
     return newPsi*newPsi/(oldPsi*oldPsi);
 }
 
+std::vector<double> InteractinSimpleGaussian::getParameters()
+{
+
+}
+
 
 
 

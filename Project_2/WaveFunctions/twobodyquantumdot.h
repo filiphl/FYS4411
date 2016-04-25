@@ -17,6 +17,7 @@ public:
     double computeGradient(std::vector<Particle *> particles, int particle, int dimension);
     double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
     double computeDerivativeOfAlpha();
+    std::vector<double> getParameters();
     void   updateSlater(int i);
 };
 

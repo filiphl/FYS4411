@@ -103,4 +103,9 @@ void SimpleGaussian::updateSlater(int i)
 
 }
 
+std::vector<double> SimpleGaussian::getParameters()
+{
+
+}
+
 
