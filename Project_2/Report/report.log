@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.1.27)  10 APR 2016 18:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.1.27)  25 APR 2016 21:52
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -939,53 +939,81 @@ Overfull \hbox (1.98184pt too wide) in paragraph at lines 73--86
 \tf@toc=\write4
 \openout4 = `report.toc'.
 
- [1]pdfTeX warning (ext4): destination with the same identifier (name{page.1}) 
-has been already used, duplicate ignored
+ [1]
+Underfull \hbox (badness 10000) in paragraph at lines 123--126
+
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.185 \end{equation}
+l.183 \end{equation}
                      [1]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 195.
- [2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 195.
+Underfull \hbox (badness 10000) in paragraph at lines 192--194
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--217
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 232--233
+
+ []
+
+[2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 252.
+ [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 252.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 195.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 195.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 252.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 252.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 7E53D96F2218A16EA9825FA85D7DCAFC;387.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 195.
+(rerunfilecheck)             Checksum: 53592CFAB7F04D9415302A260C135F1A;515.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 252.
  ) 
 Here is how much of TeX's memory you used:
- 10561 strings out of 495000
- 152478 string characters out of 6181169
- 355451 words of memory out of 5000000
- 13596 multiletter control sequences out of 15000+600000
- 16405 words of font info for 39 fonts, out of 8000000 for 9000
+ 10599 strings out of 495000
+ 152895 string characters out of 6181169
+ 356451 words of memory out of 5000000
+ 13614 multiletter control sequences out of 15000+600000
+ 22426 words of font info for 56 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 42i,17n,42p,327b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/a
-rkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/arkar/.texmf
--var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/arkar/.texmf-var/fonts/
-pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/j
-knappen/ec/ecbx0900.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/
-ecrm0800.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.60
-0pk> </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home
-/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/arkar/.tex
-mf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600pk> </home/arkar/.texmf-var/font
-s/pk/ljfour/jknappen/ec/eccc1440.600pk></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
-i7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on report.pdf (4 pages, 169852 bytes).
+ 42i,17n,42p,433b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exi
+st, replaced by a fixed one
+
+ </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/ark
+ar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0700.600pk> </home/arkar/.texmf-v
+ar/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/arkar/.texmf-var/fonts/pk
+/ljfour/jknappen/ec/ecrm1000.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecbx1000.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ec
+bx1440.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600p
+k> </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </home/a
+rkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/arkar/.texmf
+-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/arkar/.texmf-var/fonts/
+pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecbx2074.600pk> </home/arkar/.texmf-var/fonts/pk/ljfour/jknappen/ec/
+eccc1440.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+bx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7
+.pfb>
+Output written on report.pdf (5 pages, 213216 bytes).
 PDF statistics:
- 416 PDF objects out of 1000 (max. 8388607)
- 143 compressed objects within 2 object streams
- 21 named destinations out of 1000 (max. 500000)
- 57 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 486 PDF objects out of 1000 (max. 8388607)
+ 176 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 65 words of extra memory for PDF output out of 10000 (max. 10000000)
 

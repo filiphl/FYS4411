@@ -120,6 +120,10 @@ While performing VMC it is of course favourable to use analytical expressions, s
 The Laplacian will be the most demanding quantity to calculate.
 
 \subsubsection{Singlet electron state}
+For an electron in a harmonic oscillator potential, the energy is given by $\epsilon_n = \omega(n + 1)$, where we have used natural units and $n = n_x + n_y + \ldots$. For two non-interacting electrons, the energy is $\epsilon_{n_1,n_2} = \omega(n_{x,1} + n_{y,1} + \ldots + n_{x,2} + n_{y,2} + \ldots + 2)$. Obviously the energy is lowest for $n_1 = n_2 = 0$, giving $\epsilon_{0,0} = 2\omega$.\\
+Since $n_1=n_2 = 0$ means the two electron are in the same spatial wavefunction, they must have different spins. 
+Since electrons are spin-$\frac{1}{2}$ particles, they combine to give total spin zero, i.e. they form the singlet state.\\
+
 For the singlet electron state we will use the trial wavefunction:
 
 \begin{equation}
@@ -132,7 +136,7 @@ The Laplacian of which (for particle $i$) is:
 	\nabla_i^2 \Psi_T = \nabla_i(\nabla_i\Psi_T)
 \end{equation}
 
-We will use the following change of coordinates when it greatly simplifies calculations.
+We will use the following change of coordinates when it simplifies calculations.
 
 \begin{align}
 	\begin{split}
@@ -175,18 +179,69 @@ where $[\ldots]$ is the last parenthesis in equation \ref{eq:grad_singlet}. The 
 Which gives:
 
 \begin{equation}
-	\nabla_i^2\Psi_T = \left[-2\alpha\omega + \frac{a}{(1+\beta r_{12})^2} - \frac{2a\beta}{(1+\beta r_{12})^3} + \alpha^2\omega^2r_i^2 + \frac{a^2}{(1+\beta r_{12})^4} - \frac{2\alpha\omega a(-1)^i}{r_{12}(1+\beta r_{12})^2}\bm{r}_i\cdot\bm{r}_{12}\right] \Psi_T
+	\nabla_i^2\Psi_T = \left[-2\alpha\omega + \frac{a}{r_{12}(1+\beta r_{12})^2} - \frac{2a\beta}{(1+\beta r_{12})^3} + \alpha^2\omega^2r_i^2 + \frac{a^2}{(1+\beta r_{12})^4} - \frac{2\alpha\omega a(-1)^i}{r_{12}(1+\beta r_{12})^2}\bm{r}_i\cdot\bm{r}_{12}\right] \Psi_T
 \end{equation}
 
 We therefore have:
 
 \begin{equation}
-	\sum_{i=1}^2\frac{1}{\Psi_T}\nabla_i^2\Psi_T = -4\alpha\omega + \frac{2a}{(1+\beta r_{12})^2} - \frac{4a\beta}{(1+\beta r_{12})^3} + \alpha^2\omega^2(r_1^2 + r_2^2) + \frac{2a^2}{(1+\beta r_{12})^4} - \frac{2\alpha\omega a}{(1+\beta r_{12})^2}r_{12}
+	\sum_{i=1}^2\frac{1}{\Psi_T}\nabla_i^2\Psi_T = -4\alpha\omega + \frac{2a}{r_{12}(1+\beta r_{12})^2} - \frac{4a\beta}{(1+\beta r_{12})^3} + \alpha^2\omega^2(r_1^2 + r_2^2) + \frac{2a^2}{(1+\beta r_{12})^4} - \frac{2\alpha\omega a}{(1+\beta r_{12})^2}r_{12}
 \end{equation}
 
+\subsubsection{Filled, 2-dimensional shell states}
+If we again consider the non-interacting, harmonic oscillator confined electron system, we can increase the number of electrons beyond 2. If, in some wondrous universe, we had fermions with three different spins states (like a spin-1 boson), then for three electrons we could again set $n_1=n_2=n_3 = 0$ and have an anti-symmetric spin state. However, in our world, we must go up in energy for more than two electrons.\\
+The $n=0$ state was the ground state. The next state has degeneracy 2; $(n_1,n_2) = (1,0), (0,1)$. After that we have degeneracy 3;$(n_1,n_2) = (2,0), (1,1), (0,2)$. Each of these states are doubly degenerate due to spin.\\
 
+The reason in explaining this is because, assuming we have a so-called "full shell" problem\footnote{For every new tier in energy, we fill it up with electrons. So all considered tiers, or "shells", are full.}, we can do some manipulations that greatly reduce the number of calculations necessary to perform VMC. Firstly, we need to rewrite the total wavefunction.\\
+As is already known, the true wavefunction is approximated by an analytical solution to some simpler problem, and a Jastrow factor. The analytical part can be written as a Slater determinant:
 
-\subsection{}
+\begin{equation}
+	\Psi_{D} = \frac{1}{\sqrt{N}}
+		\begin{vmatrix}
+		\phi_1(\bm{r}_1) & \phi_2(\bm{r}_1) & \ldots & \phi_{N-1}(\bm{r}_1) & \phi_N(\bm{r}_1)\\
+		\phi_1(\bm{r}_2) & \phi_2(\bm{r}_2) & \ldots & \phi_{N-1}(\bm{r}_2) & \phi_N(\bm{r}_2)\\
+		& & \vdots & &\\
+		\phi_1(\bm{r}_N) & \phi_2(\bm{r}_N) & \ldots & \phi_{N-1}(\bm{r}_N) & \phi_N(\bm{r}_N)\\
+		\end{vmatrix}
+\end{equation}
+
+and therefore our trial wavefunction will be:
+
+\begin{equation}
+	\Psi_T = \Psi_{D}\Psi_{C} \:\:,\:\: \Psi_{C} = \prod_{i<j}^N e^{\frac{ar_{ij}}{1+\beta"r_{ij}}}
+\end{equation}
+
+where $\alpha$, $\beta$ are the variational parameters, $a$ is connected to particle spins, and $N$ is the total number of particles.\\
+Obviously, $\Psi_{D}$ is a time consuming object to calculate at every Metropolis step. We will therefore do some neat tricks that reduce the number of calculations.\\
+The first is to rewrite $\Psi_D$ by using that the Hamiltonian is spin-independent. Firstly, we move all spin-up particles to the "first" $\frac{N}{2}$-positions, and the spin-down particles the remainder of positions. \\
+
+\subsubsection{The Metropolis ratio test}
+At each Metropolis step, we need the ratio of probabilities. We first define $R\equiv\frac{\Psi_T^n}{\Psi_T^o}$, where "$n$" means the new wavefunction and "$o$" means the old (or the current, but "c" could be confused with "correlation"). Written out, this is:
+
+\begin{equation}
+	R = \frac{|D_+^n|}{|D_+^o|}\frac{|D_-^n|}{|D_-^o|}\frac{\Psi_C^n}{\Psi_C^o}
+\end{equation}
+
+If we only move one position at a time, then only one row in either $D_+$ or $D_-$ will change. This means if we move a spin-up position, then $|D_-^n| = |D_-^o|$, so we need only consider one of the determinant fractions for each $R$.\\
+Through some simple steps, one can show the determinant fraction ($R_{D}$) reduces to:
+
+\begin{equation}
+	R_D = \sum_{j=1}^{N/2} D_{ij}(\bm{r}^n)D_{ji}^{-1}(\bm{r}^o)
+\end{equation}
+
+where $D_{ij}^{-1}$ is element $ij$ of the inverse of $D$, $D$ is either the spin-up or spin-down determinant, and $\bm{r}_i$ is the moved position. Since $D_{ij}(\bm{r}) = \phi_j(\bm{r}_i)$, the only difficulty remaining is to find the elements of the inverse matrix.\\
+
+The elements of an inverse matrix are given by the Sherman-Morrison formula, which, when applied to the current case, gives:
+
+\begin{equation}
+D_{kj}^{-1}(\bm{r}^n) =
+\begin{cases}
+D_{kj}^{-1}(\bm{r}^o) - \frac{D_{ki}^{-1}(\bm{r^o})}{R}\sum_{l=1}^{N/2}D_{il}(\bm{r}^n)D_{lj}^{-1}(\bm{r}^o) \:&\text{if}\: j\neq i\\ \vspace{1pt}\\
+\frac{D_{ki}^{-1}(\bm{r^o})}{R} \:&\text{if}\: j = i \\
+\end{cases}
+\end{equation}
+
+The ratio test for the correlation function is 
 
 \section{Results}
 
