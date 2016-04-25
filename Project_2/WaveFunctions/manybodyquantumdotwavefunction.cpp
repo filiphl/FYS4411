@@ -20,7 +20,14 @@ ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, d
 
 
 double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Particle*> particles) {
-
+    /*We are only interested in a single vector component, since we only move one particle and one dimension
+     * at a time. Therefore, only a scalar is returned.
+    double value = 0;
+    for (int i=0;i<m_npHalf;i++){
+        for (int j=0;j<m_npHalf;j++){
+            value += ;
+        }
+    }*/
 }
 
 double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> particles, int particle, int dimension){
@@ -147,7 +154,7 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
             }
             else{
                 for (int k=0; k<m_npHalf; k++){
-                    m_slaterUpInverse(k,j) = (upOldInverse(k,i)/m_R)*sum;
+                    m_slaterUpInverse(k,j) = (upOldInverse(k,i)/m_R);
                 }
             }
         }
@@ -175,11 +182,29 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
             }
             else{
                 for (int k=0; k<m_npHalf; k++){
-                    m_slaterDownInverse(k,j) = (downOldInverse(k,i-m_npHalf)/m_R)*sum;
+                    m_slaterDownInverse(k,j) = (downOldInverse(k,i-m_npHalf)/m_R);
                 }
             }
         }
     }
+
+    for (int k=0; k<i+1;k++){
+        double rki = 0;
+        for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+            rki += (m_system->getParticles()[k]->getOldPosition()[d]-m_system->getParticles()[i]->getOldPosition()[d])
+                  *(m_system->getParticles()[k]->getOldPosition()[d]-m_system->getParticles()[i]->getOldPosition()[d]);
+        }
+    m_distances(k,i) = sqrt(rki);
+    }
+    for (int k=i+1; k<m_npHalf*2;k++){
+        double rik = 0;
+        for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+            rik += (m_system->getParticles()[k]->getOldPosition()[d]-m_system->getParticles()[i]->getOldPosition()[d])
+                  *(m_system->getParticles()[k]->getOldPosition()[d]-m_system->getParticles()[i]->getOldPosition()[d]);
+        }
+    m_distances(i,k) = sqrt(rik);
+    }
+
 }
 
 
@@ -189,6 +214,7 @@ void ManyBodyQuantumDotWaveFunction::setupSlater()
 {
     m_slaterUp   = zeros<mat>(m_npHalf, m_npHalf);
     m_slaterDown = zeros<mat>(m_npHalf, m_npHalf);
+    m_distances  = zeros<mat>(m_npHalf*2, m_npHalf*2);
 
     m_quantumNumbers = zeros<mat>(10,2);
     m_quantumNumbers(0 ,0) = 0;  m_quantumNumbers(0, 1) = 0;
@@ -209,6 +235,17 @@ void ManyBodyQuantumDotWaveFunction::setupSlater()
             //cout << "nx=" << nx << "  ny=" << ny <<endl;
             m_slaterUp(i,j) = computeSingleParticleWF(nx,ny,m_system->getParticles()[i]->getOldPosition()[0], m_system->getParticles()[i]->getOldPosition()[1]);
             m_slaterDown(i,j) = computeSingleParticleWF(nx,ny,m_system->getParticles()[i+m_npHalf]->getOldPosition()[0], m_system->getParticles()[i+m_npHalf]->getOldPosition()[1]);
+        }
+    }
+
+    for (int i=0; i<m_npHalf*2; i++){
+        for (int j=i+1; j<m_npHalf*2; j++){
+                double rij = 0;
+                for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+                    rij += (m_system->getParticles()[i]->getOldPosition()[d]-m_system->getParticles()[j]->getOldPosition()[d])
+                          *(m_system->getParticles()[i]->getOldPosition()[d]-m_system->getParticles()[j]->getOldPosition()[d]);
+                }
+            m_distances(i,j) = sqrt(rij);
         }
     }
 

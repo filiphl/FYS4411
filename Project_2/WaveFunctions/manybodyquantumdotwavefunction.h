@@ -19,6 +19,7 @@ private:
     mat    m_slaterUpInverse;
     mat    m_slaterDownInverse;
     mat    m_quantumNumbers;
+    mat    m_distances;
 
 public:
     ManyBodyQuantumDotWaveFunction(class System* system, double omega, double a, double alpha, double beta);
