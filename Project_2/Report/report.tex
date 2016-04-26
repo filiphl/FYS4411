@@ -141,9 +141,10 @@ We will use the following change of coordinates when it simplifies calculations.
 \begin{align}
 	\begin{split}
 	\frac{\partial}{\partial r_{i,j}} &= \frac{\partial r_{12}}{\partial r_{i,j}}\frac{\partial}{\partial r_{12}}\\
-	&= \frac{(-1)^i}{r_{12}}(x_1-x_2, y_1-y_2)\frac{\partial}{\partial r_{12}}\\
+	\rightarrow \nabla_i &= \frac{(-1)^i}{r_{12}}(x_1-x_2, y_1-y_2)\frac{\partial}{\partial r_{12}}\\
 	&= \frac{(-1)^i}{r_{12}}\bm{r}_{12}\frac{\partial}{\partial r_{12}}
 	\end{split}
+	\label{eq:coord_change_nabla}
 \end{align}
 
 Where $r_{i,j}$ is element $j$ of $r_i$.
@@ -208,7 +209,7 @@ As is already known, the true wavefunction is approximated by an analytical solu
 and therefore our trial wavefunction will be:
 
 \begin{equation}
-	\Psi_T = \Psi_{D}\Psi_{C} \:\:,\:\: \Psi_{C} = \prod_{i<j}^N e^{\frac{ar_{ij}}{1+\beta"r_{ij}}}
+	\Psi_T = \Psi_{D}\Psi_{C} \:\:,\:\: \Psi_{C} = \prod_{i<j}^N e^{f_{ij}}\quad,\quad f_{ij} \equiv\frac{ar_{ij}}{1+\beta"r_{ij}}
 \end{equation}
 
 where $\alpha$, $\beta$ are the variational parameters, $a$ is connected to particle spins, and $N$ is the total number of particles.\\
@@ -236,12 +237,126 @@ The elements of an inverse matrix are given by the Sherman-Morrison formula, whi
 \begin{equation}
 D_{kj}^{-1}(\bm{r}^n) =
 \begin{cases}
-D_{kj}^{-1}(\bm{r}^o) - \frac{D_{ki}^{-1}(\bm{r^o})}{R}\sum_{l=1}^{N/2}D_{il}(\bm{r}^n)D_{lj}^{-1}(\bm{r}^o) \:&\text{if}\: j\neq i\\ \vspace{1pt}\\
-\frac{D_{ki}^{-1}(\bm{r^o})}{R} \:&\text{if}\: j = i \\
+D_{kj}^{-1}(\bm{r}^o) - \frac{D_{ki}^{-1}(\bm{r^o})}{R_D}\sum_{l=1}^{N/2}D_{il}(\bm{r}^n)D_{lj}^{-1}(\bm{r}^o) \:&\text{if}\: j\neq i\\ \vspace{1pt}\\
+\frac{D_{ki}^{-1}(\bm{r^o})}{R_D} \:&\text{if}\: j = i \\
 \end{cases}
+\label{eq:update_inverse_SD}
 \end{equation}
 
-The ratio test for the correlation function is 
+The ratio for the correlation function has a rather nice expression:
+
+\begin{align}
+	\begin{split}
+	\frac{\Psi_C^n}{\Psi_C^o} &= \prod_{i<j}^{N/2} e^{(f_{ij}^n-f_{ij}^o)}\\
+	&= \exp\left( \sum_{i<j}^{N/2} f_{ij}^n - f_{ij}^o \right)\\
+	&= \exp\left(\sum_{i=0}^{k-1}(f_{ik}^n - f_{ik}^o) + \sum_{j=k+1}^{N/2}(f_{kj}^n - f_{kj}^o)\right)
+	\end{split}
+\end{align}
+
+were we used $f_{ij}^n-f_{ij}^o=0\:\forall\:i,j\neq k$, and $k$ is the moved position. The first sum is then for $j=k$ and the second sum is for $i=k$, with the restriction $i<j$.\\
+The only step that remains is to square and multiply the two ratios\footnote{Or multiply and then square. Really, it's up to you.}.
+
+\subsubsection{Importance sampling}
+In importance sampling, each suggested move requires the calculation of the quantum force:
+
+\begin{equation}
+	x_{new} = x_{old} + DF(x_{old})\Delta t + \xi\sqrt{\Delta t}
+\end{equation}
+
+Solutions to the Fokker-Planck equation gives the transition probability, which must be multiplied with the probability density. The transition probability is therefore given by:
+
+\begin{equation}
+	G(y,x,\Delta t) = \frac{1}{(4\pi D\Delta t)^{3N/2}}\exp\left\{ -\frac{(y-x-D\Delta tF(x))^2}{4D\Delta t} \right\}
+\end{equation}
+
+where $y$ is the new position and $x$ the old, and the acceptance test becomes:
+
+\begin{equation}
+	q(y,x) = \frac{G(x,y,\Delta t)|\Psi_T(y)|^2}{G(y,x,\Delta t)|\Psi_T(x)|^2}
+\end{equation}
+
+The quantum force, given by $F = 2\frac{\nabla \Psi_T}{\Psi_T}$, requires the gradient of $\Psi_T$. Obviously, the quantum force can be written\footnote{The superscript "o" has been dropped since there will be no "mix" of new and old coordinates for the rest of this subsection.}:
+
+\begin{equation}
+	F = 2\left(\frac{\nabla |D_+|}{|D_+|} + \frac{\nabla |D_-|}{|D_-|} + \frac{\nabla \Psi_C}{\Psi_C}\right)
+\end{equation}
+
+Of course, when only position $k$ is altered, only the $k$'th gradient in $\nabla$ changes, and needs to be re-evaluated. We know the determinant can written:
+
+\begin{equation}
+	|D| = \sum_{j=1}^{N/2}D_{kj}C_{jk}
+\end{equation}
+
+where $C_{jk}$ are the cofactors of $D$, and is independent of the $i$'th row in $D$, i.e. changing $k$ does not change $C_{jk}$. It is therefore independent of the position change. Changing row $i$ means all the other gradients in $\nabla|D|$ are the same as before, and we only need to re-evaluate $\nabla_k|D|$. This means:
+
+\begin{align}
+	\begin{split}
+	\frac{\nabla_k|D|}{|D|} &= \frac{\nabla_k\sum_{j=1}^{N/2}D_{kj}C_{jk}}{|D|}\\
+	&= \sum_{j=1}^{N/2}\frac{(\nabla_kD_{kj})C_{jk}}{|D|}\\
+	&= \sum_{j=1}^{N/2}(\nabla_kD_{kj})D_{jk}^{-1}
+	\end{split}
+\end{align}
+
+which, from equation \ref{eq:update_inverse_SD}, means:
+
+\begin{equation}
+	\frac{\nabla_k|D^n}{|D^n|} = \frac{1}{R_D}\sum_{j=1}^{N/2}(\nabla_kD_{kj}^n)(D_{jk}^o)^{-1}
+\end{equation}
+
+The correlation function gradient can be expressed:
+
+\begin{align}
+	\begin{split}
+	\frac{\nabla_k \Psi_C}{\Psi_C} &= \frac{1}{\Psi_C}\nabla_k e^{\sum_{i<j}^Nf_{ij}}\\
+	&= \sum_{i=1}^{k-1}\nabla_kf_{ik} + \sum_{j=k+1}^{N}\nabla_kf_{kj}
+	\end{split}
+\end{align}
+
+but since $f_{ij}$ only depends on $r_{ij}$, it would preferable to express $\nabla_k$ in terms of $r_{ij}$. In equation \ref{eq:coord_change_nabla}, we showed this change for a simpler system. Applied to this problem, we can derive:
+
+\begin{align}
+	\begin{split}
+	\nabla_k &=  \frac{1}{r_{ik}}\bm{r}_{ik}\frac{\partial}{\partial r_{ik}}\\
+	&\text{or}\\
+	\nabla_k &=  -\frac{1}{r_{jk}}\bm{r}_{jk}\frac{\partial}{\partial r_{jk}}
+	\end{split}
+\end{align}
+
+which gives:
+
+\begin{equation}
+	\frac{\nabla_k \Psi_C}{\Psi_C} = \sum_{i=1}^{k-1}\frac{\bm{r}_{ik}}{r_{ik}}\frac{\partial f_{ik}}{\partial r_{ik}} - \sum_{j=k+1}^{N}\frac{\bm{r}_{kj}}{r_{kj}}\frac{\partial f_{kj}}{\partial r_{kj}}
+\end{equation}
+
+We now have all the necessary tools to perform importance sampling.
+
+\subsubsection{Local energy}
+Lastly, the local energy needs to be calculated. As usual, the Laplacian fraction $\frac{\nabla^2\Psi_T}{\Psi_T}$ is the most demanding object to calculate. the starting point is:
+
+\begin{equation}
+	\frac{\nabla^2\Psi_T}{\Psi_T} = \frac{\nabla^2 |D_+|}{|D_+|} + \frac{\nabla^2 |D_-|}{|D_-|} + \frac{\nabla^2 \Psi_C}{\Psi_C} + 2\left( \frac{\nabla |D_+|}{|D_+|} + \frac{\nabla |D_-|}{|D_-|} \right)\cdot\frac{\nabla \Psi_C}{\Psi_C}
+\end{equation}
+
+which looks easy enough. The last term contain vectors already known, while the first two are derived in the exact same manner as for the gradients, i.e.
+
+\begin{equation}
+	\frac{\nabla_k^2|D|}{|D|} = \sum_{j=1}^{N/2}(\nabla_k^2D_{kj})D_{jk}^{-1}
+\end{equation}
+
+Unfortunately, the middle term is not so nice to find. However, the middle steps are omitted here, and the final result is:
+
+\begin{equation}
+	\frac{\nabla_k^2 \Psi_C}{\Psi_C} = \left(\frac{\nabla_k\Psi_C}{\Psi_C}\right)^2 + \sum_{i=1}^{k-1}\left[\frac{d-1}{r_{ik}}\frac{\partial f_{ik}}{\partial r_{ik}} + \frac{\partial^2 f_{ik}}{\partial r_{ik}^2}\right] + \sum_{j=k+1}^{N}\left[\frac{d-1}{r_{kj}}\frac{\partial f_{kj}}{\partial r_{kj}} + \frac{\partial^2 f_{kj}}{\partial r_{kj}^2}\right]
+\end{equation}
+
+where $d$ is the dimension we consider and:
+
+\begin{align}
+	\frac{\partial f_{ij}}{\partial r_{ij}} &= \frac{a_{ij}}{(1+\beta r_{ij})^2}\\
+	\frac{\partial^2 f_{ij}}{\partial r_{ij}^2} &= -\frac{2a_{ij}\beta}{(1+\beta r_{ij})^3}
+\end{align}
+
+The reason $a_{ij}$ is indexed is because it equals $1$ for anti-parallel spins and $\frac{1}{3}$ for parallel.
 
 \section{Results}
 
