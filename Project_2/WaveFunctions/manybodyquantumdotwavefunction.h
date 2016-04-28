@@ -20,6 +20,9 @@ private:
     mat    m_slaterDownInverse;
     mat    m_quantumNumbers;
     mat    m_distances;
+    double m_dUp = 0;
+    double m_dDown = 0;
+    double m_padeJastrow = 0;
 
 public:
     ManyBodyQuantumDotWaveFunction(class System* system, double omega, double a, double alpha, double beta);
@@ -28,8 +31,11 @@ public:
     double computeLaplacian(std::vector<class Particle*> particles);
     double computeGradient(std::vector<class Particle*> particles, int particle, int dimension);
     double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
-    double computeSingleParticleWF(int nx, int ny, double x, double y);
+    double SingleParticleWF(int nx, int ny, double x, double y);
+    double ddSingleParticleWF(int i,int j);
     double hermite(int energyLevel, double position);
+    double hermiteDerivative(int energyLevel, double postion);
+    double hermiteDoubleDerivative(int energyLevel, double postion);
 
 
     void setupSlater();
