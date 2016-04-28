@@ -9,11 +9,11 @@ class ManyBodyQuantumDotWaveFunction : public WaveFunction
 
 private:
     double m_omega = 0;
-    double m_a = 0;
     double m_alpha = 0;
     double m_beta = 0;
     double m_R = 0;
     int    m_npHalf = 0;
+    mat    m_a;
     mat    m_slaterUp;
     mat    m_slaterDown;
     mat    m_slaterUpInverse;
@@ -25,6 +25,7 @@ private:
     double m_ddUp = 0;
     double m_ddDown = 0;
     double m_padeJastrow = 0;
+    double m_dPadeJastrow = 0;
 
 public:
     ManyBodyQuantumDotWaveFunction(class System* system, double omega, double a, double alpha, double beta);
@@ -35,6 +36,8 @@ public:
     double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
     double SingleParticleWF(int nx, int ny, double x, double y);
     double ddSingleParticleWF(int i,int j);
+    double slaterGrad(std::vector<class Particle*> particles, int k, int j);
+    double correlationGrad(std::vector<class Particle*> particles, int k, int j);
     double hermite(int energyLevel, double position);
     double hermiteDerivative(int energyLevel, double postion);
     double hermiteDoubleDerivative(int energyLevel, double postion);

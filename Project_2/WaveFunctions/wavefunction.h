@@ -13,9 +13,10 @@ protected:
     double m_alpha2 = 0;
     double m_beta   = 0;
     double m_beta2  = 0;
+    int m_newlyMoved = 0;
 
 public:
-    WaveFunction(){};
+    WaveFunction(){}
     WaveFunction(class System* system);
     virtual double evaluate(std::vector<class Particle*> particles)         = 0;
     virtual double computeLaplacian(std::vector<class Particle*> particles) = 0;
@@ -35,5 +36,6 @@ public:
     void setBeta(double beta);
     double getBeta2() const;
     void setBeta2(double beta2);
+    void setNewlyMoved(int i) { m_newlyMoved = i; }
 };
 
