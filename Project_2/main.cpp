@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (false);
-    system->setImportanceSampling           (true);
+    system->setImportanceSampling           (false);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
@@ -73,42 +73,6 @@ int main(int argc, char* argv[]) {
 }
 
 
-
-/*
-
-class Optimizer {
-public:
-    Optimizer(System* system);
-    double runOptimize();
-
-
-private:
-    System* m_system = nullptr;
-
-};
-
-
-
-int main() {
-    System mySystem = new System();
-    mySystem.setWaveFunction(new InteractinSimpleGaussian());
-    ...
-
-    Optimizer myOptimizer = new Optimizer(mySystem);
-    myOptimizer.runOptimize();
-
-
-}
-
-
-double Optimizer::runOptimize() {
-    while derivative > eps
-            m_system->runMetropolisSteps(10^6);
-            m_system->getSampler()->hva var alpha derivative?
-            m_system->adjustAlpha(.,.)
-    return alpha;
-}
-  */
 
 
 
