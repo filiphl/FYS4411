@@ -45,6 +45,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
             }
         }
 
+
     }
     else {
         computeGradient(particles, particle, 1);
@@ -240,16 +241,17 @@ double ManyBodyQuantumDotWaveFunction::hermiteDoubleDerivative(int energyLevel, 
 
 double ManyBodyQuantumDotWaveFunction::f(int i, int j)
 {
-    double a;
     if ((i<m_npHalf)&&(j<m_npHalf)){
-        a = 1./3;
+        m_a = 1./3;
     }
     else if ((i>=m_npHalf)&&(j>=m_npHalf)) {
-       a = 1./3;
+        m_a = 1./3;
     }
     else{
-        a = 1;
+        m_a = 1;
     }
+
+    return m_a*m_distances(i,j)/(1+m_beta*m_distances(i,j));
 }
 
 

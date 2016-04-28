@@ -22,6 +22,8 @@ private:
     mat    m_distances;
     double m_dUp = 0;
     double m_dDown = 0;
+    double m_ddUp = 0;
+    double m_ddDown = 0;
     double m_padeJastrow = 0;
 
 public:
@@ -36,6 +38,8 @@ public:
     double hermite(int energyLevel, double position);
     double hermiteDerivative(int energyLevel, double postion);
     double hermiteDoubleDerivative(int energyLevel, double postion);
+
+    double f(int i, int j); // see report page 2.
 
 
     void setupSlater();
