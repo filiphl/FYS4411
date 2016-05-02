@@ -55,10 +55,22 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
     double crossTerm = 0;
     int k = m_newlyMoved;
     //if (k<m_npHalf){ TO BE EFFECTIFIED
-    for (int i=0; i<m_npHalf*2; i++){
+    for (int i=0; i<m_npHalf; i++){
 
         for (int l=0; l<m_npHalf; l++){
-            slaterLap += ddSingleParticleWF(i,l)*m_slaterUpInverse(j,i);
+            slaterLap += ddSingleParticleWF(i,l)*m_slaterUpInverse(l,i);
+        }
+
+        corrLap += correlationLap(particles, i);
+
+        for (int d=0; d<2; d++){
+            crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d);
+        }
+    }
+    for (int i=m_npHalf; i<m_npHalf*2; i++){
+
+        for (int l=m_npHalf; l<m_npHalf*2; l++){
+            slaterLap += ddSingleParticleWF(i,l)*m_slaterDownInverse(l-m_npHalf,i-m_npHalf);
         }
 
         corrLap += correlationLap(particles, i);
@@ -88,38 +100,38 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
 double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> particles, int particle, int dimension){
     /*   double m_dPadeJastrow = 0;
     double slater = 0;
-    double expRK = exp(-0.5*m_omega*(particles[particle]->getPosition()[0]*particles[particle]->getPosition()[0]
-            + particles[particle]->getPosition()[1]*particles[particle]->getPosition()[1]));
+    double expRK = exp(-0.5*m_omega*(particles[k]->getNewPosition()[0]*particles[k]->getNewPosition()[0]
+            + particles[k]->getNewPosition()[1]*particles[k]->getNewPosition()[1]));
     if (particle < m_npHalf){
 
         for (int i=0; i<m_npHalf; i++){
             if (i != particle){
                 double betaFrac = m_a(i,particle)/((1+m_beta*m_distances(i,particle))*(1+m_beta*m_distances(particle)));
-                m_dPadeJastrow += (particles[particle]->getPosition()[dimension]-particles[i]->getPosition()[dimension])*(1/m_distances(particle)*betaFrac);
+                m_dPadeJastrow += (particles[k]->getNewPosition()[dimension]-particles[i]->getNewPosition()[dimension])*(1/m_distances(particle)*betaFrac);
                 if (dimension == 0){
-                    double element = hermite(m_quantumNumbers(i,1), particles[i]->getPosition()[1])
-                            *hermiteDerivative(m_quantumNumbers(i,0), particles[i]->getPosition()[0]);
+                    double element = hermite(m_quantumNumbers(i,1), particles[i]->getNewPosition()[1])
+                            *hermiteDerivative(m_quantumNumbers(i,0), particles[i]->getNewPosition()[0]);
                 }
                 else{
-                    double element = hermite(m_quantumNumbers(i,0), particles[i]->getPosition()[0])
-                            *hermiteDerivative(m_quantumNumbers(i,1), particles[i]->getPosition()[1]);
+                    double element = hermite(m_quantumNumbers(i,0), particles[i]->getNewPosition()[0])
+                            *hermiteDerivative(m_quantumNumbers(i,1), particles[i]->getNewPosition()[1]);
                 }
                 element *= expRK;
-                slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                        *SingleParticleWF(m_quantumNumbers(i,0),m_quantumNumbers(i,1),particles[i]->getPosition()[0],particles[i]->getPosition()[1]);
+                slater += element - m_omega*particles[k]->getNewPosition()[dimension]
+                        *SingleParticleWF(m_quantumNumbers(i,0),m_quantumNumbers(i,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]);
             }
         }
         if (dimension == 0){
-            double element = hermite(m_quantumNumbers(particle,1), particles[particle]->getPosition()[1])
-                    *hermiteDerivative(m_quantumNumbers(particle,0), particles[particle]->getPosition()[0]);
+            double element = hermite(m_quantumNumbers(particle,1), particles[k]->getNewPosition()[1])
+                    *hermiteDerivative(m_quantumNumbers(particle,0), particles[k]->getNewPosition()[0]);
         }
         else{
-            double element = hermite(m_quantumNumbers(particle,0), particles[particle]->getPosition()[0])
-                    *hermiteDerivative(m_quantumNumbers(particle,1), particles[particle]->getPosition()[1]);
+            double element = hermite(m_quantumNumbers(particle,0), particles[k]->getNewPosition()[0])
+                    *hermiteDerivative(m_quantumNumbers(particle,1), particles[k]->getNewPosition()[1]);
         }
         element *= expRK;
-        slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                *SingleParticleWF(m_quantumNumbers(particle,0),m_quantumNumbers(particle,1),particles[particle]->getPosition()[0],particles[particle]->getPosition()[1]);
+        slater += element - m_omega*particles[k]->getNewPosition()[dimension]
+                *SingleParticleWF(m_quantumNumbers(particle,0),m_quantumNumbers(particle,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);
         m_dUp = slater;
     }
     else{
@@ -127,31 +139,31 @@ double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> p
         for (int i=m_npHalf; i<m_system->getNumberOfParticles(); i++){
             if (i != particle){
                 double betaFrac = m_a(i,particle)/((1+m_beta*m_distances(particle))*(1+m_beta*m_distances(particle)));
-                m_dPadeJastrow += (particles[particle]->getPosition()[dimension]-particles[i]->getPosition()[dimension])*(1/m_distances(particle)*betaFrac);
+                m_dPadeJastrow += (particles[k]->getNewPosition()[dimension]-particles[i]->getNewPosition()[dimension])*(1/m_distances(particle)*betaFrac);
                 if (dimension == 0){
-                    double element = hermite(m_quantumNumbers(i-m_npHalf,1), particles[i]->getPosition()[1])
-                            *hermiteDerivative(m_quantumNumbers(i-m_npHalf,0), particles[i]->getPosition()[0]);
+                    double element = hermite(m_quantumNumbers(i-m_npHalf,1), particles[i]->getNewPosition()[1])
+                            *hermiteDerivative(m_quantumNumbers(i-m_npHalf,0), particles[i]->getNewPosition()[0]);
                 }
                 else{
-                    double element = hermite(m_quantumNumbers(i-m_npHalf,0), particles[i]->getPosition()[0])
-                            *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[i]->getPosition()[1]);
+                    double element = hermite(m_quantumNumbers(i-m_npHalf,0), particles[i]->getNewPosition()[0])
+                            *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[i]->getNewPosition()[1]);
                 }
                 element *= expRK;
-                slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                        *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),m_quantumNumbers(i-m_npHalf,1),particles[i]->getPosition()[0],particles[i]->getPosition()[1]);
+                slater += element - m_omega*particles[k]->getNewPosition()[dimension]
+                        *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),m_quantumNumbers(i-m_npHalf,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]);
             }
         }
         if (dimension == 0){
-            double element = hermite(m_quantumNumbers(particle-m_npHalf,1), particles[particle]->getPosition()[1])
-                    *hermiteDerivative(m_quantumNumbers(particle-m_npHalf,0), particles[particle]->getPosition()[0]);
+            double element = hermite(m_quantumNumbers(particle-m_npHalf,1), particles[k]->getNewPosition()[1])
+                    *hermiteDerivative(m_quantumNumbers(particle-m_npHalf,0), particles[k]->getNewPosition()[0]);
         }
         else{
-            double element = hermite(m_quantumNumbers(particle-m_npHalf,0), particles[particle]->getPosition()[0])
-                    *hermiteDerivative(m_quantumNumbers(particle-m_npHalf,1), particles[particle]->getPosition()[1]);
+            double element = hermite(m_quantumNumbers(particle-m_npHalf,0), particles[k]->getNewPosition()[0])
+                    *hermiteDerivative(m_quantumNumbers(particle-m_npHalf,1), particles[k]->getNewPosition()[1]);
         }
         element *= expRK;
-        slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                *SingleParticleWF(m_quantumNumbers(particle-m_npHalf,0),m_quantumNumbers(particle-m_npHalf,1),particles[particle]->getPosition()[0],particles[particle]->getPosition()[1]);
+        slater += element - m_omega*particles[k]->getNewPosition()[dimension]
+                *SingleParticleWF(m_quantumNumbers(particle-m_npHalf,0),m_quantumNumbers(particle-m_npHalf,1),particles[k]->getNewPosition()[0],particles[particle]->getNewPosition()[1]);
         m_dDown = slater;
     }
 
@@ -163,6 +175,7 @@ double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> p
 double ManyBodyQuantumDotWaveFunction::evaluate(std::vector<class Particle*> particles)
 {
     cout << "Entered evaluate in ManyBodyQuantumDotWaveFunction. This is strange?"<<endl;
+    cout << m_distances(10000,0)<<endl;
 }
 
 
@@ -177,25 +190,26 @@ double ManyBodyQuantumDotWaveFunction::SingleParticleWF(int nx, int ny, double x
 
 double ManyBodyQuantumDotWaveFunction::ddSingleParticleWF(int i, int j)
 {
-    double x = m_system->getParticles()[i]->getPosition()[0];
-    double y = m_system->getParticles()[i]->getPosition()[1];
+    int nx, ny;
+    double x = m_system->getParticles()[i]->getNewPosition()[0];
+    double y = m_system->getParticles()[i]->getNewPosition()[1];
     double ri2 = x*x + y*y;
 
     if (j<m_npHalf){    // Spin up
-        int nx = m_quantumNumbers(j,0);
-        int ny = m_quantumNumbers(j,1);
+        nx = m_quantumNumbers(j,0);
+        ny = m_quantumNumbers(j,1);
     }
     else {              // Spin down
-        int nx = m_quantumNumbers(j-m_npHalf,0);
-        int ny = m_quantumNumbers(j-m_npHalf,1);
+        nx = m_quantumNumbers(j-m_npHalf,0);
+        ny = m_quantumNumbers(j-m_npHalf,1);
     }
 
-    double   Hx = hermite(nx, m_system->getParticles()[i]->getPosition()[0]);
-    double   Hx = hermite(ny, m_system->getParticles()[i]->getPosition()[1]);
-    double  dHx = hermiteDerivative(nx, m_system->getParticles()[i]->getPosition()[0]);
-    double  dHy = hermiteDerivative(ny, m_system->getParticles()[i]->getPosition()[1]);
-    double ddHx = hermiteDoubleDerivative(nx, m_system->getParticles()[i]->getPosition()[0]);
-    double ddHy = hermiteDoubleDerivative(ny, m_system->getParticles()[i]->getPosition()[1]);
+    double   Hx = hermite(nx, m_system->getParticles()[i]->getNewPosition()[0]);
+    double   Hy = hermite(ny, m_system->getParticles()[i]->getNewPosition()[1]);
+    double  dHx = hermiteDerivative(nx, m_system->getParticles()[i]->getNewPosition()[0]);
+    double  dHy = hermiteDerivative(ny, m_system->getParticles()[i]->getNewPosition()[1]);
+    double ddHx = hermiteDoubleDerivative(nx, m_system->getParticles()[i]->getNewPosition()[0]);
+    double ddHy = hermiteDoubleDerivative(ny, m_system->getParticles()[i]->getNewPosition()[1]);
 
     return (Hy*ddHx + Hx*ddHy -
             2*m_omega*(x*Hy*dHx + y*Hx*dHy) -
@@ -206,45 +220,48 @@ double ManyBodyQuantumDotWaveFunction::ddSingleParticleWF(int i, int j)
 
 double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> particles, int k, int j)
 {
-    double expRK = exp(-0.5*m_omega*(particles[particle]->getPosition()[0]*particles[particle]->getPosition()[0]
-            + particles[particle]->getPosition()[1]*particles[particle]->getPosition()[1]));
-    if (particle < m_npHalf){
+    double element;
+    double slater = 0;
+
+    double expRK = exp(-0.5*m_omega*(particles[k]->getNewPosition()[0]*particles[k]->getNewPosition()[0]
+            + particles[k]->getNewPosition()[1]*particles[k]->getNewPosition()[1]));
+    if (k < m_npHalf){
         for (int i=0; i<m_npHalf; i++){
-            if (dimension == 0){
-                double element = hermite(m_quantumNumbers(i,1), particles[i]->getPosition()[1])
-                        *hermiteDerivative(m_quantumNumbers(i,0), particles[i]->getPosition()[0]);
+            if (j == 0){
+                element = hermite(m_quantumNumbers(i,1), particles[i]->getNewPosition()[1])
+                        *hermiteDerivative(m_quantumNumbers(i,0), particles[i]->getNewPosition()[0]);
             }
             else{
-                double element = hermite(m_quantumNumbers(i,0), particles[i]->getPosition()[0])
-                        *hermiteDerivative(m_quantumNumbers(i,1), particles[i]->getPosition()[1]);
+                element = hermite(m_quantumNumbers(i,0), particles[i]->getNewPosition()[0])
+                        *hermiteDerivative(m_quantumNumbers(i,1), particles[i]->getNewPosition()[1]);
             }
             element *= expRK;
-            slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                    *SingleParticleWF(m_quantumNumbers(i,0),m_quantumNumbers(i,1),particles[i]->getPosition()[0],particles[i]->getPosition()[1]);
+            slater += element - m_omega*particles[k]->getNewPosition()[j]
+                    *SingleParticleWF(m_quantumNumbers(i,0),m_quantumNumbers(i,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]);
 
         }
         element *= expRK;
-        slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                *SingleParticleWF(m_quantumNumbers(particle,0),m_quantumNumbers(particle,1),particles[particle]->getPosition()[0],particles[particle]->getPosition()[1]);
+        slater += element - m_omega*particles[k]->getNewPosition()[j]
+                *SingleParticleWF(m_quantumNumbers(k,0),m_quantumNumbers(k,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);
     }
     else{
         for (int i=m_npHalf; i<m_system->getNumberOfParticles(); i++){
-            if (dimension == 0){
-                double element = hermite(m_quantumNumbers(i-m_npHalf,1), particles[i]->getPosition()[1])
-                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,0), particles[i]->getPosition()[0]);
+            if (j == 0){
+                element = hermite(m_quantumNumbers(i-m_npHalf,1), particles[i]->getNewPosition()[1])
+                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,0), particles[i]->getNewPosition()[0]);
             }
             else{
-                double element = hermite(m_quantumNumbers(i-m_npHalf,0), particles[i]->getPosition()[0])
-                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[i]->getPosition()[1]);
+                element = hermite(m_quantumNumbers(i-m_npHalf,0), particles[i]->getNewPosition()[0])
+                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[i]->getNewPosition()[1]);
             }
             element *= expRK;
-            slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                    *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),m_quantumNumbers(i-m_npHalf,1),particles[i]->getPosition()[0],particles[i]->getPosition()[1]);
+            slater += element - m_omega*particles[k]->getNewPosition()[j]
+                    *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),m_quantumNumbers(i-m_npHalf,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]);
 
         }
         element *= expRK;
-        slater += element - m_omega*particles[particle]->getPosition()[dimension]
-                *SingleParticleWF(m_quantumNumbers(particle-m_npHalf,0),m_quantumNumbers(particle-m_npHalf,1),particles[particle]->getPosition()[0],particles[particle]->getPosition()[1]);
+        slater += element - m_omega*particles[k]->getNewPosition()[j]
+                *SingleParticleWF(m_quantumNumbers(k-m_npHalf,0),m_quantumNumbers(k-m_npHalf,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);
     }
     return slater;
 }
@@ -255,11 +272,11 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
     double correlation = 0;
     for (int i=0; i<k; i++){
         double betaFrac = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
-        correlation += (particles[k]->getPosition()[d]-particles[i]->getPosition()[d])*(1/m_distances(i,k)*betaFrac);
+        correlation += (particles[k]->getNewPosition()[d]-particles[i]->getNewPosition()[d])*(1/m_distances(i,k)*betaFrac);
     }
     for (int j=k+1; j<m_npHalf*2; j++){
         double betaFrac = m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
-        correlation -= (particles[j]->getPosition()[d]-particles[k]->getPosition()[d])*(1/m_distances(k,j)*betaFrac);
+        correlation -= (particles[j]->getNewPosition()[d]-particles[k]->getNewPosition()[d])*(1/m_distances(k,j)*betaFrac);
     }
     return correlation;
 }
@@ -311,7 +328,7 @@ double ManyBodyQuantumDotWaveFunction::hermite(int energyLevel, double position)
     }
 }
 
-double ManyBodyQuantumDotWaveFunction::hermiteDerivative(int energyLevel, double postion)
+double ManyBodyQuantumDotWaveFunction::hermiteDerivative(int energyLevel, double position)
 {
     if (energyLevel == 0){
         return 0;
@@ -334,7 +351,7 @@ double ManyBodyQuantumDotWaveFunction::hermiteDerivative(int energyLevel, double
     }
 }
 
-double ManyBodyQuantumDotWaveFunction::hermiteDoubleDerivative(int energyLevel, double postion)
+double ManyBodyQuantumDotWaveFunction::hermiteDoubleDerivative(int energyLevel, double position)
 {
     if (energyLevel == 0){
         return 0;
@@ -391,8 +408,8 @@ double ManyBodyQuantumDotWaveFunction::computeRatio(std::vector<class Particle*>
 
     double exponentN = 0;
     double exponentO = 0;
-    for(int k=0; k<m_npHalf*2-1; k++){
-        for (int p=k+1; p<m_npHalf; p++){
+    for(int k=0; k<m_npHalf*2; k++){
+        for (int p=k+1; p<m_npHalf*2; p++){
             double r_kpN = 0;
             double r_kpO = 0;
             for (int d=0; d<m_system->getNumberOfDimensions(); d++){

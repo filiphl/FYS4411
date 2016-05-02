@@ -72,7 +72,7 @@ bool System::metropolisStep() {
 
     if (m_importanceSampling){
         double qForceOld = qForce(p,d);
-        prob = m_waveFunction->computeRatio(m_particles, p,d,dx);
+        prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
         double qForceNew = qForce(p,d);
         double greensFunction = exp(0.5*(qForceOld+qForceNew)*((m_D*m_dt/2)*(qForceNew-qForceOld) - dx));           // Only term special for i,j = p,d
 

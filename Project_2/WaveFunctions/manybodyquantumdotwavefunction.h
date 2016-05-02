@@ -39,8 +39,8 @@ public:
     double correlationGrad(std::vector<class Particle*> particles, int k, int j);
     double correlationLap(std::vector<class Particle*> particles, int k);
     double hermite(int energyLevel, double position);
-    double hermiteDerivative(int energyLevel, double postion);
-    double hermiteDoubleDerivative(int energyLevel, double postion);
+    double hermiteDerivative(int energyLevel, double position);
+    double hermiteDoubleDerivative(int energyLevel, double position);
 
     double f(int i, int j); // see report page 2.
 

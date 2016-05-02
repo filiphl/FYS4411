@@ -15,9 +15,9 @@ protected:
     double m_beta   = 0;
     double m_beta2  = 0;
     int m_newlyMoved = 0;
-    mat    m_distances;
 
 public:
+    arma::mat    m_distances;
     WaveFunction(){}
     WaveFunction(class System* system);
     virtual double evaluate(std::vector<class Particle*> particles)         = 0;
