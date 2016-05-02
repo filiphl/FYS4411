@@ -52,18 +52,37 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
     }*/
     double slaterLap = 0;
     double corrLap = 0;
+    double crossTerm = 0;
     int k = m_newlyMoved;
-    if (k<m_npHalf){
+    //if (k<m_npHalf){ TO BE EFFECTIFIED
+    for (int i=0; i<m_npHalf*2; i++){
+
+        for (int l=0; l<m_npHalf; l++){
+            slaterLap += ddSingleParticleWF(i,l)*m_slaterUpInverse(j,i);
+        }
+
+        corrLap += correlationLap(particles, i);
+
+        for (int d=0; d<2; d++){
+            crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d);
+        }
+    }
+    /*}
+    else{
         for (int i=0; i<m_npHalf*2; i++){
 
             for (int l=0; l<m_npHalf; l++){
                 slaterLap += ddSingleParticleWF(i,l)*m_slaterUpInverse(j,i);
             }
-            //slaterLap +=
 
+            corrLap += correlationLap(particles, i);
 
+            for (int d=0; d<2; d++){
+                crossTerm += 2*correlationGrad(particles, i, d)*slaterGrad(particles, i, d);
+            }
         }
-    }
+    }*/
+    return corrLap + slaterLap + crossTerm;
 }
 
 double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> particles, int particle, int dimension){
@@ -238,10 +257,32 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
         double betaFrac = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
         correlation += (particles[k]->getPosition()[d]-particles[i]->getPosition()[d])*(1/m_distances(i,k)*betaFrac);
     }
-    for (int j=k+1; i<m_npHalf; j++){
+    for (int j=k+1; j<m_npHalf*2; j++){
         double betaFrac = m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
         correlation -= (particles[j]->getPosition()[d]-particles[k]->getPosition()[d])*(1/m_distances(k,j)*betaFrac);
     }
+    return correlation;
+}
+
+double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *> particles, int k)
+{
+    double correlation = 0;
+
+    for (int d; d<2; d++){
+        correlation += correlationGrad(particles,k,d);
+    }
+
+    for (int i=0; i<k; i++){
+        double betaFrac2 = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
+        double betaFrac3 = -2*m_beta*m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
+        correlation += (1/m_distances(i,k))*betaFrac2 + betaFrac3;
+    }
+    for (int j=k+1; j<m_npHalf*2; j++){
+        double betaFrac2 = m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
+        double betaFrac3 = -2*m_beta*m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
+        correlation += (1/m_distances(k,j))*betaFrac2 + betaFrac3;
+    }
+
     return correlation;
 }
 

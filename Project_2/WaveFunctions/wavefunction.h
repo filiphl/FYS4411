@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "system.h"
+#include <armadillo>
 
 class WaveFunction {
 
@@ -14,6 +15,7 @@ protected:
     double m_beta   = 0;
     double m_beta2  = 0;
     int m_newlyMoved = 0;
+    mat    m_distances;
 
 public:
     WaveFunction(){}

@@ -19,7 +19,6 @@ private:
     mat    m_slaterUpInverse;
     mat    m_slaterDownInverse;
     mat    m_quantumNumbers;
-    mat    m_distances;
     double m_dUp = 0;
     double m_dDown = 0;
     double m_ddUp = 0;
@@ -38,6 +37,7 @@ public:
     double ddSingleParticleWF(int i,int j);
     double slaterGrad(std::vector<class Particle*> particles, int k, int j);
     double correlationGrad(std::vector<class Particle*> particles, int k, int j);
+    double correlationLap(std::vector<class Particle*> particles, int k);
     double hermite(int energyLevel, double position);
     double hermiteDerivative(int energyLevel, double postion);
     double hermiteDoubleDerivative(int energyLevel, double postion);
