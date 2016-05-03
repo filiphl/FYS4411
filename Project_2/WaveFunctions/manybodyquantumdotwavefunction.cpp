@@ -236,13 +236,14 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
                         *hermiteDerivative(m_quantumNumbers(i,1), particles[i]->getNewPosition()[1]);
             }
             element *= expRK;
-            slater += element - m_omega*particles[k]->getNewPosition()[j]
-                    *SingleParticleWF(m_quantumNumbers(i,0),m_quantumNumbers(i,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]);
+            slater += (element - m_omega*particles[k]->getNewPosition()[j]
+                    *SingleParticleWF(m_quantumNumbers(i,0),m_quantumNumbers(i,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]))
+                    *m_slaterUpInverse(i,k);
 
         }
-        element *= expRK;
+       /* element *= expRK;
         slater += element - m_omega*particles[k]->getNewPosition()[j]
-                *SingleParticleWF(m_quantumNumbers(k,0),m_quantumNumbers(k,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);
+                *SingleParticleWF(m_quantumNumbers(k,0),m_quantumNumbers(k,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);*/
     }
     else{
         for (int i=m_npHalf; i<m_system->getNumberOfParticles(); i++){
@@ -255,13 +256,14 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
                         *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[i]->getNewPosition()[1]);
             }
             element *= expRK;
-            slater += element - m_omega*particles[k]->getNewPosition()[j]
-                    *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),m_quantumNumbers(i-m_npHalf,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]);
+            slater += (element - m_omega*particles[k]->getNewPosition()[j]
+                    *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),m_quantumNumbers(i-m_npHalf,1),particles[i]->getNewPosition()[0],particles[i]->getNewPosition()[1]))
+                    *m_slaterDownInverse(i-m_npHalf,k-m_npHalf);
 
         }
-        element *= expRK;
+       /* element *= expRK;
         slater += element - m_omega*particles[k]->getNewPosition()[j]
-                *SingleParticleWF(m_quantumNumbers(k-m_npHalf,0),m_quantumNumbers(k-m_npHalf,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);
+                *SingleParticleWF(m_quantumNumbers(k-m_npHalf,0),m_quantumNumbers(k-m_npHalf,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);*/
     }
     return slater;
 }
@@ -272,11 +274,11 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
     double correlation = 0;
     for (int i=0; i<k; i++){
         double betaFrac = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
-        correlation += (particles[k]->getNewPosition()[d]-particles[i]->getNewPosition()[d])*(1/m_distances(i,k)*betaFrac);
+        correlation += (particles[k]->getNewPosition()[d]-particles[i]->getNewPosition()[d])*(betaFrac/m_distances(i,k));
     }
     for (int j=k+1; j<m_npHalf*2; j++){
         double betaFrac = m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
-        correlation -= (particles[j]->getNewPosition()[d]-particles[k]->getNewPosition()[d])*(1/m_distances(k,j)*betaFrac);
+        correlation -= (particles[j]->getNewPosition()[d]-particles[k]->getNewPosition()[d])*(betaFrac/m_distances(k,j));
     }
     return correlation;
 }
@@ -285,9 +287,19 @@ double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *> pa
 {
     double correlation = 0;
 
-    for (int d; d<2; d++){
-        correlation += correlationGrad(particles,k,d);
+    // This is needed because corrGrad calculates grad(Psi)/Psi, so (grad(Psi)/Psi)^2 must be multiplied by Psi
+    double exponent = 1;
+    for (int i=0; i<m_npHalf*2; i++){
+        for (int j=i+1; j<m_npHalf*2; j++){
+            exponent += m_a(i,j)*m_distances(i,j)/(1+m_beta*m_distances(i,j));
+        }
     }
+    double factor = exp(exponent);
+
+    for (int d; d<2; d++){
+        correlation += correlationGrad(particles,k,d)*correlationGrad(particles,k,d);
+    }
+    correlation *= factor;
 
     for (int i=0; i<k; i++){
         double betaFrac2 = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));

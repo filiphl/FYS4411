@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 6;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e5;
     double omegaHO          = .5;//.5;          // Oscillator frequency.
@@ -50,10 +50,10 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
+    system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta, alpha));
     system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
     //system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha,beta,C,omegaHO,a));
     //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
-    system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta, alpha));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (true);
