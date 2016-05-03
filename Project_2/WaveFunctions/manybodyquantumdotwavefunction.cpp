@@ -215,7 +215,6 @@ double ManyBodyQuantumDotWaveFunction::ddSingleParticleWF(int i, int j)
             2*m_omega*(x*Hy*dHx + y*Hx*dHy) -
             m_omega*Hx*Hy*(m_system->getNumberOfDimensions()-m_omega*ri2))*
             exp(-m_omega*ri2*0.5);
-
 }
 
 double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> particles, int k, int j)
@@ -287,19 +286,18 @@ double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *> pa
 {
     double correlation = 0;
 
-    // This is needed because corrGrad calculates grad(Psi)/Psi, so (grad(Psi)/Psi)^2 must be multiplied by Psi
-    double exponent = 1;
+    /*// This is needed because corrGrad calculates grad(Psi)/Psi, so (grad(Psi)/Psi)^2 must be multiplied by Psi
+    double exponent = 0;
     for (int i=0; i<m_npHalf*2; i++){
         for (int j=i+1; j<m_npHalf*2; j++){
             exponent += m_a(i,j)*m_distances(i,j)/(1+m_beta*m_distances(i,j));
         }
     }
-    double factor = exp(exponent);
+    double factor = exp(exponent);*/
 
     for (int d; d<2; d++){
         correlation += correlationGrad(particles,k,d)*correlationGrad(particles,k,d);
     }
-    correlation *= factor;
 
     for (int i=0; i<k; i++){
         double betaFrac2 = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
