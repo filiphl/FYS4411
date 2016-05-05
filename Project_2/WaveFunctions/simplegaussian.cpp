@@ -39,7 +39,7 @@ double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
         }
         //argument -= ri2;
     }
-    sumOfArguments = argument;
+    psiAlpha = argument;
     return exp(m_alpha * argument);
 }
 

@@ -72,16 +72,20 @@ bool System::metropolisStep() {
 
     if (m_importanceSampling){
         double qForceOld = qForce(p,d);
+        dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt); // sqrt(2*m_D*m_dt), but m_D=0.5.
+//        cout <<"m_D: "<< m_D<< "    m_dt: " << m_dt<< " dx: "<<dx<< "qForceOld: "<<qForceOld<<endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
         double qForceNew = qForce(p,d);
+        //if (qForceOld != qForceNew){cout << "oh bugger" << endl;}
         double greensFunction = exp(0.5*(qForceOld+qForceNew)*((m_D*m_dt/2)*(qForceNew-qForceOld) - dx));           // Only term special for i,j = p,d
-
+        prob *= prob;
         prob *= greensFunction;
     }
 
     else{
         dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
+        prob *= prob;
     }
 
 
@@ -95,6 +99,7 @@ bool System::metropolisStep() {
     else {                                           // Reject.
         //m_particles[p]->adjustOldPosition(-dx, d); //This is done for all other classes than manyBody... Should be fixed.
         m_particles[p]->adjustNewPosition(-dx, d);
+        m_waveFunction->computeRatio(m_particles, p, d, 0);
         return false;
     }
 }
@@ -123,7 +128,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     }
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
-    m_sampler->printOutputToTerminal();
+//    m_sampler->printOutputToTerminal();
     if (m_storeLocalEnergy){ closeEnergyFile(); }
     if (m_storePositions){ closePositionFile(); }
 }

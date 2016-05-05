@@ -26,7 +26,8 @@ public:
     virtual double computeRatio(std::vector<class Particle*> particles, int i, int j, double change)    = 0;
     virtual void   updateSlater(int i) = 0;
 
-    double sumOfArguments = 0;
+    double psiAlpha = 0;
+    double psiBeta  = 0;
 
     double getAlpha() const;
     void setAlpha(double alpha);
@@ -39,5 +40,6 @@ public:
     double getBeta2() const;
     void setBeta2(double beta2);
     void setNewlyMoved(int i) { m_newlyMoved = i; }
+    double getPsiBeta() const;
 };
 

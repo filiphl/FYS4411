@@ -38,6 +38,10 @@ double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
 
 
     r12 = sqrt(r12);
+
+    psiAlpha = -m_alpha*m_omega*(r1+r2)*0.5;
+    psiBeta  = -m_a*r12*r12/((1+m_beta*r12)*(1+m_beta*r12));
+
     return m_C*exp(-m_alpha*m_omega*(r1+r2)*0.5)*exp(m_a*r12/(1+m_beta*r12));
 }
 
@@ -45,7 +49,7 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
 {
     double ddr = 0;
     if (m_system->getAnalyticalLaplacian()){
-        cout << "Analytical"<<endl;
+//        cout << "Analytical"<<endl;
         // return the laplacian/psi
         double r1 = 0;
         double r2 = 0;

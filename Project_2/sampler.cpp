@@ -17,10 +17,16 @@ double Sampler::getLocalAlphaDeriv() const
     return m_localAlphaDeriv;
 }
 
+double Sampler::getLocalBetaDeriv() const
+{
+    return m_localBetaDeriv;
+}
+
 void Sampler::setStepNumber(int stepNumber)
 {
     m_stepNumber = stepNumber;
 }
+
 
 Sampler::Sampler(System* system) {
     m_system = system;
@@ -53,9 +59,12 @@ void Sampler::sample(bool acceptedStep) {
             computeLocalEnergy(m_system->getParticles());
 
     if (m_system->OptimizingParameters()){
-        m_psiDerivative = m_system->getWaveFunction()->sumOfArguments;
+        m_psiDerivative     = m_system->getWaveFunction()->psiAlpha;
+        m_psiDerivativeBeta = m_system->getWaveFunction()->psiBeta;
         m_cumulativePsiDeriv += m_psiDerivative;
         m_cumulativePsiLocalProd += m_localEnergy*m_psiDerivative;
+        m_cumulativePsiDerivBeta += m_psiDerivativeBeta;
+        m_cumulativePsiLocalProdBeta += m_localEnergy*m_psiDerivativeBeta;
     }
 
     m_numberOfStepsSampled++;
@@ -123,8 +132,8 @@ void Sampler::computeAverages() {
 
     if (m_system->OptimizingParameters()){
         m_localAlphaDeriv = 2*(m_cumulativePsiLocalProd - m_cumulativePsiDeriv*m_energy)/(double)m_numberOfStepsSampled;
+        m_localBetaDeriv  = 2*(m_cumulativePsiLocalProdBeta - m_cumulativePsiDerivBeta*m_energy)/(double)m_numberOfStepsSampled;
     }
-
 }
 
 double Sampler::computeAnalyticalEnergy()
@@ -134,20 +143,24 @@ double Sampler::computeAnalyticalEnergy()
 
 void Sampler::reset()
 {
-    m_numberOfStepsSampled    = 0;
-    m_accepted                = 0;
-    m_stepNumber              = 0;
-    m_acceptanceRate          = 0;
-    m_localEnergy             = 0;
-    m_psiDerivative           = 0;
-    m_energy                  = 0;
-    m_energySquared           = 0;
-    m_variance                = 0;
-    m_cumulativeEnergy        = 0;
-    m_cumulativePsiDeriv      = 0;
-    m_cumulativePsiLocalProd  = 0;
-    m_analyticalEnergy        = 0;
-    m_localAlphaDeriv         = 0;
+    m_numberOfStepsSampled       = 0;
+    m_accepted                   = 0;
+    m_stepNumber                 = 0;
+    m_acceptanceRate             = 0;
+    m_localEnergy                = 0;
+    m_psiDerivative              = 0;
+    m_psiDerivativeBeta          = 0;
+    m_energy                     = 0;
+    m_energySquared              = 0;
+    m_variance                   = 0;
+    m_cumulativeEnergy           = 0;
+    m_cumulativePsiDeriv         = 0;
+    m_cumulativePsiDerivBeta     = 0;
+    m_cumulativePsiLocalProd     = 0;
+    m_cumulativePsiLocalProdBeta = 0;
+    m_analyticalEnergy           = 0;
+    m_localAlphaDeriv            = 0;
+    m_localBetaDeriv             = 0;
 }
 
 double Sampler::getEnergySquared() const

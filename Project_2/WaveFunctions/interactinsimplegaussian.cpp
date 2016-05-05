@@ -28,7 +28,7 @@ double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)
             }
         }
     }
-    sumOfArguments = argument;
+    psiAlpha = argument;
     double g = exp(m_alpha * argument);
 
     double   f = 1;

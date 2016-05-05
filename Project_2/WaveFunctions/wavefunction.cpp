@@ -5,6 +5,11 @@ WaveFunction::WaveFunction(System* system) {
     m_system = system;
 }
 
+double WaveFunction::getPsiBeta() const
+{
+    return psiBeta;
+}
+
 double WaveFunction::getAlpha() const
 {
     return m_alpha;

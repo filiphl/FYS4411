@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
-    double omegaHO          = .5;          // Oscillator frequency.
+    double omegaHO          = 1.0;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
     double beta             = 0.50905;      // Variational parameter.
@@ -50,10 +50,10 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta, alpha));
-    system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
-    //system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha,beta,C,omegaHO,a));
-    //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    //system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta, alpha));
+    //system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
+    system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
+    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (true);
@@ -61,11 +61,11 @@ int main(int argc, char* argv[]) {
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
-    //Optimizer* myOptimizer = new Optimizer(system);
-    //myOptimizer->optimizeParameters();
+    Optimizer* myOptimizer = new Optimizer(system);
+    myOptimizer->optimizeParameters();
 
 
-    system->runMetropolisSteps              (numberOfSteps);
+    //system->runMetropolisSteps              (numberOfSteps);
 
 
 

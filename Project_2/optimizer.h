@@ -6,14 +6,21 @@
 class Optimizer
 {
 private:
-    double m_steplength     = 0.1;
-    double m_epsilon        = 0;
-    double m_alpha          = 0.4;
-    double m_alphaOld       = 0.4;
-    double m_derivative     = 0;
-    double m_derivativeOld  = 0;
-    int    m_numberOfSteps  = 0;
-    System* m_system        = nullptr;
+    System* m_system           = nullptr;
+
+    double m_steplengthAlpha   = 0.2;
+    double m_steplengthBeta    = 0.2;
+    double m_epsilon           = 0;
+    double m_alpha             = 1;
+    double m_alphaOld          = 0.0;
+    double m_beta              = 1;
+    double m_betaOld           = 0.0;
+    double m_dAlpha            = 0;
+    double m_dAlphaOld         = 0;
+    double m_dBeta             = 0;
+    double m_dBetaOld          = 0;
+    int    m_numberOfSteps     = 0;
+
 public:
     Optimizer(System* system);
     void optimizeParameters();

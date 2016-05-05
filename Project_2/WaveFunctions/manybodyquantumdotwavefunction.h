@@ -8,10 +8,10 @@ class ManyBodyQuantumDotWaveFunction : public WaveFunction
 {
 
 private:
-    double m_omega = 0;
-    double m_alpha = 0;
-    double m_beta = 0;
-    double m_R = 0;
+    double m_omega  = 0;
+    double m_alpha  = 0;
+    double m_beta   = 0;
+    double m_R      = 1;
     int    m_npHalf = 0;
     mat    m_a;
     mat    m_slaterUp;
