@@ -14,7 +14,9 @@ public:
     std::vector<double> getParameters();
 
 
+
     void   updateSlater(int i);
+    void   printParameters();
 };
 
 #endif // HELIUMWAVEFUNCTION_H

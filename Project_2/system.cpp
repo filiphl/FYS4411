@@ -84,6 +84,7 @@ bool System::metropolisStep() {
 
     else{
         dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
+//        cout << dx << endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
         prob *= prob;
     }
@@ -128,7 +129,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     }
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
-//    m_sampler->printOutputToTerminal();
+    m_sampler->printOutputToTerminal();
     if (m_storeLocalEnergy){ closeEnergyFile(); }
     if (m_storePositions){ closePositionFile(); }
 }

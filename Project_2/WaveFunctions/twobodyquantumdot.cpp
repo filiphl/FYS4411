@@ -142,4 +142,9 @@ void TwoBodyQuantumDot::updateSlater(int i)
 
 }
 
+void TwoBodyQuantumDot::printParameters()
+{
+
+}
+
 

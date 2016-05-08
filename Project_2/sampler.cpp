@@ -105,11 +105,7 @@ void Sampler::printOutputToTerminal() {
     cout << endl;
     cout << "  -- Wave function parameters -- " << endl;
     cout << " Number of parameters : " << p << endl;
-    cout << " Alpha " " : " << setw(7) << setprecision(5) << pa[0] << endl;
-    cout << " Beta  " " : " << setw(7) << setprecision(5) << pa[1] << endl;
-    cout << " C     " " : " << setw(7) << setprecision(5) << pa[2] << endl;
-    cout << " Omega " " : " << setw(7) << setprecision(5) << pa[3] << endl;
-    cout << " a     " " : " << setw(7) << setprecision(5) << pa[4] << endl;
+    m_system->getWaveFunction()->printParameters();
     cout << endl;
     cout << "  ----- Reults -----" << endl;
     cout << "Energy : "  << setw(25) << setprecision(5) << left << m_energy <<endl;

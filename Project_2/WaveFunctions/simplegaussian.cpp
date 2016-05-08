@@ -108,4 +108,9 @@ std::vector<double> SimpleGaussian::getParameters()
 
 }
 
+void SimpleGaussian::printParameters()
+{
+
+}
+
 

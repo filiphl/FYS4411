@@ -83,4 +83,9 @@ void HeliumWaveFunction::updateSlater(int i)
 
 }
 
+void HeliumWaveFunction::printParameters()
+{
+
+}
+
 

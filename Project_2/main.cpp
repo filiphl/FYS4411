@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 6;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
     double omegaHO          = 1.0;          // Oscillator frequency.
@@ -50,22 +50,22 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    //system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta, alpha));
-    //system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
-    system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
-    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta));
+    system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
+    //system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
+    //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (true);
-    system->setImportanceSampling           (true);
+    system->setImportanceSampling           (false);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
-    Optimizer* myOptimizer = new Optimizer(system);
-    myOptimizer->optimizeParameters();
+    //Optimizer* myOptimizer = new Optimizer(system);
+    //myOptimizer->optimizeParameters();
 
 
-    //system->runMetropolisSteps              (numberOfSteps);
+    system->runMetropolisSteps              (numberOfSteps);
 
 
 

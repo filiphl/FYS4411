@@ -190,6 +190,11 @@ std::vector<double> InteractinSimpleGaussian::getParameters()
 
 }
 
+void InteractinSimpleGaussian::printParameters()
+{
+
+}
+
 
 
 

@@ -1,17 +1,16 @@
 #include "manybodyquantumdotwavefunction.h"
 
-ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, double omega, double a, double alpha, double beta) :
+ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, double omega, double a, double beta) :
     WaveFunction(system)
 {
     m_omega = omega;
-    m_alpha = alpha;
     m_beta = beta;
     m_npHalf =  m_system->getNumberOfParticles()/2;
 
-    m_parameters.push_back(alpha);
     m_parameters.push_back(beta);
     m_parameters.push_back(omega);
     m_parameters.push_back(a);
+    m_numberOfParameters = 3;
 
     m_a          = zeros<mat>(m_npHalf*2, m_npHalf*2);
     m_slaterUp   = zeros<mat>(m_npHalf, m_npHalf);
@@ -59,7 +58,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
 
         for (int l=0; l<m_npHalf; l++){
             slaterLap += ddSingleParticleWF(i,l)*m_slaterUpInverse(l,i);
-            cout << "ddSingleParticleWF: "<<ddSingleParticleWF(i,l)<<endl;
+            //            cout << "ddSingleParticleWF: "<<ddSingleParticleWF(i,l)<<endl;
         }
 
         corrLap += correlationLap(particles, i);
@@ -80,6 +79,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
 
         for (int d=0; d<2; d++){
             crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d);
+            //cout << slaterGrad(particles, i, d) << endl;
         }
     }
     /*}
@@ -97,13 +97,14 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
             }
         }
     }*/
+   // cout << crossTerm << endl;
     return corrLap + slaterLap + crossTerm;
 }
 
 double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> particles, int particle, int dimension){
 
-    cout << "SlaterGrad: "<< slaterGrad(particles, particle, dimension)<<endl;
-    cout << "corgrad: "<< correlationGrad(particles, particle, dimension)<<endl;
+    //    cout << "SlaterGrad: "<< slaterGrad(particles, particle, dimension)<<endl;
+    //    cout << "corgrad: "<< correlationGrad(particles, particle, dimension)<<endl;
     return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
 }
 
@@ -177,15 +178,15 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
             }
             element *= expRK;
             slater += (element - m_omega*particles[k]->getNewPosition()[j]
-                    *SingleParticleWF(m_quantumNumbers(i,0),
-                                      m_quantumNumbers(i,1),
-                                      particles[i]->getNewPosition()[0],
-                                      particles[i]->getNewPosition()[1]))
+                       *SingleParticleWF(m_quantumNumbers(i,0),
+                                         m_quantumNumbers(i,1),
+                                         particles[i]->getNewPosition()[0],
+                       particles[i]->getNewPosition()[1]))
                     *m_slaterUpInverse(i,k);
 
         }
-//        cout << "element: "<< setw(8) << element << "    slater: "<<setw(8)<<setprecision(5)<<slater<<endl;
-       /* element *= expRK;
+        //        cout << "element: "<< setw(8) << element << "    slater: "<<setw(8)<<setprecision(5)<<slater<<endl;
+        /* element *= expRK;
         slater += element - m_omega*particles[k]->getNewPosition()[j]
                 *SingleParticleWF(m_quantumNumbers(k,0),m_quantumNumbers(k,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);*/
     }
@@ -201,17 +202,18 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
             }
             element *= expRK;
             slater += (element - m_omega*particles[k]->getNewPosition()[j]
-                     *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),
-                                       m_quantumNumbers(i-m_npHalf,1),
-                                       particles[i]->getNewPosition()[0],
-                                       particles[i]->getNewPosition()[1]))
-                     *m_slaterDownInverse(i-m_npHalf, k-m_npHalf);
+                       *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),
+                                         m_quantumNumbers(i-m_npHalf,1),
+                                         particles[i]->getNewPosition()[0],
+                       particles[i]->getNewPosition()[1]))
+                    *m_slaterDownInverse(i-m_npHalf, k-m_npHalf);
 
         }
-       /* element *= expRK;
+        /* element *= expRK;
         slater += element - m_omega*particles[k]->getNewPosition()[j]
                 *SingleParticleWF(m_quantumNumbers(k-m_npHalf,0),m_quantumNumbers(k-m_npHalf,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);*/
     }
+    //cout <<slater<< endl;
     return slater/m_R;
 }
 
@@ -223,15 +225,15 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
         double betaFrac = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
         correlation += (particles[k]->getNewPosition()[d] -
                         particles[i]->getNewPosition()[d])*
-                        (betaFrac/m_distances(i,k));
+                (betaFrac/m_distances(i,k));
     }
     for (int j=k+1; j<m_npHalf*2; j++){
         double betaFrac = m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
         correlation -= (particles[j]->getNewPosition()[d] -
                         particles[k]->getNewPosition()[d])*
-                        (betaFrac/m_distances(k,j));
+                (betaFrac/m_distances(k,j));
     }
-//    cout << "correlation: "<<correlation<<endl;
+    //    cout << "correlation: "<<correlation<<endl;
     return correlation;
 }
 
@@ -257,6 +259,7 @@ double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *> pa
         double betaFrac3 = -2*m_beta*m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
         correlation += (1/m_distances(i,k))*betaFrac2 + betaFrac3;
     }
+
     for (int j=k+1; j<m_npHalf*2; j++){
         double betaFrac2 = m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
         double betaFrac3 = -2*m_beta*m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
@@ -349,30 +352,33 @@ double ManyBodyQuantumDotWaveFunction::f(int i, int j)
 
 double ManyBodyQuantumDotWaveFunction::computeRatio(std::vector<class Particle*> particles, int i, int j, double change)
 {
-//    cout << "chang: "<< change<<endl;
+    //    cout << "chang: "<< change<<endl;
     particles[i]->adjustNewPosition(change, j);
     double RSD = 0;
     double RC = 0;
 
+    double x =  particles[i]->getNewPosition()[0];
+    double y =  particles[i]->getNewPosition()[1];
 
     if (i<m_npHalf){
         for (int k=0; k<m_npHalf; k++){
             int nx = m_quantumNumbers(k,0);
             int ny = m_quantumNumbers(k,1);
-            RSD += m_slaterUpInverse(k,i)*SingleParticleWF(nx, ny, particles[i]->getNewPosition()[0], particles[i]->getNewPosition()[1]);
+            RSD += m_slaterUpInverse(k,i)*SingleParticleWF(nx, ny, x, y);
         }
     }
     else{
         for (int k=0; k<m_npHalf; k++){
             int nx = m_quantumNumbers(k,0);
             int ny = m_quantumNumbers(k,1);
-            RSD += m_slaterDownInverse(k,i-m_npHalf)*SingleParticleWF(nx, ny, particles[i]->getNewPosition()[0], particles[i]->getNewPosition()[1]);
+            RSD += m_slaterDownInverse(k,i-m_npHalf)*SingleParticleWF(nx, ny, x, y);
         }
+
     }
 
-    double exponentN = 0;
-    double exponentO = 0;
-    for(int k=0; k<m_npHalf*2; k++){
+    //double exponentN = 0;
+    //double exponentO = 0;
+    /*for(int k=0; k<m_npHalf*2; k++){
         for (int p=k+1; p<m_npHalf*2; p++){
             double r_kpN = 0;
             double r_kpO = 0;
@@ -387,9 +393,43 @@ double ManyBodyQuantumDotWaveFunction::computeRatio(std::vector<class Particle*>
             exponentN += m_a(k,p)*r_kpN/(1+m_beta*r_kpN);
             exponentO += m_a(k,p)*r_kpO/(1+m_beta*r_kpO);
         }
+    }*/
+
+    double fn = 0;
+    double fo = 0;
+    for (int k=0; k<i; k++){
+        double r_kiN = 0;
+        double r_kiO = 0;
+        for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+            r_kiN += (particles[k]->getNewPosition()[d]-particles[i]->getNewPosition()[d])
+                    *(particles[k]->getNewPosition()[d]-particles[i]->getNewPosition()[d]);
+            r_kiO += (particles[k]->getOldPosition()[d]-particles[i]->getOldPosition()[d])
+                    *(particles[k]->getOldPosition()[d]-particles[i]->getOldPosition()[d]);
+        }
+        r_kiN = sqrt(r_kiN);
+        r_kiO = sqrt(r_kiO);
+        fn += m_a(k,i)*r_kiN/(1+m_beta*r_kiN);
+        fo += m_a(k,i)*r_kiO/(1+m_beta*r_kiO);
     }
-    RC = exp(exponentN - exponentO);
+
+    for (int k=i+1; k<m_npHalf*2; k++){
+        double r_ikN = 0;
+        double r_ikO = 0;
+        for (int d=0; d<m_system->getNumberOfDimensions(); d++){
+            r_ikN += (particles[i]->getNewPosition()[d]-particles[k]->getNewPosition()[d])
+                    *(particles[i]->getNewPosition()[d]-particles[k]->getNewPosition()[d]);
+            r_ikO += (particles[i]->getOldPosition()[d]-particles[k]->getOldPosition()[d])
+                    *(particles[i]->getOldPosition()[d]-particles[k]->getOldPosition()[d]);
+        }
+        r_ikN = sqrt(r_ikN);
+        r_ikO = sqrt(r_ikO);
+        fn += m_a(i,k)*r_ikN/(1+m_beta*r_ikN);
+        fo += m_a(i,k)*r_ikO/(1+m_beta*r_ikO);
+    }
+
+    RC = exp(fn - fo);
     m_R = RSD*RC;
+   // cout << RC<<endl;
     return m_R;
 }
 
@@ -473,6 +513,13 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
         m_distances(i,k) = sqrt(rik);
     }
 
+}
+
+void ManyBodyQuantumDotWaveFunction::printParameters()
+{
+    cout << " Beta  :      "<< m_beta<<endl;
+    cout << " Omega :      "<< m_omega<<endl;
+    cout << " a     :      "<< m_parameters[2]<<endl;
 }
 
 

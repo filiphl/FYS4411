@@ -24,6 +24,7 @@ public:
     double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
     std::vector<double> getParameters();
 
+    void   printParameters();
 
     // Get / Set
     double beta() const;

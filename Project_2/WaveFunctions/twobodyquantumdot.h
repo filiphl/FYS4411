@@ -19,6 +19,7 @@ public:
     double computeDerivativeOfAlpha();
     std::vector<double> getParameters();
     void   updateSlater(int i);
+    void   printParameters();
 };
 
 #endif // TWOBODYQUANTUMDOT_H

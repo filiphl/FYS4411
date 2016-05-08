@@ -37,7 +37,8 @@ void Optimizer::optimizeParameters()
         if (m_dAlpha*m_dAlpha + m_dBeta*m_dBeta > m_dAlphaOld*m_dAlphaOld + m_dBetaOld*m_dBetaOld){
             if (fabs(m_dAlpha) > fabs(m_dAlphaOld)){ m_steplengthAlpha /= 1.2; }
             if (fabs(m_dBeta)  > fabs(m_dBetaOld)) { m_steplengthBeta  /= 1.2; }
-            cout << "m_dBeta = "<< fabs(m_dBeta) << "   m_dBetaOld = "<< m_dBetaOld<<endl;
+            //cout << "m_dBeta = "<< fabs(m_dBeta) << "   m_dBetaOld = "<< m_dBetaOld<<endl;
+            //cout << "m_dAlpha = "<< fabs(m_dAlpha) << "   m_dAlphaOld = "<< m_dAlphaOld<<endl;
             nSteps        = (int)nSteps*1;
             if (m_steplengthAlpha < 1e-6) {
                 cout << "Energy                        " << m_system->getSampler()->getEnergy()<<endl;

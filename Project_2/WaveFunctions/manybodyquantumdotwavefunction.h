@@ -9,7 +9,6 @@ class ManyBodyQuantumDotWaveFunction : public WaveFunction
 
 private:
     double m_omega  = 0;
-    double m_alpha  = 0;
     double m_beta   = 0;
     double m_R      = 1;
     int    m_npHalf = 0;
@@ -27,7 +26,7 @@ private:
     double m_dPadeJastrow = 0;
 
 public:
-    ManyBodyQuantumDotWaveFunction(class System* system, double omega, double a, double alpha, double beta);
+    ManyBodyQuantumDotWaveFunction(class System* system, double omega, double a, double beta);
 
     double evaluate(std::vector<class Particle*> particles);
     double computeLaplacian(std::vector<class Particle*> particles);
@@ -47,6 +46,7 @@ public:
 
     void setupSlater();
     void updateSlater(int i);
+    void printParameters();
 };
 
 #endif // MANYBODYQUANTUMDOTWAVEFUNCTION_H
