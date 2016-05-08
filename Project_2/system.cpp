@@ -67,8 +67,8 @@ void System::setParticles(const std::vector<Particle *> &particles)
 
 bool System::metropolisStep() {
 
-    int p = Random::nextInt(m_numberOfParticles);                   // Random particle
-    int d = Random::nextInt(m_numberOfDimensions);                  // Random dimension
+    int p = Random::nextInt(m_numberOfParticles);     // Random particle
+    int d = Random::nextInt(m_numberOfDimensions);    // Random dimension
 
     if (m_importanceSampling){
         double qForceOld = qForce(p,d);
@@ -76,7 +76,7 @@ bool System::metropolisStep() {
 //        cout <<"m_D: "<< m_D<< "    m_dt: " << m_dt<< " dx: "<<dx<< "qForceOld: "<<qForceOld<<endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
         double qForceNew = qForce(p,d);
-        //if (qForceOld != qForceNew){cout << "oh bugger" << endl;}
+        if (qForceOld != qForceNew){cout << "oh bugger" << endl;}
         double greensFunction = exp(0.5*(qForceOld+qForceNew)*((m_D*m_dt/2)*(qForceNew-qForceOld) - dx));           // Only term special for i,j = p,d
         prob *= prob;
         prob *= greensFunction;

@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 6;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
     double omegaHO          = 1.0;          // Oscillator frequency.
