@@ -110,7 +110,7 @@ bool System::metropolisStep() {
         }
         double greensFunction = exp(exponent/(4*m_D*m_dt));
 
-       // prob *= prob;
+       prob *= prob;
         prob *= greensFunction;
     }
 
@@ -118,7 +118,7 @@ bool System::metropolisStep() {
         dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
 //        cout << dx << endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
-        //prob *= prob;
+        prob *= prob;
     }
 
 
@@ -132,7 +132,7 @@ bool System::metropolisStep() {
     else {                                           // Reject.
         //m_particles[p]->adjustOldPosition(-dx, d); //This is done for all other classes than manyBody... Should be fixed.
         m_particles[p]->adjustNewPosition(-dx, d);
-        m_waveFunction->computeRatio(m_particles, p, d, 0);
+        m_waveFunction->computeRatio(m_particles, p, d, 0); //resets m_R
         return false;
     }
 }

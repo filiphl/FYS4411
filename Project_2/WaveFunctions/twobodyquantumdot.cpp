@@ -116,7 +116,7 @@ double TwoBodyQuantumDot::computeRatio(std::vector<class Particle*> particles, i
     double oldPsi = evaluate(particles);
     particles[i]->adjustOldPosition(change, j);
     double newPsi = evaluate(particles);
-    return newPsi*newPsi/(oldPsi*oldPsi);
+    return newPsi/oldPsi;
 }
 
 

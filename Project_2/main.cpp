@@ -35,10 +35,10 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 6;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
-    double omegaHO          = .5;          // Oscillator frequency.
+    double omegaHO          = 1;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
     double beta             = 0.50905;      // Variational parameter.
@@ -61,8 +61,8 @@ int main(int argc, char* argv[]) {
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
-    //Optimizer* myOptimizer = new Optimizer(system);
-    //myOptimizer->optimizeParameters();
+//    Optimizer* myOptimizer = new Optimizer(system);
+//    myOptimizer->optimizeParameters();
 
 
     system->runMetropolisSteps              (numberOfSteps);

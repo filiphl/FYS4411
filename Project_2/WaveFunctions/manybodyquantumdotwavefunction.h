@@ -11,6 +11,7 @@ private:
     double m_omega  = 0;
     double m_beta   = 0;
     double m_R      = 1;
+    double m_RSD    = 1;
     int    m_npHalf = 0;
     mat    m_a;
     mat    m_slaterUp;
@@ -42,7 +43,6 @@ public:
     double hermiteDoubleDerivative(int energyLevel, double position);
 
     double f(int i, int j); // see report page 2.
-
 
     void setupSlater();
     void updateSlater(int i);
