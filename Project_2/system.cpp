@@ -81,8 +81,6 @@ bool System::metropolisStep() {
         double greensFunction = exp(0.5*(qForceOld+qForceNew)*((m_D*m_dt/2)*(qForceNew-qForceOld) - dx));           // Only term special for i,j = p,d
 */
 
-
-
         arma::mat qForceOld   = arma::zeros<arma::mat>(m_numberOfParticles, m_numberOfDimensions);
         arma::mat qForceNew   = qForceOld;
         arma::mat oldPos      = qForceOld;

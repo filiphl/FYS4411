@@ -29,11 +29,18 @@ ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, d
     m_quantumNumbers(8 ,0) = 1;  m_quantumNumbers(8, 1) = 2;
     m_quantumNumbers(9 ,0) = 0;  m_quantumNumbers(9, 1) = 3;
 
-    for (int i=0; i<system->getNumberOfParticles(); i++){
-        for (int j=0; j<system->getNumberOfParticles(); j++){
-            if ((i<m_npHalf)&&(j<m_npHalf))        { m_a(i,j)=1./3; }
-            else if ((i>=m_npHalf)&&(j>=m_npHalf)) { m_a(i,j)=1./3; }
-            else                                   { m_a(i,j)=1.0;  }
+    if (a != 0){//this test is nice for when we don't want interactions
+        for (int i=0; i<system->getNumberOfParticles(); i++){
+            for (int j=0; j<system->getNumberOfParticles(); j++){
+                if ((i<m_npHalf)&&(j<m_npHalf))        { m_a(i,j)=1./3; }
+                else if ((i>=m_npHalf)&&(j>=m_npHalf)) { m_a(i,j)=1./3; }
+                else                                   { m_a(i,j)=1.0;  }
+            }
+        }
+    }
+    else{
+        for (int i=0; i<system->getNumberOfParticles(); i++){
+            for (int j=0; j<system->getNumberOfParticles(); j++){ m_a(i,j) = 0; }
         }
     }
     setupSlater();
@@ -124,8 +131,9 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
             corrLap += correlationLap(particles, i);
 
             for (int d=0; d<2; d++){
-                crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d);
-                //cout << slaterGrad(particles, i, d) << endl;
+                crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d) * m_RSD;
+                cout << slaterGrad(particles, i, d) << "     "<< correlationGrad(particles, i, d) << endl;
+                //cout << m_RSD << endl;
             }
         }
         /*}
@@ -144,6 +152,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
         }
     }*/
         //cout << crossTerm << endl;
+        //cout << corrLap << "    " << slaterLap << "    " << crossTerm << endl;
         ddr = corrLap + slaterLap + crossTerm;
     }
     else{
@@ -228,12 +237,12 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
             int ny = m_quantumNumbers(i,1);
 
             if (j == 0){
-                element = hermite(ny, particles[i]->getNewPosition()[1])
-                        *hermiteDerivative(nx, particles[i]->getNewPosition()[0]);
+                element = hermite(ny, particles[k]->getNewPosition()[1])
+                        *hermiteDerivative(nx, particles[k]->getNewPosition()[0]);
             }
             else{
-                element = hermite(nx, particles[i]->getNewPosition()[0])
-                        *hermiteDerivative(ny, particles[i]->getNewPosition()[1]);
+                element = hermite(nx, particles[k]->getNewPosition()[0])
+                        *hermiteDerivative(ny, particles[k]->getNewPosition()[1]);
             }
             element *= expRK;
             slater += (element - m_omega*particles[k]->getNewPosition()[j]
@@ -242,7 +251,6 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
                                          particles[k]->getNewPosition()[0],
                        particles[k]->getNewPosition()[1]))
                     *m_slaterUpInverse(i,k);
-
         }
         /* element *= expRK;
         slater += element - m_omega*particles[k]->getNewPosition()[j]
@@ -251,12 +259,12 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
     else{
         for (int i=m_npHalf; i<m_system->getNumberOfParticles(); i++){
             if (j == 0){
-                element = hermite(m_quantumNumbers(i-m_npHalf,1), particles[i]->getNewPosition()[1])
-                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,0), particles[i]->getNewPosition()[0]);
+                element = hermite(m_quantumNumbers(i-m_npHalf,1), particles[k]->getNewPosition()[1])
+                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,0), particles[k]->getNewPosition()[0]);
             }
             else{
-                element = hermite(m_quantumNumbers(i-m_npHalf,0), particles[i]->getNewPosition()[0])
-                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[i]->getNewPosition()[1]);
+                element = hermite(m_quantumNumbers(i-m_npHalf,0), particles[k]->getNewPosition()[0])
+                        *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[k]->getNewPosition()[1]);
             }
             element *= expRK;
             slater += (element - m_omega*particles[k]->getNewPosition()[j]
@@ -267,13 +275,15 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
                     *m_slaterDownInverse(i-m_npHalf, k-m_npHalf);
 
         }
-        /* element *= expRK;
+        /*
+        element *= expRK;
         slater += element - m_omega*particles[k]->getNewPosition()[j]
-                *SingleParticleWF(m_quantumNumbers(k-m_npHalf,0),m_quantumNumbers(k-m_npHalf,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);*/
+                *SingleParticleWF(m_quantumNumbers(k-m_npHalf,0),m_quantumNumbers(k-m_npHalf,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);
+*/
     }
-    cout << "element: "<< setw(8) << element << "    slater: "<<setw(8)<<setprecision(5)<<slater<<endl;
+    //cout << "element: "<< setw(8) << element << "    slater: "<<setw(8)<<setprecision(5)<<slater<<endl;
     //cout <<slater<< endl;
-    return slater/m_R;
+    return slater/m_RSD;
 }
 
 
@@ -282,17 +292,17 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
     double correlation = 0;
     for (int i=0; i<k; i++){
         double betaFrac = m_a(i,k)/((1+m_beta*m_distances(i,k))*(1+m_beta*m_distances(i,k)));
-        correlation += (particles[k]->getNewPosition()[d] -
-                        particles[i]->getNewPosition()[d])*
-                (betaFrac/m_distances(i,k));
+        correlation += (particles[i]->getNewPosition()[d] -
+                        particles[k]->getNewPosition()[d])*
+                       (betaFrac/m_distances(i,k));
     }
     for (int j=k+1; j<m_npHalf*2; j++){
         double betaFrac = m_a(k,j)/((1+m_beta*m_distances(k,j))*(1+m_beta*m_distances(k,j)));
-        correlation -= (particles[j]->getNewPosition()[d] -
-                        particles[k]->getNewPosition()[d])*
-                (betaFrac/m_distances(k,j));
+        correlation -= (particles[k]->getNewPosition()[d] -
+                        particles[j]->getNewPosition()[d])*
+                       (betaFrac/m_distances(k,j));
     }
-    //    cout << "correlation: "<<correlation<<endl;
+        cout << "correlation: "<<correlation<<endl;
     return correlation;
 }
 

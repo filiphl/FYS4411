@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 6;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
     double omegaHO          = 1;          // Oscillator frequency.
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     double stepLength       = 1.3;            // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
     double C                = 1.0;
-    double a                = 0;
+    double a                = 1;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
@@ -56,8 +56,8 @@ int main(int argc, char* argv[]) {
     //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
-    system->setAnalyticalLaplacian          (true);
-    system->setImportanceSampling           (false);
+    system->setAnalyticalLaplacian          (false);
+    system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
