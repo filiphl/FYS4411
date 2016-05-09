@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iomanip>
 #include "slater.h"
+#include <armadillo>
 
 using namespace std;
 

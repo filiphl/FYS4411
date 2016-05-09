@@ -495,7 +495,7 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
         }
     }
 
-    for (int k=0; k<i+1;k++){   // FEIL? k<i?
+    for (int k=0; k<i;k++){   // FEIL? k<i?
         double rki = 0;
         for (int d=0; d<m_system->getNumberOfDimensions(); d++){
             rki += (m_system->getParticles()[k]->getNewPosition()[d]-m_system->getParticles()[i]->getNewPosition()[d])

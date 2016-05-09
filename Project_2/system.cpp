@@ -71,14 +71,46 @@ bool System::metropolisStep() {
     int d = Random::nextInt(m_numberOfDimensions);    // Random dimension
 
     if (m_importanceSampling){
+/*
         double qForceOld = qForce(p,d);
         dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt); // sqrt(2*m_D*m_dt), but m_D=0.5.
-//        cout <<"m_D: "<< m_D<< "    m_dt: " << m_dt<< " dx: "<<dx<< "qForceOld: "<<qForceOld<<endl;
+        //cout <<"m_D: "<< m_D<< "    m_dt: " << m_dt<< " dx: "<<dx<< "qForceOld: "<<qForceOld<<endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
         double qForceNew = qForce(p,d);
-        if (qForceOld != qForceNew){cout << "oh bugger" << endl;}
+        //if (qForceOld != qForceNew){cout << "oh bugger" << endl;}
         double greensFunction = exp(0.5*(qForceOld+qForceNew)*((m_D*m_dt/2)*(qForceNew-qForceOld) - dx));           // Only term special for i,j = p,d
-        prob *= prob;
+*/
+
+
+
+        arma::mat qForceOld   = arma::zeros<arma::mat>(m_numberOfParticles, m_numberOfDimensions);
+        arma::mat qForceNew   = qForceOld;
+        arma::mat oldPos      = qForceOld;
+        for (int i=0; i<m_numberOfParticles; i++){
+            for (int j=0; j<m_numberOfDimensions; j++){
+                oldPos(i,j) = m_particles[i]->getOldPosition()[j];
+                qForceOld(i,j) = qForce(i,j);
+            }
+        }
+
+        dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld(p,d)*m_dt);
+        prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
+
+        double exponent = 0;
+        for (int i=0; i<m_numberOfParticles; i++){
+            for (int j=0; j<m_numberOfDimensions; j++){
+                qForceNew(i,j) = qForce(i,j);
+                double term1 = - (oldPos(i,j) - m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceNew(i,j))
+                                *(oldPos(i,j) - m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceNew(i,j));
+
+                double term2 =   (- oldPos(i,j) + m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceOld(i,j))
+                                *(- oldPos(i,j) + m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceOld(i,j));
+                exponent += term1 + term2;
+            }
+        }
+        double greensFunction = exp(exponent/(4*m_D*m_dt));
+
+       // prob *= prob;
         prob *= greensFunction;
     }
 
@@ -86,7 +118,7 @@ bool System::metropolisStep() {
         dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
 //        cout << dx << endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
-        prob *= prob;
+        //prob *= prob;
     }
 
 

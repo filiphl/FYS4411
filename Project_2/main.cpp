@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e4;
-    double omegaHO          = 1.0;          // Oscillator frequency.
+    double omegaHO          = .5;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
     double beta             = 0.50905;      // Variational parameter.

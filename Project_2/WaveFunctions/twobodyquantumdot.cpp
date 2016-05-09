@@ -64,9 +64,9 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
 
         double Br12 = (1+m_beta*r12);
 
-        return - 4*m_alpha*m_omega
+        return - 2*m_system->getNumberOfDimensions()*m_alpha*m_omega
                - (4*m_a*m_beta)/(Br12*Br12*Br12)
-               + 2*m_a/(Br12*Br12*r12)
+               + 2*(m_system->getNumberOfDimensions()-1)*m_a/(Br12*Br12*r12)
                + m_alpha2*m_omega*m_omega*(r1+r2)
                + (2*m_a*m_a)/(Br12*Br12*Br12*Br12)
                - (2*m_alpha*m_omega*m_a*r12)/(Br12*Br12);
