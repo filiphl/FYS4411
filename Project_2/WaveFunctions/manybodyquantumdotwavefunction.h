@@ -13,6 +13,7 @@ private:
     double m_R      = 1;
     double m_RSD    = 1;
     int    m_npHalf = 0;
+    double m_derivativeStepLength = 0;
     mat    m_a;
     mat    m_slaterUp;
     mat    m_slaterDown;

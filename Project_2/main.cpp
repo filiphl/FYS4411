@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     double stepLength       = 1.3;            // Metropolis step length.
     double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
     double C                = 1.0;
-    double a                = 1.0;
+    double a                = 0;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
