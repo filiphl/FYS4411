@@ -77,8 +77,8 @@ double ManyBodyQuantumDotWaveFunction::evaluate(std::vector<class Particle*> par
     }
 
     double exponent = 0;
-    for (int i=0; i<m_npHalf; i++){
-        for (int j=i+1; j<m_npHalf; j++){
+    for (int i=0; i<m_npHalf*2; i++){
+        for (int j=i+1; j<m_npHalf*2; j++){
             exponent += m_a(i,j)*m_distances(i,j)/(1+m_beta*m_distances(i,j));
         }
     }
@@ -132,7 +132,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
 
             for (int d=0; d<2; d++){
                 crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d) * m_RSD;
-                cout << slaterGrad(particles, i, d) << "     "<< correlationGrad(particles, i, d) << endl;
+                //cout << slaterGrad(particles, i, d) << "     "<< correlationGrad(particles, i, d) << endl;
                 //cout << m_RSD << endl;
             }
         }
@@ -178,7 +178,7 @@ double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> p
     //    cout << "SlaterGrad: "<< slaterGrad(particles, particle, dimension)<<endl;
     //    cout << "corgrad: "<< correlationGrad(particles, particle, dimension)<<endl;
 
-    double dr=0;
+    /*double dr=0;
     m_derivativeStepLength = 1e-5;
     for (int i=0; i<m_system->getNumberOfParticles(); i++){
         for (int j=0; j<m_system->getNumberOfDimensions(); j++){
@@ -190,8 +190,8 @@ double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> p
             dr += psiPlus - psiMinus;
         }
     }
-    return dr/(2*m_derivativeStepLength);
-    //return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
+    return dr/(2*m_derivativeStepLength);*/
+    return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
 }
 
 
@@ -316,7 +316,7 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
                         particles[j]->getNewPosition()[d])*
                        (betaFrac/m_distances(k,j));
     }
-        cout << "correlation: "<<correlation<<endl;
+        //cout << "correlation: "<<correlation<<endl;
     return correlation;
 }
 
