@@ -47,6 +47,7 @@ public:
 
     void setupSlater();
     void updateSlater(int i);
+    void updateDistances(int i);
     void printParameters();
 };
 

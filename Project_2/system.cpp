@@ -87,28 +87,28 @@ bool System::metropolisStep() {
         for (int i=0; i<m_numberOfParticles; i++){
             for (int j=0; j<m_numberOfDimensions; j++){
                 oldPos(i,j) = m_particles[i]->getOldPosition()[j];
-                qForceOld(i,j) = qForce(i,j);
+                qForceOld(i,j) = qForce(i,j);   //qForce is function, qForceOld is matrix
             }
         }
 
         dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld(p,d)*m_dt);
+//        cout << dx<<endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
 
         double exponent = 0;
         for (int i=0; i<m_numberOfParticles; i++){
             for (int j=0; j<m_numberOfDimensions; j++){
                 qForceNew(i,j) = qForce(i,j);
-                double term1 = - (oldPos(i,j) - m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceNew(i,j))
-                                *(oldPos(i,j) - m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceNew(i,j));
+                double term1 = - (oldPos(i,j) - m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceNew(i,j))
+                                *(oldPos(i,j) - m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceNew(i,j));
 
-                double term2 =   (- oldPos(i,j) + m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceOld(i,j))
-                                *(- oldPos(i,j) + m_particles[i]->getOldPosition()[j] - m_D*m_dt*qForceOld(i,j));
+                double term2 =   (- oldPos(i,j) + m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceOld(i,j))
+                                *(- oldPos(i,j) + m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceOld(i,j));
                 exponent += term1 + term2;
             }
         }
         double greensFunction = exp(exponent/(4*m_D*m_dt));
-
-       prob *= prob;
+        prob *= prob;
         prob *= greensFunction;
     }
 
@@ -116,6 +116,7 @@ bool System::metropolisStep() {
         dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
 //        cout << dx << endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
+
         prob *= prob;
     }
 
@@ -123,14 +124,13 @@ bool System::metropolisStep() {
     double mynt = Random::nextDouble();              // Uniform [0,1]
 
     if (mynt < prob){
-        m_particles[p]->setOldPosition(m_particles[p]->getNewPosition());
+        m_particles[p]->adjustOldPosition(dx, d);
         m_waveFunction->updateSlater(p);
         return true; }                 // Accept.
 
     else {                                           // Reject.
         //m_particles[p]->adjustOldPosition(-dx, d); //This is done for all other classes than manyBody... Should be fixed.
-        m_particles[p]->adjustNewPosition(-dx, d);
-        m_waveFunction->computeRatio(m_particles, p, d, 0); //resets m_R
+        m_waveFunction->computeRatio(m_particles, p, d, -dx); //resets positions, distances and m_R
         return false;
     }
 }

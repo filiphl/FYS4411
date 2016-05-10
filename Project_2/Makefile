@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = 
 CFLAGS        = -pipe -O2 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -O2 -std=c++0x -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -std=c++11 -O2 -std=c++0x -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I. -I/site/Qt/5.5/gcc_64/mkspecs/linux-g++
 QMAKE         = /site/Qt/5.5/gcc_64/bin/qmake
 DEL_FILE      = rm -f
@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = variational-monte-carlo-fys44111.0.0
-DISTDIR = /uio/hume/student-u25/sbmiller/FYS4411/FYS4411/Project_2/.tmp/variational-monte-carlo-fys44111.0.0
+DISTDIR = /uio/hume/student-u63/filiphl/Desktop/FYS4411/Project_2/.tmp/variational-monte-carlo-fys44111.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/site/Qt/5.5/gcc_64
 LIBS          = $(SUBLIBS) -larmadillo -lblas -llapack 
