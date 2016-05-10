@@ -177,7 +177,21 @@ double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> p
 
     //    cout << "SlaterGrad: "<< slaterGrad(particles, particle, dimension)<<endl;
     //    cout << "corgrad: "<< correlationGrad(particles, particle, dimension)<<endl;
-    return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
+
+    double dr=0;
+    m_derivativeStepLength = 1e-5;
+    for (int i=0; i<m_system->getNumberOfParticles(); i++){
+        for (int j=0; j<m_system->getNumberOfDimensions(); j++){
+            particles[i]->adjustNewPosition( m_derivativeStepLength, j );      // +
+            double psiPlus  =   evaluate( particles );
+            particles[i]->adjustNewPosition( -2 * m_derivativeStepLength, j ); // -
+            double psiMinus =   evaluate( particles );
+            particles[i]->adjustNewPosition( m_derivativeStepLength, j );      // reset
+            dr += psiPlus - psiMinus;
+        }
+    }
+    return dr/(2*m_derivativeStepLength);
+    //return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
 }
 
 
