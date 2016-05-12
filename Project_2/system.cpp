@@ -91,7 +91,8 @@ bool System::metropolisStep() {
             }
         }
 
-        dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld(p,d)*m_dt);
+        //dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld(p,d)*m_dt);
+        dx = (gaussianImp(my_generator) + m_D*qForceOld(p,d)*m_dt);
 //        cout << dx<<endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
 
@@ -113,10 +114,11 @@ bool System::metropolisStep() {
     }
 
     else{
-        dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
+        //dx = m_stepLength*Random::nextGaussian(0,1/sqrt(2));
+        dx = m_stepLength*gaussianBru(my_generator);
 //        cout << dx << endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
-
+        cout <<prob<<endl;
         prob *= prob;
     }
 
@@ -131,6 +133,7 @@ bool System::metropolisStep() {
     else {                                           // Reject.
         //m_particles[p]->adjustOldPosition(-dx, d); //This is done for all other classes than manyBody... Should be fixed.
         m_waveFunction->computeRatio(m_particles, p, d, -dx); //resets positions, distances and m_R
+
         return false;
     }
 }
@@ -142,6 +145,12 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_sampler                   = new Sampler(this);
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
+
+    unsigned seed;
+
+    clock::duration d = clock::now() - my_start;
+    seed = -1; //d.count();
+    my_generator.seed(seed);
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
 
@@ -175,18 +184,18 @@ double System::qForce(int i, int j){
 
 void System::openEnergyFile()
 {
-    char cmd[50];
-    sprintf(cmd, "rm %s", m_energyFileName);
-    system(cmd);
+    //char cmd[50];
+    //sprintf(cmd, "rm %s", m_energyFileName);
+    //system(cmd);
     m_energyFile.open(m_energyFileName, ios::out);
 }
 
 
 void System::openPositionFile()
 {
-    char cmd[50];
-    sprintf(cmd, "rm %s", m_oldPositionFileName);
-    system(cmd);
+    //char cmd[50];
+    //sprintf(cmd, "rm %s", m_oldPositionFileName);
+    //system(cmd);
     m_oldPositionFile.open(m_oldPositionFileName, ios::out);
 }
 
