@@ -37,7 +37,11 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
+<<<<<<< HEAD
     int numberOfSteps       = (int) 2;
+=======
+    int numberOfSteps       = (int) 1e6;
+>>>>>>> db14b5df60c10737aed644eecc46cd3c1d103358
     double omegaHO          = 1.;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 1.;//0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
@@ -56,7 +60,11 @@ int main(int argc, char* argv[]) {
     //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
+<<<<<<< HEAD
     system->setAnalyticalLaplacian          (false);
+=======
+    system->setAnalyticalLaplacian          (true);
+>>>>>>> db14b5df60c10737aed644eecc46cd3c1d103358
     system->setImportanceSampling           (false);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);

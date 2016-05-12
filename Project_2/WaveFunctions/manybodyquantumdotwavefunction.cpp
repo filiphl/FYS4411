@@ -190,8 +190,14 @@ double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> p
             dr += psiPlus - psiMinus;
         }
     }
+<<<<<<< HEAD
     return dr/(2*m_derivativeStepLength);
   //  return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
+=======
+    return dr/(2*m_derivativeStepLength);*/
+    //cout << correlationGrad(particles, particle, dimension) << endl;
+    return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
+>>>>>>> db14b5df60c10737aed644eecc46cd3c1d103358
 }
 
 
@@ -241,7 +247,6 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
     double element = 0;
     double slater = 0;
 
-
     double expRK = exp(-0.5*m_omega*(particles[k]->getNewPosition()[0]*particles[k]->getNewPosition()[0]
                        + particles[k]->getNewPosition()[1]*particles[k]->getNewPosition()[1]));
 
@@ -272,13 +277,16 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
     }
     else{
         for (int i=m_npHalf; i<m_system->getNumberOfParticles(); i++){
+            int nx = m_quantumNumbers(i-m_npHalf,0);
+            int ny = m_quantumNumbers(i-m_npHalf,1);
+
             if (j == 0){
-                element = hermite(m_quantumNumbers(i-m_npHalf,1), particles[k]->getNewPosition()[1])
-                         *hermiteDerivative(m_quantumNumbers(i-m_npHalf,0), particles[k]->getNewPosition()[0]);
+                element = hermite(ny, particles[k]->getNewPosition()[1])
+                         *hermiteDerivative(nx, particles[k]->getNewPosition()[0]);
             }
             else{
-                element = hermite(m_quantumNumbers(i-m_npHalf,0), particles[k]->getNewPosition()[0])
-                         *hermiteDerivative(m_quantumNumbers(i-m_npHalf,1), particles[k]->getNewPosition()[1]);
+                element = hermite(nx, particles[k]->getNewPosition()[0])
+                         *hermiteDerivative(ny, particles[k]->getNewPosition()[1]);
             }
             element *= expRK;
             slater += (element - m_omega*particles[k]->getNewPosition()[j]
@@ -323,15 +331,6 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
 double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *> particles, int k)
 {
     double correlation = 0;
-
-    /*// This is needed because corrGrad calculates grad(Psi)/Psi, so (grad(Psi)/Psi)^2 must be multiplied by Psi
-    double exponent = 0;
-    for (int i=0; i<m_npHalf*2; i++){
-        for (int j=i+1; j<m_npHalf*2; j++){
-            exponent += m_a(i,j)*m_distances(i,j)/(1+m_beta*m_distances(i,j));
-        }
-    }
-    double factor = exp(exponent);*/
 
     for (int d; d<2; d++){
         correlation += correlationGrad(particles,k,d)*correlationGrad(particles,k,d);
