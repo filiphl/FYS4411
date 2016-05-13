@@ -26,7 +26,6 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 
-
 //    MPI_Init (&argc, &argv);	/* starts MPI */
 //    int rank, size;
 //    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
@@ -37,11 +36,7 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-<<<<<<< HEAD
-    int numberOfSteps       = (int) 2;
-=======
-    int numberOfSteps       = (int) 1e6;
->>>>>>> db14b5df60c10737aed644eecc46cd3c1d103358
+    int numberOfSteps       = (int) 3;
     double omegaHO          = 1.;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 1.;//0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
@@ -54,17 +49,13 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta));
-    system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian(system, omegaHO));
-    //system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
-    //system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    //system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta));
+    //system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
+    system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
+    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
-<<<<<<< HEAD
     system->setAnalyticalLaplacian          (false);
-=======
-    system->setAnalyticalLaplacian          (true);
->>>>>>> db14b5df60c10737aed644eecc46cd3c1d103358
     system->setImportanceSampling           (false);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
@@ -74,6 +65,18 @@ int main(int argc, char* argv[]) {
 
 
     system->runMetropolisSteps              (numberOfSteps);
+
+
+/*
+Many
+
+
+
+Two
+
+
+
+*/
 
 
 

@@ -22,6 +22,7 @@ TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, 
     m_a = a;
     m_C = C;
     m_omega = omega;
+    name = "Two body quantum dot";
 }
 
 double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
@@ -30,10 +31,10 @@ double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
     double r2 = 0;
     double r12 = 0;
     for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-        r1  +=  particles[0]->getOldPosition()[i]*particles[0]->getOldPosition()[i];
-        r2  +=  particles[1]->getOldPosition()[i]*particles[1]->getOldPosition()[i];
-        r12 += (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i])*
-               (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i]);
+        r1  +=  particles[0]->getNewPosition()[i]*particles[0]->getNewPosition()[i];
+        r2  +=  particles[1]->getNewPosition()[i]*particles[1]->getNewPosition()[i];
+        r12 += (particles[0]->getNewPosition()[i]-particles[1]->getNewPosition()[i])*
+               (particles[0]->getNewPosition()[i]-particles[1]->getNewPosition()[i]);
     }
 
 
@@ -41,7 +42,7 @@ double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
 
     psiAlpha = -m_alpha*m_omega*(r1+r2)*0.5;
     psiBeta  = -m_a*r12*r12/((1+m_beta*r12)*(1+m_beta*r12));
-
+    cout << exp(m_a*r12/(1+m_beta*r12))<<endl;
     return m_C*exp(-m_alpha*m_omega*(r1+r2)*0.5)*exp(m_a*r12/(1+m_beta*r12));
 }
 
@@ -55,10 +56,10 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
         double r2 = 0;
         double r12 = 0;
         for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-            r1  +=  particles[0]->getOldPosition()[i]*particles[0]->getOldPosition()[i];
-            r2  +=  particles[1]->getOldPosition()[i]*particles[1]->getOldPosition()[i];
-            r12 += (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i])*
-                   (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i]);
+            r1  +=  particles[0]->getNewPosition()[i]*particles[0]->getNewPosition()[i];
+            r2  +=  particles[1]->getNewPosition()[i]*particles[1]->getNewPosition()[i];
+            r12 += (particles[0]->getNewPosition()[i]-particles[1]->getNewPosition()[i])*
+                   (particles[0]->getNewPosition()[i]-particles[1]->getNewPosition()[i]);
         }
         r12 = sqrt(r12);
 
@@ -73,16 +74,16 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
     }
 
     else {
-        cout << "Numerical"<<endl;
+//        cout << "Numerical"<<endl;
         m_derivativeStepLength = 1e-5;
         const double psi = evaluate( particles );
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-                particles[i]->adjustOldPosition( m_derivativeStepLength, j );      // +
+                particles[i]->adjustNewPosition( m_derivativeStepLength, j );      // +
                 const double psiPlus  =   evaluate( particles );
-                particles[i]->adjustOldPosition( -2 * m_derivativeStepLength, j ); // -
+                particles[i]->adjustNewPosition( -2 * m_derivativeStepLength, j ); // -
                 const double psiMinus =   evaluate( particles );
-                particles[i]->adjustOldPosition( m_derivativeStepLength, j );      // reset
+                particles[i]->adjustNewPosition( m_derivativeStepLength, j );      // reset
                 ddr += psiPlus - 2*psi + psiMinus;
             }
         }
@@ -98,24 +99,25 @@ double TwoBodyQuantumDot::computeGradient(std::vector<Particle *> particles, int
     double r2 = 0;
     double r12 = 0;
     for (int i=0; i<m_system->getNumberOfDimensions(); i++){
-        r1  +=  particles[0]->getOldPosition()[i]*particles[0]->getOldPosition()[i];
-        r2  +=  particles[1]->getOldPosition()[i]*particles[1]->getOldPosition()[i];
-        r12 += (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i])*
-               (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i]);
+        r1  +=  particles[0]->getNewPosition()[i]*particles[0]->getNewPosition()[i];
+        r2  +=  particles[1]->getNewPosition()[i]*particles[1]->getNewPosition()[i];
+        r12 += (particles[0]->getNewPosition()[i]-particles[1]->getNewPosition()[i])*
+               (particles[0]->getNewPosition()[i]-particles[1]->getNewPosition()[i]);
     }
     r12 = sqrt(r12);
     double Br12 = (1+m_beta*r12)*(1+m_beta*r12);
 
-    return -m_alpha*m_omega*particles[particle]->getOldPosition()[dimension]
-            + (m_a*(1-2*(particle%2==0)*(particles[0]->getOldPosition()[dimension]-particles[1]->getOldPosition()[dimension])))
+    return -m_alpha*m_omega*particles[particle]->getNewPosition()[dimension]
+            + (m_a*(1-2*(particle%2==0)*(particles[0]->getNewPosition()[dimension]-particles[1]->getNewPosition()[dimension])))
             /(r12*Br12);
 }
 
 double TwoBodyQuantumDot::computeRatio(std::vector<class Particle*> particles, int i, int j, double change)
 {
     double oldPsi = evaluate(particles);
-    particles[i]->adjustOldPosition(change, j);
+    particles[i]->adjustNewPosition(change, j);
     double newPsi = evaluate(particles);
+    //particles[i]->adjustOldPosition(-change, j);    // This was the problem Sean. The twoBodyQuantumDot got moved twice, if accepted. See mynt<prob in system.cpp
     return newPsi/oldPsi;
 }
 
@@ -125,7 +127,7 @@ double TwoBodyQuantumDot::computeDerivativeOfAlpha(){
     cout << "YES"<<endl;
     for (Particle* particle : m_system->getParticles()){
         for (int i=0; i< m_system->getNumberOfDimensions(); i++){
-            sum -= particle->getOldPosition()[i]*particle->getOldPosition()[i];
+            sum -= particle->getNewPosition()[i]*particle->getNewPosition()[i];
 
         }
     }

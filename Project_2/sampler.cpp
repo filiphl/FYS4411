@@ -54,9 +54,9 @@ void Sampler::sample(bool acceptedStep) {
 
     if (acceptedStep) {
         m_accepted++;
+        m_localEnergy = m_system->getHamiltonian()->
+                computeLocalEnergy(m_system->getParticles());
     }
-    m_localEnergy = m_system->getHamiltonian()->
-            computeLocalEnergy(m_system->getParticles());
 
     if (m_system->OptimizingParameters()){
         m_psiDerivative     = m_system->getWaveFunction()->psiAlpha;
@@ -98,6 +98,7 @@ void Sampler::printOutputToTerminal() {
 
     cout << endl;
     cout << "  -- System info -- " << endl;
+    cout << " Name : "<<m_system->getWaveFunction()->getName()<<endl;
     cout << " Number of particles  : " << np << endl;
     cout << " Number of dimensions : " << nd << endl;
     cout << " Number of Metropolis steps run : 10^" << std::log10(ms) << endl;
@@ -108,9 +109,9 @@ void Sampler::printOutputToTerminal() {
     m_system->getWaveFunction()->printParameters();
     cout << endl;
     cout << "  ----- Reults -----" << endl;
-    cout << "Energy : "  << setw(25) << setprecision(5) << left << m_energy <<endl;
-    cout << "Variance in energy measurements : " << m_variance << endl;
-    cout << "Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
+    cout << " Energy          : "  << setw(25) << setprecision(5) << left << m_energy <<endl;
+    cout << " Variance        : " << m_variance << endl;
+    cout << " Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
 
     cout << endl;
 

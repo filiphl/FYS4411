@@ -9,6 +9,7 @@ HeliumWaveFunction::HeliumWaveFunction(System* system, double alpha) :
         exit(0);
     }
     setAlpha(alpha);
+    name = "Helium wavefunction";
 }
 
 double HeliumWaveFunction::evaluate(std::vector<Particle *> particles)

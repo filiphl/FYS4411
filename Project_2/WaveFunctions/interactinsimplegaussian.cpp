@@ -13,6 +13,7 @@ InteractinSimpleGaussian::InteractinSimpleGaussian(System *system, double alpha,
     setAlpha(alpha);
     setAlpha2(alpha*alpha);
     setBeta(beta);
+    name = "Interacting simple gaussian";
 }
 
 double InteractinSimpleGaussian::evaluate(std::vector<Particle *> particles)

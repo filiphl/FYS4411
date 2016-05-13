@@ -7,6 +7,7 @@ class WaveFunction {
 
 
 protected:
+    char* name;
     int m_numberOfParameters = 0;
     std::vector<double> m_parameters = std::vector<double>();
     class System* m_system = nullptr;
@@ -15,7 +16,6 @@ protected:
     double m_beta   = 0;
     double m_beta2  = 0;
     int m_newlyMoved = 0;
-
 public:
     arma::mat    m_distances;
     WaveFunction(){}
@@ -41,5 +41,6 @@ public:
     void setBeta2(double beta2);
     void setNewlyMoved(int i) { m_newlyMoved = i; }
     double getPsiBeta() const;
+    char *getName() const;
 };
 

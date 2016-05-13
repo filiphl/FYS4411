@@ -42,6 +42,11 @@ void WaveFunction::setBeta2(double beta2)
     m_beta2 = beta2;
 }
 
+char *WaveFunction::getName() const
+{
+    return name;
+}
+
 double WaveFunction::getBeta() const
 {
     return m_beta;

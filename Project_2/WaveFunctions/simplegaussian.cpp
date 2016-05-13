@@ -18,6 +18,7 @@ SimpleGaussian::SimpleGaussian(System* system, double alpha) :
     m_parameters.reserve(1);
     m_parameters.push_back(alpha);
     setAlpha(alpha);
+    name = "Simple gaussian";
 }
 
 double SimpleGaussian::evaluate(std::vector<class Particle*> particles) {
