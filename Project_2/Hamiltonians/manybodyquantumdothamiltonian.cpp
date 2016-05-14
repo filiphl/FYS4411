@@ -24,6 +24,7 @@ double ManyBodyQuantumDotHamiltonian::computeLocalEnergy(std::vector<Particle *>
         }
     }
     //cout << potentialEnergy << "    "<<computeKineticEnergy(particles)<<endl;
+    //return potentialEnergy;
     return computeKineticEnergy(particles) + potentialEnergy ;
 }
 

@@ -21,8 +21,9 @@ double TwoBodyQuantumDotHamiltonian::computeLocalEnergy(std::vector<Particle *> 
                 (particles[0]->getOldPosition()[i]-particles[1]->getOldPosition()[i]);
     }
     r12 = sqrt(r12);
+    double potentialEnergy = 0.5*m_omega*m_omega*(r1+r2) + 1/r12;
 
-
+    //cout << potentialEnergy << "    "<<kinetic<<endl;
     return kinetic + 0.5*m_omega*m_omega*(r1+r2) + 1/r12;
 }
 
