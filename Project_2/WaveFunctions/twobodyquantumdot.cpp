@@ -42,7 +42,7 @@ double TwoBodyQuantumDot::evaluate(std::vector<Particle *> particles)
 
     psiAlpha = -m_alpha*m_omega*(r1+r2)*0.5;
     psiBeta  = -m_a*r12*r12/((1+m_beta*r12)*(1+m_beta*r12));
-    cout << exp(m_a*r12/(1+m_beta*r12))<<endl;
+    //cout << exp(m_a*r12/(1+m_beta*r12))<<endl;
     return m_C*exp(-m_alpha*m_omega*(r1+r2)*0.5)*exp(m_a*r12/(1+m_beta*r12));
 }
 
@@ -74,9 +74,10 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
     }
 
     else {
-//        cout << "Numerical"<<endl;
+        cout << "Numerical"<<endl;
         m_derivativeStepLength = 1e-5;
         const double psi = evaluate( particles );
+        cout << psi<<endl;
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
             for (int j=0; j<m_system->getNumberOfDimensions(); j++){
                 particles[i]->adjustNewPosition( m_derivativeStepLength, j );      // +
@@ -88,6 +89,7 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
             }
         }
         ddr = ddr / (m_derivativeStepLength * m_derivativeStepLength);
+        cout << ddr << endl;
     }
     return ddr;
 }

@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 3;
+    int numberOfSteps       = (int) 1e5;
     double omegaHO          = 1.;          // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 1.;//0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
@@ -49,14 +49,14 @@ int main(int argc, char* argv[]) {
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-    //system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta));
-    //system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
-    system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
-    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta));
+    system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
+//    system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
+//    system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (false);
-    system->setImportanceSampling           (false);
+    system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
@@ -69,10 +69,16 @@ int main(int argc, char* argv[]) {
 
 /*
 Many
+1.11572
+-3.06791
+
 
 
 
 Two
+Numerical
+1.11572
+-3.06791
 
 
 

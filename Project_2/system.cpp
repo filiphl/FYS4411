@@ -176,7 +176,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 double System::qForce(int i, int j){
 
     double force = 2*m_waveFunction->computeGradient(m_particles, i, j);
-
+    //cout << "qForce: "<<force<<endl;
     return force;
 }
 
