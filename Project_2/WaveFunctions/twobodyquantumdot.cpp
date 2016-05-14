@@ -18,7 +18,6 @@ TwoBodyQuantumDot::TwoBodyQuantumDot(System* system, double alpha, double beta, 
     m_parameters.push_back(a);
     setAlpha(alpha);
     setBeta(beta);
-    setAlpha(alpha);
     m_a = a;
     m_C = C;
     m_omega = omega;

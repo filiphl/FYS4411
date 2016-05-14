@@ -10,8 +10,10 @@ class ManyBodyQuantumDotWaveFunction : public WaveFunction
 private:
     double m_omega  = 0;
     double m_beta   = 0;
+    double m_wa     = 0;    // sqrt(omega*alpha)
     double m_R      = 1;
     double m_RSD    = 1;
+    int    m_np     = 0;
     int    m_npHalf = 0;
     double m_derivativeStepLength = 0;
     mat    m_a;
@@ -28,7 +30,7 @@ private:
     double m_dPadeJastrow = 0;
 
 public:
-    ManyBodyQuantumDotWaveFunction(class System* system, double omega, double a, double beta);
+    ManyBodyQuantumDotWaveFunction(class System* system, double alpha, double omega, double a, double beta);
 
     double evaluate(std::vector<class Particle*> particles);
     double computeLaplacian(std::vector<class Particle*> particles);

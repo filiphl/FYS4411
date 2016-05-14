@@ -34,16 +34,16 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 6;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e6;
-    double omegaHO          = 1.;          // Oscillator frequency.
+    double omegaHO          = 1.;           // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 1.;//0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
     double beta             = 0.3;//0.50905;      // Variational parameter.
     double gamma            = 2.82843;
-    double stepLength       = 1.0;            // Metropolis step length.
-    double equilibration    = 0.1;          // Amount of the total steps used for equilibration.
+    double stepLength       = 1.0;          // Metropolis step length.
+    double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
     double a                = 1.0;
 
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
     if (1){
-        system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, omegaHO, a, beta));
+        system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
         system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
     }
     else{
@@ -75,14 +75,20 @@ int main(int argc, char* argv[]) {
 
 /*
 Many
-2.9997
-3.0049
+  ----- Reults -----
+ Energy          : 3.6824
+ Variance        : 1.0208e-05
+ Acceptance rate : 0.998333
 
 
 
 Two
-2.9997
-3.0049
+  ----- Reults -----
+ Energy          : 3.6621
+ Variance        : 1.1092e-05
+ Acceptance rate : 0.942344
+
+
 
 
 
