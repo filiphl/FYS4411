@@ -54,9 +54,9 @@ void Sampler::sample(bool acceptedStep) {
 
     if (acceptedStep) {
         m_accepted++;
-        m_localEnergy = m_system->getHamiltonian()->
-                computeLocalEnergy(m_system->getParticles());
     }
+    m_localEnergy = m_system->getHamiltonian()->
+            computeLocalEnergy(m_system->getParticles());
 
     if (m_system->OptimizingParameters()){
         m_psiDerivative     = m_system->getWaveFunction()->psiAlpha;

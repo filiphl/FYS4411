@@ -134,7 +134,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
             corrLap += correlationLap(particles, i);
 
             for (int d=0; d<2; d++){
-                crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d) * m_R;        // FILIP
+                crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d) * m_RSD;        // FILIP
             }
 
         }
@@ -148,7 +148,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
             corrLap += correlationLap(particles, i);
 
             for (int d=0; d<2; d++){
-                crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d) * m_R;        // FILIP
+                crossTerm += 2 * correlationGrad(particles, i, d) * slaterGrad(particles, i, d) * m_RSD;        // FILIP
                 //cout << slaterGrad(particles, i, d) << "     "<< correlationGrad(particles, i, d) << endl;
                 //cout << m_RSD << endl;
             }
@@ -195,24 +195,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
 }
 
 double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> particles, int particle, int dimension){
-
-    //    cout << "SlaterGrad: "<< slaterGrad(particles, particle, dimension)<<endl;
-    //    cout << "corgrad: "<< correlationGrad(particles, particle, dimension)<<endl;
-
-    double dr=0;
-    m_derivativeStepLength = 1e-5;
-    for (int i=0; i<m_system->getNumberOfParticles(); i++){
-        for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-            particles[i]->adjustNewPosition( m_derivativeStepLength, j );      // +
-            double psiPlus  =   evaluate( particles );
-            particles[i]->adjustNewPosition( -2 * m_derivativeStepLength, j ); // -
-            double psiMinus =   evaluate( particles );
-            particles[i]->adjustNewPosition( m_derivativeStepLength, j );      // reset
-            dr += psiPlus - psiMinus;
-        }
-    }
-    return dr/(2*m_derivativeStepLength);
-  //  return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
+    return slaterGrad(particles, particle, dimension) + correlationGrad(particles, particle, dimension);
 }
 
 
@@ -323,7 +306,7 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
     }
     //cout << "element: "<< setw(8) << element << "    slater: "<<setw(8)<<setprecision(5)<<slater<<endl;
     //cout <<slater<< endl;
-    return slater/m_R;    // FILIP
+    return slater/m_RSD;    // FILIP
 }
 
 

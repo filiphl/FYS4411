@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 6;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e6;
     double omegaHO          = 1.;          // Oscillator frequency.
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     system->setEquilibrationFraction        (equilibration);
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (true);
-    system->setImportanceSampling           (false);
+    system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
