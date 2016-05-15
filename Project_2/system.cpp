@@ -153,11 +153,11 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
 
-       /*if (i%100){     // Added by us.
-            cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
-            fflush(stdout);
-        }
-*/
+//       if (i%100){     // Added by us.
+//            cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
+//            fflush(stdout);
+//        }
+
         bool acceptedStep = metropolisStep();
 
         if (i > m_equilibrationFraction * m_numberOfMetropolisSteps) {

@@ -8,8 +8,7 @@ class Optimizer
 private:
     System* m_system           = nullptr;
 
-    double m_steplengthAlpha   = 1;
-    double m_steplengthBeta    = 1;
+    double m_steplength        = 1;
     double m_epsilon           = 0;
     double m_alpha             = 1;
     double m_alphaOld          = 0.0;
@@ -22,7 +21,7 @@ private:
     int    m_numberOfSteps     = 0;
 
 public:
-    Optimizer(System* system);
+    Optimizer(System* system, double alpha, double beta);
     void optimizeParameters();
     double absoluteValue(double value);
     double getAlpha() const;
@@ -31,6 +30,8 @@ public:
     void setEpsilon(double epsilon);
     double steplength() const;
     void setSteplength(double steplength);
+    double getBeta() const;
+    void setBeta(double beta);
 };
 
 #endif // OPTIMIZER_H

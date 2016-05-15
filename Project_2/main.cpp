@@ -39,8 +39,8 @@ int main(int argc, char* argv[]) {
     int numberOfSteps       = (int) 1e6;
     double omegaHO          = 1.;           // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 1.;//0.95455;//.5;    //0.95455;//1.843;          // Variational parameter.
-    double beta             = 0.3;//0.50905;      // Variational parameter.
+    double alpha            = 0.94295;      // Variational parameter.
+    double beta             = 0.46034;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
-    if (1){
+    if (0){
         system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
         system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
     }
@@ -66,27 +66,36 @@ int main(int argc, char* argv[]) {
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
-//    Optimizer* myOptimizer = new Optimizer(system);
-//    myOptimizer->optimizeParameters();
-
+    /*
+    Optimizer* myOptimizer = new Optimizer(system, alpha, beta);
+    myOptimizer->optimizeParameters();
+    */
 
     system->runMetropolisSteps              (numberOfSteps);
 
 
+
+
+/*
+  Optimized parameters
+  alpha : 0.9429569512
+  beta  : 0.4603492076
+*/
+
 /*
 Many
-  ----- Reults -----
- Energy          : 3.6824
- Variance        : 1.0208e-05
- Acceptance rate : 0.998333
+ Energy          : 3.0112
+ Variance        : 2.9009e-09
+ Acceptance rate : 0.999187
+
 
 
 
 Two
-  ----- Reults -----
- Energy          : 3.6621
- Variance        : 1.1092e-05
- Acceptance rate : 0.942344
+ Energy          : 3.0141
+ Variance        : 2.8288e-09
+ Acceptance rate : 0.961014
+
 
 
 

@@ -22,7 +22,7 @@ ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, d
 
     name     = "Many body quantum dot";
     setAlpha(alpha);
-    m_omega  = omega;
+    m_omega  = omega*alpha;
     m_beta   = beta;
     m_npHalf =  m_system->getNumberOfParticles()/2;
 
