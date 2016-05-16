@@ -148,7 +148,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     unsigned seed;
 
     clock::duration d = clock::now() - my_start;
-    seed = -1; //d.count();
+    seed = d.count();
     my_generator.seed(seed);
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
@@ -167,7 +167,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     }
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
-    m_sampler->printOutputToTerminal();
+    //m_sampler->printOutputToTerminal();
     if (m_storeLocalEnergy){ closeEnergyFile(); }
     if (m_storePositions){ closePositionFile(); }
 }

@@ -34,23 +34,23 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 6;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e6;
+    int numberOfSteps       = (int) 1e5;
     double omegaHO          = 1.;           // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 0.94295;      // Variational parameter.
-    double beta             = 0.46034;      // Variational parameter.
+    double alpha            = 0.6;//0.94295;      // Variational parameter.
+    double beta             = 0.6;//0.46034;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
-    double a                = 1.0;
+    double a                = 1;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
-    if (0){
+    if (1){
         system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
         system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
     }
@@ -66,13 +66,13 @@ int main(int argc, char* argv[]) {
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
-    /*
+
     Optimizer* myOptimizer = new Optimizer(system, alpha, beta);
     myOptimizer->optimizeParameters();
-    */
 
+/*
     system->runMetropolisSteps              (numberOfSteps);
-
+*/
 
 
 

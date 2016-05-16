@@ -69,3 +69,10 @@ Thumbs.db
 # --------
 *.dll
 *.exe
+
+# Latex
+*.aux
+*.log
+*.out
+*.pdf
+*.toc

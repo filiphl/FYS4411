@@ -9,4 +9,4 @@
 \contentsline {subsection}{\numberline {2.6}Local energy}{4}{subsection.2.6}
 \contentsline {subsection}{\numberline {2.7}Flowchart of metropolis algorithm}{5}{subsection.2.7}
 \contentsline {section}{\numberline {3}Results}{5}{section.3}
-\contentsline {section}{\numberline {4}Comments}{5}{section.4}
+\contentsline {section}{\numberline {4}Comments}{6}{section.4}

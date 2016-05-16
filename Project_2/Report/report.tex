@@ -43,6 +43,7 @@
 \newcommand\lr[1]{\left(#1\right)} 
 \newcommand\bk[1]{\langle#1\rangle} 
 \newcommand\uu[1]{\underline{\underline{#1}}} % Understreker dobbelt.
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 \definecolor{qc}{rgb}{0,0.4,0}
 \definecolor{LightBlue}{rgb}{0.8, 0.8, 0.9}
 \hypersetup{
@@ -428,6 +429,84 @@ The reason $a_{ij}$ is indexed is because it equals $1$ for anti-parallel spins 
 
 \section{Results}
 
+Without any interaction in the system, no coulomb potential or Jastrow factor, we are left with a simple harmonic oscillator with energies given as
+\begin{equation}
+	E_{n_x,n_y} = \hbar\omega\lr{n_x + n_y +1}.
+\end{equation}
+
+
+\begin{figure}[H]
+	\begin{center}
+	\begin{tikzpicture}
+		\begin{scope}[xshift=0cm, yshift = 0cm]
+			\draw (0,0) -- (1,0);
+			\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+			\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+		\end{scope}	
+		
+		\foreach \i in {-1,1}{
+			\begin{scope}[xshift=\i cm, yshift = 1cm]
+				\draw (0,0) -- (1,0);
+				\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+				\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+			\end{scope}	
+		}
+		\foreach \i in {-2,0,2}{
+			\begin{scope}[xshift=\i cm, yshift = 2cm]
+			\draw (0,0) -- (1,0);
+			\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+			\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+			\end{scope}	
+		}
+		\foreach \i in {-3,-1,1,3}{
+			\begin{scope}[xshift=\i cm, yshift = 3cm]
+			\draw (0,0) -- (1,0);
+			\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+			\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+			\end{scope}	
+		}
+		
+		\node [draw=none] (N2)  at (6.5,0) {$E_L = 2\phantom{0}$};
+		\node [draw=none] (N6)  at (6.5,1) {$E_L = 10$};
+		\node [draw=none] (N12) at (6.5,2) {$E_L = 28$};
+		\node [draw=none] (N20) at (6.5,3) {$E_L = 60$};
+		\draw [dotted, thick] (2,0) -- (N2);
+		\draw [dotted, thick] (3,1) -- (N6);
+		\draw [dotted, thick] (4,2) -- (N12);
+		\draw [dotted, thick] (5,3) -- (N20);
+		
+	\end{tikzpicture}
+	\end{center}
+	\caption{Illustrative figure of spin configurations in the closed shell system.}
+	\label{fig: spinFig}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+\begin{table}[H]
+	\begin{center}
+	\caption{Local energy computed for systems without the Jastrow factor and coulomb potential. This resembles a pure harmonic oscillator and the measurements are dead on.}
+	\begin{tabularx}{0.5\textwidth}{@{}YYY@{}}
+		\toprule
+		$N$& $E_L$& $\sigma$ \\*
+		\midrule
+		2  & 2  & 0 \\
+		6  & 10 & 0 \\
+		12 & 28 & 0 \\
+		20 & 60 & 0 \\
+		\bottomrule
+	\end{tabularx}
+	\label{tab:HO}
+	\end{center}
+\end{table}
 
 \section{Comments}
 
