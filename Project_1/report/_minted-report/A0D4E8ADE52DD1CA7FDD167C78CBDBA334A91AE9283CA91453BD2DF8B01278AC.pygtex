@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{n}{System}\PYGdefault{o}{*} \PYGdefault{n}{system} \PYGdefault{o}{=} \PYGdefault{k}{new} \PYGdefault{n}{System}\PYGdefault{p}{();}
+\PYGdefault{n}{system}\PYGdefault{o}{\PYGdefaultZhy{}\PYGdefaultZgt{}}\PYGdefault{n}{setHamiltonian}                  \PYGdefault{p}{(}\PYGdefault{k}{new} \PYGdefault{n}{HarmonicOscillator}\PYGdefault{p}{(}\PYGdefault{n}{system}\PYGdefault{p}{,} \PYGdefault{n}{omegaHO}\PYGdefault{p}{));}
+\PYGdefault{n}{system}\PYGdefault{o}{\PYGdefaultZhy{}\PYGdefaultZgt{}}\PYGdefault{n}{setWaveFunction}                 \PYGdefault{p}{(}\PYGdefault{k}{new} \PYGdefault{n}{SimpleGaussian}\PYGdefault{p}{(}\PYGdefault{n}{system}\PYGdefault{p}{,} \PYGdefault{n}{alpha}\PYGdefault{p}{));}
+\PYGdefault{n}{system}\PYGdefault{o}{\PYGdefaultZhy{}\PYGdefaultZgt{}}\PYGdefault{n}{setInitialState}                 \PYGdefault{p}{(}\PYGdefault{k}{new} \PYGdefault{n}{RandomUniform}\PYGdefault{p}{(}\PYGdefault{n}{system}\PYGdefault{p}{,} \PYGdefault{n}{numberOfDimensions}\PYGdefault{p}{,} \PYGdefault{n}{numberOfParticles}\PYGdefault{p}{));}
+\end{Verbatim}

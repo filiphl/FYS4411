@@ -8,7 +8,8 @@ class Optimizer
 private:
     System* m_system           = nullptr;
 
-    double m_steplength        = 1;
+    double m_steplength        = 0.5;
+    double m_steplengthBeta    = 0.5;
     double m_epsilon           = 0;
     double m_alpha             = 1;
     double m_alphaOld          = 0.0;

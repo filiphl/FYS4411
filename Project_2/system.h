@@ -35,11 +35,12 @@ private:
     class Slater*                   m_slater  = nullptr;
     std::vector<class Particle*>    m_particles = std::vector<class Particle*>();
 
-    bool m_AnalyticalLaplacian = false;
+    bool m_AnalyticalLaplacian        = false;
     bool m_importanceSampling         = false;
     bool m_storeLocalEnergy           = false;
     bool m_storePositions             = false;
     bool m_optimizingParameters       = false;
+    bool m_printResults               = true;
 
     double prob                       = 0;
     double mynt                       = 0;
@@ -90,12 +91,13 @@ public:
     double getDerivativeStep() const;
     void setDerivativeStep(double derivativeStep);
     void setParticles(const std::vector<Particle *> &particles);
-
     typedef std::chrono::high_resolution_clock clock;
     clock::time_point my_start = clock::now();
     std::uniform_real_distribution<double> my_uniform {std::uniform_real_distribution<double>(0.0,1.0)};
     std::normal_distribution<double> gaussianBru {std::normal_distribution<double>(0,1.0/sqrt(2))};
     std::normal_distribution<double> gaussianImp {std::normal_distribution<double>(0,sqrt(m_dt))};
     std::mt19937 my_generator;
+    bool getPrintResults() const;
+    void setPrintResults(bool printResults);
 };
 

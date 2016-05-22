@@ -34,13 +34,13 @@ int main(int argc, char* argv[]) {
 //    MPI_Finalize();
 
 
-    int numberOfParticles   = 6;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e5;
+    int numberOfSteps       = (int) 1e7;
     double omegaHO          = 1.;           // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 0.6;//0.94295;      // Variational parameter.
-    double beta             = 0.6;//0.46034;      // Variational parameter.
+    double alpha            = 1;//0.94295;      // Variational parameter.
+    double beta             = 2.7;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -65,14 +65,14 @@ int main(int argc, char* argv[]) {
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
-
+    system->setPrintResults                 (false);
 
     Optimizer* myOptimizer = new Optimizer(system, alpha, beta);
     myOptimizer->optimizeParameters();
 
-/*
-    system->runMetropolisSteps              (numberOfSteps);
-*/
+
+    //system->runMetropolisSteps              (numberOfSteps);
+
 
 
 

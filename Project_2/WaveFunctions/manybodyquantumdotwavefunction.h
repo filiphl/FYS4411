@@ -44,6 +44,7 @@ public:
     double hermite(int energyLevel, double position);
     double hermiteDerivative(int energyLevel, double position);
     double hermiteDoubleDerivative(int energyLevel, double position);
+    double hermiteDerivativeAlpha(int energyLevel, double position);
 
     double f(int i, int j); // see report page 2.
 

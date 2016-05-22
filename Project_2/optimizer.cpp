@@ -30,8 +30,6 @@ void Optimizer::optimizeParameters()
         m_dAlphaOld = m_dAlpha;
         m_dBetaOld  = m_dBeta;
 
-        m_alpha -= m_steplength*m_dAlpha;
-        m_beta  -= m_steplength*m_dBeta;
 
         m_system->getWaveFunction()->setAlpha(m_alpha);
         m_system->getWaveFunction()->setBeta (m_beta);
@@ -40,27 +38,39 @@ void Optimizer::optimizeParameters()
         m_dBeta  = m_system->getSampler()->getLocalBetaDeriv();
         m_system->getSampler()->setStepNumber(0);
 
+        m_alpha -= m_steplength*m_dAlpha;
+        m_beta  -= m_steplengthBeta*m_dBeta;
+
         if (m_dBeta*m_dBeta + m_dAlpha*m_dAlpha > m_dBetaOld*m_dBetaOld + m_dAlphaOld*m_dAlphaOld){  // Should be changed
+            if (m_dAlpha*m_dAlpha > m_dAlphaOld*m_dAlphaOld){
+                cout << "HEI"<<endl;
+                m_steplength /= 1.1;
+            }
+            if (m_dBeta*m_dBeta > m_dBetaOld*m_dBetaOld){
+                m_steplengthBeta /= 1.1;
+            }
             m_dAlpha = m_dAlphaOld;
             m_dBeta  = m_dBetaOld;
-            m_steplength /= 1.2;
             m_alpha  = m_alphaOld;
             m_beta   = m_betaOld;
-            nSteps = (int)nSteps*1.1;
-            if (m_steplength < 1e-7) {
-                cout << "alpha                 : " << m_alpha      << endl;
-                cout << "beta                  : " << m_beta       << endl;
-                cout << "Derivative step length: " << m_steplength << endl;
-                cout << "Beta derivative       : " << m_dBeta      << endl;
-                cout << "Energy                : " << m_system->getSampler()->getEnergy()<<endl;
+            nSteps = (int)nSteps*1.05;
+            if (m_steplength < 1e-6) {
+                cout << "alpha                        : " << m_alpha      << endl;
+                cout << "beta                         : " << m_beta       << endl;
+                cout << "Derivative step length alpha : " << m_steplength << endl;
+                cout << "Derivative step length beta  : " << m_steplengthBeta << endl;
+                cout << "Beta derivative              : " << m_dBeta      << endl;
+                cout << "Energy                       : " << m_system->getSampler()->getEnergy()<<endl<<endl;
                 return;
             }
         }
-        cout << "alpha                 : " << setprecision(10) << m_alpha << endl;
-        cout << "beta                  : " << setprecision(10) << m_beta  << endl;
-        cout << "Derivative step length: " << m_steplength << endl;
-        cout << "Alpha derivative: " << m_dAlpha << endl;
-        cout << "Beta derivative : " << m_dBeta  << endl;
+        cout << "alpha                        : " << setprecision(10) << m_alpha << endl;
+        cout << "beta                         : " << setprecision(10) << m_beta  << endl;
+        cout << "Derivative step length       : " << m_steplength << endl;
+        cout << "Derivative step length beta  : " << m_steplengthBeta << endl;
+        cout << "Alpha derivative             : " << m_dAlpha << endl;
+        cout << "Beta derivative              : " << m_dBeta  << endl;
+        cout << "Energy                       : " << m_system->getSampler()->getEnergy()<<endl;
     }
     m_system->getSampler()->reset();
 }

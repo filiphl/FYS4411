@@ -585,6 +585,70 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
             }
         }
     }
+
+
+    if (m_system->OptimizingParameters()){
+        psiAlpha = 0;
+        psiBeta  = 0;
+        double dAijUp   = 0;
+        double dAijDown = 0;
+        for (int i=0; i<m_npHalf; i++){
+            double xiUp = m_system->getParticles()[i]->getNewPosition()[0];
+            double yiUp = m_system->getParticles()[i]->getNewPosition()[1];
+            double xiDown = m_system->getParticles()[i+m_npHalf]->getNewPosition()[0];
+            double yiDown = m_system->getParticles()[i+m_npHalf]->getNewPosition()[1];
+            for (int j=0; j<m_npHalf; j++){
+
+                int nx = m_quantumNumbers(j,0);
+                int ny = m_quantumNumbers(j,1);
+
+                dAijUp = (hermiteDerivativeAlpha(nx,xiUp)*hermite(ny,yiUp)
+                          + hermiteDerivativeAlpha(ny,yiUp)*hermite(nx,xiUp)
+                          - hermite(nx,xiUp)*hermite(ny,yiUp)*m_omega*(xiUp*xiUp + yiUp*yiUp)/(2*m_alpha))
+                         * m_slaterUpInverse(i,j);
+
+                dAijDown = (hermiteDerivativeAlpha(nx,xiDown)*hermite(ny,yiDown)
+                            + hermiteDerivativeAlpha(ny,yiDown)*hermite(nx,xiDown)
+                            - hermite(nx,xiDown)*hermite(ny,yiDown)*m_omega*(xiDown*xiDown + yiDown*yiDown)/(2*m_alpha))
+                           * m_slaterDownInverse(i,j);
+
+                // Dividing by alpha because we defined m_omega=omega*alpha in constructer.
+
+            }
+            psiAlpha += dAijUp*exp(-m_omega*(xiUp*xiUp + yiUp*yiUp));
+            psiAlpha += dAijDown*exp(-m_omega*(xiDown*xiDown + yiDown*yiDown));
+        }
+
+
+        for (int i=0; i<m_np; i++){
+            for (int j=i+1; j<m_np;j++){
+                psiBeta -= m_a(i,j) * (m_distances(i,j)/(1+m_beta*m_distances(i,j))) * (m_distances(i,j)/(1+m_beta*m_distances(i,j)));
+            }
+        }
+    }
+}
+
+
+double ManyBodyQuantumDotWaveFunction::hermiteDerivativeAlpha(int energyLevel, double position){
+    double x = position;
+    double sW = sqrt(m_omega);  // m_omega = omega*alpha. See constructor.
+    if (energyLevel == 0){
+        return 0;
+    }
+    else if (energyLevel == 1) {
+        return x*sW/m_alpha;
+    }
+    else if (energyLevel == 2) {
+        return 4*x*x*sW*sW/m_alpha;
+    }
+    else if (energyLevel == 3){
+        return 12*x*x*x*m_omega*m_omega/(sW*m_alpha) - 6*sW*x/m_alpha;
+    }
+    else {
+        cout << energyLevel<<endl;
+        cout << "Way too high energy level!"<<endl;
+        exit(0);
+    }
 }
 
 void ManyBodyQuantumDotWaveFunction::updateDistances(int i)

@@ -65,6 +65,16 @@ void System::setParticles(const std::vector<Particle *> &particles)
     m_particles = particles;
 }
 
+bool System::getPrintResults() const
+{
+    return m_printResults;
+}
+
+void System::setPrintResults(bool printResults)
+{
+    m_printResults = printResults;
+}
+
 bool System::metropolisStep() {
 
     int p = Random::nextInt(m_numberOfParticles);     // Random particle
@@ -167,7 +177,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     }
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
-    //m_sampler->printOutputToTerminal();
+    if (m_printResults){ m_sampler->printOutputToTerminal(); }
     if (m_storeLocalEnergy){ closeEnergyFile(); }
     if (m_storePositions){ closePositionFile(); }
 }

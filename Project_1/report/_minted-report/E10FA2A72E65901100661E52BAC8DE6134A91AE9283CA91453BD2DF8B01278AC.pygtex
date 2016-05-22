@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGdefault{n}{system}\PYGdefault{o}{\PYGdefaultZhy{}\PYGdefaultZgt{}}\PYGdefault{n}{setAnalyticalLaplacian}          \PYGdefault{p}{(}\PYGdefault{n+nb}{false}\PYGdefault{p}{);}
+\PYGdefault{n}{system}\PYGdefault{o}{\PYGdefaultZhy{}\PYGdefaultZgt{}}\PYGdefault{n}{setImportanceSampling}           \PYGdefault{p}{(}\PYGdefault{n+nb}{false}\PYGdefault{p}{);}
+\PYGdefault{n}{system}\PYGdefault{o}{\PYGdefaultZhy{}\PYGdefaultZgt{}}\PYGdefault{n}{setStoreLocalEnergy}             \PYGdefault{p}{(}\PYGdefault{n+nb}{false}\PYGdefault{p}{);}
+\PYGdefault{n}{system}\PYGdefault{o}{\PYGdefaultZhy{}\PYGdefaultZgt{}}\PYGdefault{n}{setStorePositions}               \PYGdefault{p}{(}\PYGdefault{n+nb}{false}\PYGdefault{p}{);}
+\end{Verbatim}
