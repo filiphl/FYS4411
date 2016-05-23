@@ -26,83 +26,127 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 
-//    MPI_Init (&argc, &argv);	/* starts MPI */
-//    int rank, size;
-//    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
-//    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
-//    printf( "Hello world from process %d of %d\n", rank, size );
-//    MPI_Finalize();
+    //    MPI_Init (&argc, &argv);	/* starts MPI */
+    //    int rank, size;
+    //    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
+    //    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
+    //    printf( "Hello world from process %d of %d\n", rank, size );
+    //    MPI_Finalize();
 
 
-    int numberOfParticles   = 2;
-    int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e7;
-    double omegaHO          = 1.;           // Oscillator frequency.
-    double omegaZ           = 1.0;
-    double alpha            = 1;//0.94295;      // Variational parameter.
-    double beta             = 2.7;      // Variational parameter.
-    double gamma            = 2.82843;
-    double stepLength       = 1.0;          // Metropolis step length.
-    double equilibration    = 0.1;          // Fraction steps used for equilibration.
-    double C                = 1.0;
-    double a                = 1;
 
-    System* system = new System();
-    system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
-    if (1){
-        system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
-        system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
+    ofstream energyFile;
+    energyFile.open("dataFiles/energyPlotfileN6.txt", ios::out);
+    int na = 50;
+    int nb = 50;
+
+    for (int ai=0; ai<=na; ai++){
+        for (int bi=0; bi<=nb; bi++){
+
+            cout << "ai: "<< ai << "    bi: " << bi << endl;
+
+            int numberOfParticles   = 6;
+            int numberOfDimensions  = 2;
+            int numberOfSteps       = (int) 1e4;
+            double omegaHO          = 1.;           // Oscillator frequency.
+            double omegaZ           = 1.0;
+            double alpha            = 0.2+2.8*ai/na;//0.94295;      // Variational parameter.
+            double beta             = 0.1+0.9*bi/nb;      // Variational parameter.
+            double gamma            = 2.82843;
+            double stepLength       = 1.0;          // Metropolis step length.
+            double equilibration    = 0.1;          // Fraction steps used for equilibration.
+            double C                = 1.0;
+            double a                = 1;
+
+            System* system = new System();
+            system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
+
+            if (1){
+                system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
+                system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
+            }
+            else{
+                system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
+                system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+            }
+
+            system->setEquilibrationFraction        (equilibration);
+            system->setStepLength                   (stepLength);
+            system->setAnalyticalLaplacian          (true);
+            system->setImportanceSampling           (true);
+            system->setStoreLocalEnergy             (false);
+            system->setStorePositions               (false);
+            bool   optimizing =                      false;
+
+
+            if (optimizing){
+                Optimizer* myOptimizer = new Optimizer(system, alpha, beta);
+                myOptimizer->optimizeParameters();
+
+                system->getWaveFunction()->setAlpha(myOptimizer->getAlpha());
+                system->getWaveFunction()->setBeta(myOptimizer->getBeta());
+            }
+
+            system->setPrintResults                 (false);
+            system->runMetropolisSteps              (numberOfSteps);
+            energyFile << alpha << "    " << beta << "    " << system->getSampler()->getEnergy() << endl;
+        }
     }
-    else{
-        system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
-        system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
-    }
-
-    system->setEquilibrationFraction        (equilibration);
-    system->setStepLength                   (stepLength);
-    system->setAnalyticalLaplacian          (true);
-    system->setImportanceSampling           (true);
-    system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (false);
-    system->setPrintResults                 (false);
-
-    Optimizer* myOptimizer = new Optimizer(system, alpha, beta);
-    myOptimizer->optimizeParameters();
-
-
-    //system->runMetropolisSteps              (numberOfSteps);
+    energyFile.close();
 
 
 
 
-/*
+    /*
   Optimized parameters
-  alpha : 0.9429569512
-  beta  : 0.4603492076
+
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      1.00338
+ Beta  :      0.3
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 2.9977
+ Variance        : 1.6587e-08
+ Acceptance rate : 0.999214
+
+
+
+
+
+
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 6
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      1.026740104
+ Beta  :      0.4
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 20.19
+ Variance        : 2.1611e-07
+ Acceptance rate : 0.998167
+
 */
 
-/*
-Many
- Energy          : 3.0112
- Variance        : 2.9009e-09
- Acceptance rate : 0.999187
 
-
-
-
-Two
- Energy          : 3.0141
- Variance        : 2.8288e-09
- Acceptance rate : 0.961014
-
-
-
-
-
-
-
-*/
 
 
 

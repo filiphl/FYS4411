@@ -6,16 +6,18 @@ Optimizer::Optimizer(System *system, double alpha, double beta)
     m_system = system;
     m_alpha  = alpha;
     m_beta   = beta;
+    system->setPrintResults(false);
 }
 
 void Optimizer::optimizeParameters()
 {
-    int nSteps = 1e4;
+    int nSteps = 5e4;
     m_system->getWaveFunction()->setAlpha(m_alpha);
     m_system->getWaveFunction()->setBeta(m_beta);
 
     m_system->OptimizingParameters(true);
     m_system->runMetropolisSteps(nSteps);
+    m_energy = m_system->getSampler()->getEnergy();
 
     m_dAlpha = m_system->getSampler()->getLocalAlphaDeriv();
     m_dBeta = m_system->getSampler()->getLocalBetaDeriv();
@@ -29,38 +31,42 @@ void Optimizer::optimizeParameters()
         m_betaOld   = m_beta;
         m_dAlphaOld = m_dAlpha;
         m_dBetaOld  = m_dBeta;
-
+        m_energyOld = m_energy;
 
         m_system->getWaveFunction()->setAlpha(m_alpha);
         m_system->getWaveFunction()->setBeta (m_beta);
         m_system->runMetropolisSteps(nSteps);
+        m_energy = m_system->getSampler()->getEnergy();
+
         m_dAlpha = m_system->getSampler()->getLocalAlphaDeriv();
         m_dBeta  = m_system->getSampler()->getLocalBetaDeriv();
         m_system->getSampler()->setStepNumber(0);
 
+
         m_alpha -= m_steplength*m_dAlpha;
         m_beta  -= m_steplengthBeta*m_dBeta;
 
-        if (m_dBeta*m_dBeta + m_dAlpha*m_dAlpha > m_dBetaOld*m_dBetaOld + m_dAlphaOld*m_dAlphaOld){  // Should be changed
+        if (m_energy > m_energyOld){  //(m_dBeta*m_dBeta + m_dAlpha*m_dAlpha > m_dBetaOld*m_dBetaOld + m_dAlphaOld*m_dAlphaOld){   //
             if (m_dAlpha*m_dAlpha > m_dAlphaOld*m_dAlphaOld){
-                cout << "HEI"<<endl;
-                m_steplength /= 1.1;
+                m_steplength *= 0.8;
             }
             if (m_dBeta*m_dBeta > m_dBetaOld*m_dBetaOld){
-                m_steplengthBeta /= 1.1;
+                m_steplengthBeta *= 0.8;
             }
             m_dAlpha = m_dAlphaOld;
             m_dBeta  = m_dBetaOld;
             m_alpha  = m_alphaOld;
             m_beta   = m_betaOld;
-            nSteps = (int)nSteps*1.05;
-            if (m_steplength < 1e-6) {
-                cout << "alpha                        : " << m_alpha      << endl;
-                cout << "beta                         : " << m_beta       << endl;
+            nSteps = (int)nSteps*1.0;
+            if (m_steplength < 1e-6 || m_steplengthBeta < 1e-6) {
+                m_system->runMetropolisSteps(nSteps);
+                m_energy = m_system->getSampler()->getEnergy();
+                cout << "alpha                        : " << m_alphaOld      << endl;
+                cout << "beta                         : " << m_betaOld       << endl;
                 cout << "Derivative step length alpha : " << m_steplength << endl;
                 cout << "Derivative step length beta  : " << m_steplengthBeta << endl;
-                cout << "Beta derivative              : " << m_dBeta      << endl;
-                cout << "Energy                       : " << m_system->getSampler()->getEnergy()<<endl<<endl;
+                cout << "Beta derivative              : " << m_dBetaOld      << endl;
+                cout << "Energy                       : " << m_energyOld<<endl<<endl;
                 return;
             }
         }
@@ -70,9 +76,9 @@ void Optimizer::optimizeParameters()
         cout << "Derivative step length beta  : " << m_steplengthBeta << endl;
         cout << "Alpha derivative             : " << m_dAlpha << endl;
         cout << "Beta derivative              : " << m_dBeta  << endl;
-        cout << "Energy                       : " << m_system->getSampler()->getEnergy()<<endl;
+        cout << "Energy                       : " << m_system->getSampler()->getEnergy()<<endl<<endl;
+        m_system->getSampler()->reset();
     }
-    m_system->getSampler()->reset();
 }
 
 
