@@ -46,7 +46,7 @@ void Optimizer::optimizeParameters()
         m_alpha -= m_steplength*m_dAlpha;
         m_beta  -= m_steplengthBeta*m_dBeta;
 
-        if (m_energy > m_energyOld){  //(m_dBeta*m_dBeta + m_dAlpha*m_dAlpha > m_dBetaOld*m_dBetaOld + m_dAlphaOld*m_dAlphaOld){   //
+        if (m_dBeta*m_dBeta + m_dAlpha*m_dAlpha > m_dBetaOld*m_dBetaOld + m_dAlphaOld*m_dAlphaOld){   //
             if (m_dAlpha*m_dAlpha > m_dAlphaOld*m_dAlphaOld){
                 m_steplength *= 0.8;
             }

@@ -5,7 +5,7 @@ I run it as python raddist.py -toolkit wx
 import sys, os, numpy as np
 
 from math import sqrt
-from mayavi import mlab
+#from mayavi import mlab
 import matplotlib.pyplot as plt
 #from pylab import *
 
@@ -112,17 +112,14 @@ def make3dHist(data):
 def make1dHist(data):
     Weights = np.ones_like(data)/float(len(data))
     plt.hist(data, bins=np.linspace(0,0.4,33), weights=Weights)
+
     plt.show()
 
 
 if __name__ == "__main__":
-    path1 = "../datafiles/positionsHOe5.txt"
-    path2 = "../datafiles/positionsIe7.txt"
-    path3 = "../datafiles/positionsIe6.txt"
-    path4 = "../datafiles/positionsHOe6.txt"
-    path5 = "../datafiles/positionsIe3.txt"
-    path6 = "../datafiles/positionsHOe7.txt"
-    positions = np.loadtxt(path6)
+    path1 = "../dataFiles/positionsHOe7.txt"
+    path2 = "../dataFiles/positionse6NoInteractions.txt"
+    positions = np.loadtxt(path2)
     print "Done loading file"
 
 

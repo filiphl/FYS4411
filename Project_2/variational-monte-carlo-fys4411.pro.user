@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.0, 2016-05-23T12:50:14. -->
+<!-- Written by QtCreator 3.5.0, 2016-05-23T14:52:20. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{187c56e6-fc22-460c-8f14-57686992c9ee}</value>
+  <value type="QByteArray">{496a63b8-d99f-44bb-988b-45e6a5c8afc4}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -178,8 +178,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">variational-monte-carlo-fys4411</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/filiphl/Desktop/FYS4411/Project_2/variational-monte-carlo-fys4411.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">variational-monte-carlo-fys44112</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/uio/hume/student-u63/filiphl/Desktop/FYS4411/Project_2/variational-monte-carlo-fys4411.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">variational-monte-carlo-fys4411.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>

@@ -36,66 +36,50 @@ int main(int argc, char* argv[]) {
 
 
 
-    ofstream energyFile;
-    energyFile.open("dataFiles/energyPlotfileN6.txt", ios::out);
-    int na = 50;
-    int nb = 50;
+    int numberOfParticles   = 2;
+    int numberOfDimensions  = 2;
+    int numberOfSteps       = (int) 1e6;
+    double omegaHO          = 1.;           // Oscillator frequency.
+    double omegaZ           = 1.0;
+    double alpha            = 1;//1.00338;      // Variational parameter.
+    double beta             = 0.3;          // Variational parameter.
+    double gamma            = 2.82843;
+    double stepLength       = 1.0;          // Metropolis step length.
+    double equilibration    = 0.1;          // Fraction steps used for equilibration.
+    double C                = 1.0;
+    double a                = 0;
 
-    for (int ai=0; ai<=na; ai++){
-        for (int bi=0; bi<=nb; bi++){
+    System* system = new System();
+    system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
-            cout << "ai: "<< ai << "    bi: " << bi << endl;
-
-            int numberOfParticles   = 6;
-            int numberOfDimensions  = 2;
-            int numberOfSteps       = (int) 1e4;
-            double omegaHO          = 1.;           // Oscillator frequency.
-            double omegaZ           = 1.0;
-            double alpha            = 0.2+2.8*ai/na;//0.94295;      // Variational parameter.
-            double beta             = 0.1+0.9*bi/nb;      // Variational parameter.
-            double gamma            = 2.82843;
-            double stepLength       = 1.0;          // Metropolis step length.
-            double equilibration    = 0.1;          // Fraction steps used for equilibration.
-            double C                = 1.0;
-            double a                = 1;
-
-            System* system = new System();
-            system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
-
-            if (1){
-                system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
-                system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
-            }
-            else{
-                system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
-                system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
-            }
-
-            system->setEquilibrationFraction        (equilibration);
-            system->setStepLength                   (stepLength);
-            system->setAnalyticalLaplacian          (true);
-            system->setImportanceSampling           (true);
-            system->setStoreLocalEnergy             (false);
-            system->setStorePositions               (false);
-            bool   optimizing =                      false;
-
-
-            if (optimizing){
-                Optimizer* myOptimizer = new Optimizer(system, alpha, beta);
-                myOptimizer->optimizeParameters();
-
-                system->getWaveFunction()->setAlpha(myOptimizer->getAlpha());
-                system->getWaveFunction()->setBeta(myOptimizer->getBeta());
-            }
-
-            system->setPrintResults                 (false);
-            system->runMetropolisSteps              (numberOfSteps);
-            energyFile << alpha << "    " << beta << "    " << system->getSampler()->getEnergy() << endl;
-        }
+    if (1){
+        system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
+        system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
     }
-    energyFile.close();
+    else{
+        system->setWaveFunction                 (new TwoBodyQuantumDot(system, alpha, beta,C, omegaHO, a));
+        system->setHamiltonian                  (new TwoBodyQuantumDotHamiltonian(system, omegaHO));
+    }
+
+    system->setEquilibrationFraction        (equilibration);
+    system->setStepLength                   (stepLength);
+    system->setAnalyticalLaplacian          (true);
+    system->setImportanceSampling           (true);
+    system->setStoreLocalEnergy             (false);
+    system->setStorePositions               (true);
+    bool   optimizing =                      false;
 
 
+    if (optimizing){
+        Optimizer* myOptimizer = new Optimizer(system, alpha, beta);
+        myOptimizer->optimizeParameters();
+
+        system->getWaveFunction()->setAlpha(myOptimizer->getAlpha());
+        system->getWaveFunction()->setBeta(myOptimizer->getBeta());
+    }
+
+    system->setPrintResults                 (true);
+    system->runMetropolisSteps              (numberOfSteps);
 
 
     /*
@@ -143,6 +127,29 @@ int main(int argc, char* argv[]) {
  Energy          : 20.19
  Variance        : 2.1611e-07
  Acceptance rate : 0.998167
+
+
+
+
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 12
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      0.8381614
+ Beta  :      0.5
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 65.789
+ Variance        : 6.0258e-06
+ Acceptance rate : 0.996322
+
 
 */
 
