@@ -36,13 +36,24 @@ int main(int argc, char* argv[]) {
 
 
 
+    //    ofstream energyFile;
+    //    energyFile.open("dataFiles/energyPlotfileN6.txt", ios::out);
+    //    int na = 20;
+    //    int nb = 20;
+
+    //    for (int ai=0; ai<=na; ai++){
+    //        for (int bi=0; bi<=nb; bi++){
+
+    //            cout << "ai: "<< ai << "    bi: " << bi << "\r";
+    //            fflush(stdout);
+
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e6;
+    int numberOfSteps       = (int) 1e7;
     double omegaHO          = 1.;           // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 1;//1.00338;      // Variational parameter.
-    double beta             = 0.3;          // Variational parameter.
+    double alpha            = 1.00;//338;//0.94295;      // Variational parameter.
+    double beta             = 0.3;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -80,6 +91,13 @@ int main(int argc, char* argv[]) {
 
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);
+    //energyFile << system->getSampler()->getEnergy() << "    ";
+    //        }
+    //        energyFile << endl;
+    //    }
+    //    energyFile.close();
+
+
 
 
     /*
@@ -127,29 +145,6 @@ int main(int argc, char* argv[]) {
  Energy          : 20.19
  Variance        : 2.1611e-07
  Acceptance rate : 0.998167
-
-
-
-
-  -- System info --
- Name : Many body quantum dot
- Number of particles  : 12
- Number of dimensions : 2
- Number of Metropolis steps run : 10^6
- Number of equilibration steps  : 10^5
-
-  -- Wave function parameters --
- Number of parameters : 4
- Alpha :      0.8381614
- Beta  :      0.5
- Omega :      1
- a     :      1
-
-  ----- Reults -----
- Energy          : 65.789
- Variance        : 6.0258e-06
- Acceptance rate : 0.996322
-
 
 */
 

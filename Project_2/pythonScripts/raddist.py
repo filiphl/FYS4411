@@ -28,7 +28,7 @@ def loadCube(positions,N=200, l=-3, u=3):
     return cube
 
 
-def radialDistribution(positions, N=100):
+def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
 
     u = positions.max()
     print len(positions)
@@ -42,19 +42,22 @@ def radialDistribution(positions, N=100):
 
     print "Done filling vec"
     Weights = np.ones_like(r)/float(len(r))
-    n, bins, patches = plt.hist(r, bins=N,normed=1, weights=Weights, color="#006867")
+    plt.figure(1)
+    n, bins, patches = plt.hist(r, bins=N,normed=1, weights=Weights, color=clr)
     #plt.hold("on")
     #plt.plot(bins[:-1], n, '--', color="#680000", linewidth=3)
+
+    #plt.xlabel("Radial distance")
+    #plt.ylabel("Probability")
+    #plt.grid("on")
+    #plt.show()
+    plt.figure(2)
+    plt.plot(bins[:-1], n, '-', color=clr, linewidth=3, label=lbl)
+    plt.grid("on")
     plt.xlabel("Radial distance")
     plt.ylabel("Probability")
-    plt.grid("on")
-    plt.show()
-    plt.figure()
-    plt.plot(bins[:-1], n, '--', color="#680000", linewidth=3)
-    plt.grid("on")
-    plt.xlabel("Radial distance")
-    plt.ylabel("Probability")
-    plt.show()
+    plt.hold("on")
+    #plt.show()
 
 
 
@@ -117,19 +120,27 @@ def make1dHist(data):
 
 
 if __name__ == "__main__":
-    path1 = "../dataFiles/positionsHOe7.txt"
-    path2 = "../dataFiles/positionse6NoInteractions.txt"
-    positions = np.loadtxt(path2)
-    print "Done loading file"
+    path1 = "../dataFiles/positionN2se5.txt"
+    path2 = "../dataFiles/positionN2se5HO.txt"
+    path3 = "../dataFiles/positionN2se7.txt"
+    path4 = "../dataFiles/positionN2se7HO.txt"
+    positions = np.loadtxt(path3)
+    print "Done loading first file"
 
 
     #make1dHist(data)
     #data = loadCube(positions)
     #make3dHist(data);
 
-    radialDistribution(positions, 100)
+    radialDistribution(positions, 100, lbl="Including interactions")
 
-
+    positions = np.loadtxt(path4)
+    print "Done loading second file"
+    radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
+    plt.figure(2)
+    plt.legend()
+    plt.ylim([0,1])
+    plt.show()
     #make2dHist(loadArmaCube(path2), 0)
     #makeRadialHist1(loadArmaCube(path2))
     #makeRadialHist2(loadArmaMat(path6))
