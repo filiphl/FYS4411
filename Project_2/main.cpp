@@ -49,10 +49,10 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e7;
+    int numberOfSteps       = (int) 1e5;
     double omegaHO          = 1.;           // Oscillator frequency.
     double omegaZ           = 1.0;
-    double alpha            = 1.00;//338;//0.94295;      // Variational parameter.
+    double alpha            = 1.00338;//0.94295;      // Variational parameter.
     double beta             = 0.3;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.

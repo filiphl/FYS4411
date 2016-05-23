@@ -31,7 +31,6 @@ def loadCube(positions,N=200, l=-3, u=3):
 def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
 
     u = positions.max()
-    print len(positions)
     r = np.zeros(len(positions))
 
     for i in xrange(len(positions)):
@@ -52,7 +51,7 @@ def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
     #plt.grid("on")
     #plt.show()
     plt.figure(2)
-    plt.plot(bins[:-1], n, '-', color=clr, linewidth=3, label=lbl)
+    plt.plot(bins[:-1], n, '-', color=clr, linewidth=2, label=lbl)
     plt.grid("on")
     plt.xlabel("Radial distance")
     plt.ylabel("Probability")
@@ -122,25 +121,38 @@ def make1dHist(data):
 if __name__ == "__main__":
     path1 = "../dataFiles/positionN2se5.txt"
     path2 = "../dataFiles/positionN2se5HO.txt"
-    path3 = "../dataFiles/positionN2se7.txt"
-    path4 = "../dataFiles/positionN2se7HO.txt"
-    positions = np.loadtxt(path3)
-    print "Done loading first file"
+    path3 = "../dataFiles/positionN2se5NoJ.txt"
+    path4 = "../dataFiles/positionN2se7.txt"
+    path5 = "../dataFiles/positionN2se7HO.txt"
+    path6 = "../dataFiles/positionN2se7NoJ.txt"
 
+
+
+
+
+    positions = np.loadtxt(path4)
+    print "Done loading first file"
+    radialDistribution(positions, 100, lbl="Including all interactions")
+
+    positions = np.loadtxt(path5)
+    print "Done loading second file"
+    radialDistribution(positions, 100, "#340068", "Excluding Jastrow factor")
+
+    positions = np.loadtxt(path6)
+    print "Done loading third file"
+    radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
+
+
+
+    plt.figure(2)
+    plt.legend()
+    plt.ylim([0,1])
+    plt.show()
 
     #make1dHist(data)
     #data = loadCube(positions)
     #make3dHist(data);
 
-    radialDistribution(positions, 100, lbl="Including interactions")
-
-    positions = np.loadtxt(path4)
-    print "Done loading second file"
-    radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
-    plt.figure(2)
-    plt.legend()
-    plt.ylim([0,1])
-    plt.show()
     #make2dHist(loadArmaCube(path2), 0)
     #makeRadialHist1(loadArmaCube(path2))
     #makeRadialHist2(loadArmaMat(path6))

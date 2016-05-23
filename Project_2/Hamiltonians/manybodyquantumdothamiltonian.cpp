@@ -20,7 +20,7 @@ double ManyBodyQuantumDotHamiltonian::computeLocalEnergy(std::vector<Particle *>
 
 
         for (int j=i+1; j<m_system->getNumberOfParticles(); j++){
-            //potentialEnergy += 1/m_system->getWaveFunction()->m_distances(i,j);
+            potentialEnergy += 1/m_system->getWaveFunction()->m_distances(i,j);
         }
     }
     //cout << potentialEnergy << "    "<<computeKineticEnergy(particles)<<endl;
