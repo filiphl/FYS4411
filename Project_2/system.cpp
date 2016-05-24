@@ -75,21 +75,32 @@ void System::setPrintResults(bool printResults)
     m_printResults = printResults;
 }
 
+int System::getRank() const
+{
+    return m_rank;
+}
+
+void System::setRank(int rank)
+{
+    m_rank = rank;
+}
+
+int System::getSize() const
+{
+    return m_size;
+}
+
+void System::setSize(int size)
+{
+    m_size = size;
+}
+
 bool System::metropolisStep() {
 
     int p = Random::nextInt(m_numberOfParticles);     // Random particle
     int d = Random::nextInt(m_numberOfDimensions);    // Random dimension
 
     if (m_importanceSampling){
-/*
-        double qForceOld = qForce(p,d);
-        dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt); // sqrt(2*m_D*m_dt), but m_D=0.5.
-        //cout <<"m_D: "<< m_D<< "    m_dt: " << m_dt<< " dx: "<<dx<< "qForceOld: "<<qForceOld<<endl;
-        prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
-        double qForceNew = qForce(p,d);
-        //if (qForceOld != qForceNew){cout << "oh bugger" << endl;}
-        double greensFunction = exp(0.5*(qForceOld+qForceNew)*((m_D*m_dt/2)*(qForceNew-qForceOld) - dx));           // Only term special for i,j = p,d
-*/
 
         arma::mat qForceOld   = arma::zeros<arma::mat>(m_numberOfParticles, m_numberOfDimensions);
         arma::mat qForceNew   = qForceOld;
@@ -163,10 +174,10 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
 
-       if (i%100){     // Added by us.
-            cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
-            fflush(stdout);
-        }
+//       if (i%100){     // Added by us.
+//            cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
+//            fflush(stdout);
+//        }
 
         bool acceptedStep = metropolisStep();
 
@@ -177,7 +188,9 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     }
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
-    if (m_printResults){ m_sampler->printOutputToTerminal(); }
+    if (m_printResults){
+        if (m_rank==0){ m_sampler->printOutputToTerminal(); }
+    }
     if (m_storeLocalEnergy){ closeEnergyFile(); }
     if (m_storePositions){ closePositionFile(); }
 }

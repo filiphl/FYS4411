@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-//#include <mpi.h>
+#include <mpi.h>
 #include "system.h"
 #include "particle.h"
 #include "WaveFunctions/wavefunction.h"
@@ -26,24 +26,18 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 
-    //    MPI_Init (&argc, &argv);	/* starts MPI */
-    //    int rank, size;
-    //    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
-    //    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
-    //    printf( "Hello world from process %d of %d\n", rank, size );
-    //    MPI_Finalize();
+    int rank, size;
+    MPI_Init (&argc, &argv);                /* starts MPI */
+    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
+    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
 
-
-
-
-
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 6;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e6;
-    double omegaHO          = 0.01;           // Oscillator frequency.
-    double omegaZ           = 1;
-    double alpha            = 1.00338;      // Variational parameter.
-    double beta             = 0.3;          // Variational parameter.
+    int numberOfSteps       = (int) 1e5;
+    double omegaHO          = 1.;           // Oscillator frequency.
+    double omegaZ           = 1.0;
+    double alpha            = 1.00338;//0.94295;      // Variational parameter.
+    double beta             = 0.3;      // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -51,6 +45,9 @@ int main(int argc, char* argv[]) {
     double a                = 1;
 
     System* system = new System();
+    system->setRank(rank);
+    system->setSize(size);
+
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
     if (1){
@@ -82,6 +79,8 @@ int main(int argc, char* argv[]) {
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);
 
+
+    MPI_Finalize();
 
     /*
   Optimized parameters

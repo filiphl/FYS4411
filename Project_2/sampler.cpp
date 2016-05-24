@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <cmath>
 #include <vector>
+#include <mpi.h>
 #include "sampler.h"
 #include "system.h"
 #include "particle.h"
@@ -97,12 +98,13 @@ void Sampler::printOutputToTerminal() {
     std::vector<double> pa = m_system->getWaveFunction()->getParameters();
 
     cout << endl;
+    cout << " Parallel processors: "<< m_system->getSize()<<endl<<endl;
     cout << "  -- System info -- " << endl;
     cout << " Name : "<<m_system->getWaveFunction()->getName()<<endl;
-    cout << " Number of particles  : " << np << endl;
-    cout << " Number of dimensions : " << nd << endl;
-    cout << " Number of Metropolis steps run : 10^" << std::log10(ms) << endl;
-    cout << " Number of equilibration steps  : 10^" << std::log10(std::round(ms*ef)) << endl;
+    cout << " Number of particles            : " << np << endl;
+    cout << " Number of dimensions           : " << nd << endl;
+    cout << " Number of Metropolis steps run : "<<m_system->getSize()<<"*10^" << std::log10(ms) << endl;
+    cout << " Number of equilibration steps  : "<<m_system->getSize()<<"*10^" << std::log10(std::round(ms*ef)) << endl;
     cout << endl;
     cout << "  -- Wave function parameters -- " << endl;
     cout << " Number of parameters : " << p << endl;
@@ -131,6 +133,19 @@ void Sampler::computeAverages() {
         m_localAlphaDeriv = 2*(m_cumulativePsiLocalProd - m_cumulativePsiDeriv*m_energy)/(double)m_numberOfStepsSampled;
         m_localBetaDeriv  = 2*(m_cumulativePsiLocalProdBeta - m_cumulativePsiDerivBeta*m_energy)/(double)m_numberOfStepsSampled;
     }
+    double reducedEnergy         = 0;
+    double reducedVariance       = 0;
+    double reducedAcceptanceRate = 0;
+
+    MPI_Reduce(&m_energy, &reducedEnergy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&m_variance, &reducedVariance, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&m_acceptanceRate, &reducedAcceptanceRate, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    if (m_system->getRank()==0){
+        m_energy         = reducedEnergy/m_system->getSize();
+        m_variance       = reducedVariance;
+        m_acceptanceRate = reducedAcceptanceRate/m_system->getSize();
+    }
+
 }
 
 double Sampler::computeAnalyticalEnergy()
