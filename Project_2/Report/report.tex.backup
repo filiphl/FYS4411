@@ -513,24 +513,22 @@ These result infer that our slater determinants are implemented correctly.
 
 \begin{table}[H]
 	\begin{center}
-	\caption{Expectation value of the kinetic energy and potential energy for several values of $\omega$.}
-	\begin{tabularx}{0.5\textwidth}{@{}YYYY@{}}
+	\caption{Local energy computed for systems without the Jastrow factor and coulomb potential. This resembles a pure harmonic oscillator and the measurements are dead on.}
+	\begin{tabularx}{0.5\textwidth}{@{}YYY@{}}
 		\toprule
 		$\omega$& $\bk{E_K}$& $\bk{E_P}$ & $\bk{E_L}$ \\*
 		\midrule
-		0.01 & 0.0122 & 0.0969 & 0.0863\\
-		0.05 & 0.0511 & 0.2274 & 0.2769\\
-		0.1  & 0.0939 & 0.3544 & 0.4593\\
-		1.0  & 0.8983 & 2.1475 & 3.0002\\
+		0.01 & 2  & 0 & \\
+		0.05 &  & 0 & \\
+		0.1  & 28 & 0 & \\
+		1.0  & 0.89825 & 0 & 3.0002\\
 		\bottomrule
 	\end{tabularx}
 	\label{tab:varousOmega}
 	\end{center}
 \end{table}
 
-Note, though, that each of the values listed in table \ref{tab:varousOmega} are from individual runs.
-The expectation values of the kinetic, potential and total (local) energy are thus not from the same simulation, and their value might not add up perfectly as $E_L = E_K + E_P$.
-The total energy is only shown to give a sence of its magnitude.
+
 
 
 

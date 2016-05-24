@@ -36,29 +36,19 @@ int main(int argc, char* argv[]) {
 
 
 
-    //    ofstream energyFile;
-    //    energyFile.open("dataFiles/energyPlotfileN6.txt", ios::out);
-    //    int na = 20;
-    //    int nb = 20;
-
-    //    for (int ai=0; ai<=na; ai++){
-    //        for (int bi=0; bi<=nb; bi++){
-
-    //            cout << "ai: "<< ai << "    bi: " << bi << "\r";
-    //            fflush(stdout);
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e5;
-    double omegaHO          = 1.;           // Oscillator frequency.
-    double omegaZ           = 1.0;
-    double alpha            = 1.00338;//0.94295;      // Variational parameter.
-    double beta             = 0.3;      // Variational parameter.
+    int numberOfSteps       = (int) 1e6;
+    double omegaHO          = 0.01;           // Oscillator frequency.
+    double omegaZ           = 1;
+    double alpha            = 1.00338;      // Variational parameter.
+    double beta             = 0.3;          // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
-    double a                = 0;
+    double a                = 1;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
@@ -77,7 +67,7 @@ int main(int argc, char* argv[]) {
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (true);
+    system->setStorePositions               (false);
     bool   optimizing =                      false;
 
 
@@ -91,13 +81,6 @@ int main(int argc, char* argv[]) {
 
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);
-    //energyFile << system->getSampler()->getEnergy() << "    ";
-    //        }
-    //        energyFile << endl;
-    //    }
-    //    energyFile.close();
-
-
 
 
     /*
