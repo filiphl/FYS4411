@@ -49,11 +49,11 @@ def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
     plt.xlabel("Radial distance")
     plt.ylabel("Fraction of counts")
     plt.hold("on")
-   
+
     n = n/(2*pi*(bins[1:]**2-bins[:-1]**2))
     n = n/(sum(n)*bins[1]-bins[0])
-    
-    
+
+
     #n, bins, patches = plt.hist(r, bins=N, color=clr)
     #plt.hold("on")
     #plt.plot(bins[:-1], n, '--', color="#680000", linewidth=3)
@@ -131,44 +131,43 @@ def make1dHist(data):
 
 
 if __name__ == "__main__":
-	path0 = "../dataFiles/positionTBN2Se7.txt"
-	path01 = "../dataFiles/positionTBN2Se7NoJ.txt"
-	path02 = "../dataFiles/positionTBN2Se7HO.txt"
-	path1 = "../dataFiles/positionN2se5.txt"
-	path2 = "../dataFiles/positionN2se5HO"
-	path3 = "../dataFiles/positionN2se5NoJ.txt"
-	path4 = "../dataFiles/positionN2se7.txt"
-	path5 = "../dataFiles/positionN2se7HO"
-	path6 = "../dataFiles/positionN2se7NoJ"
-	path7 = "../dataFiles/positionTwoBodyN2Se6.txt"
-	path8 = "../dataFiles/positionTwoBodyN2Se6HO"
-	path9 = "../dataFiles/positionTwoBodyN2Se6NoJ"
-	path10 = "../dataFiles/positionN6Se6"
-	path11 = "../dataFiles/positionN6Se6NoJ"
-	path12 = "../dataFiles/positionN6Se6HO.txt"
+    path0 =  "../dataFiles/positionTBN2Se7.txt"
+    path01 = "../dataFiles/positionTBN2Se7NoJ.txt"
+    path02 = "../dataFiles/positionTBN2Se7HO.txt"
+    path1 = "../dataFiles/positionN2se5.txt"
+    path2 = "../dataFiles/positionN2se5HO"
+    path3 = "../dataFiles/positionN2se5NoJ.txt"
+    path4 = "../dataFiles/positionN2se7.txt"
+    path5 = "../dataFiles/positionN2se7HO"
+    path6 = "../dataFiles/positionN2se7NoJ"
+    path7 = "../dataFiles/positionTwoBodyN2Se6.txt"
+    path8 = "../dataFiles/positionTwoBodyN2Se6HO"
+    path9 = "../dataFiles/positionTwoBodyN2Se6NoJ"
+    path10 = "../dataFiles/positionN6Se6"
+    path11 = "../dataFiles/positionN6Se6NoJ"
+    path12 = "../dataFiles/positionN6Se6HO.txt"
 
 
-	positions = np.loadtxt(path0)
-	print "Done loading first file"
-	radialDistribution(positions, 100, lbl="Full Hamiltonian and Jastrow factor")
-	positions = np.loadtxt(path01)
-	print "Done loading second file"
-	radialDistribution(positions, 100, "#340068", "Full Hamiltonian and no Jastrow factor")
+    positions = np.loadtxt(path0)
+    print "Done loading first file"
+    radialDistribution(positions, 100, lbl="Full system")
+    positions = np.loadtxt(path01)
+    print "Done loading second file"
+    radialDistribution(positions, 100, "#340068", "Full system excluding Jastrow")
 
-	positions = np.loadtxt(path02)
-	print "Done loading third file"
-	radialDistribution(positions, 100, "#680000", "Harmonic oscillator and no Jastrow factor")
+    positions = np.loadtxt(path02)
+    print "Done loading third file"
+    radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
 
-	plt.figure(2)
-	plt.legend()
-	#plt.ylim([0,1])
-	plt.show()
-        
-        plt.figure(3)
-        plt.legend()
-        plt.show()
+    plt.figure(2)
+    plt.legend()
 
-    
+    plt.figure(3)
+    plt.legend()
+
+    plt.show()
+
+
 
     #make1dHist(data)
     #data = loadCube(positions)

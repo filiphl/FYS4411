@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
-    double a                = 0;
+    double a                = 1;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
@@ -78,8 +78,8 @@ int main(int argc, char* argv[]) {
         system->getWaveFunction()->setBeta(myOptimizer->getBeta());
     }
 
-    system->setPrintResults                 (true);
     system->setStorePositions               (true);
+    system->setPrintResults                 (true);
     system->setPrintProgress                (true);
     system->runMetropolisSteps              (numberOfSteps);
 
