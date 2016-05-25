@@ -11,7 +11,7 @@ void System::setImportanceSampling(bool value)
 void System::setStoreLocalEnergy(bool value)
 {
     m_storeLocalEnergy = value;
-//    openEnergyFile();
+    //    openEnergyFile();
 }
 
 bool System::getAnalyticalLaplacian() const
@@ -75,13 +75,23 @@ void System::setPrintResults(bool printResults)
     m_printResults = printResults;
 }
 
+bool System::getPrintProgress() const
+{
+    return m_printProgress;
+}
+
+void System::setPrintProgress(bool printProgress)
+{
+    m_printProgress = printProgress;
+}
+
 bool System::metropolisStep() {
 
     int p = Random::nextInt(m_numberOfParticles);     // Random particle
     int d = Random::nextInt(m_numberOfDimensions);    // Random dimension
 
     if (m_importanceSampling){
-/*
+        /*
         double qForceOld = qForce(p,d);
         dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld*m_dt); // sqrt(2*m_D*m_dt), but m_D=0.5.
         //cout <<"m_D: "<< m_D<< "    m_dt: " << m_dt<< " dx: "<<dx<< "qForceOld: "<<qForceOld<<endl;
@@ -103,7 +113,7 @@ bool System::metropolisStep() {
 
         //dx = (Random::nextGaussian(0,sqrt(m_dt)) + m_D*qForceOld(p,d)*m_dt);
         dx = (gaussianImp(my_generator) + m_D*qForceOld(p,d)*m_dt);
-//        cout << dx<<endl;
+        //        cout << dx<<endl;
         prob = m_waveFunction->computeRatio(m_particles, p, d, dx);
 
         double exponent = 0;
@@ -111,10 +121,10 @@ bool System::metropolisStep() {
             for (int j=0; j<m_numberOfDimensions; j++){
                 qForceNew(i,j) = qForce(i,j);
                 double term1 = - (oldPos(i,j) - m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceNew(i,j))
-                                *(oldPos(i,j) - m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceNew(i,j));
+                        *(oldPos(i,j) - m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceNew(i,j));
 
                 double term2 =   (- oldPos(i,j) + m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceOld(i,j))
-                                *(- oldPos(i,j) + m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceOld(i,j));
+                        *(- oldPos(i,j) + m_particles[i]->getNewPosition()[j] - m_D*m_dt*qForceOld(i,j));
                 exponent += term1 + term2;
             }
         }
@@ -165,10 +175,11 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     my_generator.seed(seed);
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
-
-       if (i%100){     // Added by us.
-            cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
-            fflush(stdout);
+        if (m_printProgress){
+            if (i%100){     // Added by us.
+                cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
+                fflush(stdout);
+            }
         }
 
         bool acceptedStep = metropolisStep();

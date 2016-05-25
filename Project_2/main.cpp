@@ -79,7 +79,8 @@ int main(int argc, char* argv[]) {
     }
 
     system->setPrintResults                 (true);
-    system->setStorePositions               (true);
+    system->setStorePositions               (false);
+    system->setPrintProgress                (false);
     system->runMetropolisSteps              (numberOfSteps);
 
  /* N2NoJ
