@@ -42,7 +42,12 @@ def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
     print "Done filling vec"
     Weights = np.ones_like(r)/float(len(r))
     plt.figure(1)
-    n, bins, patches = plt.hist(r, bins=N, color=clr)
+    n, bins, patches = plt.hist(r, bins=N, normed=1, weights=Weights, color=clr)
+    n = n/(2*pi*(bins[1:]**2-bins[:-1]**2))
+    n = n/(sum(n)*bins[1]-bins[0])
+    
+    
+    #n, bins, patches = plt.hist(r, bins=N, color=clr)
     #plt.hold("on")
     #plt.plot(bins[:-1], n, '--', color="#680000", linewidth=3)
 
@@ -51,7 +56,6 @@ def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
     #plt.grid("on")
     #plt.show()
     print type(bins)
-    n = n/(4*pi*(bins[1:]**3-bins[:-1]**3)/3)
     plt.figure(2)
     plt.plot(bins[:-1], n, '-', color=clr, linewidth=2, label=lbl)
     plt.grid("on")
@@ -121,7 +125,7 @@ def make1dHist(data):
 
 
 if __name__ == "__main__":
-	path0 = "../dataFiles/positionN2Se6.txt"
+	path0 = "../dataFiles/positionTBN2Se6.txt"
 	path1 = "../dataFiles/positionN2se5.txt"
 	path2 = "../dataFiles/positionN2se5HO"
 	path3 = "../dataFiles/positionN2se5NoJ.txt"
@@ -139,7 +143,7 @@ if __name__ == "__main__":
 
 	positions = np.loadtxt(path0)
 	print "Done loading first file"
-	radialDistribution(positions, 100, lbl="Including all interactions")
+	radialDistribution(positions, 100, lbl="Full Hamiltonian and Jastrow factor")
 	plt.figure(2)
 	plt.legend()
 	#plt.ylim([0,1])
@@ -147,11 +151,11 @@ if __name__ == "__main__":
 """
     positions = np.loadtxt(path11)
     print "Done loading second file"
-    radialDistribution(positions, 100, "#340068", "Excluding Jastrow factor")
+    radialDistribution(positions, 100, "#340068", "Full Hamiltonian and no Jastrow factor")
 
     positions = np.loadtxt(path12)
     print "Done loading third file"
-    radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
+    radialDistribution(positions, 100, "#680000", "Harmonic oscillator and no Jastrow factor")
 """
 
 

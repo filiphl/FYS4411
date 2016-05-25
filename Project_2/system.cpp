@@ -176,7 +176,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
         if (m_printProgress){
-            if (i%100){     // Added by us.
+            if (i%100==0){     // Added by us.
                 cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
                 fflush(stdout);
             }
@@ -222,7 +222,7 @@ void System::openPositionFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_oldPositionFileName);
     //system(cmd);
-    sprintf(m_oldPositionFileName, "dataFiles/positionN%dSe%d.txt", m_numberOfParticles, (int) log10(m_numberOfMetropolisSteps));
+    sprintf(m_oldPositionFileName, "dataFiles/positionTBN%dSe%d.txt", m_numberOfParticles, (int) log10(m_numberOfMetropolisSteps));
     m_oldPositionFile.open(m_oldPositionFileName, ios::out);
 }
 
