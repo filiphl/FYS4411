@@ -1,0 +1,317 @@
+ /* N2NoJ
+ Alpha :      0.9507004936
+ Beta  :      0.3
+ omega :      1
+ */
+
+ /* N2HO
+ Alpha :      1.003164596
+ Beta  :      0.3
+ omega :      1
+ */
+
+/*
+  -- System info --
+ Name : Two body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 5
+ Alpha :      0.9752158849
+ Beta  :      0.2069701809
+ Omega :      0.01
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 0.086503
+ Variance        : 7.2482e-10
+ Acceptance rate : 0.996008
+*/
+
+/*
+  -- System info --
+ Name : Two body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 5
+ Alpha :      0.9727630744
+ Beta  :      0.2058671616
+ Omega :      0.05
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 0.26258
+ Variance        : 7.9793e-10
+ Acceptance rate : 0.989069
+*/
+
+/*
+  -- System info --
+ Name : Two body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 5
+ Alpha :      0.970690641
+ Beta  :      0.1685239437
+ Omega :      0.1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 0.44038
+ Variance        : 3.6799e-10
+ Acceptance rate : 0.981673
+*/
+
+/*
+  -- System info --
+ Name : Two body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 5
+ Alpha :      0.9895205503
+ Beta  :      0.3028075547
+ Omega :      0.5
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 1.6596
+ Variance        : 1.4842e-09
+ Acceptance rate : 0.971812
+*/
+
+/*
+  -- System info --
+ Name : Two body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 5
+ Alpha :      0.9929925274
+ Beta  :      0.3836931631
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 3.0009
+ Variance        : 2.3072e-09
+ Acceptance rate : 0.964011
+*/
+
+/*    
+  -- System info -- 
+ Name : Many body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters -- 
+ Number of parameters : 4
+ Alpha :      0.9979194029
+ Beta  :      0.3
+ Omega :      0.01
+ a     :      0.01
+
+  ----- Reults -----
+ Energy          : 0.090478                 
+ Variance        : 1.2916e-09
+ Acceptance rate : 0.999989
+*/
+  
+/*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      0.9943077243
+ Beta  :      0.3
+ Omega :      0.05
+ a     :      0.05
+
+  ----- Reults -----
+ Energy          : 0.27836
+ Variance        : 3.0621e-09
+ Acceptance rate : 0.999957
+*/
+
+/*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      1.000162828
+ Beta  :      0.3
+ Omega :      0.1
+ a     :      0.1
+
+  ----- Reults -----
+ Energy          : 0.456
+ Variance        : 4.0993e-09
+ Acceptance rate : 0.999919
+*/
+
+/*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      1.003396123
+ Beta  :      0.3
+ Omega :      0.5
+ a     :      0.5
+
+  ----- Reults -----
+ Energy          : 1.6626
+ Variance        : 1.6403e-09
+ Acceptance rate : 0.999581
+*/
+
+
+    /*
+  Optimized parameters
+
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      1.00338
+ Beta  :      0.3
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 2.9977
+ Variance        : 1.6587e-08
+ Acceptance rate : 0.999214
+
+
+
+
+
+
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 6
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      1.026740104
+ Beta  :      0.4
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 20.19
+ Variance        : 2.1611e-07
+ Acceptance rate : 0.998167
+
+*/
+
+
+
+ /*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 12
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      0.9
+ Beta  :      0.5
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 65.878
+ Variance        : 7.4929e-07
+ Acceptance rate : 0.996098
+
+*/
+
+
+/*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 20
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      0.9
+ Beta  :      0.5
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 155.9
+ Variance        : 1.7264e-06
+ Acceptance rate : 0.992662
+*/
+
+
+/*
+  -- System info --
+ Name : Two body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 5
+ Alpha :      0.97
+ Beta  :      0.43
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 3.0006
+ Variance        : 2.0239e-09
+ Acceptance rate : 0.96536
+*/
