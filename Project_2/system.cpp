@@ -11,7 +11,7 @@ void System::setImportanceSampling(bool value)
 void System::setStoreLocalEnergy(bool value)
 {
     m_storeLocalEnergy = value;
-    openEnergyFile();
+//    openEnergyFile();
 }
 
 bool System::getAnalyticalLaplacian() const
@@ -47,7 +47,7 @@ bool System::getStorePositions() const
 void System::setStorePositions(bool storePositions)
 {
     m_storePositions = storePositions;
-    openPositionFile();
+    //openPositionFile();
 }
 
 double System::getDerivativeStep() const
@@ -155,6 +155,9 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     m_numberOfMetropolisSteps   = numberOfMetropolisSteps;
     m_sampler->setNumberOfMetropolisSteps(numberOfMetropolisSteps);
 
+    if (m_storePositions)   { openPositionFile(); }
+    if (m_storeLocalEnergy) { openEnergyFile();   }
+
     unsigned seed;
 
     clock::duration d = clock::now() - my_start;
@@ -177,9 +180,10 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
     }
     m_sampler->computeAverages();
     m_sampler->computeAnalyticalEnergy();
-    if (m_printResults){ m_sampler->printOutputToTerminal(); }
+
+    if (m_printResults)    { m_sampler->printOutputToTerminal(); }
+    if (m_storePositions)  { closePositionFile(); }
     if (m_storeLocalEnergy){ closeEnergyFile(); }
-    if (m_storePositions){ closePositionFile(); }
 }
 
 
@@ -196,6 +200,8 @@ void System::openEnergyFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_energyFileName);
     //system(cmd);
+    sprintf(m_energyFileName, "dataFiles/localenergiesN%dSe%d.txt", m_numberOfParticles, (int) log10(m_numberOfMetropolisSteps));
+    ;
     m_energyFile.open(m_energyFileName, ios::out);
 }
 
@@ -205,18 +211,21 @@ void System::openPositionFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_oldPositionFileName);
     //system(cmd);
+    sprintf(m_oldPositionFileName, "dataFiles/positionN%dSe%d.txt", m_numberOfParticles, (int) log10(m_numberOfMetropolisSteps));
     m_oldPositionFile.open(m_oldPositionFileName, ios::out);
 }
 
 
 void System::closeEnergyFile()
 {
+    cout << "Energies stored in "<< m_storeLocalEnergy << endl;
     m_energyFile.close();
 }
 
 
 void System::closePositionFile()
 {
+    cout << "Positions stored in "<< m_oldPositionFileName << endl;
     m_oldPositionFile.close();
 }
 

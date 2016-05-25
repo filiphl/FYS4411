@@ -122,23 +122,30 @@ if __name__ == "__main__":
     path1 = "../dataFiles/positionN2se5.txt"
     path2 = "../dataFiles/positionN2se5HO.txt"
     path3 = "../dataFiles/positionN2se5NoJ.txt"
+
     path4 = "../dataFiles/positionN2se7.txt"
     path5 = "../dataFiles/positionN2se7HO.txt"
     path6 = "../dataFiles/positionN2se7NoJ.txt"
 
+    path7 = "../dataFiles/positionTwoBodyN2Se6.txt"
+    path8 = "../dataFiles/positionTwoBodyN2Se6HO.txt"
+    path9 = "../dataFiles/positionTwoBodyN2Se6NoJ.txt"
+
+    path10 = "../dataFiles/positionN6Se6.txt"
+    path11 = "../dataFiles/positionN6Se6NoJ.txt"
+    path12 = "../dataFiles/positionN6Se6HO.txt"
 
 
 
-
-    positions = np.loadtxt(path4)
+    positions = np.loadtxt(path10)
     print "Done loading first file"
     radialDistribution(positions, 100, lbl="Including all interactions")
 
-    positions = np.loadtxt(path5)
+    positions = np.loadtxt(path11)
     print "Done loading second file"
     radialDistribution(positions, 100, "#340068", "Excluding Jastrow factor")
 
-    positions = np.loadtxt(path6)
+    positions = np.loadtxt(path12)
     print "Done loading third file"
     radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
 

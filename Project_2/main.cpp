@@ -37,13 +37,13 @@ int main(int argc, char* argv[]) {
 
 
 
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 20;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e6;
-    double omegaHO          = 0.01;           // Oscillator frequency.
+    double omegaHO          = 1;           // Oscillator frequency.
     double omegaZ           = 1;
-    double alpha            = 1.00338;      // Variational parameter.
-    double beta             = 0.3;          // Variational parameter.
+    double alpha            = 1;      // Variational parameter.
+    double beta             = 0.5;          // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -67,7 +67,6 @@ int main(int argc, char* argv[]) {
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (false);
     bool   optimizing =                      false;
 
 
@@ -80,6 +79,7 @@ int main(int argc, char* argv[]) {
     }
 
     system->setPrintResults                 (true);
+    system->setStorePositions               (true);
     system->runMetropolisSteps              (numberOfSteps);
 
 
@@ -133,6 +133,71 @@ int main(int argc, char* argv[]) {
 
 
 
+ /*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 12
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      0.9
+ Beta  :      0.5
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 65.878
+ Variance        : 7.4929e-07
+ Acceptance rate : 0.996098
+
+*/
+
+
+/*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 20
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      0.9
+ Beta  :      0.5
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 155.9
+ Variance        : 1.7264e-06
+ Acceptance rate : 0.992662
+*/
+
+
+/*
+  -- System info --
+ Name : Two body quantum dot
+ Number of particles  : 2
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 5
+ Alpha :      0.97
+ Beta  :      0.43
+ Omega :      1
+ a     :      1
+
+  ----- Reults -----
+ Energy          : 3.0006
+ Variance        : 2.0239e-09
+ Acceptance rate : 0.96536
+*/
 
 
     return 0;

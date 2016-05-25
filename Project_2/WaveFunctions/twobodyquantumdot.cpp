@@ -147,7 +147,10 @@ void TwoBodyQuantumDot::updateSlater(int i)
 
 void TwoBodyQuantumDot::printParameters()
 {
-
+    cout << " Alpha :      "<< m_alpha<<endl;
+    cout << " Beta  :      "<< m_beta <<endl;
+    cout << " Omega :      "<< m_omega<<endl;
+    cout << " a     :      "<< m_a    <<endl;
 }
 
 

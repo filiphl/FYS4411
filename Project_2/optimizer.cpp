@@ -11,7 +11,7 @@ Optimizer::Optimizer(System *system, double alpha, double beta)
 
 void Optimizer::optimizeParameters()
 {
-    int nSteps = 5e4;
+    int nSteps = 1e6;
     m_system->getWaveFunction()->setAlpha(m_alpha);
     m_system->getWaveFunction()->setBeta(m_beta);
 
@@ -48,10 +48,10 @@ void Optimizer::optimizeParameters()
 
         if (m_dBeta*m_dBeta + m_dAlpha*m_dAlpha > m_dBetaOld*m_dBetaOld + m_dAlphaOld*m_dAlphaOld){   //
             if (m_dAlpha*m_dAlpha > m_dAlphaOld*m_dAlphaOld){
-                m_steplength *= 0.8;
+                m_steplength *= 0.7;
             }
             if (m_dBeta*m_dBeta > m_dBetaOld*m_dBetaOld){
-                m_steplengthBeta *= 0.8;
+                m_steplengthBeta *= 0.7;
             }
             m_dAlpha = m_dAlphaOld;
             m_dBeta  = m_dBetaOld;

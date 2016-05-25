@@ -1,4 +1,5 @@
 #pragma once
+#include <stdio.h>
 #include <fstream>
 #include <vector>
 #include <cmath>
@@ -9,6 +10,7 @@
 #include "Hamiltonians/hamiltonian.h"
 #include "InitialStates/initialstate.h"
 #include "Math/random.h"
+#include <math.h>
 #include <iostream>
 #include <iomanip>
 #include "slater.h"
@@ -20,12 +22,14 @@ using namespace std;
 
 class System {
 private:
-    double                          m_D = 0.5;  //h2/2m. Added by us.
+    int                             m_rank;
+    int                             m_size;
     int                             m_numberOfParticles = 0;
     int                             m_numberOfDimensions = 0;
     int                             m_numberOfMetropolisSteps = 0;
     double                          m_equilibrationFraction = 0.0;
     double                          m_stepLength = 1;
+    double                          m_D = 0.5;  //h2/2m. Added by us.
     double                          m_dt = 0.005;     // Added by us.
     double                          m_derivativeStep = 1e-6;
     class WaveFunction*             m_waveFunction = nullptr;
@@ -72,8 +76,9 @@ public:
     void openPositionFile();
     void closeEnergyFile();
     void closePositionFile();
-    const char* m_energyFileName   = "dataFiles/localenergies.txt";
-    const char* m_oldPositionFileName = "dataFiles/positionN2se5NoJ.txt";
+    char m_energyFileName[50];
+    char m_oldPositionFileName[50];
+
     ofstream m_energyFile;
     ofstream m_oldPositionFile;
 
@@ -99,5 +104,9 @@ public:
     std::mt19937 my_generator;
     bool getPrintResults() const;
     void setPrintResults(bool printResults);
+    int getRank() const;
+    void setRank(int rank);
+    int getSize() const;
+    void setSize(int size);
 };
 
