@@ -42,8 +42,8 @@ private:
     bool m_storeLocalEnergy           = false;
     bool m_storePositions             = false;
     bool m_optimizingParameters       = false;
-    bool m_printResults               = true;
-
+    bool m_printResults               = false;
+    bool m_printProgress              = false;
     double prob                       = 0;
     double mynt                       = 0;
     double dx                         = 0;
@@ -105,5 +105,7 @@ public:
     void setRank(int rank);
     int getSize() const;
     void setSize(int size);
+    bool getPrintProgress() const;
+    void setPrintProgress(bool printProgress);
 };
 

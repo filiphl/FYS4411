@@ -77,8 +77,8 @@ int main(int argc, char* argv[]) {
     }
 
     system->setPrintResults                 (true);
+    system->setPrintProgress                (true);
     system->runMetropolisSteps              (numberOfSteps);
-
 
     MPI_Finalize();
 
