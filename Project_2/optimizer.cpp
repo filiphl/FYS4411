@@ -11,7 +11,7 @@ Optimizer::Optimizer(System *system, double alpha, double beta)
 
 void Optimizer::optimizeParameters()
 {
-    int nSteps = 1e5;
+    int nSteps = 1e6;
     m_system->getWaveFunction()->setAlpha(m_alpha);
     m_system->getWaveFunction()->setBeta(m_beta);
 

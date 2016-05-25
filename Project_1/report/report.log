@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  22 MAY 2016 14:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  25 MAY 2016 22:38
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1042,10 +1042,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 443--446
 [6]
 \openout3 = `report.pyg'.
 
-runsystem(pygmentize -l c++ -f latex -F tokenmerge -P style=default -P commandp
-refix=PYGdefault -o "_minted-report/0FF7306871C029FC418CBAADFAD1812C34A91AE9283
-CA91453BD2DF8B01278AC.pygtex" "report.pyg" )...executed.
-
 
 (./_minted-report/0FF7306871C029FC418CBAADFAD1812C34A91AE9283CA91453BD2DF8B0127
 8AC.pygtex)
@@ -1060,10 +1056,6 @@ Underfull \hbox (badness 10000) in alignment at lines 541--541
 
 \openout3 = `report.pyg'.
 
-runsystem(pygmentize -l c++ -f latex -F tokenmerge -P style=default -P commandp
-refix=PYGdefault -o "_minted-report/A0D4E8ADE52DD1CA7FDD167C78CBDBA334A91AE9283
-CA91453BD2DF8B01278AC.pygtex" "report.pyg" )...executed.
-
 
 (./_minted-report/A0D4E8ADE52DD1CA7FDD167C78CBDBA334A91AE9283CA91453BD2DF8B0127
 8AC.pygtex
@@ -1071,10 +1063,6 @@ LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 2.
 )
 \openout3 = `report.pyg'.
-
-runsystem(pygmentize -l c++ -f latex -F tokenmerge -P style=default -P commandp
-refix=PYGdefault -o "_minted-report/E10FA2A72E65901100661E52BAC8DE6134A91AE9283
-CA91453BD2DF8B01278AC.pygtex" "report.pyg" )...executed.
 
 
 (./_minted-report/E10FA2A72E65901100661E52BAC8DE6134A91AE9283CA91453BD2DF8B0127
@@ -1285,7 +1273,7 @@ uper/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></
 usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/font
 s/type1/public/cm-super/sftt0800.pfb></usr/share/texmf/fonts/type1/public/cm-su
 per/sftt1000.pfb>
-Output written on report.pdf (16 pages, 2618741 bytes).
+Output written on report.pdf (16 pages, 2618973 bytes).
 PDF statistics:
  486 PDF objects out of 1000 (max. 8388607)
  393 compressed objects within 4 object streams

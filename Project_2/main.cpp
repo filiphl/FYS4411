@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
-    bool   optimizing =                      false;
+    bool   optimizing =                      true;
 
 
     if (optimizing){
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
         system->getWaveFunction()->setBeta(myOptimizer->getBeta());
     }
 
-    system->setStorePositions               (true);
+    system->setStorePositions               (false);
     system->setPrintResults                 (true);
     system->setPrintProgress                (true);
     system->runMetropolisSteps              (numberOfSteps);
