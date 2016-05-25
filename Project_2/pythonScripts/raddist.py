@@ -4,7 +4,7 @@ I run it as python raddist.py -toolkit wx
 """
 import sys, os, numpy as np
 
-from math import sqrt
+from math import sqrt, pi
 #from mayavi import mlab
 import matplotlib.pyplot as plt
 #from pylab import *
@@ -42,7 +42,7 @@ def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
     print "Done filling vec"
     Weights = np.ones_like(r)/float(len(r))
     plt.figure(1)
-    n, bins, patches = plt.hist(r, bins=N,normed=1, weights=Weights, color=clr)
+    n, bins, patches = plt.hist(r, bins=N, color=clr)
     #plt.hold("on")
     #plt.plot(bins[:-1], n, '--', color="#680000", linewidth=3)
 
@@ -50,6 +50,8 @@ def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
     #plt.ylabel("Probability")
     #plt.grid("on")
     #plt.show()
+    print type(bins)
+    n = n/(4*pi*(bins[1:]**3-bins[:-1]**3)/3)
     plt.figure(2)
     plt.plot(bins[:-1], n, '-', color=clr, linewidth=2, label=lbl)
     plt.grid("on")
@@ -119,28 +121,30 @@ def make1dHist(data):
 
 
 if __name__ == "__main__":
-    path1 = "../dataFiles/positionN2se5.txt"
-    path2 = "../dataFiles/positionN2se5HO.txt"
-    path3 = "../dataFiles/positionN2se5NoJ.txt"
-
-    path4 = "../dataFiles/positionN2se7.txt"
-    path5 = "../dataFiles/positionN2se7HO.txt"
-    path6 = "../dataFiles/positionN2se7NoJ.txt"
-
-    path7 = "../dataFiles/positionTwoBodyN2Se6.txt"
-    path8 = "../dataFiles/positionTwoBodyN2Se6HO.txt"
-    path9 = "../dataFiles/positionTwoBodyN2Se6NoJ.txt"
-
-    path10 = "../dataFiles/positionN6Se6.txt"
-    path11 = "../dataFiles/positionN6Se6NoJ.txt"
-    path12 = "../dataFiles/positionN6Se6HO.txt"
+	path0 = "../dataFiles/positionN2Se6.txt"
+	path1 = "../dataFiles/positionN2se5.txt"
+	path2 = "../dataFiles/positionN2se5HO"
+	path3 = "../dataFiles/positionN2se5NoJ.txt"
+	path4 = "../dataFiles/positionN2se7.txt"
+	path5 = "../dataFiles/positionN2se7HO"
+	path6 = "../dataFiles/positionN2se7NoJ"
+	path7 = "../dataFiles/positionTwoBodyN2Se6.txt"
+	path8 = "../dataFiles/positionTwoBodyN2Se6HO"
+	path9 = "../dataFiles/positionTwoBodyN2Se6NoJ"
+	path10 = "../dataFiles/positionN6Se6"
+	path11 = "../dataFiles/positionN6Se6NoJ"
+	path12 = "../dataFiles/positionN6Se6HO.txt"
 
 
 
-    positions = np.loadtxt(path10)
-    print "Done loading first file"
-    radialDistribution(positions, 100, lbl="Including all interactions")
-
+	positions = np.loadtxt(path0)
+	print "Done loading first file"
+	radialDistribution(positions, 100, lbl="Including all interactions")
+	plt.figure(2)
+	plt.legend()
+	#plt.ylim([0,1])
+	plt.show()
+"""
     positions = np.loadtxt(path11)
     print "Done loading second file"
     radialDistribution(positions, 100, "#340068", "Excluding Jastrow factor")
@@ -148,13 +152,10 @@ if __name__ == "__main__":
     positions = np.loadtxt(path12)
     print "Done loading third file"
     radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
+"""
 
 
-
-    plt.figure(2)
-    plt.legend()
-    plt.ylim([0,1])
-    plt.show()
+    
 
     #make1dHist(data)
     #data = loadCube(positions)
@@ -176,4 +177,4 @@ if __name__ == "__main__":
     #plt.xlabel('Distance [a.u]')
     #plt.ylabel('Probability')
     #plt.legend(['with correlations', 'without correlations, alpha=10', 'without correlations, alpha=7.81', 'with correlations, alpha=10, beta=0.104'])
-    plt.show()
+    #plt.show()

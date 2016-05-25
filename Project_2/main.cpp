@@ -37,13 +37,13 @@ int main(int argc, char* argv[]) {
 
 
 
-    int numberOfParticles   = 20;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e6;
     double omegaHO          = 1;           // Oscillator frequency.
     double omegaZ           = 1;
-    double alpha            = 1;      // Variational parameter.
-    double beta             = 0.5;          // Variational parameter.
+    double alpha            = 1.00338;      // Variational parameter.
+    double beta             = 0.3;          // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -81,6 +81,20 @@ int main(int argc, char* argv[]) {
     system->setPrintResults                 (true);
     system->setStorePositions               (true);
     system->runMetropolisSteps              (numberOfSteps);
+
+ /* N2NoJ
+ Alpha :      0.9507004936
+ Beta  :      0.3
+ omega :      1
+ */
+
+ /* N2HO
+ Alpha :      1.003164596
+ Beta  :      0.3
+ omega :      1
+ */
+
+
 
 
     /*
