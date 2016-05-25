@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
     MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
 
-    int numberOfParticles   = 6;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e5;
     double omegaHO          = 1.;           // Oscillator frequency.
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
-    bool   optimizing =                      false;
+    bool   optimizing =                      true;
 
 
     if (optimizing){

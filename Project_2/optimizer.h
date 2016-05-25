@@ -8,6 +8,7 @@ class Optimizer
 private:
     System* m_system           = nullptr;
 
+    int    m_numberOfSteps     = 0;
     double m_energy            = 0;
     double m_energyOld         = 0;
     double m_steplength        = 0.5;
@@ -21,7 +22,8 @@ private:
     double m_dAlphaOld         = 0;
     double m_dBeta             = 0;
     double m_dBetaOld          = 0;
-    int    m_numberOfSteps     = 0;
+    double m_dAlphaAvg         = 0;
+    double m_dBetaAvg          = 0;
 
 public:
     Optimizer(System* system, double alpha, double beta);

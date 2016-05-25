@@ -1,5 +1,5 @@
 #include "optimizer.h"
-
+#include <mpi.h>
 
 Optimizer::Optimizer(System *system, double alpha, double beta)
 {
@@ -11,7 +11,7 @@ Optimizer::Optimizer(System *system, double alpha, double beta)
 
 void Optimizer::optimizeParameters()
 {
-    int nSteps = 5e4;
+    int nSteps = 1e3;
     m_system->getWaveFunction()->setAlpha(m_alpha);
     m_system->getWaveFunction()->setBeta(m_beta);
 
@@ -40,6 +40,19 @@ void Optimizer::optimizeParameters()
 
         m_dAlpha = m_system->getSampler()->getLocalAlphaDeriv();
         m_dBeta  = m_system->getSampler()->getLocalBetaDeriv();
+
+//        cout << "rank: "<<m_system->getRank()<< "    dAlpha: "<<m_dAlpha<<"     dBeta: "<< m_dBeta <<endl;
+        MPI_Reduce(&m_dAlpha, &m_dAlphaAvg, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&m_dBeta, &m_dBetaAvg,   1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        if (m_system->getRank()==0){
+            m_dAlpha = m_dAlphaAvg/m_system->getSize();
+            m_dBeta  = m_dBetaAvg/m_system->getSize();
+        }
+        MPI_Bcast(&m_dAlpha, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        MPI_Bcast(&m_dBeta,  1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+//        cout << "rank: "<<m_system->getRank()<< "    dAlpha: "<<m_dAlpha<<"     dBeta: "<< m_dBeta <<endl;
+
+
         m_system->getSampler()->setStepNumber(0);
 
 
@@ -70,6 +83,7 @@ void Optimizer::optimizeParameters()
                 return;
             }
         }
+        /*
         cout << "alpha                        : " << setprecision(10) << m_alpha << endl;
         cout << "beta                         : " << setprecision(10) << m_beta  << endl;
         cout << "Derivative step length       : " << m_steplength << endl;
@@ -77,6 +91,7 @@ void Optimizer::optimizeParameters()
         cout << "Alpha derivative             : " << m_dAlpha << endl;
         cout << "Beta derivative              : " << m_dBeta  << endl;
         cout << "Energy                       : " << m_system->getSampler()->getEnergy()<<endl<<endl;
+*/
         m_system->getSampler()->reset();
     }
 }

@@ -51,11 +51,11 @@ HEADERS += \
     Hamiltonians/manybodyquantumdothamiltonian.h
 
 INCLUDEPATH += /usr/include/openmpi-x86_64
-QMAKE_CXX = /usr/bin/mpicxx #/usr/lib64/openmpi/bin/mpicxx #mpicxx
+QMAKE_CXX = /usr/lib64/openmpi/bin/mpicxx #mpicxx #/usr/bin/mpicxx #
 QMAKE_CXX_RELEASE = $$QMAKE_CXX
 QMAKE_CXX_DEBUG = $$QMAKE_CXX
 QMAKE_LINK = $$QMAKE_CXX
-QMAKE_CC = /usr/bin/mpicxx #/usr/lib64/openmpi/bin/mpicc #mpicc
+QMAKE_CC = /usr/lib64/openmpi/bin/mpicc #mpicc #/usr/bin/mpicxx
 
 QMAKE_CFLAGS += $$system(mpicc --showme:compile)
 QMAKE_LFLAGS += $$system(mpicxx --showme:link)
