@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e5;
+    int numberOfSteps       = (int) 1e6;
     double omegaHO          = 1.;           // Oscillator frequency.
     double omegaZ           = 1.0;
     double alpha            = 1.00338;//0.94295;      // Variational parameter.
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
-    bool   optimizing =                      true;
+    bool   optimizing =                      false;
 
 
     if (optimizing){

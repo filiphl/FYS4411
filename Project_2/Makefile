@@ -10,12 +10,12 @@ MAKEFILE      = Makefile
 
 ####### Compiler, tools and options
 
-CC            = /usr/lib64/openmpi/bin/mpicc
-CXX           = /usr/lib64/openmpi/bin/mpicxx
+CC            = mpicc
+CXX           = mpicxx
 DEFINES       = 
 CFLAGS        = -pipe -O2 -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++11 -DMPICH_IGNORE_CXX_SEEK -O2 -DMPICH_IGNORE_CXX_SEEK -std=c++0x -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -I/usr/include/openmpi-x86_64 -I/site/Qt/5.5/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -I/site/Qt/5.5/gcc_64/mkspecs/linux-g++
 QMAKE         = /site/Qt/5.5/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -34,7 +34,7 @@ TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = variational-monte-carlo-fys44111.0.0
 DISTDIR = /uio/hume/student-u63/filiphl/Desktop/FYS4411/Project_2/.tmp/variational-monte-carlo-fys44111.0.0
-LINK          = /usr/lib64/openmpi/bin/mpicxx
+LINK          = mpicxx
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/site/Qt/5.5/gcc_64
 LIBS          = $(SUBLIBS) -larmadillo -lblas -llapack 
 AR            = ar cqs
@@ -578,40 +578,7 @@ compiler_clean:
 
 ####### Compile
 
-main.o: main.cpp /usr/include/openmpi-x86_64/mpi.h \
-		/usr/include/openmpi-x86_64/mpi_portable_platform.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/mpicxx.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/constants.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/functions.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/datatype.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/exception.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/op.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/status.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/request.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/group.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/comm.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/win.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/file.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/errhandler.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intracomm.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/topology.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intercomm.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/info.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/datatype_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/functions_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/request_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/comm_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intracomm_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/topology_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intercomm_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/group_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/op_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/errhandler_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/status_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/info_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/win_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/file_inln.h \
-		system.h \
+main.o: main.cpp system.h \
 		sampler.h \
 		particle.h \
 		WaveFunctions/wavefunction.h \
@@ -694,40 +661,7 @@ randomuniform.o: InitialStates/randomuniform.cpp InitialStates/randomuniform.h \
 random.o: Math/random.cpp Math/random.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o random.o Math/random.cpp
 
-sampler.o: sampler.cpp /usr/include/openmpi-x86_64/mpi.h \
-		/usr/include/openmpi-x86_64/mpi_portable_platform.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/mpicxx.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/constants.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/functions.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/datatype.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/exception.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/op.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/status.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/request.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/group.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/comm.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/win.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/file.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/errhandler.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intracomm.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/topology.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intercomm.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/info.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/datatype_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/functions_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/request_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/comm_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intracomm_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/topology_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/intercomm_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/group_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/op_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/errhandler_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/status_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/info_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/win_inln.h \
-		/usr/include/openmpi-x86_64/openmpi/ompi/mpi/cxx/file_inln.h \
-		sampler.h \
+sampler.o: sampler.cpp sampler.h \
 		system.h \
 		particle.h \
 		WaveFunctions/wavefunction.h \
