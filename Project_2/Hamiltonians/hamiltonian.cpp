@@ -18,4 +18,3 @@ double Hamiltonian::computeKineticEnergy(std::vector<Particle*> particles)
     }
     return kineticEnergy;
 }
-

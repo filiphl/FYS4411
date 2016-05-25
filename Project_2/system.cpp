@@ -85,6 +85,11 @@ void System::setPrintProgress(bool printProgress)
     m_printProgress = printProgress;
 }
 
+double System::getR12Mean() const
+{
+    return m_r12Mean;
+}
+
 bool System::metropolisStep() {
 
     int p = Random::nextInt(m_numberOfParticles);     // Random particle
@@ -145,14 +150,27 @@ bool System::metropolisStep() {
 
 
     double mynt = Random::nextDouble();              // Uniform [0,1]
-
+    double r12 = 0;
     if (mynt < prob){ // Accept.
         m_particles[p]->adjustOldPosition(dx, d);
         m_waveFunction->updateSlater(p);
+        for (int i=0; i<m_numberOfDimensions; i++){
+            r12 += (m_particles[0]->getNewPosition()[i]-m_particles[1]->getNewPosition()[i])*
+                   (m_particles[0]->getNewPosition()[i]-m_particles[1]->getNewPosition()[i]);
+        }
+
+        m_r12Mean += sqrt(r12);
         return true; }
 
     else {            // Reject.
         m_waveFunction->computeRatio(m_particles, p, d, -dx); //resets positions, distances and m_R
+
+        for (int i=0; i<m_numberOfDimensions; i++){
+            r12 += (m_particles[0]->getNewPosition()[i]-m_particles[1]->getNewPosition()[i])*
+                   (m_particles[0]->getNewPosition()[i]-m_particles[1]->getNewPosition()[i]);
+        }
+
+        m_r12Mean += sqrt(r12);
         return false;
     }
 }
@@ -222,7 +240,7 @@ void System::openPositionFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_oldPositionFileName);
     //system(cmd);
-    sprintf(m_oldPositionFileName, "dataFiles/positionTBN%dSe%d.txt", m_numberOfParticles, (int) log10(m_numberOfMetropolisSteps));
+    sprintf(m_oldPositionFileName, "dataFiles/positionTBN%dSe%dHO.txt", m_numberOfParticles, (int) log10(m_numberOfMetropolisSteps));
     m_oldPositionFile.open(m_oldPositionFileName, ios::out);
 }
 

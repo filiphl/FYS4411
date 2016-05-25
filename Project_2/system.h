@@ -51,6 +51,9 @@ private:
     double mynt                       = 0;
     double dx                         = 0;
 
+    double m_r12Mean                  = 0;
+
+
 public:
     bool metropolisStep             ();
     void runMetropolisSteps         (int numberOfMetropolisSteps);
@@ -111,5 +114,6 @@ public:
     void setSize(int size);
     bool getPrintProgress() const;
     void setPrintProgress(bool printProgress);
+    double getR12Mean() const;
 };
 
