@@ -37,13 +37,13 @@ int main(int argc, char* argv[]) {
 
 
 
-    int numberOfParticles   = 2;
+    int numberOfParticles   = 20;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e7;
-    double omegaHO          = 1;           // Oscillator frequency.
+    int numberOfSteps       = (int) 1e6;
+    double omegaHO          = 0.1;           // Oscillator frequency.
     double omegaZ           = 1;
-    double alpha            = 1.00338;      // Variational parameter.
-    double beta             = 0.3;          // Variational parameter.
+    double alpha            = 0.7;      // Variational parameter.
+    double beta             = 0.2;          // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -67,7 +67,8 @@ int main(int argc, char* argv[]) {
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
-    bool   optimizing =                      false;
+    system->setPrintProgress                (true);
+    bool   optimizing =                      true;
 
 
     if (optimizing){
@@ -80,7 +81,6 @@ int main(int argc, char* argv[]) {
 
     system->setStorePositions               (false);
     system->setPrintResults                 (true);
-    system->setPrintProgress                (true);
     system->runMetropolisSteps              (numberOfSteps);
 
 
@@ -215,6 +215,34 @@ int main(int argc, char* argv[]) {
  Variance        : 2.0239e-09
  Acceptance rate : 0.96536
 */
+
+
+
+
+/*
+  -- System info --
+ Name : Many body quantum dot
+ Number of particles  : 20
+ Number of dimensions : 2
+ Number of Metropolis steps run : 10^6
+ Number of equilibration steps  : 10^5
+
+  -- Wave function parameters --
+ Number of parameters : 4
+ Alpha :      6.6
+ Beta  :      0.2
+ Omega :      0.1
+ a     :      0.1
+
+  ----- Reults -----
+ Energy          : 30.51
+ Variance        : 4.4969e-08
+ Acceptance rate : 0.999656
+ Mean distance   : 106.69
+*/
+
+
+
 
 
     return 0;
