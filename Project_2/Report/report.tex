@@ -441,9 +441,9 @@
 	\begin{equation}
 		\vec{x}_{n+1} = \vec{x}_n - \gamma_n\nabla f
 	\end{equation}
-	where $\vec{x}$ is a vector containing the variables for which one wishes to find the minimum of $f$. In application to the current problem, $f = \langle E_L\rangle$. In the problems of this project it can be expressed as
+	where $\vec{x}$ is a vector containing the variables for which one wishes to find the minimum of $f$, $\gamma$ is a steplength and $n$ is an index expressing the number of iterations. In application to the current problem, $f = \langle E_L\rangle$, and $\vec{x}=\lr{\alpha, \beta}$. The above equation can thus be rewritten as
 	\begin{equation}
-	\lr{\alpha, \beta}_{n+1} = \lr{\alpha, \beta}_n - \gamma_n(\frac{\partial}{\partial \alpha}, \frac{\partial}{\partial \beta}) f.
+	\lr{\alpha, \beta}_{n+1} = \lr{\alpha, \beta}_n - \gamma_n(\frac{\partial}{\partial \alpha}, \frac{\partial}{\partial \beta})  \langle E_L\rangle. \label{optimizationAlgo}
 	\end{equation}
 	
 	 However, since $\langle E_L\rangle$ is an expensive quantity to find numerically, and its derivatives ($\bar{E}_\alpha \equiv \frac{d\langle E_L\rangle}{d\alpha}$ and $\bar{E}_\beta \equiv \frac{d\langle E_L\rangle}{d\beta}$) even more so, an analytical expression is desirable. This can be found as follows:
@@ -479,10 +479,18 @@
 	
 	
 	% ENDED HERE BRUH. WHY NOT PICK IT UP? 
-	In the non-interacting, simple harmonic oscillator potential, it is analytically shown $\alpha = \frac{1}{2}$, and due to the Jastrow factor, one would assume it doesn't differ too much.
-	The equation above is a much better expression to use since one only need one Monte Carlo cycle to find $\bar{E}_\alpha$. Therefore, only one Monte Carlo cycle\footnote{As opposed to several needed to numerical derivation.} will give one value for $\bar{E}_L$.\\
-	Since $\alpha$ will only have to be determined once, it is permissible to do so with greater accuracy. Therefore, if the gradient at $x_{n+1}$ is greater than that at $x_n$, we go back to $x_n$ and halve the steplength $\gamma_n$, to calculate another $x_{n+1}$.
-	This is repeated until either the gradiant becomes sufficiently small (around order $10^{-6}$) or if the steplength becomes too small to continue (order $10^{-6}$ as well).
+	In order to find the optimal parameters, the once that give minimal energy, we set a criteria that if the new parameters, $\vec{x}_{n+1}$, suggested by equation \eqref{optimizationAlgo} has a shorter gradient than the current, $\vec{x}_n$, we accept this change, whereas if it doesn't we reset the parameters to the current and shorten the steplength by a factor 0.7. We are content when the length of the gradient is sufficiently short and store these values as the optimal parameters. 
+	
+	The optimal parameters produced is not trivial, though. As illustrated in figure \ref{fig:energyPlot15x15N2} the minimum value of the local energy is much more strongly dependent on the value of $\alpha$ than the value of $\beta$ in the two-electron system. Our approach will most likely produce a value of $\alpha$ that is in agreement with the true minimum, but our value of $\beta$ may differ somewhat. However, this difference does not seem to have much of a consequence for this system. For the case of the two-electron system the optimal paramaters produced were $\alpha=1.003$ and $\beta=0.3$, which resulted in a local energy of $\bk{E_L} = 3.003$. This is sufficiently close to the real minimum of 3, and seem to be in agreement with the figure as well.
+	
+	
+	
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\linewidth, trim={0 2cm 0 4.5cm}, clip]{figures/energySurface/energyPlot15x15N2}
+\caption{Local energy as a function of the parameters $\alpha$ and $\beta$ in the two-electron system.}
+\label{fig:energyPlot15x15N2}
+\end{figure}
 	
 	
 	

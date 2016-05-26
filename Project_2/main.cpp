@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     int numberOfSteps       = (int) 1e7;
     double omegaHO          = 1;           // Oscillator frequency.
     double omegaZ           = 1;
-    double alpha            = 1.0;      // Variational parameter.
+    double alpha            = 1.00338;      // Variational parameter.
     double beta             = 0.3;          // Variational parameter.
     double gamma            = 2.82843;
     double stepLength       = 1.0;          // Metropolis step length.
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
-    if (0){
+    if (1){
         system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
         system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
     }
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
     system->setStoreLocalEnergy             (false);
-    bool   optimizing =                      true;
+    bool   optimizing =                      false;
 
 
     if (optimizing){
@@ -82,6 +82,8 @@ int main(int argc, char* argv[]) {
     system->setPrintResults                 (true);
     system->setPrintProgress                (true);
     system->runMetropolisSteps              (numberOfSteps);
+
+
 
  /* N2NoJ
  Alpha :      0.9507004936
