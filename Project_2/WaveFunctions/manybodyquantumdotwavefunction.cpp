@@ -22,7 +22,8 @@ ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, d
 
     name     = "Many body quantum dot";
     setAlpha(alpha);
-    m_omega  = omega*alpha;
+    m_omega = omega;
+    m_oa  = omega*alpha;
     m_beta   = beta;
     m_npHalf =  m_system->getNumberOfParticles()/2;
 
@@ -222,7 +223,7 @@ double ManyBodyQuantumDotWaveFunction::SingleParticleWF(int nx, int ny, double x
 {
     return  hermite(nx, x) *
             hermite(ny, y) *
-            exp(-m_omega*(x*x + y*y)*0.5);
+            exp(-m_oa*(x*x + y*y)*0.5);
 }
 
 double ManyBodyQuantumDotWaveFunction::ddSingleParticleWF(int i, int j)
@@ -250,9 +251,9 @@ double ManyBodyQuantumDotWaveFunction::ddSingleParticleWF(int i, int j)
 
 
     return (Hy*ddHx + Hx*ddHy -
-            2*m_omega*(x*Hy*dHx + y*Hx*dHy) -
-            m_omega*Hx*Hy*(m_system->getNumberOfDimensions()-m_omega*ri2))*
-            exp(-m_omega*ri2*0.5);
+            2*m_oa*(x*Hy*dHx + y*Hx*dHy) -
+            m_oa*Hx*Hy*(m_system->getNumberOfDimensions()-m_oa*ri2))*
+            exp(-m_oa*ri2*0.5);
 }
 
 
@@ -263,7 +264,7 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
     double element = 0;
     double slater = 0;
 
-    double expRK = exp(-0.5*m_omega*( particles[k]->getNewPosition()[0] * particles[k]->getNewPosition()[0]+
+    double expRK = exp(-0.5*m_oa*( particles[k]->getNewPosition()[0] * particles[k]->getNewPosition()[0]+
                                       particles[k]->getNewPosition()[1] * particles[k]->getNewPosition()[1]) );
 
     if (k < m_npHalf){
@@ -280,7 +281,7 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
                          *hermiteDerivative(ny, particles[k]->getNewPosition()[1]);
             }
             element *= expRK;
-            slater += (element - m_omega*particles[k]->getNewPosition()[j]
+            slater += (element - m_oa*particles[k]->getNewPosition()[j]
                        *SingleParticleWF(m_quantumNumbers(i,0),
                                          m_quantumNumbers(i,1),
                                          particles[k]->getNewPosition()[0],
@@ -288,7 +289,7 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
                                          *m_slaterUpInverse(i,k);
         }
         /* element *= expRK;
-        slater += element - m_omega*particles[k]->getNewPosition()[j]
+        slater += element - m_oa*particles[k]->getNewPosition()[j]
                 *SingleParticleWF(m_quantumNumbers(k,0),m_quantumNumbers(k,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);*/
     }
     else{
@@ -305,7 +306,7 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
                          *hermiteDerivative(ny, particles[k]->getNewPosition()[1]);
             }
             element *= expRK;
-            slater += (element - m_omega*particles[k]->getNewPosition()[j]
+            slater += (element - m_oa*particles[k]->getNewPosition()[j]
                        *SingleParticleWF(m_quantumNumbers(i-m_npHalf,0),
                                          m_quantumNumbers(i-m_npHalf,1),
                                          particles[k]->getNewPosition()[0],
@@ -315,7 +316,7 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
         }
         /*
         element *= expRK;
-        slater += element - m_omega*particles[k]->getNewPosition()[j]
+        slater += element - m_oa*particles[k]->getNewPosition()[j]
                 *SingleParticleWF(m_quantumNumbers(k-m_npHalf,0),m_quantumNumbers(k-m_npHalf,1),particles[k]->getNewPosition()[0],particles[k]->getNewPosition()[1]);
 */
     }
@@ -372,7 +373,7 @@ double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *> pa
 double ManyBodyQuantumDotWaveFunction::hermite(int energyLevel, double position)
 {
     double x = position;
-    double sW = sqrt(m_omega);
+    double sW = sqrt(m_oa);
     if (energyLevel == 0){
         return 1;
     }
@@ -397,7 +398,7 @@ double ManyBodyQuantumDotWaveFunction::hermite(int energyLevel, double position)
 double ManyBodyQuantumDotWaveFunction::hermiteDerivative(int energyLevel, double position)
 {
     double x = position;
-    double sW = sqrt(m_omega);
+    double sW = sqrt(m_oa);
     if (energyLevel == 0){
         return 0;
     }
@@ -422,7 +423,7 @@ double ManyBodyQuantumDotWaveFunction::hermiteDerivative(int energyLevel, double
 double ManyBodyQuantumDotWaveFunction::hermiteDoubleDerivative(int energyLevel, double position)
 {
     double x = position;
-    double sW = sqrt(m_omega);
+    double sW = sqrt(m_oa);
     if (energyLevel == 0){
         return 0;
     }
@@ -604,19 +605,19 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
 
                 dAijUp = (hermiteDerivativeAlpha(nx,xiUp)*hermite(ny,yiUp)
                           + hermiteDerivativeAlpha(ny,yiUp)*hermite(nx,xiUp)
-                          - hermite(nx,xiUp)*hermite(ny,yiUp)*m_omega*(xiUp*xiUp + yiUp*yiUp)/(2*m_alpha))
+                          - hermite(nx,xiUp)*hermite(ny,yiUp)*m_oa*(xiUp*xiUp + yiUp*yiUp)/(2*m_alpha))
                          * m_slaterUpInverse(i,j);
 
                 dAijDown = (hermiteDerivativeAlpha(nx,xiDown)*hermite(ny,yiDown)
                             + hermiteDerivativeAlpha(ny,yiDown)*hermite(nx,xiDown)
-                            - hermite(nx,xiDown)*hermite(ny,yiDown)*m_omega*(xiDown*xiDown + yiDown*yiDown)/(2*m_alpha))
+                            - hermite(nx,xiDown)*hermite(ny,yiDown)*m_oa*(xiDown*xiDown + yiDown*yiDown)/(2*m_alpha))
                            * m_slaterDownInverse(i,j);
 
-                // Dividing by alpha because we defined m_omega=omega*alpha in constructer.
+                // Dividing by alpha because we defined m_oa=omega*alpha in constructer.
 
             }
-            psiAlpha += dAijUp*exp(-m_omega*(xiUp*xiUp + yiUp*yiUp));
-            psiAlpha += dAijDown*exp(-m_omega*(xiDown*xiDown + yiDown*yiDown));
+            psiAlpha += dAijUp*exp(-m_oa*(xiUp*xiUp + yiUp*yiUp));
+            psiAlpha += dAijDown*exp(-m_oa*(xiDown*xiDown + yiDown*yiDown));
         }
 
 
@@ -631,7 +632,7 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
 
 double ManyBodyQuantumDotWaveFunction::hermiteDerivativeAlpha(int energyLevel, double position){
     double x = position;
-    double sW = sqrt(m_omega);  // m_omega = omega*alpha. See constructor.
+    double sW = sqrt(m_oa);  // m_oa = omega*alpha. See constructor.
     if (energyLevel == 0){
         return 0;
     }
@@ -642,7 +643,7 @@ double ManyBodyQuantumDotWaveFunction::hermiteDerivativeAlpha(int energyLevel, d
         return 4*x*x*sW*sW/m_alpha;
     }
     else if (energyLevel == 3){
-        return 12*x*x*x*m_omega*m_omega/(sW*m_alpha) - 6*sW*x/m_alpha;
+        return 12*x*x*x*m_oa*m_oa/(sW*m_alpha) - 6*sW*x/m_alpha;
     }
     else {
         cout << energyLevel<<endl;
@@ -686,10 +687,10 @@ void ManyBodyQuantumDotWaveFunction::updateDistances(int i)
 
 void ManyBodyQuantumDotWaveFunction::printParameters()
 {
-    cout << " Alpha :      "<< m_alpha<<endl;
-    cout << " Beta  :      "<< m_beta<<endl;
-    cout << " Omega :      "<< m_omega<<endl;
-    cout << " a     :      "<< m_parameters[2]<<endl;
+    cout << setw(25) << setprecision(5) << " Alpha :      "<< m_alpha<<endl;
+    cout << setw(25) << setprecision(5) << " Beta  :      "<< m_beta<<endl;
+    cout << setw(25) << setprecision(5) << " Omega :      "<< m_omega<<endl;
+    //cout << setw(25) << setprecision(5) << " a     :      "<< m_parameters[2]<<endl;
 }
 
 

@@ -8,6 +8,7 @@ class ManyBodyQuantumDotWaveFunction : public WaveFunction
 {
 
 private:
+    double m_oa     = 0;    // omega*alpha
     double m_omega  = 0;
     double m_beta   = 0;
     double m_wa     = 0;    // sqrt(omega*alpha)

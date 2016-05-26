@@ -113,7 +113,6 @@ void Sampler::printOutputToTerminal() {
     cout << " Energy          : "  << setw(25) << setprecision(5) << left << m_energy <<endl;
     cout << " Variance        : " << m_variance << endl;
     cout << " Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
-    cout << " Mean distance   : " << m_system->getR12Mean()/m_system->getNumberOfMetropolisSteps() << endl;
     cout << endl;
 
     //cout << np<<"& " << nd <<"& "<< m_analyticalEnergy<<"& " << m_energy<<"& " << m_variance<<"& ";
