@@ -22,9 +22,9 @@ ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, d
 
     name     = "Many body quantum dot";
     setAlpha(alpha);
-    m_omega = omega;
+    setOmega(omega);
+    setBeta(beta);
     m_oa  = omega*alpha;
-    m_beta   = beta;
     m_npHalf =  m_system->getNumberOfParticles()/2;
 
     m_parameters.push_back(alpha);

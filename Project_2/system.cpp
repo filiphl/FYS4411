@@ -212,7 +212,7 @@ void System::openEnergyFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_energyFileName);
     //system(cmd);
-    sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d.txt", m_numberOfParticles, m_waveFunction->getOmega()*100, (int) log10(m_numberOfMetropolisSteps));
+    sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d.txt", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
     ;
     m_energyFile.open(m_energyFileName, ios::out);
 }
@@ -223,7 +223,7 @@ void System::openPositionFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_oldPositionFileName);
     //system(cmd);
-    sprintf(m_oldPositionFileName, "dataFiles/positionN%dw%dSe%d.txt", m_numberOfParticles, m_waveFunction->getOmega()*100, (int) log10(m_numberOfMetropolisSteps));
+    sprintf(m_oldPositionFileName, "dataFiles/positionN%dw%dSe%d.txt", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
     m_oldPositionFile.open(m_oldPositionFileName, ios::out);
 }
 

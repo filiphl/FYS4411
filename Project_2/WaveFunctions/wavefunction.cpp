@@ -1,6 +1,16 @@
 #include "wavefunction.h"
 #include <iostream>     // Added by us
 
+double WaveFunction::getOmega() const
+{
+    return m_omega;
+}
+
+void WaveFunction::setOmega(double omega)
+{
+    m_omega = omega;
+}
+
 WaveFunction::WaveFunction(System* system) {
     m_system = system;
 }
