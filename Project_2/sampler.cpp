@@ -62,15 +62,17 @@ void Sampler::sample(bool acceptedStep) {
     if (m_system->OptimizingParameters()){
         m_psiDerivative     = m_system->getWaveFunction()->psiAlpha;
         m_psiDerivativeBeta = m_system->getWaveFunction()->psiBeta;
-        m_cumulativePsiDeriv += m_psiDerivative;
-        m_cumulativePsiLocalProd += m_localEnergy*m_psiDerivative;
-        m_cumulativePsiDerivBeta += m_psiDerivativeBeta;
+        m_cumulativePsiDeriv         += m_psiDerivative;
+        m_cumulativePsiLocalProd     += m_localEnergy*m_psiDerivative;
+        m_cumulativePsiDerivBeta     += m_psiDerivativeBeta;
         m_cumulativePsiLocalProdBeta += m_localEnergy*m_psiDerivativeBeta;
     }
 
     m_numberOfStepsSampled++;
-    m_cumulativeEnergy  += m_localEnergy;
-    m_energySquared     += m_localEnergy*m_localEnergy;
+    m_cumulativeEnergy          += m_localEnergy;
+    m_cumulativeKineticEnergy   += m_system->getHamiltonian()->getKineticEnergy();
+    m_cumulativePotentialEnergy += m_system->getHamiltonian()->getPotentialEnergy();
+    m_energySquared             += m_localEnergy*m_localEnergy;
 
 
     if (m_system->m_energyFile.is_open()){
@@ -112,8 +114,10 @@ void Sampler::printOutputToTerminal() {
     cout << endl;
     cout << "  ----- Reults -----" << endl;
     cout << " Energy          : "  << setw(25) << setprecision(5) << left << m_energy <<endl;
-    cout << " Variance        : " << m_variance << endl;
-    cout << " Acceptance rate : " << setprecision(6) << m_acceptanceRate << endl;
+    cout << " Variance        : "  << m_variance << endl;
+    cout << " Acceptance rate : "  << setprecision(6) << m_acceptanceRate << endl;
+    cout << " Kinetic         : "  << setw(25) << setprecision(5) << left << m_kineticEnergy   << endl;
+    cout << " Potential       : "  << setw(25) << setprecision(5) << left << m_potentialEnergy << endl;
     cout << endl;
 
     //cout << np<<"& " << nd <<"& "<< m_analyticalEnergy<<"& " << m_energy<<"& " << m_variance<<"& ";
@@ -123,10 +127,12 @@ void Sampler::computeAverages() {
     /* Compute the averages of the sampled quantities. You need to think
      * thoroughly through what is written here currently; is this correct?
      */
-    m_energy         = m_cumulativeEnergy / (double)m_numberOfStepsSampled; // It is now.
-    m_energySquared  = m_energySquared / (double)m_numberOfStepsSampled;
-    m_variance       = (m_energySquared - m_energy*m_energy)/m_numberOfStepsSampled;
-    m_acceptanceRate = m_accepted/((double) m_numberOfStepsSampled);
+    m_energy          = m_cumulativeEnergy                    / (double)m_numberOfStepsSampled;
+    m_kineticEnergy   = m_cumulativeKineticEnergy             / (double)m_numberOfStepsSampled;
+    m_potentialEnergy = m_cumulativePotentialEnergy           / (double)m_numberOfStepsSampled;
+    m_energySquared   = m_energySquared                       / (double)m_numberOfStepsSampled;
+    m_acceptanceRate  = m_accepted                            / (double)m_numberOfStepsSampled;
+    m_variance        = (m_energySquared - m_energy*m_energy) / (double)m_numberOfStepsSampled;
 
     if (m_system->OptimizingParameters()){
         m_localAlphaDeriv = 2*(m_cumulativePsiLocalProd - m_cumulativePsiDeriv*m_energy)/(double)m_numberOfStepsSampled;

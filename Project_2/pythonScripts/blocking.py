@@ -1,11 +1,14 @@
 from numpy import *
 from matplotlib import pyplot as plt
+from sys import argv
 
+N = int(argv[2]);
 
-N = 20000;
+filename    = str(argv[1])
+inFileName  = '../dataFiles/' + filename
+outFileName = '../Report/figures/blocking/' + filename[13:-4] + ".png"
 
-infile = open('../dataFiles/localenergiesN6Se6.txt', 'r')
-
+infile = open(inFileName, 'r')
 energy = []
 for line in infile:
 	col = line.split()
@@ -53,5 +56,6 @@ for blockSize in blockSizes:
 plt.plot(blockSizes, std, linewidth=1, color="#1A474A")
 plt.xlabel('Block size')
 plt.ylabel('Standard deviation')
-plt.grid("on")
+plt.grid('on')
+plt.savefig(outFileName, format='pdf')
 plt.show()

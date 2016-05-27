@@ -18,3 +18,13 @@ double Hamiltonian::computeKineticEnergy(std::vector<Particle*> particles)
     }
     return kineticEnergy;
 }
+
+double Hamiltonian::getKineticEnergy() const
+{
+    return m_kineticEnergy;
+}
+
+double Hamiltonian::getPotentialEnergy() const
+{
+    return m_potentialEnergy;
+}

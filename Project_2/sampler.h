@@ -11,9 +11,13 @@ private:
     double  m_acceptanceRate             = 0;
     double  m_localEnergy                = 0;
     double  m_energy                     = 0;
+    double  m_kineticEnergy              = 0;
+    double  m_potentialEnergy            = 0;
     double  m_energySquared              = 0;
     double  m_variance                   = 0;
     double  m_cumulativeEnergy           = 0;
+    double  m_cumulativeKineticEnergy    = 0;
+    double  m_cumulativePotentialEnergy  = 0;
     double  m_analyticalEnergy           = 0;
 
     // Optimization.

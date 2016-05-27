@@ -134,12 +134,12 @@ if __name__ == "__main__":
     path0 =  "../dataFiles/positionTBN2Se7.txt"
     path01 = "../dataFiles/positionTBN2Se7NoJ.txt"
     path02 = "../dataFiles/positionTBN2Se7HO.txt"
-    path1 = "../dataFiles/positionN2se5.txt"
-    path2 = "../dataFiles/positionN2se5HO"
-    path3 = "../dataFiles/positionN2se5NoJ.txt"
-    path4 = "../dataFiles/positionN2se7.txt"
-    path5 = "../dataFiles/positionN2se7HO"
-    path6 = "../dataFiles/positionN2se7NoJ"
+    path1 = "../dataFiles/positionN2Se5.txt"
+    path2 = "../dataFiles/positionN2Se5HO"
+    path3 = "../dataFiles/positionN2Se5NoJ.txt"
+    path4 = "../dataFiles/positionN2Se7.txt"
+    path5 = "../dataFiles/positionN2Se7HO.txt"
+    path6 = "../dataFiles/positionN2Se7NoJ.txt"
     path7 = "../dataFiles/positionTwoBodyN2Se6.txt"
     path8 = "../dataFiles/positionTwoBodyN2Se6HO"
     path9 = "../dataFiles/positionTwoBodyN2Se6NoJ"
@@ -152,6 +152,14 @@ if __name__ == "__main__":
     print "Done loading first file"
     radialDistribution(positions, 2, 100, lbl="Full system")
 
+    positions = np.loadtxt(path6)
+    print "Done loading second file"
+    radialDistribution(positions, 2, 100, "#340068", "Full system excluding Jastrow")
+
+    positions = np.loadtxt(path5)
+    print "Done loading third file"
+    radialDistribution(positions, 2, 100, "#680000", "Harmonic oscillator")
+
     plt.figure(2)
     plt.legend()
 
@@ -159,15 +167,9 @@ if __name__ == "__main__":
     plt.legend()
 
     plt.show()
-"""
-    positions = np.loadtxt(path01)
-    print "Done loading second file"
-    radialDistribution(positions, 2, 100, "#340068", "Full system excluding Jastrow")
 
-    positions = np.loadtxt(path02)
-    print "Done loading third file"
-    radialDistribution(positions, 2, 100, "#680000", "Harmonic oscillator")
-"""
+
+
 
 
     #make1dHist(data)

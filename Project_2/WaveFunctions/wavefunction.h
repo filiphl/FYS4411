@@ -14,6 +14,7 @@ protected:
     double m_alpha  = 0;
     double m_alpha2 = 0;
     double m_beta   = 0;
+    double m_omega  = 0;
     double m_beta2  = 0;
     int m_newlyMoved = 0;
 public:

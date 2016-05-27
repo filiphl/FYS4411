@@ -687,9 +687,9 @@ void ManyBodyQuantumDotWaveFunction::updateDistances(int i)
 
 void ManyBodyQuantumDotWaveFunction::printParameters()
 {
-    cout << setw(25) << setprecision(5) << " Alpha :      "<< m_alpha<<endl;
-    cout << setw(25) << setprecision(5) << " Beta  :      "<< m_beta<<endl;
-    cout << setw(25) << setprecision(5) << " Omega :      "<< m_omega<<endl;
+    cout << setw(25) << setprecision(10) << " Alpha :      "<< m_alpha<<endl;
+    cout << setw(25) << setprecision(10) << " Beta  :      "<< m_beta <<endl;
+    cout << setw(25) << setprecision(5)  << " Omega :      "<< m_omega<<endl;
     //cout << setw(25) << setprecision(5) << " a     :      "<< m_parameters[2]<<endl;
 }
 
