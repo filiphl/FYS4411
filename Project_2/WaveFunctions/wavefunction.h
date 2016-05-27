@@ -43,5 +43,7 @@ public:
     void setNewlyMoved(int i) { m_newlyMoved = i; }
     double getPsiBeta() const;
     char *getName() const;
+    double getOmega() const;
+    void setOmega(double omega);
 };
 

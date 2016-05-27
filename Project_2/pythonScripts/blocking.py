@@ -6,7 +6,7 @@ N = int(argv[2]);
 
 filename    = str(argv[1])
 inFileName  = '../dataFiles/' + filename
-outFileName = '../Report/figures/blocking/' + filename[13:-4] + ".png"
+outFileName = '../Report/figures/blocking/' + filename[13:-4] + ".pdf"
 
 infile = open(inFileName, 'r')
 energy = []
