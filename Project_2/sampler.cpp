@@ -79,9 +79,10 @@ void Sampler::sample(bool acceptedStep) {
 
     if (m_system->m_oldPositionFile.is_open()){
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
-            m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[0];
-            m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[1];
-            m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[2] << endl;
+            for (int j=0; j<m_system->getNumberOfDimensions(); j++){
+                m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[j];
+            }
+            m_system->m_oldPositionFile << endl;
         }
     }
 

@@ -28,14 +28,14 @@ def loadCube(positions,N=200, l=-3, u=3):
     return cube
 
 
-def radialDistribution(positions, N=100, clr="#006867", lbl="HO"):
+def radialDistribution(positions, d=3 , N=100, clr="#006867", lbl="HO"):
 
     u = positions.max()
     r = np.zeros(len(positions))
 
     for i in xrange(len(positions)):
         r2 = 0.0
-        for j in xrange(3):
+        for j in xrange(2):
             r2 += positions[i][j]*positions[i][j]
         r[i] = sqrt(r2);
 
@@ -150,14 +150,7 @@ if __name__ == "__main__":
 
     positions = np.loadtxt(path0)
     print "Done loading first file"
-    radialDistribution(positions, 100, lbl="Full system")
-    positions = np.loadtxt(path01)
-    print "Done loading second file"
-    radialDistribution(positions, 100, "#340068", "Full system excluding Jastrow")
-
-    positions = np.loadtxt(path02)
-    print "Done loading third file"
-    radialDistribution(positions, 100, "#680000", "Harmonic oscillator")
+    radialDistribution(positions, 2, 100, lbl="Full system")
 
     plt.figure(2)
     plt.legend()
@@ -166,7 +159,15 @@ if __name__ == "__main__":
     plt.legend()
 
     plt.show()
+"""
+    positions = np.loadtxt(path01)
+    print "Done loading second file"
+    radialDistribution(positions, 2, 100, "#340068", "Full system excluding Jastrow")
 
+    positions = np.loadtxt(path02)
+    print "Done loading third file"
+    radialDistribution(positions, 2, 100, "#680000", "Harmonic oscillator")
+"""
 
 
     #make1dHist(data)
