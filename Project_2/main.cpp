@@ -26,15 +26,10 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 
-    //    MPI_Init (&argc, &argv);	/* starts MPI */
-    //    int rank, size;
-    //    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
-    //    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
-    //    printf( "Hello world from process %d of %d\n", rank, size );
-    //    MPI_Finalize();
-
-
-
+    MPI_Init (&argc, &argv);	/* starts MPI */
+    int rank, size;
+    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
+    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
 
 
     int numberOfParticles   = 2;
@@ -83,14 +78,15 @@ int main(int argc, char* argv[]) {
     system->runMetropolisSteps              (numberOfSteps);
 
 
+    MPI_Finalize();
 
- /* N2NoJ
+    /* N2NoJ
  Alpha :      0.9507004936
  Beta  :      0.3
  omega :      1
  */
 
- /* N2HO
+    /* N2HO
  Alpha :      1.003164596
  Beta  :      0.3
  omega :      1
@@ -149,7 +145,7 @@ int main(int argc, char* argv[]) {
 
 
 
- /*
+    /*
   -- System info --
  Name : Many body quantum dot
  Number of particles  : 12
@@ -172,7 +168,7 @@ int main(int argc, char* argv[]) {
 */
 
 
-/*
+    /*
   -- System info --
  Name : Many body quantum dot
  Number of particles  : 20
@@ -194,7 +190,7 @@ int main(int argc, char* argv[]) {
 */
 
 
-/*
+    /*
   -- System info --
  Name : Two body quantum dot
  Number of particles  : 2
@@ -218,7 +214,7 @@ int main(int argc, char* argv[]) {
 
 
 
-/*
+    /*
   -- System info --
  Name : Many body quantum dot
  Number of particles  : 20
