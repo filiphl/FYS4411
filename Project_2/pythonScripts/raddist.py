@@ -28,8 +28,10 @@ def loadCube(positions,N=200, l=-3, u=3):
     return cube
 
 
-def radialDistribution(positions, d=3 , N=100, clr="#006867", lbl="HO"):
+def radialDistribution(path, d=3 , N=100, clr="#006867", lbl="HO"):
 
+    positions = np.loadtxt(path)
+    print "Done loading file"
     u = positions.max()
     r = np.zeros(len(positions))
 
@@ -43,6 +45,8 @@ def radialDistribution(positions, d=3 , N=100, clr="#006867", lbl="HO"):
     Weights = np.ones_like(r)/float(len(r))
     plt.figure(1)
     n, bins, patches = plt.hist(r, bins=N,  weights=Weights, color=clr)
+    np.save("obdData/"+path[21:-4]+"_n", n)
+    np.save("obdData/"+path[21:-4]+"_bins", bins)
     plt.figure(3)
     plt.plot(bins[:-1], n, '-', color=clr, linewidth=2, label=lbl)
     plt.grid("on")
@@ -131,34 +135,15 @@ def make1dHist(data):
 
 
 if __name__ == "__main__":
-    path0 =  "../dataFiles/positionTBN2Se7.txt"
-    path01 = "../dataFiles/positionTBN2Se7NoJ.txt"
-    path02 = "../dataFiles/positionTBN2Se7HO.txt"
-    path1 = "../dataFiles/positionN2Se5.txt"
-    path2 = "../dataFiles/positionN2Se5HO"
-    path3 = "../dataFiles/positionN2Se5NoJ.txt"
-    path4 = "../dataFiles/positionN2Se7.txt"
-    path5 = "../dataFiles/positionN2Se7HO.txt"
-    path6 = "../dataFiles/positionN2Se7NoJ.txt"
-    path7 = "../dataFiles/positionTwoBodyN2Se6.txt"
-    path8 = "../dataFiles/positionTwoBodyN2Se6HO"
-    path9 = "../dataFiles/positionTwoBodyN2Se6NoJ"
-    path10 = "../dataFiles/positionN6Se6"
-    path11 = "../dataFiles/positionN6Se6NoJ"
-    path12 = "../dataFiles/positionN6Se6HO.txt"
+    path0 =  "../dataFiles/positionN2w100Se5.txt"
+    path1 = "../dataFiles/positionN2w100Se5NoJ.txt"
 
 
-    positions = np.loadtxt(path0)
-    print "Done loading first file"
-    radialDistribution(positions, 2, 100, lbl="Full system")
 
-    positions = np.loadtxt(path6)
-    print "Done loading second file"
-    radialDistribution(positions, 2, 100, "#340068", "Full system excluding Jastrow")
 
-    positions = np.loadtxt(path5)
-    print "Done loading third file"
-    radialDistribution(positions, 2, 100, "#680000", "Harmonic oscillator")
+    radialDistribution(path0, 2, 100, clr="#006867", lbl="Full system")
+
+    radialDistribution(path1, 2, 100, clr="#340068", lbl="Excluding Jastrow")
 
     plt.figure(2)
     plt.legend()

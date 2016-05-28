@@ -39,14 +39,14 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e7;
-    double omegaHO          = 0.01;            // Oscillator frequency.
-    double alpha            = 0.996431;      // Variational parameter.
+    int numberOfSteps       = (int) 1e5;
+    double omegaHO          = 1;            // Oscillator frequency.
+    double alpha            = 1;      // Variational parameter.
     double beta             = 0.3;          // Variational parameter.
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
-    double a                = 1;
+    double a                = 0;
 
     System* system = new System();
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
     }
 
     system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (false);
+    system->setStorePositions               (true);
 
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);
