@@ -2,9 +2,10 @@ from numpy import *
 from matplotlib import pyplot as plt
 from sys import argv
 
-N = int(argv[2]);
+filename = str(argv[1])
+N 		 = int(argv[2]);
+step     = int(argv[3])
 
-filename    = str(argv[1])
 inFileName  = filename
 outFileName = '../Report/figures/blocking/' + filename[19:-4] + ".pdf"
 
@@ -30,7 +31,7 @@ def mean(entry):
 	return sum(entry)/len(entry)
 
 
-blockSizes = range(1,N,1)
+blockSizes = range(step,N,step)
 std = zeros(len(blockSizes))
 
 index = 0
@@ -60,4 +61,4 @@ plt.grid('on')
 plt.savefig(outFileName, format='pdf')
 save("blockingData/"+filename[19:-4]+"BS",  blockSizes)
 save("blockingData/"+filename[19:-4]+"STD", std)
-#plt.show()
+plt.show()

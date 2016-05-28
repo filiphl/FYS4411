@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
     }
 
     system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (true);
+    system->setStorePositions               (false);
 
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);
