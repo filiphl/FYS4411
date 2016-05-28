@@ -212,9 +212,9 @@ void System::openEnergyFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_energyFileName);
     //system(cmd);
-    sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d.txt", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
+    sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d.bin", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
     ;
-    m_energyFile.open(m_energyFileName, ios::out);
+    m_energyFile.open(m_energyFileName, ios::out | ios::binary);
 }
 
 

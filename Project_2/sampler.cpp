@@ -76,7 +76,7 @@ void Sampler::sample(bool acceptedStep) {
 
 
     if (m_system->m_energyFile.is_open()){
-        m_system->m_energyFile << setw(20) << setprecision(13) << m_localEnergy << endl;
+        m_system->m_energyFile.write(reinterpret_cast<const char*>(&m_localEnergy), sizeof(double));
     }
 
     if (m_system->m_oldPositionFile.is_open()){
