@@ -40,8 +40,8 @@ int main(int argc, char* argv[]) {
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e7;
-    double omegaHO          = 0.1;            // Oscillator frequency.
-    double alpha            = 0.980183;      // Variational parameter.
+    double omegaHO          = 0.01;            // Oscillator frequency.
+    double alpha            = 0.996431;      // Variational parameter.
     double beta             = 0.3;          // Variational parameter.
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
@@ -76,8 +76,8 @@ int main(int argc, char* argv[]) {
         system->getWaveFunction()->setBeta(myOptimizer->getBeta());
     }
 
-    system->setStoreLocalEnergy             (true);
-    system->setStorePositions               (true);
+    system->setStoreLocalEnergy             (false);
+    system->setStorePositions               (false);
 
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);

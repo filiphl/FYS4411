@@ -5,8 +5,8 @@ from sys import argv
 N = int(argv[2]);
 
 filename    = str(argv[1])
-inFileName  = '../dataFiles/' + filename
-outFileName = '../Report/figures/blocking/' + filename[13:-4] + ".pdf"
+inFileName  = filename
+outFileName = '../Report/figures/blocking/' + filename[19:-4] + ".pdf"
 
 infile = open(inFileName, 'r')
 energy = []
@@ -58,4 +58,6 @@ plt.xlabel('Block size')
 plt.ylabel('Standard deviation')
 plt.grid('on')
 plt.savefig(outFileName, format='pdf')
-plt.show()
+save(filename[19:-4],blockSizes)
+save(filename[19:-4], std)
+#plt.show()
