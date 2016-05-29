@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  29 MAY 2016 13:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  29 MAY 2016 17:56
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1357,7 +1357,17 @@ File: figures/energySurface/energyPlot15x15N2.pdf Graphic file (type pdf)
 Package pdftex.def Info: figures/energySurface/energyPlot15x15N2.pdf used on in
 put line 510.
 (pdftex.def)             Requested size: 409.72125pt x 176.22807pt.
- [7] [8 <./figures/energySurface/energyPlot15x15N2.pdf>]
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.8214024183| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.4796643883| 
+ []
+
+[7] [8 <./figures/energySurface/energyPlot15x15N2.pdf>]
 <figures/radialDistribution/OneBodyDensityN2w100Se7.pdf, id=662, 587.19376pt x 
 442.65375pt>
 File: figures/radialDistribution/OneBodyDensityN2w100Se7.pdf Graphic file (type
@@ -1506,7 +1516,7 @@ m-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb
 onts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb>
 </usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on report.pdf (12 pages, 661961 bytes).
+Output written on report.pdf (12 pages, 661985 bytes).
 PDF statistics:
  1028 PDF objects out of 1200 (max. 8388607)
  342 compressed objects within 4 object streams

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-//#include <mpi.h>
+#include <mpi.h>
 #include "system.h"
 #include "particle.h"
 #include "WaveFunctions/wavefunction.h"
@@ -26,29 +26,27 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 
-    //    MPI_Init (&argc, &argv);	/* starts MPI */
-    //    int rank, size;
-    //    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
-    //    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
-    //    printf( "Hello world from process %d of %d\n", rank, size );
-    //    MPI_Finalize();
-
-
-
-
+    MPI_Init (&argc, &argv);	/* starts MPI */
+    int rank, size;
+    MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
+    MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
 
     int numberOfParticles   = 20;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e6;
+    int numberOfSteps       = (int) 1e5;
     double omegaHO          = 1;            // Oscillator frequency.
-    double alpha            = 0.8;      // Variational parameter.
-    double beta             = 0.7;          // Variational parameter.
+    double alpha            = 0.92930;      // Variational parameter.
+    double beta             = 0.80390;          // Variational parameter.
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
-    double a                = 1;
+    int a                   = 1;
 
     System* system = new System();
+
+    system->setRank(rank);
+    system->setSize(size);
+
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
     if (1){
@@ -64,8 +62,8 @@ int main(int argc, char* argv[]) {
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (false);
-    system->setPrintProgress                (true);
-    bool   optimizing =                      true;
+    system->setPrintProgress                (false);
+    bool   optimizing =                      false;
 
 
     if (optimizing){
@@ -77,20 +75,24 @@ int main(int argc, char* argv[]) {
     }
 
     system->setStoreLocalEnergy             (false);
-    system->setStorePositions               (false);
+    system->setStorePositions               (true);
 
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);
 
 
 
- /* N2NoJ
+
+    MPI_Finalize();
+
+
+    /* N2NoJ
  Alpha :      0.9507004936
  Beta  :      0.3
  omega :      1
  */
 
- /* N2HO
+    /* N2HO
  Alpha :      1.003164596
  Beta  :      0.3
  omega :      1
@@ -149,7 +151,7 @@ int main(int argc, char* argv[]) {
 
 
 
- /*
+    /*
   -- System info --
  Name : Many body quantum dot
  Number of particles  : 12
@@ -172,7 +174,7 @@ int main(int argc, char* argv[]) {
 */
 
 
-/*
+    /*
   -- System info --
  Name : Many body quantum dot
  Number of particles  : 20
@@ -194,7 +196,7 @@ int main(int argc, char* argv[]) {
 */
 
 
-/*
+    /*
   -- System info --
  Name : Two body quantum dot
  Number of particles  : 2
@@ -218,7 +220,7 @@ int main(int argc, char* argv[]) {
 
 
 
-/*
+    /*
   -- System info --
  Name : Many body quantum dot
  Number of particles  : 20

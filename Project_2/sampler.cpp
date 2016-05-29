@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <cmath>
 #include <vector>
+#include <mpi.h>
 #include "sampler.h"
 #include "system.h"
 #include "particle.h"
@@ -86,10 +87,10 @@ void Sampler::sample(bool acceptedStep) {
 
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
 
-                pos.x = m_system->getParticles()[i]->getOldPosition()[0];
-                pos.y = m_system->getParticles()[i]->getOldPosition()[1];
+            pos.x = m_system->getParticles()[i]->getOldPosition()[0];
+            pos.y = m_system->getParticles()[i]->getOldPosition()[1];
 
-                m_system->m_oldPositionFile.write(reinterpret_cast<char*>(&pos), sizeof(Pos));  // Pos is a struct.
+            m_system->m_oldPositionFile.write(reinterpret_cast<char*>(&pos), sizeof(Pos));  // Pos is a struct.
         }
     }
 
@@ -98,33 +99,34 @@ void Sampler::sample(bool acceptedStep) {
 
 
 void Sampler::printOutputToTerminal() {
-    int     np = m_system->getNumberOfParticles();
-    int     nd = m_system->getNumberOfDimensions();
-    int     ms = m_system->getNumberOfMetropolisSteps();
-    int     p  = m_system->getWaveFunction()->getNumberOfParameters();
-    double  ef = m_system->getEquilibrationFraction();
-    std::vector<double> pa = m_system->getWaveFunction()->getParameters();
+    if (m_system->getRank()==0){
+        int     np = m_system->getNumberOfParticles();
+        int     nd = m_system->getNumberOfDimensions();
+        int     ms = m_system->getNumberOfMetropolisSteps();
+        int     p  = m_system->getWaveFunction()->getNumberOfParameters();
+        double  ef = m_system->getEquilibrationFraction();
+        std::vector<double> pa = m_system->getWaveFunction()->getParameters();
 
-    cout << endl;
-    cout << "  -- System info -- " << endl;
-    cout << " Name : "<<m_system->getWaveFunction()->getName()<<endl;
-    cout << " Number of particles  : " << np << endl;
-    cout << " Number of dimensions : " << nd << endl;
-    cout << " Number of Metropolis steps run : 10^" << std::log10(ms) << endl;
-    cout << " Number of equilibration steps  : 10^" << std::log10(std::round(ms*ef)) << endl;
-    cout << endl;
-    cout << "  -- Wave function parameters -- " << endl;
-    cout << " Number of parameters : " << p << endl;
-    m_system->getWaveFunction()->printParameters();
-    cout << endl;
-    cout << "  ----- Reults -----" << endl;
-    cout << " Energy          : "  << setw(25) << setprecision(5) << left << m_energy <<endl;
-    cout << " Variance        : "  << m_variance << endl;
-    cout << " Acceptance rate : "  << setprecision(6) << m_acceptanceRate << endl;
-    cout << " Kinetic         : "  << setw(25) << setprecision(5) << left << m_kineticEnergy   << endl;
-    cout << " Potential       : "  << setw(25) << setprecision(5) << left << m_potentialEnergy << endl;
-    cout << endl;
-
+        cout << endl;
+        cout << "  -- System info -- " << endl;
+        cout << " Name : "<<m_system->getWaveFunction()->getName()<<endl;
+        cout << " Number of particles  : " << np << endl;
+        cout << " Number of dimensions : " << nd << endl;
+        cout << " Number of Metropolis steps run : "<<m_system->getSize()<< "*10^" << std::log10(ms) << endl;
+        cout << " Number of equilibration steps  : "<<m_system->getSize()<< "*10^"<< std::log10(std::round(ms*ef)) << endl;
+        cout << endl;
+        cout << "  -- Wave function parameters -- " << endl;
+        cout << " Number of parameters : " << p << endl;
+        m_system->getWaveFunction()->printParameters();
+        cout << endl;
+        cout << "  ----- Reults -----" << endl;
+        cout << " Energy          : "  << setw(25) << setprecision(5) << left << m_energy <<endl;
+        cout << " Variance        : "  << m_variance << endl;
+        cout << " Acceptance rate : "  << setprecision(6) << m_acceptanceRate << endl;
+        cout << " Kinetic         : "  << setw(25) << setprecision(5) << left << m_kineticEnergy   << endl;
+        cout << " Potential       : "  << setw(25) << setprecision(5) << left << m_potentialEnergy << endl;
+        cout << endl;
+    }
     //cout << np<<"& " << nd <<"& "<< m_analyticalEnergy<<"& " << m_energy<<"& " << m_variance<<"& ";
 }
 
@@ -143,6 +145,31 @@ void Sampler::computeAverages() {
         m_localAlphaDeriv = 2*(m_cumulativePsiLocalProd - m_cumulativePsiDeriv*m_energy)/(double)m_numberOfStepsSampled;
         m_localBetaDeriv  = 2*(m_cumulativePsiLocalProdBeta - m_cumulativePsiDerivBeta*m_energy)/(double)m_numberOfStepsSampled;
     }
+
+    // Parallel communication
+    double reducedEnergy         = 0;
+    double reducedEnergy2        = 0;
+    double reducedKinetik        = 0;
+    double reducedPotential      = 0;
+    double reducedAcceptanceRate = 0;
+
+    MPI_Reduce(&m_energy,          &reducedEnergy,         1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&m_energySquared,   &reducedEnergy2,        1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&m_kineticEnergy,   &reducedKinetik,        1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&m_potentialEnergy, &reducedPotential,      1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&m_acceptanceRate,  &reducedAcceptanceRate, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    if (m_system->getRank()==0){
+        m_energy          = reducedEnergy        /m_system->getSize();
+        m_kineticEnergy   = reducedKinetik       /m_system->getSize();
+        m_potentialEnergy = reducedPotential     /m_system->getSize();
+        m_variance        = (reducedEnergy2       /m_system->getSize() - m_energy*m_energy)/(m_numberOfStepsSampled*m_system->getSize());
+        m_acceptanceRate  = reducedAcceptanceRate/m_system->getSize();
+    }
+
+
+
+
 }
 
 double Sampler::computeAnalyticalEnergy()

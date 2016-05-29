@@ -29,7 +29,7 @@ private:
     double m_dPadeJastrow = 0;
 
 public:
-    ManyBodyQuantumDotWaveFunction(class System* system, double alpha, double omega, double a, double beta);
+    ManyBodyQuantumDotWaveFunction(class System* system, double alpha, double omega, int a, double beta);
 
     double evaluate(std::vector<class Particle*> particles);
     double computeLaplacian(std::vector<class Particle*> particles);

@@ -53,6 +53,7 @@ private:
 
 
 
+
 public:
     bool metropolisStep             ();
     void runMetropolisSteps         (int numberOfMetropolisSteps);
@@ -81,10 +82,10 @@ public:
     void closePositionFile();
     char m_energyFileName[50];
     char m_oldPositionFileName[50];
-
+    char m_newPositionFileName[50];
     ofstream m_energyFile;
     ofstream m_oldPositionFile;
-
+    bool Jastrow = true;
 
     void setAnalyticalLaplacian  (bool value);
     void setImportanceSampling          (bool value);
@@ -108,9 +109,9 @@ public:
     bool getPrintResults() const;
     void setPrintResults(bool printResults);
     int getRank() const;
-    void setRank(int rank);
+    void setRank(int rank){m_rank = rank;}
     int getSize() const;
-    void setSize(int size);
+    void setSize(int size){m_size=size;}
     bool getPrintProgress() const;
     void setPrintProgress(bool printProgress);
 };

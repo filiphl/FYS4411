@@ -133,7 +133,7 @@ def make1dHist(data):
 if __name__ == "__main__":
     path0 =  "../dataFiles/positionN2w100Se5.txt"
     path1 = "../dataFiles/positionN2w100Se5NoJ.txt"
-    path3 = "../dataFiles/positionN12w10Se7NoJ.bin"
+    path3 = "../allPositions.bin"
 
 
 

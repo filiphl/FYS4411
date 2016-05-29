@@ -1,6 +1,6 @@
 #include "manybodyquantumdotwavefunction.h"
 
-ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, double alpha, double omega, double a, double beta) :
+ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, double alpha, double omega, int a, double beta) :
     WaveFunction(system)
 {
     m_np     = m_system->getNumberOfParticles();
@@ -26,6 +26,8 @@ ManyBodyQuantumDotWaveFunction::ManyBodyQuantumDotWaveFunction(System *system, d
     setBeta(beta);
     m_oa  = omega*alpha;
     m_npHalf =  m_system->getNumberOfParticles()/2;
+    m_system->Jastrow = a;
+
 
     m_parameters.push_back(alpha);
     m_parameters.push_back(beta);

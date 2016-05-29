@@ -1,5 +1,5 @@
 #include "system.h"
-
+#include "mpi.h"
 
 using namespace std;
 
@@ -73,6 +73,16 @@ bool System::getPrintResults() const
 void System::setPrintResults(bool printResults)
 {
     m_printResults = printResults;
+}
+
+int System::getRank() const
+{
+    return m_rank;
+}
+
+int System::getSize() const
+{
+    return m_size;
 }
 
 bool System::getPrintProgress() const
@@ -177,9 +187,11 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
         if (m_printProgress){
-            if (i%1000==0){     // Added by us.
-                cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
-                fflush(stdout);
+            if (m_rank==1){
+                if (i%1000==0){     // Added by us.
+                    cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
+                    fflush(stdout);
+                }
             }
         }
 
@@ -212,7 +224,12 @@ void System::openEnergyFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_energyFileName);
     //system(cmd);
-    sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d.bin", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
+    sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d_J%d___r%d.bin",
+            m_numberOfParticles,
+            (int)(m_waveFunction->getOmega()*100),
+            (int) log10(m_numberOfMetropolisSteps),
+            Jastrow,
+            m_rank);
     ;
     m_energyFile.open(m_energyFileName, ios::out | ios::binary);
 }
@@ -223,7 +240,13 @@ void System::openPositionFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_oldPositionFileName);
     //system(cmd);
-    sprintf(m_oldPositionFileName, "dataFiles/positionN%dw%dSe%dNoJ.bin", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
+    sprintf(m_oldPositionFileName, "dataFiles/positionN%dw%dSe%d_J%d___r%d.bin",
+            m_numberOfParticles,
+            (int)(m_waveFunction->getOmega()*100),
+            (int) log10(m_numberOfMetropolisSteps),
+            Jastrow,
+            m_rank);
+
     m_oldPositionFile.open(m_oldPositionFileName, ios::out | ios::binary);
 }
 
@@ -239,6 +262,11 @@ void System::closePositionFile()
 {
     cout << "Positions stored in "<< m_oldPositionFileName << endl;
     m_oldPositionFile.close();
+    MPI_Barrier(MPI_COMM_WORLD);
+    if (m_rank==0){
+        system("cat dataFiles/positionN* > dataFiles/allPositions");
+        system("rm dataFiles/positionN*");
+    }
 }
 
 

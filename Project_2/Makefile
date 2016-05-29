@@ -10,12 +10,12 @@ MAKEFILE      = Makefile
 
 ####### Compiler, tools and options
 
-CC            = gcc
-CXX           = g++
+CC            = /usr/bin/mpicxx
+CXX           = /usr/bin/mpicxx
 DEFINES       = 
-CFLAGS        = -pipe -O2 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -std=c++11 -O2 -std=c++0x -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -I../../../Qt/5.5/gcc_64/mkspecs/linux-g++
+CFLAGS        = -pipe -I/usr/lib/openmpi/include -I/usr/lib/openmpi/include/openmpi -pthread -O2 -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -std=c++11 -I/usr/lib/openmpi/include -I/usr/lib/openmpi/include/openmpi -pthread -DMPICH_IGNORE_CXX_SEEK -O2 -I/usr/lib/openmpi/include -I/usr/lib/openmpi/include/openmpi -pthread -DMPICH_IGNORE_CXX_SEEK -std=c++0x -Wall -W -fPIC $(DEFINES)
+INCPATH       = -I. -I/usr/include/openmpi-x86_64 -I../../../Qt/5.5/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/filiphl/Qt/5.5/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -34,8 +34,8 @@ TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = variational-monte-carlo-fys44111.0.0
 DISTDIR = /home/filiphl/Desktop/FYS4411/Project_2/.tmp/variational-monte-carlo-fys44111.0.0
-LINK          = g++
-LFLAGS        = -Wl,-O1 -Wl,-rpath,/home/filiphl/Qt/5.5/gcc_64
+LINK          = /usr/bin/mpicxx
+LFLAGS        = -pthread -L/usr//lib -L/usr/lib/openmpi/lib -lmpi_cxx -lmpi -ldl -lhwloc -Wl,-O1 -Wl,-rpath,/home/filiphl/Qt/5.5/gcc_64
 LIBS          = $(SUBLIBS) -larmadillo -lblas -llapack 
 AR            = ar cqs
 RANLIB        = 
