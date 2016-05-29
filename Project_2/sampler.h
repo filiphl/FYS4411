@@ -30,6 +30,9 @@ private:
     double  m_localAlphaDeriv            = 0;
     double  m_localBetaDeriv             = 0;
 
+    // Storing position
+    int m_storeStep                      = 100;
+
 public:
     Sampler(class System* system);
     void setNumberOfMetropolisSteps(int steps);

@@ -82,15 +82,16 @@ void Sampler::sample(bool acceptedStep) {
         m_system->m_energyFile.write(reinterpret_cast<const char*>(&m_localEnergy), sizeof(double));
     }
 
-    if (m_system->m_oldPositionFile.is_open()){
+    if (m_stepNumber%m_storeStep==0){
+        if (m_system->m_oldPositionFile.is_open()){
 
+            for (int i=0; i<m_system->getNumberOfParticles(); i++){
 
-        for (int i=0; i<m_system->getNumberOfParticles(); i++){
+                pos.x = m_system->getParticles()[i]->getOldPosition()[0];
+                pos.y = m_system->getParticles()[i]->getOldPosition()[1];
 
-            pos.x = m_system->getParticles()[i]->getOldPosition()[0];
-            pos.y = m_system->getParticles()[i]->getOldPosition()[1];
-
-            m_system->m_oldPositionFile.write(reinterpret_cast<char*>(&pos), sizeof(Pos));  // Pos is a struct.
+                m_system->m_oldPositionFile.write(reinterpret_cast<char*>(&pos), sizeof(Pos));  // Pos is a struct.
+            }
         }
     }
 
