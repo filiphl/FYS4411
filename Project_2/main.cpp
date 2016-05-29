@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
         system->getWaveFunction()->setBeta(myOptimizer->getBeta());
     }
 
-    system->setStoreLocalEnergy             (false);
+    system->setStoreLocalEnergy             (true);
     system->setStorePositions               (true);
 
     system->setPrintResults                 (true);

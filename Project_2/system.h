@@ -82,7 +82,7 @@ public:
     void closePositionFile();
     char m_energyFileName[50];
     char m_oldPositionFileName[50];
-    char m_newPositionFileName[50];
+    char m_newPositionFileName[200];
     ofstream m_energyFile;
     ofstream m_oldPositionFile;
     bool Jastrow = true;

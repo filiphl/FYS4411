@@ -257,7 +257,7 @@ void System::closeEnergyFile()
     m_energyFile.close();
     MPI_Barrier(MPI_COMM_WORLD);
     if (m_rank==0){
-        char cmd[50];
+        char cmd[200];
         sprintf(cmd, "cat dataFiles/localenergiesN%dw%dSe%d_J%d___r*.bin > dataFiles/energiesN%dw%dSe%d_J%d.bin",
                 m_numberOfParticles,
                 (int)(m_waveFunction->getOmega()*100),
@@ -280,7 +280,7 @@ void System::closePositionFile()
     m_oldPositionFile.close();
     MPI_Barrier(MPI_COMM_WORLD);
     if (m_rank==0){
-        char cmd[50];
+        char cmd[200];
         sprintf(cmd, "cat dataFiles/positionN%dw%dSe%d_J%d___r*.bin > dataFiles/positionsN%dw%dSe%d_J%d.bin",
                 m_numberOfParticles,
                 (int)(m_waveFunction->getOmega()*100),
