@@ -10,8 +10,8 @@ private:
 
     double m_energy            = 0;
     double m_energyOld         = 0;
-    double m_steplength        = 0.1;
-    double m_steplengthBeta    = 0.1;
+    double m_steplength        = 0.01;
+    double m_steplengthBeta    = 0.01;
     double m_epsilon           = 0;
     double m_alpha             = 1;
     double m_alphaOld          = 0.0;

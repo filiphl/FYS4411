@@ -40,9 +40,9 @@ int main(int argc, char* argv[]) {
     int numberOfParticles   = 20;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 1e6;
-    double omegaHO          = 1;            // Oscillator frequency.
-    double alpha            = 0.8;      // Variational parameter.
-    double beta             = 0.7;          // Variational parameter.
+    double omegaHO          = 0.5;            // Oscillator frequency.
+    double alpha            = 0.861;      // Variational parameter.
+    double beta             = 0.694;          // Variational parameter.
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
