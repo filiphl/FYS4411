@@ -255,6 +255,22 @@ void System::closeEnergyFile()
 {
     cout << "Energies stored in "<< m_energyFileName << endl;
     m_energyFile.close();
+    MPI_Barrier(MPI_COMM_WORLD);
+    if (m_rank==0){
+        char cmd[50];
+        sprintf(cmd, "cat dataFiles/localenergiesN%dw%dSe%d_J%d___r*.bin > dataFiles/energiesN%dw%dSe%d_J%d.bin",
+                m_numberOfParticles,
+                (int)(m_waveFunction->getOmega()*100),
+                (int) log10(m_numberOfMetropolisSteps),
+                Jastrow,
+                m_numberOfParticles,
+                (int)(m_waveFunction->getOmega()*100),
+                (int) log10(m_numberOfMetropolisSteps),
+                Jastrow);
+
+        system(cmd);
+        system("rm dataFiles/localenergiesN*");
+    }
 }
 
 
@@ -264,7 +280,17 @@ void System::closePositionFile()
     m_oldPositionFile.close();
     MPI_Barrier(MPI_COMM_WORLD);
     if (m_rank==0){
-        system("cat dataFiles/positionN* > dataFiles/allPositions");
+        char cmd[50];
+        sprintf(cmd, "cat dataFiles/positionN%dw%dSe%d_J%d___r*.bin > dataFiles/positionsN%dw%dSe%d_J%d.bin",
+                m_numberOfParticles,
+                (int)(m_waveFunction->getOmega()*100),
+                (int) log10(m_numberOfMetropolisSteps),
+                Jastrow,
+                m_numberOfParticles,
+                (int)(m_waveFunction->getOmega()*100),
+                (int) log10(m_numberOfMetropolisSteps),
+                Jastrow);
+        system(cmd);
         system("rm dataFiles/positionN*");
     }
 }
