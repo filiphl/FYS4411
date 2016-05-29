@@ -13,6 +13,7 @@
 \usepackage{subcaption} 
 \usepackage{color}
 \usepackage{amsmath}  
+\usepackage{amssymb}
 \usepackage{hyperref}
 \usepackage{pagecolor}
 %\usepackage{minted}
@@ -322,6 +323,15 @@
 	\frac{\nabla_k|D^n}{|D^n|} = \frac{1}{R_D}\sum_{j=1}^{N/2}(\nabla_kD_{kj}^n)(D_{jk}^o)^{-1}
 	\end{equation}
 	
+	where the factor $\nabla_kD_{kj} = \nabla_k \phi_j(\bm{r}_k)$ is:
+	
+	\begin{align}
+		\begin{split}
+		\nabla_kD_{kj} = A\Big(&H_{n_{j,x}}'(\sqrt{\omega\alpha}x_k)H_{n_{j,y}}(\sqrt{\omega\alpha}y_k) - \alpha\omega x_kH_{n_{j,x}}(\sqrt{\omega\alpha}x_k)H_{n_{j,y}}(\sqrt{\omega\alpha}y_k)\\
+		,&H_{n_{j,y}}'(\sqrt{\omega\alpha}y_k)H_{n_{j,x}}(\sqrt{\omega\alpha}x_k) - \alpha\omega y_kH_{n_{j,x}}(\sqrt{\omega\alpha}x_k)H_{n_{j,y}}(\sqrt{\omega\alpha}y_k)\Big)e^{-\frac{\alpha\omega}{2}r_k^2}
+		\end{split}
+	\end{align}
+
 	The correlation function gradient can be expressed:
 	
 	\begin{align}
@@ -361,6 +371,16 @@
 	\begin{equation}
 	\frac{\nabla_k^2|D|}{|D|} = \sum_{j=1}^{N/2}(\nabla_k^2D_{kj})D_{jk}^{-1}
 	\end{equation}
+	
+	where (here we abbreviate $H_{n_{j,z}}(\sqrt{\omega\alpha}z_k)$ by $H_{n_j}(z)$ for compactness)
+	
+	\begin{align}
+		\begin{split}
+		\nabla_k^2D_{kj} = A\Big[&H_{n_j}''(x)H_{n_j}(y) + H_{n_j}''(y)H_{n_j}(x)\\
+		&- 2\alpha\omega\left(xH_{n_j}'(x)H_{n_j}(y) + yH_{n_j}'(y)H_{n_j}(x)\right)\\
+		&- \alpha\omega H_{n_j}(x)H_{n_j}(y)\left(d - \alpha\omega r_k^2\right)\Big]e^{-\frac{\alpha\omega}{2}r_k^2}
+		\end{split}
+	\end{align}
 	
 	Unfortunately, the middle term is not so nice to find. The steps needed are many and tedious, but not difficult. They are therefore omitted and we show only the final result:
 	
@@ -434,7 +454,7 @@
 	
 	
 	\subsection{Optimizing parameters}
-	Our trail wavefunctions, both for the two-body system \eqref{TwoBodyTrailWavefunction} and many-body system \eqref{ManyBodyWavefunction}, contain two variational parameters, $\alpha$ and $\beta$.
+	Our trial wavefunctions, both for the two-body system and many-body system (equations \ref{TwoBodyTrailWavefunction} and \ref{ManyBodyWavefunction}), contain two variational parameters, $\alpha$ and $\beta$.
 	In the VMC approach, the minimal energy is sought. Therefore, the goal is to minimize $\langle E_L\rangle$ with respect to these variational parameters.
 	There are several ways to minimize a value with respect to some parameters, and here we will use the method of steepest descent (SD). The SD method, in algorithm form, is:
 	
@@ -446,7 +466,7 @@
 	\lr{\alpha, \beta}_{n+1} = \lr{\alpha, \beta}_n - \gamma_n(\frac{\partial}{\partial \alpha}, \frac{\partial}{\partial \beta})  \langle E_L\rangle. \label{optimizationAlgo}
 	\end{equation}
 	
-	 However, since $\langle E_L\rangle$ is an expensive quantity to find numerically, and its derivatives ($\bar{E}_\alpha \equiv \frac{d\langle E_L\rangle}{d\alpha}$ and $\bar{E}_\beta \equiv \frac{d\langle E_L\rangle}{d\beta}$) even more so, an analytical expression is desirable. This can be found as follows:
+	 However, since $\langle E_L\rangle$ is quite a time-consuming quantity we find numerically, and its derivatives ($\bar{E}_\alpha \equiv \frac{d\langle E_L\rangle}{d\alpha}$ and $\bar{E}_\beta \equiv \frac{d\langle E_L\rangle}{d\beta}$) even more so, an "analytical" expression is desirable. This can be found as follows:
 	
 	\begin{align}
 	\begin{split}
@@ -460,7 +480,7 @@
 	
 	\begin{align}
 	\begin{split}
-	&= \frac{d}{d\alpha}\int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\\
+	\bar{E}_\alpha &= \frac{d}{d\alpha}\int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\\
 	&= \left[ \int dx\frac{H\left(\psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\right)\psi\right)}{\int dx'|\psi|^2} \right] - \left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx'\left( \psi^*\left(\frac{d\psi}{d\alpha}\right) + \left(\frac{d\psi^*}{d\alpha}\psi\right) \right) \right]
 	\end{split}
 	\end{align}
@@ -469,19 +489,19 @@
 	
 	\begin{align}
 	\begin{split}
-	&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} \right] - 2\left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx' \psi^*\frac{d\psi}{d\alpha} \right]\\
+	\bar{E}_\alpha &= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} \right] - 2\left[ \int dx \frac{H\psi^*\psi}{\left(\int dx'|\psi|^2\right)^2}\int dx' \psi^*\frac{d\psi}{d\alpha} \right]\\
 	&= 2\left[ \int dx\frac{H\psi^*\frac{d\psi}{d\alpha}}{\int dx'|\psi|^2} - \int dx \frac{H\psi^*\psi}{\int dx'|\psi|^2}\int dx' \frac{1}{\int dx'|\psi|^2}\psi^*\frac{d\psi}{d\alpha} \right]\\
 	&= 2\left[ \int dx\frac{\psi^*\left(\frac{E_L}{\psi}\frac{d\psi}{d\alpha}\right) \psi}{\int dx'|\psi|^2} - \int dx \frac{\psi^* E_L\psi}{\int dx'|\psi|^2}\int dx' \frac{\psi^*\left(\frac{1}{\psi}\frac{d\psi}{d\alpha}\right)\psi}{\int dx'|\psi|^2} \right]\\
-	&= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
+	\therefore \bar{E}_\alpha &= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
 	\end{split}
 	\end{align}
-	where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. Obviously, the derivative with respect to $\beta$ produce an equivalent result. 
+	where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. Obviously, the derivative with respect to $\beta$ is the same.
 	
 	
-	% ENDED HERE BRUH. WHY NOT PICK IT UP? 
-	In order to find the optimal parameters, the once that give minimal energy, we set a criteria that if the new parameters, $\vec{x}_{n+1}$, suggested by equation \eqref{optimizationAlgo} has a shorter gradient than the current, $\vec{x}_n$, we accept this change, whereas if it doesn't we reset the parameters to the current and shorten the steplength by a factor 0.7. We are content when the length of the gradient is sufficiently short and store these values as the optimal parameters. 
+	% ENDED HERE BRUH. WHY NOT PICK IT UP? ...wat O.o
+	In order to find the optimal parameters, the ones that give minimal energy, we set a criteria that if the new parameters, $\vec{x}_{n+1}$, suggested by equation equation \ref{optimizationAlgo} has a shorter gradient than the current, $\vec{x}_n$, we accept this change, whereas if it doesn't we reset the parameters to the current and shorten the steplength by a factor 0.7. We are content when the length of the gradient is sufficiently short and store these values as the optimal parameters. 
 	
-	The optimal parameters produced is not trivial, though. As illustrated in figure \ref{fig:energyPlot15x15N2} the minimum value of the local energy is much more strongly dependent on the value of $\alpha$ than the value of $\beta$ in the two-electron system. Our approach will most likely produce a value of $\alpha$ that is in agreement with the true minimum, but our value of $\beta$ may differ somewhat. However, this difference does not seem to have much of a consequence for this system. For the case of the two-electron system the optimal paramaters produced were $\alpha=1.003$ and $\beta=0.3$, which resulted in a local energy of $\bk{E_L} = 3.003$. This is sufficiently close to the real minimum of 3, and seem to be in agreement with the figure as well.
+	The optimal parameters produced are not trivial however. As illustrated in figure \ref{fig:energyPlot15x15N2} the minimum value of the local energy depends much more strongly on the value of $\alpha$ than the value of $\beta$ in the two-electron system. Our approach will most likely produce a value of $\alpha$ that is in agreement with the true minimum, but our value of $\beta$ may differ somewhat. However, this difference does not seem to have much of a consequence for this system. For the case of the two-electron system the optimal parameters found were $\alpha=1.003$ and $\beta=0.3$, which resulted in a local energy of $\bk{E_L} = 3.003$. This is sufficiently close to the real minimum of 3, and seems to be in agreement with the figure as well.
 	
 	
 	
@@ -491,10 +511,6 @@
 \caption{Local energy as a function of the parameters $\alpha$ and $\beta$ in the two-electron system.}
 \label{fig:energyPlot15x15N2}
 \end{figure}
-	
-	
-	
-	
 		\begin{table}[H]
 			\begin{center}
 				\caption{Optimal parameters}
@@ -503,17 +519,17 @@
 					\toprule
 					2	&	1.00 & 3.0031  & 0.90179 & 2.10130 & 1.5336e-06 & 1.01056  & 0.3  \\
 						&	0.50 & 1.6611  & 0.45590 & 1.20520 & 2.1001e-07 & 1.0008   & 0.3 \\
-						&	0.10 & 0.4494  & 0.09579 & 0.35359 & 9.6167e-07 & 0.980183 & 0.3 \\
-						&	0.05 & 0.2722  & 0.04804 & 0.22420 & 1.0467e-06 & 0.993927 & 0.3 \\
-						&   0.01 & 0.0939  & 0.00925 & 0.08466 & 5.6000e-07 & 0.996431 & 0.3 \\
+						&	0.10 & 0.45371 & & & & 0.980183 & 0.3 \\
+						&	0.05 & 0.275   & & & & 0.993927 & 0.3 \\
+						&   0.01 & 0.10167 & & & & 0.996431 & 0.3 \\
 					\midrule
-					6   &	1.00 & 20.253 & 3.9980  & 16.255 & 3.9603e-05 & 1.02658 & 0.5 \\
-						&	0.50 & 11.965 & 2.0280  & 9.9366 & 5.7186e-05 & 1.02905 & 0.5 \\
-						&	0.10 & 3.5955 & 0.28786 & 3.3077 & 4.1274e-06 & 0.72    & 0.2  \\
-						&	0.05 & 2.6464 & 0.23462 & 2.4118 & 5.2611e-05 & 0.999997 & 0.5 \\
-						&   0.01 & 1.0839 & 0.04899 & 1.0349 & 2.7133e-05& 0.971557 & 0.5 \\
+					6   &	1.00 & 20.18  & & & & 1.02658 & 0.5 \\
+						&	0.50 & 11.941 & & & & 1.02905   & 0.5 \\
+						&	0.10 & 3.5829 & & & & 0.72   & 0.3  \\
+						&	0.05 & 2.6656 & & & & 0.999997 & 0.5 \\
+						&   0.01 & 1.1261 & & & & 0.971557 & 0.5 \\
 					\midrule
-					12  &	1.00 & 65.864  & & & & 1.04823 &0.45 \\
+					12  &	1.00 & 65.78  & & & & 1.04823 &0.45 \\
 						&	0.50 & 39.442 & & & & 0.883422 & 0.45 \\
 						&	0.10 & 13.748 & & & & 0.0361832 & 0.45\\
 						&	0.05 & 9.1981 & & & & 0.549443 & 0.45 \\
@@ -526,107 +542,73 @@
 						&   0.01 & & & & & &\\
 					\bottomrule
 				\end{tabularx}
-				\label{tab:EnergiesVarianceAndOptimalParameters}
+				\label{tab:Optimal parameters}
 			\end{center}
 		\end{table}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	\subsection{Benchmarking}
-	While the flowchart seems nice and compact, there is quite a bit code that needs implementing and some benchmarks would be nice. The first is so check if the program reproduces the energy expected for non-interacting electrons in a harmonic oscillator potential. This means that if we remove the Coulomb potential and set $a_{ij} = 0$, we should get the energies shown in table \ref{tab:nonint_noJ_energies}. If these values are reproduced, it means our Slater determinant expressions are correctly implemented.
+	While the flowchart seems nice and compact, there is quite a bit code that needs implementing and some benchmarks would be nice. The first is so check if the program reproduces the energy expected for non-interacting electrons in a harmonic oscillator potential. This means that if we remove the Coulomb potential and set $a_{ij} = 0$, then the problem is simply several non-interacting harmonic oscillators and we are left with a simple harmonic oscillator with energies given as
+	\begin{equation}
+	E_{n_x,n_y} = \hbar\omega\lr{n_x + n_y +1}.
+	\end{equation}
+	In figure \ref{fig: spinFig} these energies are shown. If these values are reproduced, it means our Slater determinant expressions are correctly implemented.
+		
+		
+		\begin{figure}[H]
+			\begin{center}
+				\begin{tikzpicture}
+				\begin{scope}[xshift=0cm, yshift = 0cm]
+				\draw (0,0) -- (1,0);
+				\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+				\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+				\end{scope}	
+				
+				\foreach \i in {-1,1}{
+					\begin{scope}[xshift=\i cm, yshift = 1cm]
+					\draw (0,0) -- (1,0);
+					\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+					\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+					\end{scope}	
+				}
+				\foreach \i in {-2,0,2}{
+					\begin{scope}[xshift=\i cm, yshift = 2cm]
+					\draw (0,0) -- (1,0);
+					\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+					\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+					\end{scope}	
+				}
+				\foreach \i in {-3,-1,1,3}{
+					\begin{scope}[xshift=\i cm, yshift = 3cm]
+					\draw (0,0) -- (1,0);
+					\draw [arrow] (0.33,-0.3)--(0.33,0.3);
+					\draw [arrow] (0.66,0.3)--(0.66,-0.3);
+					\end{scope}	
+				}
+				
+				\node [draw=none] (N2)  at (6.5,0) {$E_L = 2\phantom{0}$};
+				\node [draw=none] (N6)  at (6.5,1) {$E_L = 10$};
+				\node [draw=none] (N12) at (6.5,2) {$E_L = 28$};
+				\node [draw=none] (N20) at (6.5,3) {$E_L = 60$};
+				\draw [dotted, thick] (2,0) -- (N2);
+				\draw [dotted, thick] (3,1) -- (N6);
+				\draw [dotted, thick] (4,2) -- (N12);
+				\draw [dotted, thick] (5,3) -- (N20);
+				
+				\end{tikzpicture}
+			\end{center}
+			\caption{Illustrative figure of spin configurations in the closed shell system.}
+			\label{fig: spinFig}
+		\end{figure}
 	
+	Another benchmark is to reproduce the results of our program for the two body quantum dot. This system was solved analytically, and thus would show that the many body program can reproduce analytical results for 2 particles. Obviously, this means that the full problem (Coulomb interactions and Jastrow correlations) works, at least for the two body system.
 	
-	\begin{table}[H]
-		\begin{center}
-			\caption{Harmonic oscillator energies}
-			\begin{tabularx}{0.5\textwidth}{@{}YY@{}}
-				$N$	&	$E [\omega]$\\
-				\toprule
-				2	&	2\\
-				6	&	10\\
-				12	&	28\\
-				20	&	60
-			\end{tabularx}
-			\label{tab:nonint_noJ_energies}
-		\end{center}
-	\end{table}
+	In order to know if our two-body script works, we can compare with the work of Taut\footnote{M. Taut, Phys. Rev. A 48, 3561 - 3566 (1993)}, where he calculated the analytical solution of two electrons in an external oscillator potential with Coulomb interactions. He found:
 	
-	Another benchmark is to reproduce the results of our program for the two body quantum dot. This system was solved analytically, and thus would show that the many body program can reproduce analytical results for 2 particles. Obviously, this means that the full problem (Coulomb interactions and Jastrow correlations) works, at least for the two body system.\\
 	
 	
 	
 	\section{Results}
-	
-	Without any interaction in the system, no Coulomb potential or Jastrow factor, we are left with a simple harmonic oscillator with energies given as
-	\begin{equation}
-	E_{n_x,n_y} = \hbar\omega\lr{n_x + n_y +1}.
-	\end{equation}
-	
-	
-	\begin{figure}[H]
-		\begin{center}
-			\begin{tikzpicture}
-			\begin{scope}[xshift=0cm, yshift = 0cm]
-			\draw (0,0) -- (1,0);
-			\draw [arrow] (0.33,-0.3)--(0.33,0.3);
-			\draw [arrow] (0.66,0.3)--(0.66,-0.3);
-			\end{scope}	
-			
-			\foreach \i in {-1,1}{
-				\begin{scope}[xshift=\i cm, yshift = 1cm]
-				\draw (0,0) -- (1,0);
-				\draw [arrow] (0.33,-0.3)--(0.33,0.3);
-				\draw [arrow] (0.66,0.3)--(0.66,-0.3);
-				\end{scope}	
-			}
-			\foreach \i in {-2,0,2}{
-				\begin{scope}[xshift=\i cm, yshift = 2cm]
-				\draw (0,0) -- (1,0);
-				\draw [arrow] (0.33,-0.3)--(0.33,0.3);
-				\draw [arrow] (0.66,0.3)--(0.66,-0.3);
-				\end{scope}	
-			}
-			\foreach \i in {-3,-1,1,3}{
-				\begin{scope}[xshift=\i cm, yshift = 3cm]
-				\draw (0,0) -- (1,0);
-				\draw [arrow] (0.33,-0.3)--(0.33,0.3);
-				\draw [arrow] (0.66,0.3)--(0.66,-0.3);
-				\end{scope}	
-			}
-			
-			\node [draw=none] (N2)  at (6.5,0) {$E_L = 2\phantom{0}$};
-			\node [draw=none] (N6)  at (6.5,1) {$E_L = 10$};
-			\node [draw=none] (N12) at (6.5,2) {$E_L = 28$};
-			\node [draw=none] (N20) at (6.5,3) {$E_L = 60$};
-			\draw [dotted, thick] (2,0) -- (N2);
-			\draw [dotted, thick] (3,1) -- (N6);
-			\draw [dotted, thick] (4,2) -- (N12);
-			\draw [dotted, thick] (5,3) -- (N20);
-			
-			\end{tikzpicture}
-		\end{center}
-		\caption{Illustrative figure of spin configurations in the closed shell system.}
-		\label{fig: spinFig}
-	\end{figure}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	\begin{table}[H]
@@ -645,7 +627,7 @@
 			\label{tab:HO}
 		\end{center}
 	\end{table}
-	These result infer that our Slater determinants are implemented correctly.
+	This fits with the energies shown in figure \ref{fig: spinFig}, and infer that our Slater determinant expressions are implemented correctly.
 	
 	
 	
@@ -675,7 +657,23 @@
 	
 	
 	
-	
+	\begin{figure}
+		\centering
+		\subcaptionbox{$N=2,\:\omega=1.0$\label{cat}}
+		{\includegraphics[scale=0.43]{figures/radialDistribution/OneBodyDensityN2w100Se7.pdf}}
+		\subcaptionbox{$N=2,\:\omega=1.0$\label{elephant}}
+		{\includegraphics[scale=0.43]{figures/radialDistribution/radialDistributionN2w100Se7.pdf}}
+		
+		\subcaptionbox{$N=6,\:\omega=0.1$\label{cat}}
+		{\includegraphics[scale=0.43]{figures/radialDistribution/OneBodyDensityN6w10Se7.pdf}}
+		\subcaptionbox{$N=6,\:\omega=0.1$\label{elephant}}
+		{\includegraphics[scale=0.43]{figures/radialDistribution/radialDistributionN6w10Se7.pdf}}
+		
+		\subcaptionbox{$N=12,\:\omega=1.0$\label{cat}}
+		{\includegraphics[scale=0.43]{figures/radialDistribution/OneBodyDensityN12w100Se7.pdf}}
+		\subcaptionbox{$N=12,\:\omega=1.0$\label{elephant}}
+		{\includegraphics[scale=0.43]{figures/radialDistribution/radialDistributionN12w100Se7.pdf}}
+	\end{figure}
 	
 	
 	
