@@ -177,7 +177,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
         if (m_printProgress){
-            if (i%100==0){     // Added by us.
+            if (i%1000==0){     // Added by us.
                 cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
                 fflush(stdout);
             }

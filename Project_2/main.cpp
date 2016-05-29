@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e7;
+    int numberOfSteps       = (int) 1e8;
     double omegaHO          = 1;            // Oscillator frequency.
     double alpha            = 1;      // Variational parameter.
     double beta             = 0.3;          // Variational parameter.
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     system->setStepLength                   (stepLength);
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
-    system->setPrintProgress                (false);
+    system->setPrintProgress                (true);
     bool   optimizing =                      false;
 
 
@@ -76,8 +76,8 @@ int main(int argc, char* argv[]) {
         system->getWaveFunction()->setBeta(myOptimizer->getBeta());
     }
 
-    system->setStoreLocalEnergy             (true);
-    system->setStorePositions               (true);
+    system->setStoreLocalEnergy             (false);
+    system->setStorePositions               (false);
 
     system->setPrintResults                 (true);
     system->runMetropolisSteps              (numberOfSteps);

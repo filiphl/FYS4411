@@ -33,13 +33,13 @@ public:
 
     double evaluate(std::vector<class Particle*> particles);
     double computeLaplacian(std::vector<class Particle*> particles);
-    double computeGradient(std::vector<class Particle*> particles, int particle, int dimension);
+    double computeGradient(std::vector<Particle *> &particles, int particle, int dimension);
     double computeRatio(std::vector<class Particle*> particles, int i, int j, double change);
     double SingleParticleWF(int nx, int ny, double x, double y);
     double ddSingleParticleWF(int i,int j);
-    double slaterGrad(std::vector<class Particle*> particles, int k, int j);
-    double correlationGrad(std::vector<class Particle*> particles, int k, int j);
-    double correlationLap(std::vector<class Particle*> particles, int k);
+    double slaterGrad(std::vector<class Particle*> &particles, int k, int j);
+    double correlationGrad(std::vector<Particle *> &particles, int k, int j);
+    double correlationLap(std::vector<class Particle*> &particles, int k);
     double hermite(int energyLevel, double position);
     double hermiteDerivative(int energyLevel, double position);
     double hermiteDoubleDerivative(int energyLevel, double position);

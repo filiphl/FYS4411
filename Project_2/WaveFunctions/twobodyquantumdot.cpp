@@ -94,7 +94,7 @@ double TwoBodyQuantumDot::computeLaplacian(std::vector<Particle *> particles)
 }
 
 
-double TwoBodyQuantumDot::computeGradient(std::vector<Particle *> particles, int particle , int dimension)
+double TwoBodyQuantumDot::computeGradient(std::vector<Particle *> &particles, int particle , int dimension)
 {
     double r1 = 0;
     double r2 = 0;

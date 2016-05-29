@@ -196,7 +196,7 @@ double ManyBodyQuantumDotWaveFunction::computeLaplacian(std::vector<class Partic
 
 
 
-double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *> particles, int particle, int dimension)
+double ManyBodyQuantumDotWaveFunction::computeGradient(std::vector<Particle *>& particles, int particle, int dimension)
 {
 //    double dr=0;
 //    m_derivativeStepLength = 1e-5;
@@ -242,12 +242,12 @@ double ManyBodyQuantumDotWaveFunction::ddSingleParticleWF(int i, int j)
         ny = m_quantumNumbers(j-m_npHalf,1);
     }
 
-    double   Hx = hermite(nx, m_system->getParticles()[i]->getNewPosition()[0]);
-    double   Hy = hermite(ny, m_system->getParticles()[i]->getNewPosition()[1]);
-    double  dHx = hermiteDerivative(nx, m_system->getParticles()[i]->getNewPosition()[0]);
-    double  dHy = hermiteDerivative(ny, m_system->getParticles()[i]->getNewPosition()[1]);
-    double ddHx = hermiteDoubleDerivative(nx, m_system->getParticles()[i]->getNewPosition()[0]);
-    double ddHy = hermiteDoubleDerivative(ny, m_system->getParticles()[i]->getNewPosition()[1]);
+    double   Hx = hermite                       (nx, m_system->getParticles()[i]->getNewPosition()[0]);
+    double   Hy = hermite                       (ny, m_system->getParticles()[i]->getNewPosition()[1]);
+    double  dHx = hermiteDerivative             (nx, m_system->getParticles()[i]->getNewPosition()[0]);
+    double  dHy = hermiteDerivative             (ny, m_system->getParticles()[i]->getNewPosition()[1]);
+    double ddHx = hermiteDoubleDerivative       (nx, m_system->getParticles()[i]->getNewPosition()[0]);
+    double ddHy = hermiteDoubleDerivative       (ny, m_system->getParticles()[i]->getNewPosition()[1]);
 
 
     return (Hy*ddHx + Hx*ddHy -
@@ -259,7 +259,7 @@ double ManyBodyQuantumDotWaveFunction::ddSingleParticleWF(int i, int j)
 
 
 
-double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> particles, int k, int j)
+double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *>& particles, int k, int j)
 {
     double element = 0;
     double slater = 0;
@@ -326,7 +326,7 @@ double ManyBodyQuantumDotWaveFunction::slaterGrad(std::vector<Particle *> partic
 }
 
 
-double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> particles, int k, int d){
+double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *>& particles, int k, int d){
     //There might be an error in sign here, PLS CHECK OMGLOL
     double correlation = 0;
     for (int i=0; i<k; i++){
@@ -345,7 +345,7 @@ double ManyBodyQuantumDotWaveFunction::correlationGrad(std::vector<Particle *> p
     return correlation;
 }
 
-double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *> particles, int k)
+double ManyBodyQuantumDotWaveFunction::correlationLap(std::vector<Particle *>& particles, int k)
 {
     double correlation = 0;
 
