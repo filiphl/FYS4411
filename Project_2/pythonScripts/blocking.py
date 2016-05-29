@@ -6,16 +6,10 @@ filename = str(argv[1])
 N 		 = int(argv[2]);
 step     = int(argv[3])
 
-inFileName  = filename
+
 outFileName = '../Report/figures/blocking/' + filename[19:-4] + ".pdf"
 
-infile = open(inFileName, 'r')
-energy = []
-for line in infile:
-	col = line.split()
-	energy.append(float(col[0]))
-
-energy = asarray(energy)
+energy = fromfile(filename)
 numberOfSamples = len(energy)
 
 

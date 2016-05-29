@@ -10,7 +10,9 @@
 
 using namespace std;
 
-
+struct Pos {
+    double x,y;
+} pos;
 
 double Sampler::getLocalAlphaDeriv() const
 {
@@ -80,11 +82,14 @@ void Sampler::sample(bool acceptedStep) {
     }
 
     if (m_system->m_oldPositionFile.is_open()){
+
+
         for (int i=0; i<m_system->getNumberOfParticles(); i++){
-            for (int j=0; j<m_system->getNumberOfDimensions(); j++){
-                m_system->m_oldPositionFile << setw(15) << setprecision(8) << m_system->getParticles()[i]->getOldPosition()[j];
-            }
-            m_system->m_oldPositionFile << endl;
+
+                pos.x = m_system->getParticles()[i]->getOldPosition()[0];
+                pos.y = m_system->getParticles()[i]->getOldPosition()[1];
+
+                m_system->m_oldPositionFile.write(reinterpret_cast<char*>(&pos), sizeof(Pos));  // Pos is a struct.
         }
     }
 

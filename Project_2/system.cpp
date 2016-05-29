@@ -223,8 +223,8 @@ void System::openPositionFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_oldPositionFileName);
     //system(cmd);
-    sprintf(m_oldPositionFileName, "dataFiles/positionN%dw%dSe%dNoJ.txt", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
-    m_oldPositionFile.open(m_oldPositionFileName, ios::out);
+    sprintf(m_oldPositionFileName, "dataFiles/positionN%dw%dSe%dNoJ.bin", m_numberOfParticles, (int)(m_waveFunction->getOmega()*100), (int) log10(m_numberOfMetropolisSteps));
+    m_oldPositionFile.open(m_oldPositionFileName, ios::out | ios::binary);
 }
 
 

@@ -29,17 +29,13 @@ def loadCube(positions,N=200, l=-3, u=3):
 
 
 def radialDistribution(path, d=3 , N=100, clr="#006867", lbl="HO"):
-
-    positions = np.loadtxt(path)
+    mydt = np.dtype([('x', np.double),('y', np.double)])
+    positions = np.fromfile(path, mydt)
     print "Done loading file"
-    u = positions.max()
     r = np.zeros(len(positions))
 
     for i in xrange(len(positions)):
-        r2 = 0.0
-        for j in xrange(2):
-            r2 += positions[i][j]*positions[i][j]
-        r[i] = sqrt(r2);
+        r[i] = np.sqrt([positions[i][0]*positions[i][0] + positions[i][1]*positions[i][1]])
 
     print "Done filling vec"
     Weights = np.ones_like(r)/float(len(r))
@@ -137,13 +133,13 @@ def make1dHist(data):
 if __name__ == "__main__":
     path0 =  "../dataFiles/positionN2w100Se5.txt"
     path1 = "../dataFiles/positionN2w100Se5NoJ.txt"
+    path3 = "../dataFiles/positionN2w100Se7NoJ.bin"
 
 
 
+    radialDistribution(path3, 2, 100, clr="#006867", lbl="Full system")
 
-    radialDistribution(path0, 2, 100, clr="#006867", lbl="Full system")
-
-    radialDistribution(path1, 2, 100, clr="#340068", lbl="Excluding Jastrow")
+    #radialDistribution(path1, 2, 100, clr="#340068", lbl="Excluding Jastrow")
 
     plt.figure(2)
     plt.legend()
