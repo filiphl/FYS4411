@@ -615,9 +615,9 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
 
                 // Dividing by alpha because we defined m_oa=omega*alpha in constructer.
 
-            }
             psiAlpha += dAijUp*exp(-m_oa*(xiUp*xiUp + yiUp*yiUp));
             psiAlpha += dAijDown*exp(-m_oa*(xiDown*xiDown + yiDown*yiDown));
+            }
         }
 
 
