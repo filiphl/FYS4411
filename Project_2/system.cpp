@@ -187,7 +187,7 @@ void System::runMetropolisSteps(int numberOfMetropolisSteps) {
 
     for (int i=0; i < m_numberOfMetropolisSteps; i++) {
         if (m_printProgress){
-            if (m_rank==1){
+            if (m_rank==0){
                 if (i%1000==0){     // Added by us.
                     cout << "  " << setprecision(2) << 100*i/m_numberOfMetropolisSteps << "% complete"<< "\r";
                     fflush(stdout);
@@ -224,14 +224,16 @@ void System::openEnergyFile()
     //char cmd[50];
     //sprintf(cmd, "rm %s", m_energyFileName);
     //system(cmd);
-    sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d_J%d___r%d.bin",
-            m_numberOfParticles,
-            (int)(m_waveFunction->getOmega()*100),
-            (int) log10(m_numberOfMetropolisSteps),
-            Jastrow,
-            m_rank);
-    ;
-    m_energyFile.open(m_energyFileName, ios::out | ios::binary);
+    if (m_rank==0){
+        sprintf(m_energyFileName, "dataFiles/localenergiesN%dw%dSe%d_J%d___r%d.bin",
+                m_numberOfParticles,
+                (int)(m_waveFunction->getOmega()*100),
+                (int) log10(m_numberOfMetropolisSteps),
+                Jastrow,
+                m_rank);
+        ;
+        m_energyFile.open(m_energyFileName, ios::out | ios::binary);
+    }
 }
 
 
@@ -255,22 +257,6 @@ void System::closeEnergyFile()
 {
     cout << "Energies stored in "<< m_energyFileName << endl;
     m_energyFile.close();
-    MPI_Barrier(MPI_COMM_WORLD);
-    if (m_rank==0){
-        char cmd[200];
-        sprintf(cmd, "cat dataFiles/localenergiesN%dw%dSe%d_J%d___r*.bin > dataFiles/energiesN%dw%dSe%d_J%d.bin",
-                m_numberOfParticles,
-                (int)(m_waveFunction->getOmega()*100),
-                (int) log10(m_numberOfMetropolisSteps),
-                Jastrow,
-                m_numberOfParticles,
-                (int)(m_waveFunction->getOmega()*100),
-                (int) log10(m_numberOfMetropolisSteps),
-                Jastrow);
-
-        system(cmd);
-        system("rm dataFiles/localenergiesN*");
-    }
 }
 
 

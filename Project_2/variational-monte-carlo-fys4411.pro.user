@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.0, 2016-05-29T18:12:22. -->
+<!-- Written by QtCreator 3.5.0, 2016-05-29T22:47:42. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -229,8 +229,9 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-n 8 variational-monte-carlo-fys4411</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-n 1 variational-monte-carlo-fys4411</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/usr/bin/mpirun</value>
+    <value type="bool" key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal">true</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Run /usr/bin/mpirun</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
