@@ -55,8 +55,8 @@ void Optimizer::optimizeParameters()
                 m_steplengthBeta *= 0.8;
             }
 */
-            m_steplength *= 0.8;
-            m_steplengthBeta *= 0.8;
+            m_steplength *= 0.9;
+            m_steplengthBeta *= 0.9;
 
             m_dAlpha = m_dAlphaOld;
             m_dBeta  = m_dBetaOld;

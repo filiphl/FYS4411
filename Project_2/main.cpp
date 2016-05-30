@@ -31,12 +31,12 @@ int main(int argc, char* argv[]) {
     MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
     MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
 
-    int numberOfParticles   = 20;
+    int numberOfParticles   = 6;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e7;
-    double omegaHO          = 1.0;            // Oscillator frequency.
-    double alpha            = 0.92930;      // Variational parameter.
-    double beta             = 0.80390;          // Variational parameter.
+    int numberOfSteps       = (int) 1e5;
+    double omegaHO          = 0.05;            // Oscillator frequency.
+    double alpha            = 1;      // Variational parameter.
+    double beta             = 0.5;          // Variational parameter.
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
     system->setPrintProgress                (true);
-    bool   optimizing =                      false;
+    bool   optimizing =                      true;
 
 
     if (optimizing){
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
         system->getWaveFunction()->setBeta(myOptimizer->getBeta());
     }
 
-    system->setStoreLocalEnergy             (true);
+    system->setStoreLocalEnergy             (false);
     system->setStorePositions               (false);
 
     system->setPrintResults                 (true);

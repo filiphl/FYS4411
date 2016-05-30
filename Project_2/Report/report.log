@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  29 MAY 2016 23:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  30 MAY 2016 04:42
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1359,32 +1359,92 @@ put line 510.
 (pdftex.def)             Requested size: 409.72125pt x 176.22807pt.
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.8214024183| 
+ []|\T1/cmr/m/n/10 0.4693948061| 
  []
 
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.4796643883| 
+ []|\T1/cmr/m/n/10 0.9761104359| 
  []
 
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.5309372619| 
+ []|\T1/cmr/m/n/10 0.3247482485| 
  []
 
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.3966227426| 
+ []|\T1/cmr/m/n/10 0.3239227774| 
  []
 
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.4308050429| 
+ []|\T1/cmr/m/n/10 0.9689144848| 
  []
 
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.3127397071| 
+ []|\T1/cmr/m/n/10 0.3798938585| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.2182500452| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0146457351505| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0103759237806| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0382364373027| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0066981012406| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0222688234063| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0235715616793| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0142877956102| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0163797140360| 
+ []
+
+
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0145351443935| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.3726675853| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.1280712614| 
  []
 
 [7] [8 <./figures/energySurface/energyPlot15x15N2.pdf>]
@@ -1487,7 +1547,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 683.
 Here is how much of TeX's memory you used:
  23257 strings out of 493085
  449163 string characters out of 6136917
- 669241 words of memory out of 5000000
+ 670240 words of memory out of 5000000
  26195 multiletter control sequences out of 15000+600000
  24279 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1536,7 +1596,7 @@ m-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb
 onts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb>
 </usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on report.pdf (12 pages, 662019 bytes).
+Output written on report.pdf (12 pages, 662266 bytes).
 PDF statistics:
  1028 PDF objects out of 1200 (max. 8388607)
  342 compressed objects within 4 object streams

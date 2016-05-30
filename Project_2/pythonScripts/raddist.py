@@ -3,7 +3,6 @@ In order to run this program one must have MayaVI installed.
 I run it as python raddist.py -toolkit wx
 """
 import sys, os, numpy as np
-
 from math import sqrt, pi
 #from mayavi import mlab
 import matplotlib.pyplot as plt
@@ -28,21 +27,22 @@ def loadCube(positions,N=200, l=-3, u=3):
     return cube
 
 
-def radialDistribution(path, d=3 , N=100, clr="#006867", lbl="HO"):
+def radialDistribution(filename, d=3 , N=100, clr="#006867", lbl="HO"):
     mydt = np.dtype([('x', np.double),('y', np.double)])
-    positions = np.fromfile(path, mydt)
+    positions = np.fromfile("../dataFiles/positions/N20/"+filename, mydt)
     print "Done loading file"
-    r = np.zeros(len(positions))
+    lp = len(positions)
+    r = np.zeros(lp)
 
-    for i in xrange(len(positions)):
+    for i in xrange(lp):
         r[i] = np.sqrt([positions[i][0]*positions[i][0] + positions[i][1]*positions[i][1]])
 
     print "Done filling vec"
     Weights = np.ones_like(r)/float(len(r))
     plt.figure(1)
     n, bins, patches = plt.hist(r, bins=N,  weights=Weights, color=clr)
-    np.save("obdData/"+path[21:-4]+"_n", n)
-    np.save("obdData/"+path[21:-4]+"_bins", bins)
+    np.save("obdData/"+filename[:-4]+"_n", n)
+    np.save("obdData/"+filename[:-4]+"_bins", bins)
     plt.figure(3)
     plt.plot(bins[:-1], n, '-', color=clr, linewidth=2, label=lbl)
     plt.grid("on")
@@ -133,13 +133,14 @@ def make1dHist(data):
 if __name__ == "__main__":
     path0 =  "../dataFiles/positionN2w100Se5.txt"
     path1 = "../dataFiles/positionN2w100Se5NoJ.txt"
-    path3 = "../allPositions.bin"
+    path3 = "positionsN20w100Se6_J1.bin"
+    path4 = "positionsN20w100Se6_J0.bin"
 
 
 
     radialDistribution(path3, 2, 100, clr="#006867", lbl="Full system")
 
-    #radialDistribution(path1, 2, 100, clr="#340068", lbl="Excluding Jastrow")
+    radialDistribution(path4, 2, 100, clr="#340068", lbl="Excluding Jastrow")
 
     plt.figure(2)
     plt.legend()

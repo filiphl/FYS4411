@@ -562,7 +562,6 @@ void ManyBodyQuantumDotWaveFunction::updateSlater(int i)
             }
         }
     }
-
     // Down
     else{
         mat downOldInverse = m_slaterDownInverse;
