@@ -156,15 +156,12 @@ bool System::metropolisStep() {
 
 
     double mynt = Random::nextDouble();              // Uniform [0,1]
-
     if (mynt < prob){ // Accept.
         m_particles[p]->adjustOldPosition(dx, d);
         m_waveFunction->updateSlater(p);
         return true; }
-
     else {            // Reject.
         m_waveFunction->computeRatio(m_particles, p, d, -dx); //resets positions, distances and m_R
-        return false;
     }
 }
 

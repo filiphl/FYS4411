@@ -31,12 +31,12 @@ int main(int argc, char* argv[]) {
     MPI_Comm_rank (MPI_COMM_WORLD, &rank);	/* get current process id */
     MPI_Comm_size (MPI_COMM_WORLD, &size);	/* get number of processes */
 
-    int numberOfParticles   = 6;
+    int numberOfParticles   = 2;
     int numberOfDimensions  = 2;
     int numberOfSteps       = (int) 6.25e6;
     double omegaHO          = 1;            // Oscillator frequency.
-    double alpha            = 1.1;      // Variational parameter.
-    double beta             = 0.3;          // Variational parameter.
+    double alpha            = 1;      // Variational parameter.
+    double beta             = 0.38;          // Variational parameter.
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 
     system->setInitialState                 (new RandomUniform(system, numberOfDimensions, numberOfParticles));
 
-    if (1){
+    if (0){
         system->setWaveFunction                 (new ManyBodyQuantumDotWaveFunction(system, alpha, omegaHO, a, beta));
         system->setHamiltonian                  (new ManyBodyQuantumDotHamiltonian (system, omegaHO));
     }

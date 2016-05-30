@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.10.27)  30 MAY 2016 15:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.10.27)  30 MAY 2016 09:40
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1198,7 +1198,32 @@ e.tex
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/decorations/pgflibrary
 decorations.markings.code.tex))
 Package hyperref Info: Option `colorlinks' set `true' on input line 55.
- (./report.aux)
+ (./report.aux
+
+LaTeX Warning: Label `cat' multiply defined.
+
+
+LaTeX Warning: Label `sub@cat' multiply defined.
+
+
+LaTeX Warning: Label `elephant' multiply defined.
+
+
+LaTeX Warning: Label `sub@elephant' multiply defined.
+
+
+LaTeX Warning: Label `cat' multiply defined.
+
+
+LaTeX Warning: Label `sub@cat' multiply defined.
+
+
+LaTeX Warning: Label `elephant' multiply defined.
+
+
+LaTeX Warning: Label `sub@elephant' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
@@ -1215,8 +1240,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
 LaTeX Font Info:    ... okay on input line 68.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 68.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 68.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 68.
@@ -1302,7 +1326,7 @@ Overfull \hbox (1.98184pt too wide) in paragraph at lines 88--101
 \openout5 = `report.toc'.
 
  [1]
-Underfull \hbox (badness 10000) in paragraph at lines 140--143
+Underfull \hbox (badness 10000) in paragraph at lines 138--141
 
  []
 
@@ -1310,223 +1334,215 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.176 	\end{align}
-                   [1]
-Underfull \hbox (badness 10000) in paragraph at lines 210--212
+l.197 	\begin{equation}
+                        [1]
+Underfull \hbox (badness 10000) in paragraph at lines 208--210
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 281--284
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 298--299
+[3] [4] [5] [6]
 
- []
+! LaTeX Error: File `figures/energySurface/energyPlot15x15N2' not found.
 
-[4] [5] [6] [7]
-<figures/energySurface/energyPlot15x15N2.pdf, id=203, 578.16pt x 433.62pt>
-File: figures/energySurface/energyPlot15x15N2.pdf Graphic file (type pdf)
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.516 ...{figures/energySurface/energyPlot15x15N2}
+                                                  
+I could not locate the file with any of these extensions:
+.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2,.eps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-<use figures/energySurface/energyPlot15x15N2.pdf>
-Package pdftex.def Info: figures/energySurface/energyPlot15x15N2.pdf used on in
-put line 555.
-(pdftex.def)             Requested size: 409.72125pt x 176.22807pt.
- [8] [9 <./figures/energySurface/energyPlot15x15N2.pdf>]
-<figures/blocking/localenergiesN6w50Se7.pdf, id=684, 578.16pt x 433.62pt>
-File: figures/blocking/localenergiesN6w50Se7.pdf Graphic file (type pdf)
+[7] [8]
 
-<use figures/blocking/localenergiesN6w50Se7.pdf>
-Package pdftex.def Info: figures/blocking/localenergiesN6w50Se7.pdf used on inp
-ut line 677.
-(pdftex.def)             Requested size: 248.60394pt x 186.45296pt.
-
-<figures/blocking/localenergiesN20w50Se7.pdf, id=685, 578.16pt x 433.62pt>
-File: figures/blocking/localenergiesN20w50Se7.pdf Graphic file (type pdf)
-
-<use figures/blocking/localenergiesN20w50Se7.pdf>
-Package pdftex.def Info: figures/blocking/localenergiesN20w50Se7.pdf used on in
-put line 681.
-(pdftex.def)             Requested size: 248.60394pt x 186.45296pt.
-
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 676--684
-[]$[]$ $[]$ 
- []
-
-[10]
-Underfull \hbox (badness 10000) in paragraph at lines 704--705
-
- []
+LaTeX Warning: File `figures/radialDistribution/OneBodyDensityN2w100Se7.pdf' no
+t found on input line 669.
 
 
-<figures/radialDistribution/OneBodyDensityN2w100Se7.pdf, id=696, 587.19376pt x 
-442.65375pt>
-File: figures/radialDistribution/OneBodyDensityN2w100Se7.pdf Graphic file (type
- pdf)
- <use figures/radialDistribution/OneBodyDensityN2w100Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN2w100Se7.pdf
- used on input line 733.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
+! Package pdftex.def Error: File `figures/radialDistribution/OneBodyDensityN2w1
+00Se7.pdf' not found.
 
-<figures/radialDistribution/radialDistributionN2w100Se7.pdf, id=697, 587.19376p
-t x 442.65375pt>
-File: figures/radialDistribution/radialDistributionN2w100Se7.pdf Graphic file (
-type pdf)
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.669 ...istribution/OneBodyDensityN2w100Se7.pdf}}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-<use figures/radialDistribution/radialDistributionN2w100Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/radialDistributionN2w100Se7
-.pdf used on input line 737.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 732--740
-[]$[]$ $[]$ 
+Underfull \hbox (badness 10000) in paragraph at lines 669--669
+[]\T1/cmr/m/n/9 (a)
  []
 
 
-<figures/radialDistribution/OneBodyDensityN6w100Se7.pdf, id=698, 587.19376pt x 
-442.65375pt>
-File: figures/radialDistribution/OneBodyDensityN6w100Se7.pdf Graphic file (type
- pdf)
- <use figures/radialDistribution/OneBodyDensityN6w100Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN6w100Se7.pdf
- used on input line 744.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
-
-<figures/radialDistribution/radialDistributionN6w100Se7.pdf, id=699, 587.19376p
-t x 442.65375pt>
-File: figures/radialDistribution/radialDistributionN6w100Se7.pdf Graphic file (
-type pdf)
-
-<use figures/radialDistribution/radialDistributionN6w100Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/radialDistributionN6w100Se7
-.pdf used on input line 748.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
-
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 743--751
-[]$[]$ $[]$ 
+Underfull \hbox (badness 10000) in paragraph at lines 669--669
+|$\OML/cmm/m/it/9 N \OT1/cmr/m/n/9 =
  []
 
 
-<figures/radialDistribution/OneBodyDensityN12w100Se7.pdf, id=700, 587.19376pt x
- 442.65375pt>
-File: figures/radialDistribution/OneBodyDensityN12w100Se7.pdf Graphic file (typ
-e pdf)
- <use figures/radialDistribution/OneBodyDensityN12w100Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN12w100Se7.pd
-f used on input line 755.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
+LaTeX Warning: File `figures/radialDistribution/radialDistributionN2w100Se7.pdf
+' not found on input line 671.
 
-<figures/radialDistribution/radialDistributionN12w100Se7.pdf, id=701, 587.19376
-pt x 442.65375pt>
-File: figures/radialDistribution/radialDistributionN12w100Se7.pdf Graphic file 
-(type pdf)
 
-<use figures/radialDistribution/radialDistributionN12w100Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/radialDistributionN12w100Se
-7.pdf used on input line 759.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
+! Package pdftex.def Error: File `figures/radialDistribution/radialDistribution
+N2w100Se7.pdf' not found.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 754--762
-[]$[]$ $[]$ 
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.671 ...ibution/radialDistributionN2w100Se7.pdf}}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 671--671
+[]\T1/cmr/m/n/9 (b)
  []
 
 
-<figures/radialDistribution/OneBodyDensityN20w100Se8.pdf, id=702, 587.19376pt x
- 442.65375pt>
-File: figures/radialDistribution/OneBodyDensityN20w100Se8.pdf Graphic file (typ
-e pdf)
- <use figures/radialDistribution/OneBodyDensityN20w100Se8.pdf>
-Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN20w100Se8.pd
-f used on input line 766.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
-
-<figures/radialDistribution/radialDistributionN20w100Se8.pdf, id=703, 587.19376
-pt x 442.65375pt>
-File: figures/radialDistribution/radialDistributionN20w100Se8.pdf Graphic file 
-(type pdf)
-
-<use figures/radialDistribution/radialDistributionN20w100Se8.pdf>
-Package pdftex.def Info: figures/radialDistribution/radialDistributionN20w100Se
-8.pdf used on input line 770.
-(pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
-
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 765--773
-[]$[]$ $[]$ 
+Underfull \hbox (badness 10000) in paragraph at lines 671--671
+|$\OML/cmm/m/it/9 N \OT1/cmr/m/n/9 =
  []
 
-[11 <./figures/blocking/localenergiesN6w50Se7.pdf> <./figures/blocking/localene
-rgiesN20w50Se7.pdf
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/blocking/localenergiesN20w50S
-e7.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+LaTeX Warning: File `figures/radialDistribution/OneBodyDensityN6w100Se7.pdf' no
+t found on input line 674.
 
->] [12 <./figures/radialDistribution/OneBodyDensityN2w100Se7.pdf> <./figures/ra
-dialDistribution/radialDistributionN2w100Se7.pdf
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/radialDist
-ributionN2w100Se7.pdf): PDF inclusion: multiple pdfs with page group included i
-n a single page
-> <./figures/radialDistribution/OneBodyDensityN6w100Se7.pdf
+! Package pdftex.def Error: File `figures/radialDistribution/OneBodyDensityN6w1
+00Se7.pdf' not found.
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/OneBodyDen
-sityN6w100Se7.pdf): PDF inclusion: multiple pdfs with page group included in a 
-single page
-> <./figures/radialDistribution/radialDistributionN6w100Se7.pdf
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.674 ...istribution/OneBodyDensityN6w100Se7.pdf}}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/radialDist
-ributionN6w100Se7.pdf): PDF inclusion: multiple pdfs with page group included i
-n a single page
-> <./figures/radialDistribution/OneBodyDensityN12w100Se7.pdf
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/OneBodyDen
-sityN12w100Se7.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./figures/radialDistribution/radialDistributionN12w100Se7.pdf
+Underfull \hbox (badness 10000) in paragraph at lines 674--674
+[]\T1/cmr/m/n/9 (c)
+ []
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/radialDist
-ributionN12w100Se7.pdf): PDF inclusion: multiple pdfs with page group included 
-in a single page
-> <./figures/radialDistribution/OneBodyDensityN20w100Se8.pdf
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/OneBodyDen
-sityN20w100Se8.pdf): PDF inclusion: multiple pdfs with page group included in a
- single page
-> <./figures/radialDistribution/radialDistributionN20w100Se8.pdf
+Underfull \hbox (badness 10000) in paragraph at lines 674--674
+|$\OML/cmm/m/it/9 N \OT1/cmr/m/n/9 =
+ []
 
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/radialDist
-ributionN20w100Se8.pdf): PDF inclusion: multiple pdfs with page group included 
-in a single page
->] [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 785.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 785.
+
+LaTeX Warning: File `figures/radialDistribution/radialDistributionN6w100Se7.pdf
+' not found on input line 676.
+
+
+! Package pdftex.def Error: File `figures/radialDistribution/radialDistribution
+N6w100Se7.pdf' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.676 ...ibution/radialDistributionN6w100Se7.pdf}}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 676--676
+[]\T1/cmr/m/n/9 (d)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 676--676
+|$\OML/cmm/m/it/9 N \OT1/cmr/m/n/9 =
+ []
+
+
+LaTeX Warning: File `figures/radialDistribution/OneBodyDensityN12w100Se7.pdf' n
+ot found on input line 679.
+
+
+! Package pdftex.def Error: File `figures/radialDistribution/OneBodyDensityN12w
+100Se7.pdf' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.679 ...stribution/OneBodyDensityN12w100Se7.pdf}}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 679--679
+[]\T1/cmr/m/n/9 (e)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 679--679
+|$\OML/cmm/m/it/9 N \OT1/cmr/m/n/9 =
+ []
+
+
+LaTeX Warning: File `figures/radialDistribution/radialDistributionN12w100Se7.pd
+f' not found on input line 681.
+
+
+! Package pdftex.def Error: File `figures/radialDistribution/radialDistribution
+N12w100Se7.pdf' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.681 ...bution/radialDistributionN12w100Se7.pdf}}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[9]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 691.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 691.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 785.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 785.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 691.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 691.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 0878BD03CCB9124E41CF05D96C4427A8;897.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 785.
+(rerunfilecheck)             Checksum: 5477B703E024D51FC2872F513EA264F2;831.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 691.
  ) 
 Here is how much of TeX's memory you used:
- 23291 strings out of 495020
- 450283 string characters out of 6181323
- 659475 words of memory out of 5000000
- 25938 multiletter control sequences out of 15000+600000
- 24965 words of font info for 64 fonts, out of 8000000 for 9000
+ 23237 strings out of 495020
+ 447404 string characters out of 6181323
+ 663230 words of memory out of 5000000
+ 25893 multiletter control sequences out of 15000+600000
+ 24279 words of font info for 63 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 55i,18n,69p,884b,1121s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.8} has been referenced but does not exi
+ 55i,18n,69p,794b,1121s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.5} has been referenced but does not exi
 st, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.7} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.6} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.5} has been referenced but does not exist
-, replaced by a fixed one
 
 pdfTeX warning (dest): name{Hfootnote.4} has been referenced but does not exist
 , replaced by a fixed one
@@ -1541,41 +1557,39 @@ pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
 , replaced by a fixed one
 
  </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </home/sean
-/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600pk> </home/sean/.texmf-var/
-fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/sean/.texmf-var/fonts/pk/ljf
+/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/sean/.texmf-var/
+fonts/pk/ljfour/jknappen/ec/ecrm0700.600pk> </home/sean/.texmf-var/fonts/pk/ljf
 our/jknappen/ec/ecbx1200.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen
-/ec/ecrm0700.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000
-.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </ho
-me/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/sean/.tex
-mf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </home/sean/.texmf-var/fonts
-/pk/ljfour/jknappen/ec/ecrm0800.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/j
-knappen/ec/ecrm1200.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/e
-ctt1000.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600p
-k> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600pk> </home/se
-an/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1440.600pk></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbo
-ls/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbol
-s/msbm10.pfb>
-Output written on report.pdf (15 pages, 758777 bytes).
+/ec/ecrm1000.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000
+.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </ho
+me/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </home/sean/.tex
+mf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </home/sean/.texmf-var/fonts
+/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/j
+knappen/ec/ectt1000.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/e
+crm1440.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600p
+k> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1440.600pk></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/symbols/msbm10.pfb>
+Output written on report.pdf (11 pages, 320538 bytes).
 PDF statistics:
- 1610 PDF objects out of 1728 (max. 8388607)
- 417 compressed objects within 5 object streams
- 92 named destinations out of 1000 (max. 500000)
- 186 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 708 PDF objects out of 1000 (max. 8388607)
+ 307 compressed objects within 4 object streams
+ 77 named destinations out of 1000 (max. 500000)
+ 117 words of extra memory for PDF output out of 10000 (max. 10000000)
 
