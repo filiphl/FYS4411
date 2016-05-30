@@ -30,7 +30,7 @@ std = zeros(len(blockSizes))
 
 index = 0
 for blockSize in blockSizes:
-	print blockSize
+	print '{0}\r'.format(blockSize),
 	numberOfBlocks = numberOfSamples/blockSize # Intentional integer division
 	averages = zeros(numberOfBlocks)
 	newSamples = zeros(numberOfBlocks)

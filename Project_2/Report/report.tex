@@ -567,7 +567,7 @@
 \label{fig:energyPlot15x15N2}
 \end{figure}
 	
-	\subsection{Blocking method}
+	\subsection{Blocking method} \label{blockingTheory}
 	
 	After having run a Monte Carlo simulation, the variation in estimated local energies are calculated as
 	\begin{equation}
@@ -679,19 +679,42 @@
 			\end{center}
 		\end{table}
 	
-	For the standard deviations ($\sigma$), the blocking plots were easily readable for $N=2$ and $N=6$, but the "plateau" for higher particle numbers were a bit hard to read. In figure \ref{fig:blocking}, there are two blocking plots presented. As can be seen, for $N=6$ the plateau starts at about 10000-15000, while for $N=20$ it is not completely clear. However, both were deemed to lie in the region 10000-15000 for these specific cases.
+	%For the standard deviations ($\sigma$), the blocking plots were easily readable for $N=2$ and $N=6$, but the "plateau" for higher particle numbers were a bit hard to read. In figure \ref{fig:blocking}, there are two blocking plots presented. As can be seen, for $N=6$ the plateau starts at about 10000-15000, while for $N=20$ it is not completely clear. However, both were deemed to lie in the region 10000-15000 for these specific cases.
+	
+	
+	% YO BROS. THIS SHOULD PROBABLY GO IN THE COMMENTS SECTION, BUT WHO CARES, RIGHT? YOU FIX IT! BTW, EMAUS.... I'M USING CAPS.
+	In order to give a correct value of the standard deviation (in $\bk{E_L}$), which also considers the covariance, we used the method of blocking described in section \ref{blockingTheory}. A couple of the plots produced is shown in figure \ref{fig:blocking}. These plots show a trend in the behavior of the correlation length $\tau$. Comparing figures on the same row, we see that $\tau$ increases as $\omega$ decreases. Also, if we compare figures on the same column, we see that $\tau$ increases as $N$ increases.
+	
+	The reason why $\tau$ increases as $N$ increases is intuitively simple to understand. If we have a system of many particles, more particles will be stationary at each time step. It will have a higher degree of correlation than that of a system  of less particles. Thus, since we have to perform more moves in order to make a configuration that is basically uncorrelated with the initial, the correlation length is larger.
+	The other behavior, that $\tau$ increases as $\omega$ decreases, is due to the fact that as $\omega$ decreases, the particles are free to move farther away from the origin, as can be observed in figure \ref{fig:OnebodyD}. Since the mean distance between electrons will increase as $\omega$ decreases, the relative change in the configuration due to a move will be smaller. Therefore we must perform more moves to reach an approximately uncorrelated configuration.                                                                                                                                                                                                                                                       
 	
 		\begin{figure}[H]
 			
 			\begin{subfigure}{0.5\textwidth}
-				\includegraphics[scale=0.43]{figures/blocking/localenergiesN6w50Se7.pdf}
-				\caption{$N=6,\:\omega=0.5$}
+				\includegraphics[scale=0.43]{figures/blocking/filipN2w100.pdf}
+				\caption{$N=2,\:\omega=1.0$}
+				\label{fig:blockingN2w100}
 			\end{subfigure}
 			\begin{subfigure}{0.5\textwidth}
-				\includegraphics[scale=0.43]{figures/blocking/localenergiesN20w50Se7.pdf}
-				\caption{$N=20,\:\omega=0.5$}
+				\includegraphics[scale=0.43]{figures/blocking/filipN2w50.pdf}
+				\caption{$N=2,\:\omega=0.5$}
+				\label{fig:blockingN2w50}
 			\end{subfigure}
-			\caption{Blocking for $N=6$ and $N=20$.}
+			
+			\vspace{1mm}
+			
+			\begin{subfigure}{0.5\textwidth}
+				\includegraphics[scale=0.43]{figures/blocking/filipN6w100.pdf}
+				\caption{$N=6,\:\omega=1.0$}
+				\label{fig:blockingN6w100}
+			\end{subfigure}
+			\begin{subfigure}{0.5\textwidth}
+				\includegraphics[scale=0.43]{figures/blocking/filipN6w50.pdf}
+				\caption{$N=6,\:\omega=0.5$}
+				\label{fig:blockingN6w50}
+			\end{subfigure}
+					
+			\caption{Plots produced by the blocking method for systems of $N=\{2,6\}$ and $\omega=\{1, 0.5\} $.}
 			\label{fig:blocking}
 		\end{figure}
 	
@@ -744,8 +767,8 @@
 			\caption{$N=2,\:\omega=1.0$}
 		\end{subfigure}
 		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN2w100Se7.pdf}
-			\caption{$N=2,\:\omega=1.0$}
+			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN2w10Se7.pdf}
+			\caption{$N=2,\:\omega=0.1$}
 		\end{subfigure}
 		
 		\vspace{1mm}
@@ -755,8 +778,8 @@
 			\caption{$N=6,\:\omega=1.0$}
 		\end{subfigure}
 		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN6w100Se7.pdf}
-			\caption{$N=6,\:\omega=1.0$}
+			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN6w100Se7.pdf}
+			\caption{$N=6,\:\omega=0.1$}
 		\end{subfigure}
 		
 		\vspace{1mm}
@@ -766,8 +789,8 @@
 			\caption{$N=12,\:\omega=1.0$}
 		\end{subfigure}
 		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN12w100Se7.pdf}
-			\caption{$N=12,\:\omega=1.0$}
+			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN12w10Se7.pdf}
+			\caption{$N=12,\:\omega=0.1$}
 		\end{subfigure}
 		
 		\vspace{1mm}
@@ -777,17 +800,154 @@
 			\caption{$N=20,\:\omega=1.0$}
 		\end{subfigure}
 		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN20w100Se8.pdf}
-			\caption{$N=20,\:\omega=1.0$}
+			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN20w10Se8.pdf}
+			\caption{$N=20,\:\omega=0.1$}
 		\end{subfigure}
 				
 		\vspace{3mm}
 				
 		\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 1.0$.}
-		\label{fig:Onebody&RadialDist}
+		\label{fig:Onebody}
 	\end{figure}
 	
 	\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{figure}[H]
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN2w100Se7.pdf}
+		\caption{$N=2,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN2w10Se7.pdf}
+		\caption{$N=2,\:\omega=0.1$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN6w100Se7.pdf}
+		\caption{$N=6,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN6w10Se7.pdf}
+		\caption{$N=6,\:\omega=0.1$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height=5cm]{figures/radialDistribution/radialDistributionN12w100Se7.pdf}
+		\caption{$N=12,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN12w10Se7.pdf}
+		\caption{$N=12,\:\omega=0.1$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN20w100Se8.pdf}
+		\caption{$N=20,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN20w10Se7.pdf}
+		\caption{$N=20,\:\omega=0.1$}
+	\end{subfigure}
+	
+	\vspace{3mm}
+	
+	\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 1.0$.}
+	\label{fig:Onebody&RadialDist}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+% THIS IS SOME OLD CODE RIGHT HERE...
+
+\begin{figure}[H]
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN2w100Se7.pdf}
+		\caption{$N=2,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN2w100Se7.pdf}
+		\caption{$N=2,\:\omega=1.0$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN6w100Se7.pdf}
+		\caption{$N=6,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN6w100Se7.pdf}
+		\caption{$N=6,\:\omega=1.0$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height=5cm]{figures/radialDistribution/OneBodyDensityN12w100Se7.pdf}
+		\caption{$N=12,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN12w100Se7.pdf}
+		\caption{$N=12,\:\omega=1.0$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN20w100Se8.pdf}
+		\caption{$N=20,\:\omega=1.0$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN20w100Se8.pdf}
+		\caption{$N=20,\:\omega=1.0$}
+	\end{subfigure}
+	
+	\vspace{3mm}
+	
+	\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 1.0$.}
+	\label{fig:Onebody&RadialDist}
+\end{figure}
+
+
+
+
+
+
+
+
+
 	
 	\section{Comments}
 	How to start?

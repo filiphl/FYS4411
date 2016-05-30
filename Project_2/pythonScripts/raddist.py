@@ -29,7 +29,7 @@ def loadCube(positions,N=200, l=-3, u=3):
 
 def radialDistribution(filename, d=3 , N=100, clr="#006867", lbl="HO"):
     mydt = np.dtype([('x', np.double),('y', np.double)])
-    positions = np.fromfile("../dataFiles/positions/N12/"+filename, mydt)
+    positions = np.fromfile("../dataFiles/N20/"+filename, mydt)
     print "Done loading file"
     lp = len(positions)
     r = np.zeros(lp)
@@ -131,10 +131,10 @@ def make1dHist(data):
 
 
 if __name__ == "__main__":
-    path0 =  "../dataFiles/positionN2w100Se5.txt"
-    path1 = "../dataFiles/positionN2w100Se5NoJ.txt"
-    path3 = "positionsN12w100Se6_J1.bin"
-    path4 = "positionsN12w100Se6_J0.bin"
+    path0 =  "../dataFiles/positionN6w100Se5.txt"
+    path1 = "../dataFiles/positionN2w10Se5NoJ.txt"
+    path3 = "positionsN20w10Se6_J1.bin"
+    path4 = "positionsN20w10Se6_J0.bin"
 
 
 
