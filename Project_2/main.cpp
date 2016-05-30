@@ -33,10 +33,10 @@ int main(int argc, char* argv[]) {
 
     int numberOfParticles   = 6;
     int numberOfDimensions  = 2;
-    int numberOfSteps       = (int) 1e5;
-    double omegaHO          = 0.05;            // Oscillator frequency.
-    double alpha            = 1;      // Variational parameter.
-    double beta             = 0.5;          // Variational parameter.
+    int numberOfSteps       = (int) 6.25e6;
+    double omegaHO          = 1;            // Oscillator frequency.
+    double alpha            = 1.1;      // Variational parameter.
+    double beta             = 0.3;          // Variational parameter.
     double stepLength       = 1.0;          // Metropolis step length.
     double equilibration    = 0.1;          // Fraction steps used for equilibration.
     double C                = 1.0;
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     system->setAnalyticalLaplacian          (true);
     system->setImportanceSampling           (true);
     system->setPrintProgress                (true);
-    bool   optimizing =                      true;
+    bool   optimizing =                      false;
 
 
     if (optimizing){

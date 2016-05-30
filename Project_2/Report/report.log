@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  30 MAY 2016 04:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  30 MAY 2016 06:42
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1359,7 +1359,57 @@ put line 510.
 (pdftex.def)             Requested size: 409.72125pt x 176.22807pt.
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.2947254804| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.2997235296| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.9953439488| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.1696538207| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.9959164453| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.2269575624| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.9977761219| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.1900446801| 
+ []
+
+
+Overfull \hbox (24.24008pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.00143517651528| 
+ []
+
+
+Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
  []|\T1/cmr/m/n/10 0.4693948061| 
+ []
+
+
+Overfull \hbox (24.24008pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.00160940509288| 
  []
 
 
@@ -1373,8 +1423,18 @@ Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
  []
 
 
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0022284859571| 
+ []
+
+
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
  []|\T1/cmr/m/n/10 0.3239227774| 
+ []
+
+
+Overfull \hbox (24.24008pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.00335813287185| 
  []
 
 
@@ -1385,6 +1445,11 @@ Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
 
 Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
  []|\T1/cmr/m/n/10 0.3798938585| 
+ []
+
+
+Overfull \hbox (24.24008pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.00184693490083| 
  []
 
 
@@ -1438,13 +1503,8 @@ Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
  []
 
 
-Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.3726675853| 
- []
-
-
-Overfull \hbox (4.24496pt too wide) in paragraph at lines 544--544
- []|\T1/cmr/m/n/10 0.1280712614| 
+Overfull \hbox (19.2413pt too wide) in paragraph at lines 544--544
+ []|\T1/cmr/m/n/10 0.0061857791565| 
  []
 
 [7] [8 <./figures/energySurface/energyPlot15x15N2.pdf>]
@@ -1467,23 +1527,23 @@ Package pdftex.def Info: figures/radialDistribution/radialDistributionN2w100Se7
 .pdf used on input line 665.
 (pdftex.def)             Requested size: 252.48839pt x 190.33739pt.
 
-<figures/radialDistribution/OneBodyDensityN6w10Se7.pdf, id=664, 587.19376pt x 4
-42.65375pt>
-File: figures/radialDistribution/OneBodyDensityN6w10Se7.pdf Graphic file (type 
-pdf)
- <use figures/radialDistribution/OneBodyDensityN6w10Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN6w10Se7.pdf 
-used on input line 668.
+<figures/radialDistribution/OneBodyDensityN6w100Se7.pdf, id=664, 587.19376pt x 
+442.65375pt>
+File: figures/radialDistribution/OneBodyDensityN6w100Se7.pdf Graphic file (type
+ pdf)
+ <use figures/radialDistribution/OneBodyDensityN6w100Se7.pdf>
+Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN6w100Se7.pdf
+ used on input line 668.
 (pdftex.def)             Requested size: 252.48839pt x 190.33739pt.
 
-<figures/radialDistribution/radialDistributionN6w10Se7.pdf, id=665, 587.19376pt
- x 442.65375pt>
-File: figures/radialDistribution/radialDistributionN6w10Se7.pdf Graphic file (t
-ype pdf)
+<figures/radialDistribution/radialDistributionN6w100Se7.pdf, id=665, 587.19376p
+t x 442.65375pt>
+File: figures/radialDistribution/radialDistributionN6w100Se7.pdf Graphic file (
+type pdf)
 
-<use figures/radialDistribution/radialDistributionN6w10Se7.pdf>
-Package pdftex.def Info: figures/radialDistribution/radialDistributionN6w10Se7.
-pdf used on input line 670.
+<use figures/radialDistribution/radialDistributionN6w100Se7.pdf>
+Package pdftex.def Info: figures/radialDistribution/radialDistributionN6w100Se7
+.pdf used on input line 670.
 (pdftex.def)             Requested size: 252.48839pt x 190.33739pt.
 
 <figures/radialDistribution/OneBodyDensityN12w100Se7.pdf, id=666, 587.19376pt x
@@ -1510,16 +1570,16 @@ radialDistribution/radialDistributionN2w100Se7.pdf
 pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/radialDist
 ributionN2w100Se7.pdf): PDF inclusion: multiple pdfs with page group included i
 n a single page
-> <./figures/radialDistribution/OneBodyDensityN6w10Se7.pdf
+> <./figures/radialDistribution/OneBodyDensityN6w100Se7.pdf
 
 pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/OneBodyDen
-sityN6w10Se7.pdf): PDF inclusion: multiple pdfs with page group included in a s
-ingle page
-> <./figures/radialDistribution/radialDistributionN6w10Se7.pdf
+sityN6w100Se7.pdf): PDF inclusion: multiple pdfs with page group included in a 
+single page
+> <./figures/radialDistribution/radialDistributionN6w100Se7.pdf
 
 pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/radialDist
-ributionN6w10Se7.pdf): PDF inclusion: multiple pdfs with page group included in
- a single page
+ributionN6w100Se7.pdf): PDF inclusion: multiple pdfs with page group included i
+n a single page
 > <./figures/radialDistribution/OneBodyDensityN12w100Se7.pdf
 
 pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/OneBodyDen
@@ -1546,7 +1606,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 683.
  ) 
 Here is how much of TeX's memory you used:
  23257 strings out of 493085
- 449163 string characters out of 6136917
+ 449173 string characters out of 6136917
  670240 words of memory out of 5000000
  26195 multiletter control sequences out of 15000+600000
  24279 words of font info for 63 fonts, out of 8000000 for 9000
@@ -1596,9 +1656,9 @@ m-super/sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb
 onts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb>
 </usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on report.pdf (12 pages, 662266 bytes).
+Output written on report.pdf (12 pages, 659997 bytes).
 PDF statistics:
- 1028 PDF objects out of 1200 (max. 8388607)
+ 1027 PDF objects out of 1200 (max. 8388607)
  342 compressed objects within 4 object streams
  77 named destinations out of 1000 (max. 500000)
  158 words of extra memory for PDF output out of 10000 (max. 10000000)
