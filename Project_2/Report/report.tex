@@ -122,7 +122,9 @@
 	
 	
 	\section{Introduction}
-	
+	Quantum dots are, possibly large, atomic systems packed so closely together that the Pauli principle forces the electrons to be in different states. These systems can be made approximately 2-dimensional\footnote{I.e. all electron movement is confined to a plane. This does not mean the space is considered two-dimensional, so the 3-dimensional Coulomb potential will still be used.} by strings of quantum dots. Quantum dots are much larger than atoms while possessing many of their characteristics, which means they are both easy and interesting to measure. Measurements provide means with which to test quantum theory and models.\\
+	Up to 20 electrons, it is reasonable to approximate the system Hamiltonian by placing all electrons in a harmonic oscillators and having coulomb interactions. If only closed-shell quantum dots are considered, a model that splits the wavefunction can be used, which greatly reduces the number of calculations. The purpose of this project is see if this simple model can reproduce known results. This will be done through variational Monte-Carlo (VMC) by using a Slater determinant with a Pade-Jastrow factor\\
+	First, a detailed calculation of the two-body quantum dot will be performed, followed by deduction of algorithms for a general many-body numerical approach to a system of $N=\{2,\:6,\:12,\:20\}$ electrons. Then, an explanation of the optimization of the variational parameters will given, followed by a small talk on the "blocking" method. Since the program script will be large, a few benchmarks will be mentioned. Lastly, results will be presented followed by some comments.
 	
 	\section{Theory and Methods}
 	\subsection{Preliminary derivations}
@@ -234,10 +236,53 @@
 	\end{equation}
 	
 	Obviously, $\Psi_{D}$ is a time consuming object to calculate at every Metropolis step. We will therefore do some neat tricks that reduce the number of calculations.\\
-	The first is to rewrite $\Psi_D$ by using that the Hamiltonian is spin-independent. Firstly, we move all spin-up particles to the "first" $\frac{N}{2}$-positions, and the spin-down particles the remainder of positions. \\
+	The first is to rewrite $\Psi_D$ by using that the Hamiltonian is spin-independent. If we now let $\phi_n$ be the spatial-component of the wavefunction, then it causes no effect on the energy if we write:
+	
+	\begin{equation}
+		\Psi_T = \Psi_{D+}\Psi_{D-}\Psi_C
+	\end{equation}
+	
+	where $\Psi_{D+} \equiv |D_+|$ and $\Psi_{D-} \equiv |D_-|$ are Slater determinants consisting only of spin-up and spin-down particles, respectively. This means $|D_+|$ and $|D_-|$ are $\frac{N}{2}$-dimensional, and we see this method only works for closed shell systems. We will let the first $\frac{N}{2}$ particles be spin-up and the rest spin-down. That is, $\bm{r_1}-\bm{r}_{N/2}$ are the positions of the spin-up particles, while the rest are positions for spin-down particles. Obviously this is wrong, since we can't separate which particles are spin-up and which are spin-down in reality, due to the properties of identical particles. However, as stated, due to the spin-independent Hamiltonian, this causes no effect on the energy, which is all we're after.
 	
 	\subsection{The Metropolis ratio test}
-	At each Metropolis step, we need the ratio of probabilities. We first define $R\equiv\frac{\Psi_T^n}{\Psi_T^o}$, where "$n$" means the new wavefunction and "$o$" means the old (or the current, but "c" could be confused with "correlation"). Written out, this is:
+	The basic principle behind the Metropolis algorithm is to make an assumption on the transition probability for a system to move from setting to another, as
+	an exact, or even approximate, expression is lacking.
+	
+	If the probability distribution for a state $i$ is given by $w_i$, then from Markov chain theory the time derivative is:
+	
+	\begin{align}
+		\frac{\partial w_i(t)}{\partial t} = \sum_j W(j\rightarrow i)w_j(t) - W(i\rightarrow j)w_i(t)
+	\end{align}
+	
+	where $W_{i\rightarrow j}$ is the probability of moving from a state $i$ to another state $j$, i.e the rate of change in $w_i$ is given by the probability for a state $j$ to go to $i$ minus the
+	probability of state $i$ going to $j$, summed over all $j$.
+	The most likely state will fulfil $\frac{\partial w_i(t)}{\partial t} = 0$, giving:
+	
+	\begin{align}
+		\begin{split}
+			W(j\rightarrow i)w_j(t) &=  W(i\rightarrow j)w_i(t)\\
+			\Rightarrow\:\:\:\frac{  W(j\rightarrow i)}{  W(i\rightarrow j)} &= \frac{w_i}{w_j}
+		\end{split}
+	\end{align}
+	
+	Since the transition probability $W$ is unknown, we approximate it by guessing its form:
+	
+	\begin{align}
+		W(j\rightarrow i) &= T(j\rightarrow i) A(j\rightarrow i)
+	\end{align}
+	
+	where $T$ is the transition moving probability, while $A$ is the probability of accepting such a move. Furthermore, in brute force Metropolis, one guesses $T_{i\rightarrow j} = T_{j\rightarrow i}$.
+	Therefore:
+	
+	\begin{equation}
+		\frac{A_{j\rightarrow i}}{A_{i\rightarrow j}} = \frac{w_i}{w_j}
+	\end{equation}
+	
+	Since the probability densities are known, it is known whether or not this ratio is larger than one. If it's larger than one, then the acceptance probability from $j$ to $i$ is the biggest, i.e we are more likely to accept the move than not.
+	Therefore, we simply say the move is accepted. However, if the probability ratio is smaller than one, then we are more likely to move from the new state to the one the system is currently in.
+	To check whether or not we should accept the move, we may compare it to, say, a ``coin toss''; if it's bigger, the move is accepted.\\
+	
+	So, at each Metropolis step, we need the ratio of probabilities. We first define $R\equiv\frac{\Psi_T^n}{\Psi_T^o}$, where "$n$" means the new wavefunction and "$o$" means the old (or the current, but "c" could be confused with "correlation"). Written out, this is:
 	
 	\begin{equation}
 	R = \frac{|D_+^n|}{|D_+^o|}\frac{|D_-^n|}{|D_-^o|}\frac{\Psi_C^n}{\Psi_C^o}
@@ -511,48 +556,27 @@
 \caption{Local energy as a function of the parameters $\alpha$ and $\beta$ in the two-electron system.}
 \label{fig:energyPlot15x15N2}
 \end{figure}
-		\begin{table}[H]
-			\begin{center}
-				\caption{Expectation values of local energy, kinetic energy and potential energy for several number of electrons $N$ and wave frequency $\omega$. The standard deviation $\sigma$ is of the expectation value of the  }
-				\begin{tabularx}{\textwidth}{@{}YYYYYYYY@{}}
-					$N$	& $\omega$ & $\bk{E_L}$ & $\bk{E_K}$ & $\bk{E_P}$ & $\sigma$ & $\alpha$ & $\beta$\\
-					\toprule
-					2	&	1.00 & 3.0031 & 0.9017 & 2.1013 & 1.53360e-6 & 1.09975 & 0.29472 \\
-						&	0.50 & 1.6611 & 0.4559 & 1.2052 & 2.10014e-7 & 1.00015 & 0.29972 \\
-						&	0.10 & 0.4415 & 0.0964 & 0.3451 & 5.09917e-5 & 0.99534 & 0.16965 \\
-						&	0.05 & 0.2722 & 0.0480 & 0.2242 & 1.04670e-6 & 0.99591 & 0.22695 \\
-						&   0.01 & 0.0873 & 0.0107 & 0.0766 & 4.48831e-4 & 0.99777 & 0.19004 \\
-					\midrule
-					6   &	1.00 & 20.204 & 3.8059 & 16.398 & 1.43517e-3 & 1.00127 & 0.46939 \\
-						&	0.50 & 11.821 & 1.7797 & 10.042 & 1.60940e-3 & 0.97611 & 0.32474 \\
-						&	0.10 & 3.7466 & 0.2878 & 3.3077 & 2.22848e-3 & 0.99293 & 0.32392 \\
-						&	0.05 & 2.4792 & 0.2165 & 2.2627 & 3.35813e-3 & 0.96891 & 0.37989 \\
-						&   0.01 & 0.8972 & 0.0472 & 0.8500 & 1.84693e-3 & 1.00751 & 0.21825 \\
-					\midrule
-					12  &	1.00 & 65.776 & 8.7763 & 57.000 & 1.46457e-2 & 0.80173 & 0.80030 \\
-						&	0.50 & 39.223 & 4.0024 & 35.221 & 1.03759e-2 & 0.80003 & 0.50039 \\
-						&	0.10 & 14.683 & 1.1936 & 13.489 & 3.82364e-2 & 1.00071 & 0.69019 \\
-						&	0.05 & 7.6569 & 0.4908 & 7.1661 & 6.69810e-3 & 0.94721 & 0.15057 \\
-						&   0.01 & 3.2558 & 0.0937 & 3.1621 & 2.22688e-2 & 0.70992 & 0.34371 \\
-					\midrule
-					20  &	1.00 & 157.48 & 20.430 & 137.05 & 2.35715e-2 & 0.92930 & 0.80390 \\
-						&	0.50 & 93.981 & 7.9372 & 86.044 & 1.42877e-2 & 0.82140 & 0.47966 \\
-						&	0.10 & 30.157 & 1.1977 & 28.959 & 1.63797e-2 & 0.53094 & 0.39662 \\
-						&	0.05 & 18.667 & 0.5123 & 18.155 & 1.45351e-2 & 0.43081 & 0.31274 \\
-						&   0.01 & 6.2090 & 0.0821 & 6.1269 & 6.18577e-3 & 0.37267 & 0.12807 \\
-					\bottomrule
-				\end{tabularx}
-				\label{tab:EnergiesVarianceAndOptimalParameters}
-			\end{center}
-		\end{table}
 	
+	\subsection{Blocking method}
+	
+	After having run a Monte Carlo simulation, the variation in estimated local energies are calculated as
+	\begin{equation}
+		\sigma = \sqrt{\frac{1}{n}\lr{\langle E_L^2 \rangle - \langle E_L \rangle^2}}. \label{uncorelatedVariance}
+	\end{equation} 
+	However, these values will be much too low.
+	This is because one assumes all data to be completely uncorrelated. Each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, though, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is basically uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.\\
+	A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ measurements is grouped into blocks, each of which will give an average of average local energies. Afterwards, one can calculate the variance of these averages of averages. If then the standard deviation (equation above) is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, one can find the lowest number of blocks where the curve approaches a plateau. Then one can calculate $\tau$ and find the correlation time. The true standard deviation is then:
+	
+	\begin{equation}
+		\sigma=\sqrt{\frac{1+2\tau/\Delta t}{n}\left(\langle \mathbf{M}^2\rangle-\langle \mathbf{M}\rangle^2\right)}
+	\end{equation}
 	
 	\subsection{Benchmarking}
 	While the flowchart seems nice and compact, there is quite a bit code that needs implementing and some benchmarks would be nice. The first is so check if the program reproduces the energy expected for non-interacting electrons in a harmonic oscillator potential. This means that if we remove the Coulomb potential and set $a_{ij} = 0$, then the problem is simply several non-interacting harmonic oscillators and we are left with a simple harmonic oscillator with energies given as
 	\begin{equation}
 	E_{n_x,n_y} = \hbar\omega\lr{n_x + n_y +1}.
 	\end{equation}
-	In figure \ref{fig: spinFig} these energies are shown. If these values are reproduced, it means our Slater determinant expressions are correctly implemented.
+	In figure \ref{fig: spinFig} these energies levels are shown. If sums of these values are reproduced, it means our Slater determinant expressions are correctly implemented.
 		
 		
 		\begin{figure}[H]
@@ -601,7 +625,7 @@
 			\label{fig: spinFig}
 		\end{figure}
 	
-	Another benchmark is to reproduce the results of our program for the two body quantum dot. This system was solved analytically, and thus would show that the many body program can reproduce analytical results for 2 particles. Obviously, this means that the full problem (Coulomb interactions and Jastrow correlations) works, at least for the two body system.
+	Another benchmark is to reproduce the results of our program for the two body quantum dot. This system was solved analytically, and thus would show that the many body program can reproduce analytical results for 2 particles. This means that the full problem (Coulomb interactions and Jastrow correlations) works, at least for the two body system.
 	
 	In order to know if our two-body script works, we can compare with the work of Taut\footnote{M. Taut, Phys. Rev. A 48, 3561 - 3566 (1993)}, where he calculated the analytical solution of two electrons in an external oscillator potential with Coulomb interactions. He found:
 	
@@ -610,6 +634,40 @@
 	
 	\section{Results}
 	
+		\begin{table}[H]
+			\begin{center}
+				\caption{Expectation values of local energy, kinetic energy and potential energy for $N=\{2,6,12,20\}$ and oscillator frequencies $\omega = \{1.0,\:0.5,\:0.1,\:0.05,\:0.01\}$. $\sigma$ is the standard deviation of $\langle E_L\rangle$, found by blocking. $\alpha,\beta$ are the optimal parameters.}
+				\begin{tabularx}{\textwidth}{@{}YYYYYYYY@{}}
+					$N$	& $\omega$ & $\bk{E_L}$ & $\bk{E_K}$ & $\bk{E_P}$ & $\sigma$ & $\alpha$ & $\beta$\\
+					\toprule
+					2	&	1.00 & 3.0031 & 0.9017 & 2.1013 & 1.53360e-6 & 1.09975 & 0.29472 \\
+					&	0.50 & 1.6611 & 0.4559 & 1.2052 & 2.10014e-7 & 1.00015 & 0.29972 \\
+					&	0.10 & 0.4415 & 0.0964 & 0.3451 & 5.09917e-5 & 0.99534 & 0.16965 \\
+					&	0.05 & 0.2722 & 0.0480 & 0.2242 & 1.04670e-6 & 0.99591 & 0.22695 \\
+					&   0.01 & 0.0873 & 0.0107 & 0.0766 & 4.48831e-4 & 0.99777 & 0.19004 \\
+					\midrule
+					6   &	1.00 & 20.204 & 3.8059 & 16.398 & 1.43517e-3 & 1.00127 & 0.46939 \\
+					&	0.50 & 11.821 & 1.7797 & 10.042 & 1.60940e-3 & 0.97611 & 0.32474 \\
+					&	0.10 & 3.7466 & 0.2878 & 3.3077 & 2.22848e-3 & 0.99293 & 0.32392 \\
+					&	0.05 & 2.4792 & 0.2165 & 2.2627 & 3.35813e-3 & 0.96891 & 0.37989 \\
+					&   0.01 & 0.8972 & 0.0472 & 0.8500 & 1.84693e-3 & 1.00751 & 0.21825 \\
+					\midrule
+					12  &	1.00 & 65.776 & 8.7763 & 57.000 & 1.46457e-2 & 0.80173 & 0.80030 \\
+					&	0.50 & 39.223 & 4.0024 & 35.221 & 1.03759e-2 & 0.80003 & 0.50039 \\
+					&	0.10 & 14.683 & 1.1936 & 13.489 & 3.82364e-2 & 1.00071 & 0.69019 \\
+					&	0.05 & 7.6569 & 0.4908 & 7.1661 & 6.69810e-3 & 0.94721 & 0.15057 \\
+					&   0.01 & 3.2558 & 0.0937 & 3.1621 & 2.22688e-2 & 0.70992 & 0.34371 \\
+					\midrule
+					20  &	1.00 & 157.48 & 20.430 & 137.05 & 2.35715e-2 & 0.92930 & 0.80390 \\
+					&	0.50 & 93.981 & 7.9372 & 86.044 & 1.42877e-2 & 0.82140 & 0.47966 \\
+					&	0.10 & 30.157 & 1.1977 & 28.959 & 1.63797e-2 & 0.53094 & 0.39662 \\
+					&	0.05 & 18.667 & 0.5123 & 18.155 & 1.45351e-2 & 0.43081 & 0.31274 \\
+					&   0.01 & 6.2090 & 0.0821 & 6.1269 & 6.18577e-3 & 0.37267 & 0.12807 \\
+					\bottomrule
+				\end{tabularx}
+				\label{tab:EnergiesVarianceAndOptimalParameters}
+			\end{center}
+		\end{table}
 	
 	\begin{table}[H]
 		\begin{center}
@@ -627,7 +685,7 @@
 			\label{tab:HO}
 		\end{center}
 	\end{table}
-	This fits with the energies shown in figure \ref{fig: spinFig}, and infer that our Slater determinant expressions are implemented correctly.
+	This matches the sums of the energy levels shown in figure \ref{fig: spinFig}, and infer that our Slater determinant expressions are implemented correctly.
 	
 	
 	
@@ -648,12 +706,14 @@
 		\end{center}
 	\end{table}
 	
-	Note, though, that each of the values listed in table \ref{tab:varousOmega} are from individual runs.
+	Note, however, that each of the values listed in table \ref{tab:varousOmega} are from individual runs.
 	The expectation values of the kinetic, potential and total (local) energy are thus not from the same simulation, and their value might not add up perfectly as $E_L = E_K + E_P$.
 	The total energy is only shown to give a sense of its magnitude.
 	
 	
-	For 
+	For fucks sake!
+	
+	
 	
 	
 
@@ -705,7 +765,7 @@
 				
 		\vspace{3mm}
 				
-		\caption{Onebody density and radial distribution from different values of N.}
+		\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 1.0$.}
 		\label{fig:Onebody&RadialDist}
 	\end{figure}
 	
