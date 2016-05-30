@@ -11,4 +11,4 @@
 \contentsline {subsection}{\numberline {2.8}Optimizing parameters}{6}{subsection.2.8}
 \contentsline {subsection}{\numberline {2.9}Benchmarking}{8}{subsection.2.9}
 \contentsline {section}{\numberline {3}Results}{9}{section.3}
-\contentsline {section}{\numberline {4}Comments}{9}{section.4}
+\contentsline {section}{\numberline {4}Comments}{11}{section.4}
