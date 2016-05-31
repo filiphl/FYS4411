@@ -12,4 +12,4 @@
 \contentsline {subsection}{\numberline {2.9}Blocking method}{9}{subsection.2.9}
 \contentsline {subsection}{\numberline {2.10}Benchmarking}{9}{subsection.2.10}
 \contentsline {section}{\numberline {3}Results}{10}{section.3}
-\contentsline {section}{\numberline {4}Comments}{16}{section.4}
+\contentsline {section}{\numberline {4}Comments}{15}{section.4}

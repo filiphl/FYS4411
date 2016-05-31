@@ -563,7 +563,7 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth, trim={0 2cm 0 4.5cm}, clip]{figures/energySurface/energyPlot15x15N2}
-\caption{Local energy as a function of the parameters $\alpha$ and $\beta$ in the two-electron system.}
+\caption{Local energy as a function of the parameters $\alpha$ and $\beta$ in the two-electron system. Red colored regions represents high expectation value of the local energy, while blue represents low values.}
 \label{fig:energyPlot15x15N2}
 \end{figure}
 	
@@ -571,16 +571,18 @@
 	
 	After having run a Monte Carlo simulation, the variation in estimated local energies are calculated as
 	\begin{equation}
-		\sigma = \sqrt{\frac{1}{n}\lr{\langle E_L^2 \rangle - \langle E_L \rangle^2}}. \label{uncorelatedVariance}
+		\sigma = \sqrt{\frac{1}{n}\lr{\langle {E_L}^2 \rangle - \langle E_L \rangle^2}}. \label{uncorelatedVariance}
 	\end{equation} 
 	However, these values will be much too low.
-	This is because one assumes all data to be completely uncorrelated. Each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, though, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is basically uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.\\
+	This is because one assumes all data to be completely uncorrelated. Each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, though, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is basically uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.
+	
 	A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ measurements is grouped into blocks, each of which will give an average of average local energies. Afterwards, one can calculate the variance of these averages of averages. If then the standard deviation (equation above) is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, one can find the lowest number of blocks where the curve approaches a plateau. Then one can calculate $\tau$ and find the correlation time. The true standard deviation is then:
 	
 	\begin{equation}
-		\sigma=\sqrt{\frac{1+2\tau/\Delta t}{n}\left(\langle \mathbf{M}^2\rangle-\langle \mathbf{M}\rangle^2\right)}
+		\sigma=\sqrt{\frac{1+2\tau/\Delta t}{n}\left(\langle {E_L}^2\rangle-\langle E_L\rangle^2\right)}
 	\end{equation}
 	
+	Some examples of such plots are shown in figure \ref{fig:blocking}. For the case of $N=2$ and $\omega=1$ shown in figure \ref{fig:blockingN2w100} one could choose $\tau \approx 3000$.
 	\subsection{Benchmarking}
 	While the flowchart seems nice and compact, there is quite a bit code that needs implementing and some benchmarks would be nice. The first is so check if the program reproduces the energy expected for non-interacting electrons in a harmonic oscillator potential. This means that if we remove the Coulomb potential and set $a_{ij} = 0$, then the problem is simply several non-interacting harmonic oscillators and we are left with a simple harmonic oscillator with energies given as
 	\begin{equation}
@@ -679,24 +681,26 @@
 			\end{center}
 		\end{table}
 	
+	% THIS ISN'T TRUE THOUGH... IT'S NOT THAT HARD TO READ...
 	%For the standard deviations ($\sigma$), the blocking plots were easily readable for $N=2$ and $N=6$, but the "plateau" for higher particle numbers were a bit hard to read. In figure \ref{fig:blocking}, there are two blocking plots presented. As can be seen, for $N=6$ the plateau starts at about 10000-15000, while for $N=20$ it is not completely clear. However, both were deemed to lie in the region 10000-15000 for these specific cases.
 	
 	
 	% YO BROS. THIS SHOULD PROBABLY GO IN THE COMMENTS SECTION, BUT WHO CARES, RIGHT? YOU FIX IT! BTW, EMAUS.... I'M USING CAPS.
-	In order to give a correct value of the standard deviation (in $\bk{E_L}$), which also considers the covariance, we used the method of blocking described in section \ref{blockingTheory}. A couple of the plots produced is shown in figure \ref{fig:blocking}. These plots show a trend in the behavior of the correlation length $\tau$. Comparing figures on the same row, we see that $\tau$ increases as $\omega$ decreases. Also, if we compare figures on the same column, we see that $\tau$ increases as $N$ increases.
+	In order to give a correct value of the standard deviation, which also considers the covariance, we used the method of blocking described in section \ref{blockingTheory}. A couple of the plots produced is shown in figure \ref{fig:blocking}. These plots show a trend in the behavior of the correlation length $\tau$. Comparing figures on the same row, we see that $\tau$ increases as $\omega$ decreases. Also, if we compare figures on the same column, we see that $\tau$ increases as $N$ increases.
 	
 	The reason why $\tau$ increases as $N$ increases is intuitively simple to understand. If we have a system of many particles, more particles will be stationary at each time step. It will have a higher degree of correlation than that of a system  of less particles. Thus, since we have to perform more moves in order to make a configuration that is basically uncorrelated with the initial, the correlation length is larger.
-	The other behavior, that $\tau$ increases as $\omega$ decreases, is due to the fact that as $\omega$ decreases, the particles are free to move farther away from the origin, as can be observed in figure \ref{fig:OnebodyD}. Since the mean distance between electrons will increase as $\omega$ decreases, the relative change in the configuration due to a move will be smaller. Therefore we must perform more moves to reach an approximately uncorrelated configuration.                                                                                                                                                                                                                                                       
+	
+	The other behavior, that $\tau$ increases as $\omega$ decreases, is due to the fact that as $\omega$ decreases, the particles are free to move farther away from the origin, as can be observed by comparing figure \ref{fig:Onebody&RadialDistw100} to figure \ref{fig:Onebody&RadialDistw10}. Since the electrons will be more spread out in space the relative change in the configuration due to a move will be smaller. Therefore we must perform more moves to reach an approximately uncorrelated configuration.                                                                                                                                                                                                                                                       
 	
 		\begin{figure}[H]
 			
 			\begin{subfigure}{0.5\textwidth}
-				\includegraphics[scale=0.43]{figures/blocking/filipN2w100.pdf}
+				\includegraphics[width=\linewidth]{figures/blocking/filipN2w100.pdf}
 				\caption{$N=2,\:\omega=1.0$}
 				\label{fig:blockingN2w100}
 			\end{subfigure}
 			\begin{subfigure}{0.5\textwidth}
-				\includegraphics[scale=0.43]{figures/blocking/filipN2w50.pdf}
+				\includegraphics[width=\linewidth]{figures/blocking/filipN2w50.pdf}
 				\caption{$N=2,\:\omega=0.5$}
 				\label{fig:blockingN2w50}
 			\end{subfigure}
@@ -704,12 +708,12 @@
 			\vspace{1mm}
 			
 			\begin{subfigure}{0.5\textwidth}
-				\includegraphics[scale=0.43]{figures/blocking/filipN6w100.pdf}
+				\includegraphics[width=\linewidth]{figures/blocking/filipN6w100.pdf}
 				\caption{$N=6,\:\omega=1.0$}
 				\label{fig:blockingN6w100}
 			\end{subfigure}
 			\begin{subfigure}{0.5\textwidth}
-				\includegraphics[scale=0.43]{figures/blocking/filipN6w50.pdf}
+				\includegraphics[width=\linewidth]{figures/blocking/filipN6w50.pdf}
 				\caption{$N=6,\:\omega=0.5$}
 				\label{fig:blockingN6w50}
 			\end{subfigure}
@@ -760,130 +764,6 @@
 	The expectation values of the kinetic, potential and total (local) energy are thus not from the same simulation, and their value might not add up perfectly as $E_L = E_K + E_P$.
 	The total energy is only shown to give a sense of its magnitude.
 	
-	\begin{figure}[H]
-		
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN2w100Se7.pdf}
-			\caption{$N=2,\:\omega=1.0$}
-		\end{subfigure}
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN2w10Se7.pdf}
-			\caption{$N=2,\:\omega=0.1$}
-		\end{subfigure}
-		
-		\vspace{1mm}
-		
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN6w100Se7.pdf}
-			\caption{$N=6,\:\omega=1.0$}
-		\end{subfigure}
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN6w100Se7.pdf}
-			\caption{$N=6,\:\omega=0.1$}
-		\end{subfigure}
-		
-		\vspace{1mm}
-		
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height=5cm]{figures/radialDistribution/OneBodyDensityN12w100Se7.pdf}
-			\caption{$N=12,\:\omega=1.0$}
-		\end{subfigure}
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN12w10Se7.pdf}
-			\caption{$N=12,\:\omega=0.1$}
-		\end{subfigure}
-		
-		\vspace{1mm}
-		
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN20w100Se8.pdf}
-			\caption{$N=20,\:\omega=1.0$}
-		\end{subfigure}
-		\begin{subfigure}{0.5\textwidth}
-			\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN20w10Se8.pdf}
-			\caption{$N=20,\:\omega=0.1$}
-		\end{subfigure}
-				
-		\vspace{3mm}
-				
-		\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 1.0$.}
-		\label{fig:Onebody}
-	\end{figure}
-	
-	\newpage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-	
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN2w100Se7.pdf}
-		\caption{$N=2,\:\omega=1.0$}
-	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN2w10Se7.pdf}
-		\caption{$N=2,\:\omega=0.1$}
-	\end{subfigure}
-	
-	\vspace{1mm}
-	
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN6w100Se7.pdf}
-		\caption{$N=6,\:\omega=1.0$}
-	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN6w10Se7.pdf}
-		\caption{$N=6,\:\omega=0.1$}
-	\end{subfigure}
-	
-	\vspace{1mm}
-	
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height=5cm]{figures/radialDistribution/radialDistributionN12w100Se7.pdf}
-		\caption{$N=12,\:\omega=1.0$}
-	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN12w10Se7.pdf}
-		\caption{$N=12,\:\omega=0.1$}
-	\end{subfigure}
-	
-	\vspace{1mm}
-	
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN20w100Se8.pdf}
-		\caption{$N=20,\:\omega=1.0$}
-	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
-		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN20w10Se7.pdf}
-		\caption{$N=20,\:\omega=0.1$}
-	\end{subfigure}
-	
-	\vspace{3mm}
-	
-	\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 1.0$.}
-	\label{fig:Onebody&RadialDist}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
 
 \newpage
 
@@ -937,11 +817,59 @@
 	\vspace{3mm}
 	
 	\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 1.0$.}
-	\label{fig:Onebody&RadialDist}
+	\label{fig:Onebody&RadialDistw100}
 \end{figure}
 
 
+\begin{figure}[H]
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN2w10Se7.pdf}
+		\caption{$N=2,\:\omega=0.1$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN2w10Se7.pdf}
+		\caption{$N=2,\:\omega=0.1$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN6w10Se7.pdf}
+		\caption{$N=6,\:\omega=0.1$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN6w10Se7.pdf}
+		\caption{$N=6,\:\omega=0.1$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height=5cm]{figures/radialDistribution/OneBodyDensityN12w10Se7.pdf}
+		\caption{$N=12,\:\omega=0.1$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN12w10Se7.pdf}
+		\caption{$N=12,\:\omega=0.1$}
+	\end{subfigure}
+	
+	\vspace{1mm}
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/OneBodyDensityN20w10Se8.pdf}
+		\caption{$N=20,\:\omega=0.1$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth, height= 5cm]{figures/radialDistribution/radialDistributionN20w10Se7.pdf}
+		\caption{$N=20,\:\omega=0.1$}
+	\end{subfigure}
 
+	\vspace{3mm}
+	
+	\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 0.1$.}
+	\label{fig:Onebody&RadialDistw10}
+\end{figure}
 
 
 
