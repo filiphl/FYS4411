@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2015.12.4)  31 MAY 2016 09:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.10.27)  13 JUN 2016 15:24
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
 **report.tex
 (./report.tex
-LaTeX2e <2015/01/01>
-Babel <3.9l> and hyphenation patterns for 79 languages loaded.
+LaTeX2e <2014/05/01>
+Babel <3.9l> and hyphenation patterns for 2 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
@@ -28,10 +28,10 @@ Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
-LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2015/03/17 v1.2c Input encoding file
+Package: inputenc 2014/04/30 v1.2b Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
 
@@ -258,19 +258,21 @@ File: babel.def 2014/09/25 3.9l Babel common definitions
 \babel@savecnt=\count87
 \U@D=\dimen103
 )
+\l@british = a dialect from \language\l@english 
+\l@UKenglish = a dialect from \language\l@english 
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
 \l@newzealand = a dialect from \language\l@british 
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+Package: graphicx 2014/04/25 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+Package: keyval 2014/05/08 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
@@ -278,7 +280,7 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 94.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
 (/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
@@ -331,7 +333,7 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             only a restricted character set as indicated.
 (textcomp)             Family '?' is the default used for unknown fonts.
 (textcomp)             See the documentation for details.
-Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
@@ -410,69 +412,68 @@ File: ts1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
    defining Unicode char U+25EF (decimal 9711)
    defining Unicode char U+266A (decimal 9834)
 ))
-LaTeX Info: Redefining \oldstylenums on input line 334.
-Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
-Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
-Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
-Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
-Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
-Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
-Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
-Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
-Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
-Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
-Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
-Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
-Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
-Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
-Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
-Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
-Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
-Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
-Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
-Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
-Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
-Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
-Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
-Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
+LaTeX Info: Redefining \oldstylenums on input line 266.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 281.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 282.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 283.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 284.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 285.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 286.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 287.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 288.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 289.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 290.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 291.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 292.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 293.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 294.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 295.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 296.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 297.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 298.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 299.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 300.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 301.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 302.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 303.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 304.
 
-Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
-Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
-Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
-Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
-Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
-Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
-Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
-Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
-Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
-Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
-Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
-Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
-Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
-Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
-Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
-Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
-Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
-Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
-Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
-Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
-Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
-Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
-Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
-Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
-Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
-Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
-Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
-Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
-Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
-Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
-Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
-Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
-Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
-Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
-Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
-Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
-Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 305.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 306.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 307.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 308.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 309.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 310.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 311.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 312.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 313.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 314.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 315.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 316.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 317.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 318.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 319.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 320.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 321.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 322.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 323.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 324.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 325.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 326.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 327.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 328.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 329.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 330.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 331.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 332.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 333.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 334.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 335.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 336.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 337.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/units/units.sty
 Package: units 1998/08/04 v0.9b Typesetting units
@@ -522,12 +523,12 @@ Package caption Info: float package is loaded.
 \c@subtable=\count97
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+Package: color 2014/04/23 v1.1a Standard LaTeX Color (DPC)
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: pdftex.def on input line 142.
+Package color Info: Driver file: pdftex.def on input line 137.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2013/01/14 v2.14 AMS math features
@@ -710,7 +711,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 \Hy@SectionHShift=\skip49
 )
 (/usr/share/texlive/texmf-dist/tex/latex/pagecolor/pagecolor.sty
-Package: pagecolor 2015/06/20 v1.0g Provides thepagecolor (HMM)
+Package: pagecolor 2012/02/23 v1.0e Provides thepagecolor (HMM)
 
 (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
@@ -732,7 +733,7 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/braket/braket.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
-Package: multicol 2015/03/31 v1.8m multicolumn formatting (FMi)
+Package: multicol 2014/10/28 v1.8i multicolumn formatting (FMi)
 \c@tracingmulticols=\count120
 \mult@box=\box30
 \multicol@leftmargin=\dimen139
@@ -795,15 +796,15 @@ Package: multicol 2015/03/31 v1.8m multicolumn formatting (FMi)
 \lst@maxwidth=\dimen151
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
 \c@lstnumber=\count135
 \lst@skipnumbers=\count136
 \lst@framebox=\box57
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2015/06/04 1.6 listings configuration
+File: listings.cfg 2014/09/06 1.5e listings configuration
 ))
-Package: listings 2015/06/04 1.6 (Carsten Heinz)
+Package: listings 2014/09/06 1.5e (Carsten Heinz)
 
 (/usr/share/texlive/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
@@ -1326,56 +1327,60 @@ Underfull \hbox (badness 10000) in paragraph at lines 308--309
  []
 
 [4] [5] [6] [7]
-<figures/energySurface/energyPlot15x15N2.pdf, id=203, 578.16pt x 433.62pt>
+Underfull \hbox (badness 10000) in paragraph at lines 559--560
+
+ []
+
+<figures/energySurface/energyPlot15x15N2.pdf, id=223, 578.16pt x 433.62pt>
 File: figures/energySurface/energyPlot15x15N2.pdf Graphic file (type pdf)
 
 <use figures/energySurface/energyPlot15x15N2.pdf>
 Package pdftex.def Info: figures/energySurface/energyPlot15x15N2.pdf used on in
-put line 565.
+put line 570.
 (pdftex.def)             Requested size: 409.72125pt x 176.22807pt.
  [8] [9 <./figures/energySurface/energyPlot15x15N2.pdf>] [10]
-<figures/blocking/filipN2w100.pdf, id=696, 578.16pt x 433.62pt>
+<figures/blocking/filipN2w100.pdf, id=717, 578.16pt x 433.62pt>
 File: figures/blocking/filipN2w100.pdf Graphic file (type pdf)
 
 <use figures/blocking/filipN2w100.pdf>
-Package pdftex.def Info: figures/blocking/filipN2w100.pdf used on input line 69
-8.
+Package pdftex.def Info: figures/blocking/filipN2w100.pdf used on input line 70
+3.
 (pdftex.def)             Requested size: 256.07481pt x 192.05052pt.
 
-<figures/blocking/filipN2w50.pdf, id=697, 578.16pt x 433.62pt>
+<figures/blocking/filipN2w50.pdf, id=718, 578.16pt x 433.62pt>
 File: figures/blocking/filipN2w50.pdf Graphic file (type pdf)
 
 <use figures/blocking/filipN2w50.pdf>
-Package pdftex.def Info: figures/blocking/filipN2w50.pdf used on input line 703
+Package pdftex.def Info: figures/blocking/filipN2w50.pdf used on input line 708
 .
 (pdftex.def)             Requested size: 256.07481pt x 192.05052pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 697--707
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 702--712
 []$[]$ $[]$ 
  []
 
-<figures/blocking/filipN6w100.pdf, id=698, 578.16pt x 433.62pt>
+<figures/blocking/filipN6w100.pdf, id=719, 578.16pt x 433.62pt>
 File: figures/blocking/filipN6w100.pdf Graphic file (type pdf)
 
 <use figures/blocking/filipN6w100.pdf>
 Package pdftex.def Info: figures/blocking/filipN6w100.pdf used on input line 71
-1.
+6.
 (pdftex.def)             Requested size: 256.07481pt x 192.05052pt.
 
-<figures/blocking/filipN6w50.pdf, id=699, 578.16pt x 433.62pt>
+<figures/blocking/filipN6w50.pdf, id=720, 578.16pt x 433.62pt>
 File: figures/blocking/filipN6w50.pdf Graphic file (type pdf)
 
 <use figures/blocking/filipN6w50.pdf>
-Package pdftex.def Info: figures/blocking/filipN6w50.pdf used on input line 716
+Package pdftex.def Info: figures/blocking/filipN6w50.pdf used on input line 721
 .
 (pdftex.def)             Requested size: 256.07481pt x 192.05052pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 710--720
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 715--725
 []$[]$ $[]$ 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 741--742
+Underfull \hbox (badness 10000) in paragraph at lines 746--747
 
  []
 
@@ -1392,190 +1397,190 @@ F inclusion: multiple pdfs with page group included in a single page
 pdfTeX warning: /usr/bin/pdflatex (file ./figures/blocking/filipN6w50.pdf): PDF
  inclusion: multiple pdfs with page group included in a single page
 >] [12]
-<figures/radialDistribution/OneBodyDensityN2w100Se7.pdf, id=840, 587.19376pt x 
+<figures/radialDistribution/OneBodyDensityN2w100Se7.pdf, id=861, 587.19376pt x 
 442.65375pt>
 File: figures/radialDistribution/OneBodyDensityN2w100Se7.pdf Graphic file (type
  pdf)
  <use figures/radialDistribution/OneBodyDensityN2w100Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN2w100Se7.pdf
- used on input line 776.
+ used on input line 781.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-<figures/radialDistribution/radialDistributionN2w100Se7.pdf, id=841, 587.19376p
+<figures/radialDistribution/radialDistributionN2w100Se7.pdf, id=862, 587.19376p
 t x 442.65375pt>
 File: figures/radialDistribution/radialDistributionN2w100Se7.pdf Graphic file (
 type pdf)
 
 <use figures/radialDistribution/radialDistributionN2w100Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN2w100Se7
-.pdf used on input line 780.
+.pdf used on input line 785.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 775--783
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 780--788
 []$[]$ $[]$ 
  []
 
 
-<figures/radialDistribution/OneBodyDensityN6w100Se7.pdf, id=842, 587.19376pt x 
+<figures/radialDistribution/OneBodyDensityN6w100Se7.pdf, id=863, 587.19376pt x 
 442.65375pt>
 File: figures/radialDistribution/OneBodyDensityN6w100Se7.pdf Graphic file (type
  pdf)
  <use figures/radialDistribution/OneBodyDensityN6w100Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN6w100Se7.pdf
- used on input line 787.
+ used on input line 792.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-<figures/radialDistribution/radialDistributionN6w100Se7.pdf, id=843, 587.19376p
+<figures/radialDistribution/radialDistributionN6w100Se7.pdf, id=864, 587.19376p
 t x 442.65375pt>
 File: figures/radialDistribution/radialDistributionN6w100Se7.pdf Graphic file (
 type pdf)
 
 <use figures/radialDistribution/radialDistributionN6w100Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN6w100Se7
-.pdf used on input line 791.
+.pdf used on input line 796.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 786--794
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 791--799
 []$[]$ $[]$ 
  []
 
 
-<figures/radialDistribution/OneBodyDensityN12w100Se7.pdf, id=844, 587.19376pt x
+<figures/radialDistribution/OneBodyDensityN12w100Se7.pdf, id=865, 587.19376pt x
  442.65375pt>
 File: figures/radialDistribution/OneBodyDensityN12w100Se7.pdf Graphic file (typ
 e pdf)
  <use figures/radialDistribution/OneBodyDensityN12w100Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN12w100Se7.pd
-f used on input line 798.
+f used on input line 803.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-<figures/radialDistribution/radialDistributionN12w100Se7.pdf, id=845, 587.19376
+<figures/radialDistribution/radialDistributionN12w100Se7.pdf, id=866, 587.19376
 pt x 442.65375pt>
 File: figures/radialDistribution/radialDistributionN12w100Se7.pdf Graphic file 
 (type pdf)
 
 <use figures/radialDistribution/radialDistributionN12w100Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN12w100Se
-7.pdf used on input line 802.
+7.pdf used on input line 807.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 797--805
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 802--810
 []$[]$ $[]$ 
  []
 
 
-<figures/radialDistribution/OneBodyDensityN20w100Se8.pdf, id=846, 587.19376pt x
+<figures/radialDistribution/OneBodyDensityN20w100Se8.pdf, id=867, 587.19376pt x
  442.65375pt>
 File: figures/radialDistribution/OneBodyDensityN20w100Se8.pdf Graphic file (typ
 e pdf)
  <use figures/radialDistribution/OneBodyDensityN20w100Se8.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN20w100Se8.pd
-f used on input line 809.
+f used on input line 814.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-<figures/radialDistribution/radialDistributionN20w100Se8.pdf, id=847, 587.19376
+<figures/radialDistribution/radialDistributionN20w100Se8.pdf, id=868, 587.19376
 pt x 442.65375pt>
 File: figures/radialDistribution/radialDistributionN20w100Se8.pdf Graphic file 
 (type pdf)
 
 <use figures/radialDistribution/radialDistributionN20w100Se8.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN20w100Se
-8.pdf used on input line 813.
+8.pdf used on input line 818.
 (pdftex.def)             Requested size: 256.07233pt x 142.26672pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 808--816
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 813--821
 []$[]$ $[]$ 
  []
 
 
-<figures/radialDistribution/OneBodyDensityN2w10Se7.pdf, id=848, 578.16pt x 433.
+<figures/radialDistribution/OneBodyDensityN2w10Se7.pdf, id=869, 578.16pt x 433.
 62pt>
 File: figures/radialDistribution/OneBodyDensityN2w10Se7.pdf Graphic file (type 
 pdf)
  <use figures/radialDistribution/OneBodyDensityN2w10Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN2w10Se7.pdf 
-used on input line 827.
+used on input line 832.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-<figures/radialDistribution/radialDistributionN2w10Se7.pdf, id=849, 578.16pt x 
+<figures/radialDistribution/radialDistributionN2w10Se7.pdf, id=870, 578.16pt x 
 433.62pt>
 File: figures/radialDistribution/radialDistributionN2w10Se7.pdf Graphic file (t
 ype pdf)
  <use figures/radialDistribution/radialDistributionN2w10Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN2w10Se7.
-pdf used on input line 831.
+pdf used on input line 836.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 826--834
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 831--839
 []$[]$ $[]$ 
  []
 
 
-<figures/radialDistribution/OneBodyDensityN6w10Se7.pdf, id=850, 578.16pt x 433.
+<figures/radialDistribution/OneBodyDensityN6w10Se7.pdf, id=871, 578.16pt x 433.
 62pt>
 File: figures/radialDistribution/OneBodyDensityN6w10Se7.pdf Graphic file (type 
 pdf)
  <use figures/radialDistribution/OneBodyDensityN6w10Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN6w10Se7.pdf 
-used on input line 838.
+used on input line 843.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-<figures/radialDistribution/radialDistributionN6w10Se7.pdf, id=851, 578.16pt x 
+<figures/radialDistribution/radialDistributionN6w10Se7.pdf, id=872, 578.16pt x 
 433.62pt>
 File: figures/radialDistribution/radialDistributionN6w10Se7.pdf Graphic file (t
 ype pdf)
  <use figures/radialDistribution/radialDistributionN6w10Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN6w10Se7.
-pdf used on input line 842.
+pdf used on input line 847.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 837--845
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 842--850
 []$[]$ $[]$ 
  []
 
 
-<figures/radialDistribution/OneBodyDensityN12w10Se7.pdf, id=852, 578.16pt x 433
+<figures/radialDistribution/OneBodyDensityN12w10Se7.pdf, id=873, 578.16pt x 433
 .62pt>
 File: figures/radialDistribution/OneBodyDensityN12w10Se7.pdf Graphic file (type
  pdf)
  <use figures/radialDistribution/OneBodyDensityN12w10Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN12w10Se7.pdf
- used on input line 849.
+ used on input line 854.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-<figures/radialDistribution/radialDistributionN12w10Se7.pdf, id=853, 578.16pt x
+<figures/radialDistribution/radialDistributionN12w10Se7.pdf, id=874, 578.16pt x
  433.62pt>
 File: figures/radialDistribution/radialDistributionN12w10Se7.pdf Graphic file (
 type pdf)
  <use figures/radialDistribution/radialDistributionN12w10Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN12w10Se7
-.pdf used on input line 853.
+.pdf used on input line 858.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 848--856
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 853--861
 []$[]$ $[]$ 
  []
 
 
-<figures/radialDistribution/OneBodyDensityN20w10Se8.pdf, id=854, 578.16pt x 433
+<figures/radialDistribution/OneBodyDensityN20w10Se8.pdf, id=875, 578.16pt x 433
 .62pt>
 File: figures/radialDistribution/OneBodyDensityN20w10Se8.pdf Graphic file (type
  pdf)
  <use figures/radialDistribution/OneBodyDensityN20w10Se8.pdf>
 Package pdftex.def Info: figures/radialDistribution/OneBodyDensityN20w10Se8.pdf
- used on input line 860.
+ used on input line 865.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-<figures/radialDistribution/radialDistributionN20w10Se7.pdf, id=855, 578.16pt x
+<figures/radialDistribution/radialDistributionN20w10Se7.pdf, id=876, 578.16pt x
  433.62pt>
 File: figures/radialDistribution/radialDistributionN20w10Se7.pdf Graphic file (
 type pdf)
  <use figures/radialDistribution/radialDistributionN20w10Se7.pdf>
 Package pdftex.def Info: figures/radialDistribution/radialDistributionN20w10Se7
-.pdf used on input line 864.
+.pdf used on input line 869.
 (pdftex.def)             Requested size: 256.06737pt x 142.26135pt.
 
-Overfull \hbox (2.22168pt too wide) in paragraph at lines 859--867
+Overfull \hbox (2.22168pt too wide) in paragraph at lines 864--872
 []$[]$ $[]$ 
  []
 
@@ -1651,26 +1656,52 @@ single page
 pdfTeX warning: /usr/bin/pdflatex (file ./figures/radialDistribution/radialDist
 ributionN20w10Se7.pdf): PDF inclusion: multiple pdfs with page group included i
 n a single page
->] [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 883.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 883.
+>]
+Underfull \hbox (badness 10000) in paragraph at lines 889--890
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 894--895
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 896--898
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 902--903
+
+ []
+
+[15]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 916.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 916.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 883.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 883.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 916.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 916.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 0878BD03CCB9124E41CF05D96C4427A8;897.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 883.
+(rerunfilecheck)             Checksum: 54D848996D413C1F4D5BC458C25CCD23;1162.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 916.
  ) 
 Here is how much of TeX's memory you used:
- 23358 strings out of 493085
- 453024 string characters out of 6136917
- 666168 words of memory out of 5000000
- 26262 multiletter control sequences out of 15000+600000
+ 23370 strings out of 495020
+ 453105 string characters out of 6181323
+ 660188 words of memory out of 5000000
+ 25994 multiletter control sequences out of 15000+600000
  24965 words of font info for 64 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
+ 14 hyphenation exceptions out of 8191
  55i,18n,69p,882b,1121s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.8} has been referenced but does not exi
-st, replaced by a fixed one
+pdfTeX warning (dest): name{Hfootnote.10} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.9} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.8} has been referenced but does not exist
+, replaced by a fixed one
 
 pdfTeX warning (dest): name{Hfootnote.7} has been referenced but does not exist
 , replaced by a fixed one
@@ -1693,41 +1724,42 @@ pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
 , replaced by a fixed one
 
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sym
-bols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
-ols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx0900.pfb></usr
-/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/t
-ype1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super
-/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2074.pfb></usr/
-share/texmf/fonts/type1/public/cm-super/sfcc1440.pfb></usr/share/texmf/fonts/ty
-pe1/public/cm-super/sfrm0600.pfb></usr/share/texmf/fonts/type1/public/cm-super/
-sfrm0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/s
-hare/texmf/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/texmf/fonts/typ
-e1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
-frm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/sh
-are/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type
-1/public/cm-super/sftt1000.pfb>
-Output written on report.pdf (17 pages, 982189 bytes).
+ </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </home/sean
+/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600pk> </home/sean/.texmf-var/
+fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/sean/.texmf-var/fonts/pk/ljf
+our/jknappen/ec/ecbx1200.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen
+/ec/ecrm0700.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000
+.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </ho
+me/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/sean/.tex
+mf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </home/sean/.texmf-var/fonts
+/pk/ljfour/jknappen/ec/ecrm0800.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecrm1200.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/e
+ctt1000.600pk> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600p
+k> </home/sean/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600pk> </home/se
+an/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1440.600pk></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbo
+ls/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbol
+s/msbm10.pfb>
+Output written on report.pdf (17 pages, 853662 bytes).
 PDF statistics:
- 1589 PDF objects out of 1728 (max. 8388607)
- 466 compressed objects within 5 object streams
- 95 named destinations out of 1000 (max. 500000)
- 236 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2058 PDF objects out of 2073 (max. 8388607)
+ 518 compressed objects within 6 object streams
+ 105 named destinations out of 1000 (max. 500000)
+ 268 words of extra memory for PDF output out of 10000 (max. 10000000)
 

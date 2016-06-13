@@ -550,8 +550,13 @@
 	\therefore \bar{E}_\alpha &= 2\left( \langle\frac{\bar{\psi}_\alpha}{\psi}E_L\rangle -  \langle\frac{\bar{\psi}_\alpha}{\psi}\rangle\langle E_L\rangle \right)
 	\end{split}
 	\end{align}
-	where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. Obviously, the derivative with respect to $\beta$ is the same.
+	where $\bar{\psi}_\alpha \equiv \frac{d\psi}{d\alpha}$. Obviously, the derivative with respect to $\beta$ is the same. The result can also be written
 	
+	\begin{equation}
+		\bar{E}_\alpha = 2\left( \langle[\overline{\ln(\psi)}]_\alpha E_L\rangle -  \langle[\overline{\ln(\psi)}]_\alpha\rangle\langle E_L\rangle \right)
+	\end{equation}
+	
+	due to the identity $\frac{1}{x}\frac{d}{dx}f(x) = \frac{d}{dx}[\ln(f(x))]$.\\
 	
 	% ENDED HERE BRUH. WHY NOT PICK IT UP? ...wat O.o
 	In order to find the optimal parameters, the ones that give minimal energy, we set a criteria that if the new parameters, $\vec{x}_{n+1}$, suggested by equation equation \ref{optimizationAlgo} has a shorter gradient than the current, $\vec{x}_n$, we accept this change, whereas if it doesn't we reset the parameters to the current and shorten the steplength by a factor 0.7. We are content when the length of the gradient is sufficiently short and store these values as the optimal parameters. 
@@ -870,14 +875,42 @@
 	\caption{One-body densities (left) and radial distributions (right) for $N=\{2,6,12,20\}$ and $\omega = 0.1$.}
 	\label{fig:Onebody&RadialDistw10}
 \end{figure}
-
-
-
-
-
-
+	
 	
 	\section{Comments}
-	How to start?
+	\subsection{Energies}
+	The two-body problem was already known since it was solved analytically above, and running the two-body Monte-Carlo code gave a result 3.0002 a.u. for $\hbar\omega = 1$ a.u. (table \ref{tab:varousOmega}). In table \ref{tab:EnergiesVarianceAndOptimalParameters} the results from the many-body code are presented. As one sees, the 2-body energy is reproduced down to the third decimal, with an error of $\sim 1.53$e-6. The result isn't as good as for the two-body specific code, but acceptable for a numerical estimation of this quality.\\
+	In regard to the quantum virial theorem,
+	
+	\begin{equation}
+		2\langle T\rangle = \sum_n\left\langle X_n\frac{dV}{dX_n} \right\rangle,
+	\end{equation}
+	
+	which, in the case of the pure harmonic oscillator potential, reduces to $2\langle T\rangle = \langle V_{\text{tot}}\rangle \equiv \sum_{n} \langle V_n\rangle$, where $n$ runs over particles. We can see that it fits, very roughly\footnote{Which can mean the harmonic oscillator potential greatly dominates the total potential energy. The deviation assumably originates from Coulomb interactions.}, for 2 particles and $\omega>0.1$. When reducing the "strength" of the harmonic oscillator, i.e. reducing $\omega$, the Coulomb interaction effects will start to dominate the potential energy. Approximately, we see $3\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.1$, $4\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.05$, and $7\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.01$.\\
+	
+	The energies in table \ref{tab:EnergiesVarianceAndOptimalParameters} match quite well with \cite{H_Msc}, page 114. There is a small difference, usually in the second or third decimal, but it may simply be due to lack of statistics.
+	
+	\subsection{Distributions and densities}
+	Figures \ref{fig:Onebody&RadialDistw100} and \ref{fig:Onebody&RadialDistw10} present the radial distributions and one-body densities for $\omega1.0$ and $\omega = 0.1$, respectively. Except for the $N=12$ case, the full system and the system without Jastrow factor will move closer together when increasing $\omega$. This seems natural since the graphs should overlap perfectly in the pure harmonic oscillator potential, and increasing the frequency means dwarfing Coulomb effects. Therefore, the behaviour of the $N=12$ system seems strange.\\
+	
+	As expected, there are rarely electrons in the centre since it is a very unstable system. Furthermore, the one-body densities, which are tied to the total system wavefunctions, show that the spatial wavefunction is spherically symmetric\footnote{The plots presented here alone do not suggest spherical symmetry, but with the knowledge that the plots are independent of angle we can say so.}. Since we chose our total spin-function to be anti-symmetric, this is precisely what we would expect.\\
+	It also interesting to note that for each new full shell, there is another extrema in the wavefunction.\\
+	
+	Finally, the Jastrow corrections seem to "push" the densities away from the centre when compared to the system without the Jastrow factor. The Coulomb interactions are repulsive between particles of same electric charge. It seems, therefore, that the Jastrow factor increases the repulsion, which again gives a lower energy state.
+	
+	\subsection{Parallelization and vectorization}
+	Yeah I have no idea what to write here...\\
+	
+	Well, perhaps: vectorization = good, parallel stuff = moar good, parallel+vectorization = bestest kind of good
+	
+	\section{Conclusions}
+	We set out to expand upon the VMC code for bosonic systems written in the first project to one for fermionic systems. This mainly meant using an anti-parallel wavefunction so as to respect the Pauli exclusion principle, and was done by using a Slater determinant. The Slater determinant would greatly increase the number of necessary calculations if we didn't split the trial wavefunction, which can be done in closed shell systems.\\
+	The ground-state energies were found for $N=2,6,12,$ and $20$ electrons, and fitted very well with results already derived in \cite{H_Msc}.
+	
+	
+	\begin{thebibliography}{9}
+		\bibitem{H_Msc}
+		J. Høgberget, \href{https://www.duo.uio.no/handle/10852/37167}{"\emph{Quantum Monte-Carlo Studies of Generalized Many-Body Systems}"}, 2013, UiO
+	\end{thebibliography}
 	
 \end{document}
