@@ -24,14 +24,8 @@
            All compiled on smaug and run on smaug-c with different vectorization %
            flags in the mpicxx compiler. %
          }
+  \label{tab:bench}
 \end{table}
-In column number 4 of the table the ratio shows a linear dependece between 
-number of processes and achieved speed up, which can be seen more clearly 
-in the graph below. Column 6 and 9 shows the speed up due to vectorization flags.
-There is not a large difference in speed up so the justification to use O3 would 
-be for heavier runs than what were tested here. And since the O3 flag appends
-more compile options it could be more invasive and create errors in the compiled
-code. Hence we are better of using O2 in the small scale calculations.
 
 \begin{figure}[h!]
   \centering
@@ -44,16 +38,6 @@ code. Hence we are better of using O2 in the small scale calculations.
            $O3$ compared to the default flag $O0$. And to the right is the serial time %
            $T_s$ compared to parallel time $T_p$ for different amount of processors. %
          }
+  \label{fig:bench}
 \end{figure}
-
-From the graph to the right there is a clear linear dependence on the number of 
-processes. Due to the simple nature of this kind of parallizations there is very
-little time consumption regarding overhead and therefore linearity is to be expected.
-Also there is a danger of taking too many processes when not using enough metropolis
-cycles considering the number of cycles are divided to each process and therefore 
-can reach too few cycles to have a good result.
-The difference in speed up due to vectorization $O2$ and $O3$ is about 0.05 independent 
-of number of processes, but they both go down as the number increases. The exact nature
-of this is not known, but it a possible explanation is that the amount of
-time spent going through loops on each process effects vectorization speed up.
 %\end{document}
