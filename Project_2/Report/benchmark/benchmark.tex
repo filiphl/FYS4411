@@ -1,0 +1,59 @@
+%\documentclass{article}
+%\usepackage{graphicx}
+%\usepackage[margin=2cm]{geometry}
+%\usepackage{subcaption}
+%\begin{document}
+
+\begin{table}
+  \centering
+  \begin{tabular}{cc|cc|cc|cc}
+    &&\multicolumn{2}{c}{Unvectorized} & \multicolumn{2}{c}{Vectorized O2} &%
+    \multicolumn{2}{c}{Vectorized O3}\\\hline
+    $p$ & $N/p$ & $T $     & $T_{s}/T_{p}$ & $T$       & $T_{O0}/T_{O2}$ & $T$      & $T_{O0}/T_{O3}$ \\\hline
+    1   & $8e6$ & 757.0298 &  1            & 220.0905  & 3.4396          & 216.6741 & 3.4939 \\
+    2   & $4e6$ & 374.8545 &  2.0195       & 110.5357  & 3.3913          & 109.6561 & 3.4185 \\  
+    4   & $2e6$ & 187.8710 &  4.0295       &  56.0112  & 3.3542          &  55.4134 & 3.3904 \\
+    8   & $1e6$ &  95.0406 &  7.9653       &  28.6783  & 3.3140          &  28.2144 & 3.3685 \\
+    16  & $5e5$ &  48.7444 & 15.5306       &  14.6023  & 3.1154          &  15.6096 & 3.1327 
+  \end{tabular}
+  \caption{%
+           Benchmark of program with timing starting before the MPI initialization %
+           and ending after the MPI finalization. For one process it is without %
+           MPI. Each process runs $N/p$ number of steps where $N=8e1$ and $p$ is %
+           the number of processes. %
+           All compiled on smaug and run on smaug-c with different vectorization %
+           flags in the mpicxx compiler. %
+         }
+\end{table}
+In column number 4 of the table the ratio shows a linear dependece between 
+number of processes and achieved speed up, which can be seen more clearly 
+in the graph below. Column 6 and 9 shows the speed up due to vectorization flags.
+There is not a large difference in speed up so the justification to use O3 would 
+be for heavier runs than what were tested here. And since the O3 flag appends
+more compile options it could be more invasive and create errors in the compiled
+code. Hence we are better of using O2 in the small scale calculations.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{figure1.pdf}
+  \caption{%
+           The upper left graph is world time $T$ with different amount of processors $p$, %
+           with and without vectorization flags when compiling, running a system with %
+           a total of $8e6$ metropolis cycles. The graph to the lower left shows the %
+           effectiveness of using the mpicxx compilator vectorization flags $O2$ and %
+           $O3$ compared to the default flag $O0$. And to the right is the serial time %
+           $T_s$ compared to parallel time $T_p$ for different amount of processors. %
+         }
+\end{figure}
+
+From the graph to the right there is a clear linear dependence on the number of 
+processes. Due to the simple nature of this kind of parallizations there is very
+little time consumption regarding overhead and therefore linearity is to be expected.
+Also there is a danger of taking too many processes when not using enough metropolis
+cycles considering the number of cycles are divided to each process and therefore 
+can reach too few cycles to have a good result.
+The difference in speed up due to vectorization $O2$ and $O3$ is about 0.05 independent 
+of number of processes, but they both go down as the number increases. The exact nature
+of this is not known, but it a possible explanation is that the amount of
+time spent going through loops on each process effects vectorization speed up.
+%\end{document}
