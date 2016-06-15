@@ -4,7 +4,7 @@
 %\usepackage{subcaption}
 %\begin{document}
 
-\begin{table}
+\begin{table}[H]
   \centering
   \begin{tabular}{cc|cc|cc|cc}
     &&\multicolumn{2}{c}{Unvectorized} & \multicolumn{2}{c}{Vectorized O2} &%
@@ -27,9 +27,9 @@
   \label{tab:bench}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
-  \includegraphics[scale=0.6]{figure1.pdf}
+  \includegraphics[scale=0.6]{benchmark/figure1.pdf}
   \caption{%
            The upper left graph is world time $T$ with different amount of processors $p$, %
            with and without vectorization flags when compiling, running a system with %
