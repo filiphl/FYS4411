@@ -109,7 +109,7 @@
 			\url{https://github.com/filiphl/FYS4411.git}
       \vspace{1cm}
 	\begin{abstract}
-		A variational Monte-Carlo (VMC) approach to the quantum dot with $N=2,6,12$ and $20$ electrons was studied. The electrons were placed in a harmonic oscillator potential and assumed to interact with each other solely by the Coulomb interaction. This is an expansion of the previous project in which the ground state of a bosonic many-body system was studied. Specifically, the state wavefunction of a closed-shell model of the quantum dot was studied, were we approximate the system wavefunction by a Slater determinant (non-interacting) term and a Pade-Jastrow factor (correlation) term. We find such a simple model give ground state energies with, at most, 1.5 atomic units deviation from the results of \cite{H_Msc}. Afterwards, we compute the so-called one-body densities from the radial distribution of particles. Finally, we study the effects of efficiency and time-reduction obtained by parallelization and vectorization of the program.
+		A variational Monte-Carlo (VMC) approach to the quantum dot with $N=2,6,12$ and $20$ electrons was studied. The electrons were placed in a harmonic oscillator potential and assumed to interact with each other solely by the Coulomb interaction. This was an expansion of the previous project in which the ground state of a bosonic many-body system was studied. Specifically, the state wavefunction of a closed-shell model of the quantum dot was studied, were we approximated the system wavefunction by a Slater determinant (non-interacting) term and a Pade-Jastrow factor (correlation). We found such a simple model give ground state energies with, at most, 1.5 atomic units deviation from the results of \cite{H_Msc}. Afterwards, we computed the so-called one-body densities from the radial distribution of particles. Finally, we studied the effects of efficiency and time-reduction obtained by parallelization and vectorization of the program.
 	\end{abstract}
 			
 			%\vspace{13.5cm}
@@ -136,8 +136,8 @@
 	
 	\section{Introduction}
 	Quantum dots are usually large atomic systems packed so closely together that the Pauli principle forces the electrons to be in different states. These systems can be made approximately 2-dimensional\footnote{I.e. all electron movement is confined to a plane. This does not mean the space is considered two-dimensional, so the 3-dimensional Coulomb potential will still be used.} by strings of quantum dots. Quantum dots are much larger than atoms, but possesses many of their characteristics, which means they are both easy and interesting to measure. Measurements provide means with which to test quantum theory and models.\\
-	Up to 20 electrons, it is reasonable to approximate the system Hamiltonian by placing all electrons in a harmonic oscillators and having coulomb interactions. If only closed-shell quantum dots are considered, a model that splits the wavefunction can be used, which greatly reduces the number of calculations. The purpose of this project is to see if this simple model can reproduce known results through variational Monte-Carlo (VMC) simulation by using a Slater determinant with a Pade-Jastrow factor.\\
-	First, a detailed calculation of the two-body quantum dot will be performed, followed by deduction of algorithms for a general many-body numerical approach to a system of $N=\{2,\:6,\:12,\:20\}$ electrons. Then, an explanation of the optimization of the variational parameters will be given, followed by a small explanation of the \emph{blocking} method. Since the program script will be large, benchmarking is necessary and therefore a few benchmarks will be mentioned. In order to reduce time consumption and increase efficiency, parallelization and vectorization will used, respectively.
+	With up to 20 electrons, it is reasonable to approximate the system Hamiltonian by placing all electrons in a harmonic oscillators and having coulomb interactions. If only closed-shell quantum dots are considered, a model that splits the wavefunction can be used, which greatly reduces the number of calculations. The purpose of this project is to see if this simple model can reproduce known results through variational Monte-Carlo (VMC) simulation by using a Slater determinant with a Pade-Jastrow factor.\\
+	First, a detailed calculation of the two-body quantum dot will be performed, followed by deduction of algorithms for a general many-body numerical approach to a system of $N=\{2,\:6,\:12,\:20\}$ electrons. Then, an explanation of the optimization of the variational parameters will be given, followed by a small explanation of the \emph{blocking} method. Since the program script will be large, benchmarking is necessary, and therefore a few benchmarks will be mentioned. In order to reduce time consumption and increase efficiency, parallelization and vectorization will used, respectively.
 	Lastly, results will be presented and discussed in some detail.
 	
 	\section{Theory and Methods}
@@ -586,15 +586,16 @@
 		\sigma = \sqrt{\frac{1}{n}\lr{\langle {E_L}^2 \rangle - \langle E_L \rangle^2}}. \label{uncorelatedVariance}
 	\end{equation} 
 	However, these values will be much too low.
-	This is because one assumes all data to be completely uncorrelated. Each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, though, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is basically uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, one would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then one would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.
+	This is because we assume all data to be completely uncorrelated. Each energy is calculated by a small perturbation to the system setting\footnote{In the program discussed here, only a single dimension of a single particle will be moved each step.}, which means each new setting is very dependant on the previous setting. After sufficiently many perturbations, though, the system at step $i$ will be so different from that of step $j$, that $\langle E_L\rangle_i$ is basically uncorrelated to  $\langle E_L\rangle_j$, but not for all $\langle E_L\rangle_k$ between $i$ and $j$. Ideally, we would like to find a \emph{correlation time} $\tau$ such that $i$ and $j$ will be uncorrelated if a time greater than $\tau$ has passed. If $\Delta t$ is the time between two Metropolis steps, then we would like to find $|i-j|$ in $\tau = |i-j|\Delta t$.
 	
-	A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ measurements is grouped into blocks, each of which will give an average of average local energies. Afterwards, one can calculate the variance of these averages of averages. If then the standard deviation (equation above) is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, one can find the lowest number of blocks where the curve approaches a plateau. Then one can calculate $\tau$ and find the correlation time. The true standard deviation is then:
+	A method of dealing with this is the blocking technique. The set of $\langle E_L\rangle$ measurements is grouped into blocks, each of which will give an average of average local energies. Afterwards, we can calculate the variance of these averages of averages. If then the standard deviation (equation above) is plotted as a function of the number of blocks\footnote{Inversely proportional to the block size by $\text{\scriptsize block size} = \frac{\text{number of samples}}{\text{number of blocks}}$}, we can find the lowest number of blocks where the curve approaches a plateau. Then we can calculate $\tau$ and find the correlation time. The true standard deviation is then:
 	
 	\begin{equation}
 		\sigma=\sqrt{\frac{1+2\tau/\Delta t}{n}\left(\langle {E_L}^2\rangle-\langle E_L\rangle^2\right)}
 	\end{equation}
 	
-	Some examples of such plots are shown in figure \ref{fig:blocking}. For the case of $N=2$ and $\omega=1$ shown in figure \ref{fig:blockingN2w100} one could choose $\tau \approx 3000$.
+	Some examples of such plots are shown in figure \ref{fig:blocking}. For the case of $N=2$ and $\omega=1$ shown in figure \ref{fig:blockingN2w100} we could choose $\tau \approx 3000$.
+	
 	\subsection{Benchmarking}
 	While the flowchart seems nice and compact, there is quite a bit code that needs implementing and some benchmarks would be nice. The first is so check if the program reproduces the energy expected for non-interacting electrons in a harmonic oscillator potential. This means that if we remove the Coulomb potential and set $a_{ij} = 0$, then the problem is simply several non-interacting harmonic oscillators and we are left with a simple harmonic oscillator with energies given as
 	\begin{equation}
@@ -651,7 +652,11 @@
 	
 	Another benchmark is to reproduce the results of our program for the two body quantum dot. This system was solved analytically, and thus would show that the many body program can reproduce analytical results for 2 particles. This means that the full problem (Coulomb interactions and Jastrow correlations) works, at least for the two body system.
 	
-	In order to know if our two-body script works, we can compare with the work of Taut\footnote{M. Taut, Phys. Rev. A 48, 3561 - 3566 (1993)}, where he calculated the analytical solution of two electrons in an external oscillator potential with Coulomb interactions. He found:
+%	In order to know if our two-body script works, we can compare with the work of Taut\footnote{M. Taut, Phys. Rev. A 48, 3561 - 3566 (1993)}, where he calculated the analytical solution of two electrons in an external oscillator potential with Coulomb interactions. He found
+%	
+%	\begin{equation}
+%		
+%	\end{equation}
 	
 	
 	
@@ -752,7 +757,7 @@
 	\end{table}
 	This matches the sums of the energy levels shown in figure \ref{fig: spinFig}, and infer that our Slater determinant expressions are implemented correctly.\\
 	
-	In table \ref{tab:varousOmega}, the energies for the two body system are presented, and was calculated using the analytical expressions from section 2.2. As is known, the energy for $\omega = 1.0$ and $N=2$ is exactly 3, and the table confirms this to quite a high accuracy.\\
+	In table \ref{tab:varousOmega}, the energies for the two body system are presented, and were calculated using the analytical expressions from section 2.2. As is known, the energy for $\omega = 1.0$ and $N=2$ is exactly 3, and the table confirms this to quite a high accuracy.\\
 	The average distance between the electrons for $\omega = 1.0$ is found to be $\langle r_{12}\rangle = 1.8$.
 	
 	\begin{table}[H]
@@ -884,7 +889,7 @@
 	
 	\section{Comments}
 	\subsection{Energies}
-	The two-body problem was already known since it was solved analytically above, and running the two-body Monte-Carlo code gave a result 3.0002 a.u. for $\hbar\omega = 1$ a.u. (table \ref{tab:varousOmega}). In table \ref{tab:EnergiesVarianceAndOptimalParameters} the results from the many-body code are presented. As one sees, the 2-body energy is reproduced down to the third decimal, with an error of $\sim 1.53$e-6. The result isn't as good as for the two-body specific code, but acceptable for a numerical estimation of this quality.\\
+	The two-body problem was already known since it was solved analytically above, and running the two-body Monte-Carlo code gave a result 3.0002 a.u. for $\hbar\omega = 1$ a.u. (table \ref{tab:varousOmega}). In table \ref{tab:EnergiesVarianceAndOptimalParameters} the results from the many-body code are presented. As we see, the 2-body energy is reproduced down to the third decimal, with an error of $\sim 1.53$e-6. The result isn't as good as for the two-body specific code, but acceptable for a numerical estimation of this quality.\\
 	In regard to the quantum virial theorem,
 	
 	\begin{equation}
@@ -907,20 +912,15 @@
 	\subsection{Parallelization and vectorization}
 	\input{benchmark/bench_comment.tex}
 \newpage	
-	\section{Conclusions}
-	We set out to expand upon the VMC code for bosonic systems written in the first project to one for fermionic systems. This mainly meant using an anti-parallel wavefunction so as to respect the Pauli exclusion principle, and was done by using a Slater determinant. The Slater determinant would greatly increase the number of necessary calculations if we didn't split the trial wavefunction, which can be done in closed shell systems. 
+\section{Conclusions}
+We set out to expand upon the VMC code for bosonic systems written in the first project to one for fermionic systems. This mainly meant using an anti-parallel wavefunction so as to respect the Pauli exclusion principle, and was done by using a Slater determinant. The Slater determinant would greatly increase the number of necessary calculations if we didn't split the trial wavefunction, which can be done in closed shell systems. 
 This was done by placing the first half of the particles in an up-spin state and the other 
 half in a down-spin state. This configuration made it possible to only calculate one of the spin
-matrices per cycle.\\
+matrices per cycle. Furthermore, by the use of some neat relations, only certain parts of the matrices, and their inverse matrices, had to be updated with a new position.\\
 
-	The ground-state energies were found for $N=2,6,12,$ and $20$ electrons, and fit very well with results 
-  already derived in \cite{H_Msc}. Plotting the one-body densities showed that the shells appear in 
-  the system wavefunction, and how the Jastrow factor affected the particle positions.
-  We saw that the virial theorem still holds true, but has a very different nature for many particles in
-  a two-body Coloumb interaction.
-  Adding parallalization increased the speed up of the program linearly as a function of number of processes. And
-  vectorizing it through the mpicxx compiler increased the efficency by between $3.10$ and $3.50$ with a
-  decreasing factor  $\propto 1/p$.
+The ground-state energies were found for $N=2,6,12,$ and $20$ electrons, and fit very well with results already derived in \cite{H_Msc}. Plotting the one-body densities showed that the shells appear in the system wavefunction, and how the Jastrow factor affected the particle positions. It confirmed expectations since the Jastrow factor was intended to compensate our ignorance of the system, which it did for repulsive interactions.\\
+We saw that the virial theorem still holds true, but has a very different nature for many particles in a two-body Coloumb interaction. Whether it confirms expectations was a bit hard to say, due to the complex form of the full potential.\\
+Adding parallalization increased the speed up of the program linearly as a function of number of processes. And vectorizing it through the mpicxx compiler increased the efficency by between $3.10$ and $3.50$ with a decreasing factor  $\propto 1/p$. In conclusion, running a VMC code without vectorization nor parallelization, means a completely impractical world time. Furthermore, we saw that the difference between $O2$ and $O3$ vectorization is negligible.
 	
 	\begin{thebibliography}{9}
 		\bibitem{H_Msc}

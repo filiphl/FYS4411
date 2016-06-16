@@ -12,12 +12,12 @@
 \contentsline {subsection}{\numberline {2.9}Parallelization}{9}{subsection.2.9}
 \contentsline {subsection}{\numberline {2.10}Blocking method}{9}{subsection.2.10}
 \contentsline {subsection}{\numberline {2.11}Benchmarking}{9}{subsection.2.11}
-\contentsline {section}{\numberline {3}Results}{11}{section.3}
-\contentsline {subsection}{\numberline {3.1}Ground state energies, blocking, and benchmarks}{11}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}One-body densities and radial distributions}{14}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Parallelization and vectorization}{16}{subsection.3.3}
-\contentsline {section}{\numberline {4}Comments}{16}{section.4}
-\contentsline {subsection}{\numberline {4.1}Energies}{16}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Distributions and densities}{17}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Parallelization and vectorization}{17}{subsection.4.3}
-\contentsline {section}{\numberline {5}Conclusions}{18}{section.5}
+\contentsline {section}{\numberline {3}Results}{10}{section.3}
+\contentsline {subsection}{\numberline {3.1}Ground state energies, blocking, and benchmarks}{10}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}One-body densities and radial distributions}{13}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Parallelization and vectorization}{15}{subsection.3.3}
+\contentsline {section}{\numberline {4}Comments}{15}{section.4}
+\contentsline {subsection}{\numberline {4.1}Energies}{15}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Distributions and densities}{16}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Parallelization and vectorization}{16}{subsection.4.3}
+\contentsline {section}{\numberline {5}Conclusions}{17}{section.5}
