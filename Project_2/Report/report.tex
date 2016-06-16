@@ -119,7 +119,7 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	\begin{abstract}
-		A variational monte-Carlo (VMC) approach to the quantum dot with $N=2,6,12$ and $20$ electrons was studied. The electrons were placed in a harmonic oscillator potential and assumed to interact with each other solely by the Coulomb interaction. This is an expansion of the previous project in which the ground state of a bosonic many-body system was studied. Specifically, the state wavefunction of a closed-shell model of the quantum dot was studied, were we approximate the system wavefunction by a Slater determinant (non-interacting) term and a Pade-Jastrow factor (correlation) term. We find such a simple model give ground state energies with, at most, 1.5 atomic units deviation from the results of \cite{H_Msc}.
+		A variational Monte-Carlo (VMC) approach to the quantum dot with $N=2,6,12$ and $20$ electrons was studied. The electrons were placed in a harmonic oscillator potential and assumed to interact with each other solely by the Coulomb interaction. This is an expansion of the previous project in which the ground state of a bosonic many-body system was studied. Specifically, the state wavefunction of a closed-shell model of the quantum dot was studied, were we approximate the system wavefunction by a Slater determinant (non-interacting) term and a Pade-Jastrow factor (correlation) term. We find such a simple model give ground state energies with, at most, 1.5 atomic units deviation from the results of \cite{H_Msc}. Afterwards, we compute the so-called one-body densities from the radial distribution of particles. Finally, we study the effects of efficiency and time-reduction obtained by parallelization and vectorization of the program.
 	\end{abstract}
 	
 	
@@ -133,8 +133,9 @@
 	
 	\section{Introduction}
 	Quantum dots are usually large atomic systems packed so closely together that the Pauli principle forces the electrons to be in different states. These systems can be made approximately 2-dimensional\footnote{I.e. all electron movement is confined to a plane. This does not mean the space is considered two-dimensional, so the 3-dimensional Coulomb potential will still be used.} by strings of quantum dots. Quantum dots are much larger than atoms, but possesses many of their characteristics, which means they are both easy and interesting to measure. Measurements provide means with which to test quantum theory and models.\\
-	Up to 20 electrons, it is reasonable to approximate the system Hamiltonian by placing all electrons in a harmonic oscillators and having coulomb interactions. If only closed-shell quantum dots are considered, a model that splits the wavefunction can be used, which greatly reduces the number of calculations. The purpose of this project is see if this simple model can reproduce known results through variational Monte-Carlo (VMC) by using a Slater determinant with a Pade-Jastrow factor\\
-	First, a detailed calculation of the two-body quantum dot will be performed, followed by deduction of algorithms for a general many-body numerical approach to a system of $N=\{2,\:6,\:12,\:20\}$ electrons. Then, an explanation of the optimization of the variational parameters will given, followed by a small talk on the "blocking" method. Since the program script will be large, benchmarking is necessary and therefore a few benchmarks will be mentioned. Lastly, results will be presented followed by a discussion.
+	Up to 20 electrons, it is reasonable to approximate the system Hamiltonian by placing all electrons in a harmonic oscillators and having coulomb interactions. If only closed-shell quantum dots are considered, a model that splits the wavefunction can be used, which greatly reduces the number of calculations. The purpose of this project is to see if this simple model can reproduce known results through variational Monte-Carlo (VMC) simulation by using a Slater determinant with a Pade-Jastrow factor.\\
+	First, a detailed calculation of the two-body quantum dot will be performed, followed by deduction of algorithms for a general many-body numerical approach to a system of $N=\{2,\:6,\:12,\:20\}$ electrons. Then, an explanation of the optimization of the variational parameters will be given, followed by a small explanation of the \emph{blocking} method. Since the program script will be large, benchmarking is necessary and therefore a few benchmarks will be mentioned. In order to reduce time consumption and increase efficiency, parallelization and vectorization will used, respectively.
+	Lastly, results will be presented and discussed in some detail.
 	
 	\section{Theory and Methods}
 	\subsection{Preliminary derivations}
@@ -656,7 +657,7 @@
 	\subsection{Ground state energies, blocking, and benchmarks}
 		\begin{table}[H]
 			\begin{center}
-				\caption{Expectation values of local energy, kinetic energy and potential energy for $N=\{2,6,12,20\}$ and oscillator frequencies $\omega = \{1.0,\:0.5,\:0.1,\:0.05,\:0.01\}$. $\sigma$ is the standard deviation of $\langle E_L\rangle$, found by blocking. $\alpha,\beta$ are the optimal parameters.}
+				\caption{Expectation values of local energy, kinetic energy and potential energy for $N=\{2,6,12,20\}$ and oscillator frequencies $\omega = \{1.0,\:0.5,\:0.1,\:0.05,\:0.01\}$. $\sigma$ is the standard deviation of $\langle E_L\rangle$, found by blocking. $\alpha,\beta$ are the optimal parameters. Note that for the $N=2$ case, we used $10^9$ Metropolis steps, while for $N\geq 6$ we used $10^7$ due to time shortage.}
 				\begin{tabularx}{\textwidth}{@{}YYYYYYYY@{}}
 					$N$	& $\omega$ & $\bk{E_L}$ & $\bk{E_K}$ & $\bk{E_P}$ & $\sigma$ & $\alpha$ & $\beta$\\
 					\toprule
@@ -891,17 +892,18 @@
 		2\langle T\rangle = \sum_n\left\langle X_n\frac{dV}{dX_n} \right\rangle,
 	\end{equation}
 	
-	which, in the case of the pure harmonic oscillator potential, reduces to $2\langle T\rangle = \langle V_{\text{tot}}\rangle \equiv \sum_{n} \langle V_n\rangle$, where $n$ runs over particles. We can see that it fits, very roughly\footnote{Which can mean the harmonic oscillator potential greatly dominates the total potential energy. The deviation assumably originates from Coulomb interactions.}, for 2 particles and $\omega>0.1$. When reducing the "strength" of the harmonic oscillator, i.e. reducing $\omega$, the Coulomb interaction effects will start to dominate the potential energy. Approximately, we see $3\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.1$, $4\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.05$, and $7\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.01$.\\
+	which, in the case of the pure harmonic oscillator potential, reduces to $2\langle T\rangle = \langle V_{\text{tot}}\rangle \equiv \sum_{n} \langle V_n\rangle$, where $n$ indexes particle positions. We can see that it fits, very roughly\footnote{Which can mean the harmonic oscillator potential greatly dominates the total potential energy. The deviation assumably originates from Coulomb interactions.}, for 2 particles and $\omega>0.1$. When reducing the "strength" of the harmonic oscillator, i.e. reducing $\omega$, the Coulomb interaction effects will start to dominate the potential energy. Approximately, we see $3\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.1$, $4\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.05$, and $7\langle T\rangle \sim \langle V_{\text{tot}}\rangle$ for $\omega = 0.01$.\\
 	
 	The energies in table \ref{tab:EnergiesVarianceAndOptimalParameters} match quite well with \cite{H_Msc}, page 114. There is a small difference, usually in the second or third decimal, but it may simply be due to lack of statistics.
 	
 	\subsection{Distributions and densities}
-	Figures \ref{fig:Onebody&RadialDistw100} and \ref{fig:Onebody&RadialDistw10} present the radial distributions and one-body densities for $\omega1.0$ and $\omega = 0.1$, respectively. Except for the $N=12$ case, the full system and the system without Jastrow factor will move closer together when increasing $\omega$. This seems natural since the graphs should overlap perfectly in the pure harmonic oscillator potential, and increasing the frequency means dwarfing Coulomb effects. Therefore, the behaviour of the $N=12$ system seems strange. There is no apparent reason as to why this case is special when looking at the trial wavefunction, nor that the program should not work properly for 12 particles.\\
+	Figures \ref{fig:Onebody&RadialDistw100} and \ref{fig:Onebody&RadialDistw10} present the radial distributions and one-body densities for $\omega = 1.0$ and $\omega = 0.1$, respectively. Except for the $N=12$ case, the full system and the system without Jastrow factor will move closer together when increasing $\omega$. This seems natural since the graphs should overlap perfectly in the pure harmonic oscillator potential, and increasing the frequency means dwarfing Coulomb effects. Therefore, the behaviour of the $N=12$ system seems strange. There is no apparent reason as to why this case is special when looking at the trial wavefunction, nor that the program should not work properly for 12 particles.\\
 	
-	The one-body densities, which are tied to the total system wavefunctions, show that the spatial wavefunction is spherically symmetric\footnote{The plots presented here alone do not suggest spherical symmetry, but with the knowledge that the plots are independent of angle we can say so.}. Since we chose our total spin-function to be anti-symmetric, this is precisely what we would expect. This means it more likely to find a particle in the centre of the system than further out, despite what the radial distributions suggest and a first glance.\\
-	It also interesting to note that for each new full shell, there is another extrema in the wavefunction. In other words, we can see the particle "shells".\\
+	The one-body densities, which are tied to the total system wavefunctions, show that the spatial wavefunction is circularly symmetric\footnote{The plots presented here alone do not suggest spherical symmetry, but with the knowledge that the plots have no angular dependence we can say so (a function $f(r,\phi) = f(r)$ is circularly symmetric).}.
+	Since we chose our total spin-function to be anti-symmetric, a symmetric spatial wavefunction is precisely what we would expect (fermions require anti-symmetric wavefunctions). This means it is more likely to find a particle in the centre of the system than further out, despite what the radial distributions suggest at a first glance.\\
+	It is also interesting to note that for each new full shell, there is another extrema in the wavefunction. In other words, we can see the particle "shells".\\
 	
-	Finally, the Jastrow corrections seem to "push" the densities away from the centre when compared to the system without the Jastrow factor. The Coulomb interactions are repulsive between particles of same electric charge. It seems, therefore, that the Jastrow factor increases the repulsion, which again gives a lower energy state.
+	Finally, the Jastrow corrections seem to "push" the densities away from the centre when compared to the system without the Jastrow factor. The Coulomb interactions are repulsive between particles of same electric charge. Therefore, it seems only natural that when introducing this modification to the Slater determinant, it should spread the particles further out, which is indeed the case here. As we see, the total particle density will decrease.
 	
 	\subsection{Parallelization and vectorization}
 	\input{benchmark/bench_comment.tex}
@@ -910,10 +912,13 @@
 	We set out to expand upon the VMC code for bosonic systems written in the first project to one for fermionic systems. This mainly meant using an anti-parallel wavefunction so as to respect the Pauli exclusion principle, and was done by using a Slater determinant. The Slater determinant would greatly increase the number of necessary calculations if we didn't split the trial wavefunction, which can be done in closed shell systems.\\
 	The ground-state energies were found for $N=2,6,12,$ and $20$ electrons, and fitted very well with results already derived in \cite{H_Msc}. Plotting the one-body densities showed that the shells appear in the system wavefunction, and have an effect on the likelihood of particle measurement from the system centre.
 	
+	Parallelization...
 	
 	\begin{thebibliography}{9}
 		\bibitem{H_Msc}
 		J. Høgberget, \href{https://www.duo.uio.no/handle/10852/37167}{"\emph{Quantum Monte-Carlo Studies of Generalized Many-Body Systems}"}, 2013, UiO
+		\bibitem{MHJ}
+		M. Hjorth-Jensen, \href{https://github.com/CompPhysics/ComputationalPhysics2}{"\emph{Computational Physics, Lecture Notes Fall 2015}"}, UiO
 	\end{thebibliography}
 	
 \end{document}

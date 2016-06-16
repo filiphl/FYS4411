@@ -2,15 +2,14 @@
 %\usepackage[margin=2cm]{geometry}
 %\usepackage{listings}
 %\begin{document}
-Parallaizing codes can be very beneficial. It can take in use the entire workforce
+Parallaizing codes can be very beneficial. It can utilize the entire workforce
 of a computer, or it can occupy a whole super cluster working towards the same goal.
-The parallalization of the kind needed for this project is fairly easy, there is no
-communication between processes during the run, and writing to files can be done
-seperatly. There is also vectorization of the code that can be seen as an 
-internal parallazation due to making use of the whole register by ordering operations
+The parallalization of the kind needed for this project is fairly easy. 
+There is no communication between processes during the run, and writing to files can be done separately. 
+There is also vectorization of the code that can be seen as an internal parallazation, done by using the whole register, making use of ordering operations
 in a parallel order. The vectorization that is implemented in this project are 
 only done by adding compiler flags.
-The change needed to the code to parallize this problem can consist of only two MPI functions.
+The change needed in the code to parallelize this problem can consist of only two MPI functions.
 \begin{lstlisting}[linewidth=5.5cm,frame=single]
 MPI_Init(&argc, &argv);
 \\Do everything
