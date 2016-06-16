@@ -6,10 +6,13 @@ Parallaizing codes can be very beneficial. It can utilize the entire workforce
 of a computer, or it can occupy a whole super cluster working towards the same goal.
 The parallalization of the kind needed for this project is fairly easy. 
 There is no communication between processes during the run, and writing to files can be done separately. 
+One exception is when needed to calculate the total variance, then there is a communication after
+all cycles are done, collecting data produced by all processes to the root process.
 There is also vectorization of the code that can be seen as an internal parallazation, done by using the whole register, making use of ordering operations
 in a parallel order. The vectorization that is implemented in this project are 
 only done by adding compiler flags.
-The change needed in the code to parallelize this problem can consist of only two MPI functions.
+The change needed in the code to parallelize this problem can consist of only two MPI functions, and
+alternetly a MPI_Reduction per variable.
 %\begin{lstlisting}[linewidth=5.5cm,frame=single]
 %MPI_Init(&argc, &argv);
 %\\Do everything
